@@ -1,73 +1,1111 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="一、核酸数据库NCBINCBI (National Center for Biotechnology Information）是美国国立生物技术信息中心构建的生信数据库，目前最全面的数据库。 EMBL欧洲分子生物学实验室EMBL（The European Molecular Biology Laboratory），目前蛋白质信息最全部的数据库UniProt就是他家开发的。  DDBJDDBJ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Database">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="一、核酸数据库NCBINCBI (National Center for Biotechnology Information）是美国国立生物技术信息中心构建的生信数据库，目前最全面的数据库。 EMBL欧洲分子生物学实验室EMBL（The European Molecular Biology Laboratory），目前蛋白质信息最全部的数据库UniProt就是他家开发的。  DDBJDDBJ">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-05-29-BioDatabase/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/2022-05-29-BioDatabase/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/2022-05-29-BioDatabase/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/2022-05-29-BioDatabase/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/2022-05-29-BioDatabase/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/2022-05-29-BioDatabase/6.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/6.png">
+<meta property="article:published_time" content="2022-05-29T15:21:28.632Z">
+<meta property="article:modified_time" content="2022-06-05T12:20:58.572Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="database">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/2022-05-29-BioDatabase/1.png">
+  
+  
+  
+  <title>Database - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Database"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-29 23:21" pubdate>
+          May 29, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          107 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Database</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <span id="more"></span>
+
+<h1 id="一、核酸数据库"><a href="#一、核酸数据库" class="headerlink" title="一、核酸数据库"></a>一、核酸数据库</h1><h2 id="NCBI"><a href="#NCBI" class="headerlink" title="NCBI"></a><strong>NCBI</strong></h2><p>NCBI (National Center for Biotechnology Information）是美国国立生物技术信息中心构建的生信数据库，目前最全面的数据库。</p>
+<h2 id="EMBL"><a href="#EMBL" class="headerlink" title="EMBL"></a>EMBL</h2><p>欧洲分子生物学实验室EMBL（The European Molecular Biology Laboratory），目前蛋白质信息最全部的数据库UniProt就是他家开发的。 </p>
+<h2 id="DDBJ"><a href="#DDBJ" class="headerlink" title="DDBJ"></a>DDBJ</h2><p>DDBJ (DNA Data Bank of Japan)，于1984年建立，是世界三大DNA 数据库之一，与NCBI的GenBank，EMBL的EBI数据库共同组成国际DNA数据库 。该数据库最为常用的就是他家的KEGG通路数据库。</p>
+<h2 id="CNGB"><a href="#CNGB" class="headerlink" title="CNGB"></a>CNGB</h2><p>中国国家数据库（China National GeneBank）位于深圳大鹏新区，是继世界三大数据库之后的全球第四大国家级数据库。它是中国首个，也是唯一一个国家基因库，相对于全球另外三个基因库而言，国家基因库样品保存的规模、存储量和可访问的数据量皆是全球最大。 </p>
+<h2 id="BIGD"><a href="#BIGD" class="headerlink" title="BIGD"></a>BIGD</h2><p>中国国家基因组科学数据中心 生命与健康大数据中心 (National Genomics Data Center BIG Data Center)，由北京基因组研究所管理。</p>
+<h1 id="二、蛋白质数据库"><a href="#二、蛋白质数据库" class="headerlink" title="二、蛋白质数据库"></a>二、蛋白质数据库</h1><h2 id="nr"><a href="#nr" class="headerlink" title="nr"></a>nr</h2><p>目前有很多数据库都存储蛋白序列，比如NCBI Refseq, protein, swissprot 等，在各个数据库之间，或在某个数据库内，蛋白序列有大量冗余；为方便使用，ncbi 构建nr 库， 全称是 <font color="red"><strong>RefSeq non-redundant proteins</strong></font></p>
+<p>Non-redundant protein sequences from  <font color="red"><strong>GenPept,  Swissprot, PIR, PDF, PDB, and NCBI RefSeq</strong></font></p>
+<p>完整的nr 数据库的蛋白序列和预先构建好的blast 索引可以从ncbi 的ftp 服务器上下载得到，地址如下：</p>
+<p><a target="_blank" rel="noopener" href="https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/">https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/</a></p>
+<p>通常情况下，直接下载构建好的blast 索引，因为</p>
+<ol>
+<li>整个nr 的蛋白序列非常大，大概30G 左右，<strong>构建索引费时</strong>；</li>
+</ol>
+<p>2）ncbi 的blast索引，加入每条序列的种水平taxid，便于得到序列对应的物种注释信息；<strong>官方索引更优</strong></p>
+<p>3） 使用blastdbcmd 命令可以从索引中还原出原始的nr 序列；</p>
+<p>对于NCBI ftp 的数据，可以用aspera  进行下载， 速度非常快</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">ascp -i ~/asperaweb_id_dsa.openssh  -QTr -l6000m  anonftp@ftp-private.ncbi.nlm.nih.gov:/blast/db/FASTA/nr..tar.gz ./<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">wget -c ftp://ftp.ncbi.nlm.nih.gov/blast/db/nt*<br>wget -c ftp://ftp.ncbi.nlm.nih.gov/blast/db/nr*<br></code></pre></td></tr></table></figure>
+
+<p>由于nr 库较大，所以 ncbi 把 nr 库分成了很多小份的fasta 序列，建立索引</p>
+<p>对于nr 的序列而言，其标识符中包含了很多的信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">&gt;XP_642131.1 hypothetical protein DDB_G0277827 [Dictyostelium discoideum AX4]P54670.1 RecName: Full=Calfumirin-1; Short=CAF-1BAA06266.1 calfumirin-1 [Dictyostelium discoideum AX2]EAL68086.1 hypothetical protein DDB_G0277827 [Dictyostelium discoideum AX4]<br></code></pre></td></tr></table></figure>
+
+<p>首先是1个蛋白序列的编号，后面是这条序列对应的详细信息，方括号内是物种名称； 由于nr 库是非冗余的，这里的 <font color="red">每一条蛋白序列可以理解为 一个聚类的group 中的代表序列，第一条是该代表序列本身的信息，后面几条是属于这个group 下的其他序列的信息</font>；</p>
+<p>这里有两种情况，</p>
+<p>1） 这一个group 中所有的蛋白序列都来源于同一个物种；</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">WP_003131952</span>.<span class="hljs-number">1</span> <span class="hljs-number">30</span>S ribosomal protein S18<span class="hljs-meta"> [Lactococcus lactis]</span><br></code></pre></td></tr></table></figure>
+
+<p>2） 这一个group 中所有的蛋白序列都来源于多个物种；</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">WP_000184067</span>.<span class="hljs-number">1</span> MULTISPECIES: MbtH family protein<span class="hljs-meta"> [Bacillus]</span><br></code></pre></td></tr></table></figure>
+
+<p> <font color="red"><strong>唯一不同的是，当来源于多个物种时，会在前面加上 MULTISPECIES 关键字</strong></font></p>
+<p>对于nr 中的序列，其标识符有两种：</p>
+<p>1）  <font color="red"><strong>WP 开头 ：真实存在的蛋白序列</strong></font></p>
+<p>2） <font color="red"><strong>XP 开头： 理论上的蛋白序列（计算机软件预测的结果）</strong></font></p>
+<p>通常情况下，比对nr 库有两种用途：</p>
+<p>1）<strong>蛋白质功能注释</strong>： 需要输出蛋白质的描述信息</p>
+<p>对于这个需求，nr 库里包含了这些信息，所以比较简单，直接blast 比对，在输出结果中输出这个信息就可以了</p>
+<p>2） <strong>物种注释</strong>：输出蛋白对应的物种信息</p>
+<p>在序列中有明确的 species 水平的注释，但是还需要phylum 等水平的注释，这时候就需要借助Taxonomy 数据库，把物种注释信息补充完整。</p>
+<h2 id="Transporter-Classfication-DB转运蛋白分类库"><a href="#Transporter-Classfication-DB转运蛋白分类库" class="headerlink" title="Transporter Classfication DB转运蛋白分类库"></a>Transporter Classfication DB转运蛋白分类库</h2><p><a target="_blank" rel="noopener" href="https://www.tcdb.org/">https://www.tcdb.org</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.tcdb.org/download.php">http://www.tcdb.org/download.php</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh">makeblastdb error<br><span class="hljs-comment">#error</span><br><span class="hljs-comment">#No volumes were created.</span><br><span class="hljs-comment">#BLAST Database creation error: Could not construct seq-id from &#x27;gnl|TC-DB|1CN3_F|1.A.83.1.5&#x27;</span><br><br><br><span class="hljs-built_in">cat</span> TCDB_transport.pro.fasta | seqkit <span class="hljs-built_in">seq</span> -m 100 &gt; TCDB_transport.100aa.fasta<br><span class="hljs-comment">#[WARN] you may switch on flag -g/--remove-gaps to remove spaces</span><br><span class="hljs-comment">#still error</span><br><br><span class="hljs-comment">#BLAST Database creation error: Near line 6001, the local id is too long. Its length is 51 but the maximum allowed local id length is 50. Please find and correct all local ids that are too long</span><br><span class="hljs-comment">#parse_seqids is the id lenth parameter</span><br><span class="hljs-comment">#remove parse_seqids</span><br></code></pre></td></tr></table></figure>
+
+<p>TCDB是对膜转运蛋白（Membrane Transport Protein）进行分类的一个数据库，它制定了一套转运蛋白分类系统（Transporter Classification）, 简称TC System, 类似于对酶进行分类的EC系统，只不过TC系统同时提供了功能和进化信息；</p>
+<p>TCDB对于每一个转运蛋白家族，提供了一个TC Nmuber, TC Number 由小数点分隔的5为数字或者字母构成</p>
+<p><a target="_blank" rel="noopener" href="http://www.tcdb.org/browse.php">http://www.tcdb.org/browse.php</a>  第一级分类</p>
+<ul>
+<li><strong>Channels&#x2F;Proes</strong></li>
+<li><strong>Electrochemical Potential-driven Transporters</strong></li>
+<li><strong>Primary Active Transporters</strong></li>
+<li><strong>Group Translocators</strong></li>
+<li><strong>Transmembrane Electron Carriers</strong></li>
+<li><strong>Accessory Factors Involved in Transport</strong></li>
+<li><strong>Incompletely Characterized Transport Systems</strong></li>
+</ul>
+<p>点击 TCDB FsatA Sequences 超链接，下载所有的序列，下载下来的序列内容如下：</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs coq">&gt;gnl|<span class="hljs-type">TC</span>-DB|<span class="hljs-type">1001796365</span>|<span class="hljs-type">4</span>.F<span class="hljs-number">.1</span><span class="hljs-number">.1</span><span class="hljs-number">.5</span> CDP-alcohol phosphatidyltransferase [Marinobacter excellens]<br>MDSIRPATFQIPAAVRELGWAALLLFFVLLSVHEWFSPPGWFGLLAILIFATQGALILTR<br>WPARQNFGWANRTTLLRSILVVSLVAWAPFLPAADSSALWIYGVACLIALILDGVDGKVA<br>RATNSNSEFGARFDMELDALFIFGLCVATMAIGKAGPWVLMLALMRYAFLAASHFLTWLN<br>QPLPDSFRRKTVCVWQVVTLMIAILPPTPTGFAGTTLAMALALLGWSFALDVRWLYQRRH<br>YHEN<br></code></pre></td></tr></table></figure>
+
+<p>序列标识符中，</p>
+<ul>
+<li>1001796365 代表该蛋白质序列在GeneBank 数据库中的编号</li>
+<li>4.F.1.1.5 是TC Number, 代表该蛋白质所属的转运蛋白家族</li>
+<li>CDP-alcohol phosphatidyltransferase 是对该转运蛋白家族功能的具体描述</li>
+<li>[Marinobacter excellens] 是该蛋白序列的来源物种</li>
+</ul>
+<p>有了fasta序列之后，对序列进行TCDB的功能注释</p>
+<p>TCDB还提供了TCID 与其他数据库的关联</p>
+<h2 id="蛋白质信息库Human-protein-atlas"><a href="#蛋白质信息库Human-protein-atlas" class="headerlink" title="蛋白质信息库Human protein atlas"></a>蛋白质信息库Human protein atlas</h2><ul>
+<li><a href="https://link.zhihu.com/?target=http://www.proteinatlas.org/">Human protein atlas</a><br>人体蛋白在细胞、组织、病理条件下的表达 ，荧光染色和表达信息使得网站很炫也很实用。</li>
+</ul>
+<h2 id="蛋白序列数据库"><a href="#蛋白序列数据库" class="headerlink" title="蛋白序列数据库"></a>蛋白序列数据库</h2><h3 id="Pfam"><a href="#Pfam" class="headerlink" title="Pfam"></a>Pfam</h3><p>Pfam是蛋白质家族的数据库，包括使用隐马尔可夫模型生成的注释和多序列比对。 </p>
+<hr>
+<h3 id="SwissProt"><a href="#SwissProt" class="headerlink" title="SwissProt"></a>SwissProt</h3><p>手动注释的非冗余蛋白序列数据库</p>
+<hr>
+<h3 id="UniProt"><a href="#UniProt" class="headerlink" title="UniProt"></a>UniProt</h3><p>Uniprot （<em>Universal Protein</em> ）是包含蛋白质序列，功能信息，研究论文索引的蛋白质数据库，整合了包括EBI（ European Bioinformatics Institute），SIB（the Swiss Institute of Bioinformatics），PIR（Protein Information Resource）三大数据库的资源。</p>
+<ul>
+<li><p>EBI（ European Bioinformatics Institute）：欧洲生物信息学研究所（EMBL-EBI）是欧洲生命科学旗舰实验室EMBL的一部分。位于英国剑桥欣克斯顿的惠康基因组校园内，是世界上基因组学领域最强地带之一。</p>
+</li>
+<li><p>SIB（the Swiss Institute of Bioinformatics）：瑞士日内瓦的SIB维护着ExPASy（专家蛋白质分析系统）服务器，这里包含有蛋白质组学工具和数据库的主要资源。</p>
+</li>
+<li><p>PIR（Protein Information Resource）：PIR由美国国家生物医学研究基金会（NBRF）于1984年成立，旨在协助研究人员识别和解释蛋白质序列信息。</p>
+</li>
+</ul>
+<p>UniProt主要子库</p>
+<table>
+<thead>
+<tr>
+<th>数据库名</th>
+<th>全名</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UniProtKB&#x2F;Swiss-Prot</td>
+<td>protein knowledgebas（review）</td>
+<td>高质量，手工注释，非冗余</td>
+</tr>
+<tr>
+<td>UniProtKB&#x2F;TrEMBL</td>
+<td>protein knowledgebas（unreview）</td>
+<td>自动翻译蛋白序列，预测序列，未验证的数据库</td>
+</tr>
+<tr>
+<td>UniParc</td>
+<td>Sequence</td>
+<td>非冗余蛋白质序列数据库</td>
+</tr>
+<tr>
+<td>UniRef</td>
+<td>Sequence cluster</td>
+<td>聚类序列减少数据库，加快搜索的速度</td>
+</tr>
+<tr>
+<td>Proteomes</td>
+<td>Protein sets from fully sequenced genomes</td>
+<td>为全测序基因组物种提供蛋白质信息</td>
+</tr>
+</tbody></table>
+<p>通过EMBL，GenBank，DDBJ等公共数据库得到原始数据，处理后存入UniParc的非冗余蛋白质序列数据库。UniProt作为数据仓库，再分别给UniProtKB，Proteomes，UNIRef提供可靠的数据集。其中在UniProtKB数据库中Swiss-Prot是由TrEMBL经过手动注释后得到的高质量非冗余数据库，也是我们今后常用的蛋白质数据库之一。</p>
+<p><img src="/GeekFocus/2022-05-29-BioDatabase/1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/GeekFocus/./1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p><strong>UniProtKB&#x2F;Swiss-Prot</strong></p>
+<p>高质量的、手工注释的、非冗余的数据集</p>
+<p>Swiss-Prot旨在提供与高水平注释（例如，蛋白质功能，其域结构，翻译后修饰，变体等的描述）相关的可靠蛋白质序列，最小程度的冗余和高水平与其他数据库的集成级别。注释主要来自文献中的研究成果和E-value校验过计算分析结果，有质量保证的数据才被加入该数据库 。</p>
+<p>Swiss-Prot由Amos Bairoch博士在1986年创建，由瑞士生物信息学研究所开发，随后由欧洲生物信息学研究所的Rolf Apweiler开发。也是说EBI和SIB共同制作了Swiss-Prot和TrEMBL数据库。</p>
+<p>Swiss-Prot条目的注释中使用了一系列序列分析工具。包括手动评估，计算机预测，并选择结果包含在相应的条目中。这些预测包括翻译后修饰，跨膜结构域和拓扑，信号肽，结构域识别和蛋白质家族分类。</p>
+<p>来自相同基因和相同物种的序列合并到相同的数据库条目中。确定序列之间的差异包含：可变剪接，自然变异，错误的起始位点，错误的外显子边界，移码，未识别的冲突。</p>
+<p>注释会用相关出版物通过搜索数据库（例如PubMed）进行识别。阅读每篇论文的全文，然后提取信息并将其添加到条目中。科学文献中的注释包括但不限于：</p>
+<ul>
+<li>蛋白质和基因名称</li>
+<li>功能</li>
+<li>特定于酶的信息，例如催化活性，辅因子和催化残基</li>
+<li>亚细胞定位</li>
+<li>蛋白质相互作用</li>
+<li>表达方式</li>
+<li>重要域和站点的位置和角色</li>
+<li>离子，底物和辅因子结合位点</li>
+<li>通过自然遗传变异，RNA编辑，替代剪接，蛋白水解加工和翻译后修饰产生的蛋白质变异形式</li>
+</ul>
+<img src="2022-05-29-BioDatabase/2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<img src="./1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<p>&lt;1&gt;：这里输入基因名，UniProt ID，或者感兴趣的关键字</p>
+<p>&lt;2&gt;：筛选：<strong>Reviewed</strong>：存储在Swiss-Prot数据库中经过验证的蛋白数据，<strong>Unreviewed</strong>：存储在TrEMBL数据库中没有经过验证的蛋白数据</p>
+<p>&lt;3&gt;：筛选某个物种，点击就好切换到该物种</p>
+<p>&lt;4&gt;：通过基因名或蛋白名来筛选</p>
+<p>&lt;5&gt;：依次是Unprot ID，该蛋白数据库命名，蛋白质名，基因名，物种，序列长</p>
+<p>&lt;6&gt;：如果需要Blast来查看某个蛋白有哪些序列相似的蛋白序列，先选中感兴趣蛋白前的方框，点击<code>Blast</code></p>
+<p>&lt;7&gt;：如果需要多序列比对，先选中感兴趣蛋白前的方框，点击<code>Align</code></p>
+<p>&lt;8&gt;：如果要下载信息，先选中感兴趣蛋白前的方框，点击<code>Download</code>下载。这里不选择序列，默认会下载全部序列</p>
+<p>下载到的序列：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs sh"> &gt;sp|Q01860|PO5F1_HUMAN POU domain, class 5, transcription <span class="hljs-built_in">factor</span> 1 OS=Homo sapiens OX=9606 GN=POU5F1 PE=1 SV=1<br>  MAGHLASDFAFSPPPGGGGDGPGGPEPGWVDPRTWLSFQGPPGGPGIGPGVGPGSEVWGI<br><span class="hljs-comment">#sp：Swiss-Prot数据库的简称，也就是上面说的验证后的蛋白数据库</span><br><span class="hljs-comment">#Q01860：UniProt ID号</span><br><span class="hljs-comment">#PO5F1_HUMAN：是UniProt 的登录名</span><br><span class="hljs-comment">#POU domain, class 5, transcription factor 1：蛋白质名称</span><br><span class="hljs-comment">#OS=Homo sapiens：OS是Organism简称，Homo sapiens为人的拉丁文分类命名，也就是这是人的蛋白质</span><br><span class="hljs-comment">#OX=9606：Organism Taxonomy，也就是物种分类数据库Taxonomy ID</span><br><span class="hljs-comment">#GN=POU5F1：Gene name，基因名为POU5F1</span><br><span class="hljs-comment">#PE=1：Protein Existence，蛋白质可靠性，对应5个数字，数字越小越可靠：</span><br><span class="hljs-comment">#1：Experimental evidence at protein level</span><br><span class="hljs-comment">#2：Experimental evidence at tranlevel</span><br><span class="hljs-comment">#3：Protein inferred from homology</span><br><span class="hljs-comment">#4：Protein predicted</span><br><span class="hljs-comment">#5：Protein uncertain</span><br><span class="hljs-comment">#SV=1：Sequence Version，序列版本号</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>UniProtKB&#x2F;TrEMBL</strong></p>
+<p>在认识到序列数据的生成速度超过了Swiss-Prot的注释能力时，为了给不在Swiss-Prot中的那些蛋白质提供自动注释，UniProt创建了TrEMBL（翻译的EMBL核苷酸序列数据库）。在三大核酸数据库（EMBL-Bank&#x2F;GenBank&#x2F;DDBJ）中注释的编码序列都会被自动翻译并加入该数据库中。它也有来自PDB数据库的序列，以及Ensembl、Refeq和CCDS基因预测的序列。之前提到的PIR组织制作了蛋白质序列数据库（PIR-PSD）。</p>
+<p><strong>UniParc</strong></p>
+<p>UniProt Archive（UniParc）包含来自主要公共可用蛋白质序列数据库的所有蛋白质序列的非冗余数据集。蛋白质可能存在于几个不同的来源数据库中，并且在同一数据库中存在多个副本。 为了避免冗余，UniParc仅将每个唯一序列存储一次。 相同序列被合并，无论它们来自相同还是不同物种。 每个序列都有一个稳定且唯一的标识符（UPI），从而可以从不同的来源数据库中识别相同的蛋白质。</p>
+<p>UniParc仅包含蛋白质序列，没有注释。 UniParc条目中的数据库交叉引用允许从源数据库检索有关该蛋白质的更多信息。 当源数据库中的序列发生更改时，UniParc将跟踪这些更改，并记录所有更改的历史记录。</p>
+<p><strong>UniRef</strong></p>
+<p>UniProt Reference Clusters（UniRef）：聚类序列可显著减小数据库大小，从而加快序列搜索的速度。用于计算的蛋白质序列来自UniProtKB和部分UniParc记录的序列。UniRef100序列将相同的序列和序列片段（来自任何生物）合并到一个UniRef条目中，用于显示代表性蛋白质的序列。 使用CD-HIT算法对UniRef100序列进行聚类，并构建UniRef90和UniRef50。UniRef90和UniRef50分别代表每个簇由与最长序列分别具有至少90％或50％序列同一性的序列组成。</p>
+<hr>
+<h3 id="InterPro"><a href="#InterPro" class="headerlink" title="InterPro"></a>InterPro</h3><p><a target="_blank" rel="noopener" href="http://www.ebi.ac.uk/interpro/">http://www.ebi.ac.uk/interpro/</a></p>
+<p>通过整合多个蛋白相关数据库，提供了一个方便的对蛋白序列进行功能注释的平台，包括对蛋白质家族、结构域、功能位点的预测 </p>
+<p>以上这些数据库是整合在一个网站中的，他们间的关系可以参考这篇：</p>
+<hr>
+<h3 id="PIR"><a href="#PIR" class="headerlink" title="PIR"></a>PIR</h3><p><a target="_blank" rel="noopener" href="http://www.proteininformationresource.org/">www.proteininformationresource.org/</a></p>
+<hr>
+<h3 id="Antibodies"><a href="#Antibodies" class="headerlink" title="Antibodies"></a>Antibodies</h3><p><a target="_blank" rel="noopener" href="http://www.bioinf.org.uk/abs/">www.bioinf.org.uk/abs/</a></p>
+<hr>
+<h3 id="BRENDA"><a href="#BRENDA" class="headerlink" title="BRENDA"></a>BRENDA</h3><hr>
+<h3 id="HPRD"><a href="#HPRD" class="headerlink" title="HPRD"></a>HPRD</h3><p><a target="_blank" rel="noopener" href="http://www.hprd.org/">www.hprd.org/</a></p>
+<hr>
+<h3 id="iProClass"><a href="#iProClass" class="headerlink" title="iProClass"></a>iProClass</h3><p>pir.georgetown.edu&#x2F;iproclass&#x2F;</p>
+<hr>
+<h3 id="PRF"><a href="#PRF" class="headerlink" title="PRF"></a>PRF</h3><p><a target="_blank" rel="noopener" href="http://www.prf.or.jp/">www.prf.or.jp/</a></p>
+<hr>
+<h3 id="REBASE"><a href="#REBASE" class="headerlink" title="REBASE"></a>REBASE</h3><p>rebase.neb.com&#x2F;rebase&#x2F;rebase.html</p>
+<hr>
+<h2 id="蛋白质结构数据库"><a href="#蛋白质结构数据库" class="headerlink" title="蛋白质结构数据库"></a>蛋白质结构数据库</h2><h3 id="PDB"><a href="#PDB" class="headerlink" title="PDB"></a>PDB</h3><p><a target="_blank" rel="noopener" href="http://www.rcsb.org/">www.rcsb.org/</a><br>通过实验测定的结构，最常用的蛋白质三维结构数据库</p>
+<hr>
+<h3 id="SCOP"><a href="#SCOP" class="headerlink" title="SCOP"></a>SCOP</h3><p>scop.mrc-lmb.cam.ac.uk&#x2F;scop&#x2F;</p>
+<hr>
+<h3 id="CATH"><a href="#CATH" class="headerlink" title="CATH"></a>CATH</h3><p><a target="_blank" rel="noopener" href="http://www.cathdb.info/">www.cathdb.info/</a></p>
+<hr>
+<h3 id="PSI"><a href="#PSI" class="headerlink" title="PSI"></a>PSI</h3><p><a target="_blank" rel="noopener" href="http://www.uwstructuralgenomics.org/">www.uwstructuralgenomics.org/</a></p>
+<hr>
+<h2 id="蛋白组数据库"><a href="#蛋白组数据库" class="headerlink" title="蛋白组数据库"></a>蛋白组数据库</h2><h3 id="PRIDE"><a href="#PRIDE" class="headerlink" title="PRIDE"></a>PRIDE</h3><p><a target="_blank" rel="noopener" href="http://www.ebi.ac.uk/pride/archive/">www.ebi.ac.uk/pride/archive/</a></p>
+<h2 id="蛋白质功能域数据库"><a href="#蛋白质功能域数据库" class="headerlink" title="蛋白质功能域数据库"></a><strong>蛋白质功能域数据库</strong></h2><h3 id="PROSITE最全面"><a href="#PROSITE最全面" class="headerlink" title="PROSITE最全面"></a>PROSITE最全面</h3><p>prosite.expasy.org</p>
+<hr>
+<h3 id="Pfam最专业"><a href="#Pfam最专业" class="headerlink" title="Pfam最专业"></a>Pfam最专业</h3><p>pfam.xfam.org</p>
+<hr>
+<h3 id="ProDom"><a href="#ProDom" class="headerlink" title="ProDom"></a>ProDom</h3><p>prodom.prabi.fr</p>
+<hr>
+<h3 id="CCD"><a href="#CCD" class="headerlink" title="CCD"></a>CCD</h3><p><a target="_blank" rel="noopener" href="http://www.ncbi.nlm.nih.gov/Structure/cdd/cdd.shtm">www.ncbi.nlm.nih.gov/Structure/cdd/cdd.shtm</a></p>
+<hr>
+<h3 id="Prints"><a href="#Prints" class="headerlink" title="Prints"></a>Prints</h3><p><a target="_blank" rel="noopener" href="http://www.bioinf.man.ac.uk/dbbrowser/PRINTS/index.php">www.bioinf.man.ac.uk/dbbrowser/PRINTS/index.php</a></p>
+<hr>
+<h3 id="SMART"><a href="#SMART" class="headerlink" title="SMART"></a>SMART</h3><hr>
+<h3 id="TIGRFAM"><a href="#TIGRFAM" class="headerlink" title="TIGRFAM"></a>TIGRFAM</h3><p><a target="_blank" rel="noopener" href="http://www.tigr.org/TIGRFAMs/">www.tigr.org/TIGRFAMs/</a></p>
+<hr>
+<h2 id="蛋白互作数据库"><a href="#蛋白互作数据库" class="headerlink" title="蛋白互作数据库"></a><strong>蛋白互作数据库</strong></h2><h3 id="STRING"><a href="#STRING" class="headerlink" title="STRING"></a>STRING</h3><p>string-db.org</p>
+<h3 id="DIP"><a href="#DIP" class="headerlink" title="DIP"></a>DIP</h3><p>dip.doe-mbi.ucla.edu&#x2F;dip&#x2F;Main.cgi 实验验证的蛋白相互作用数据库</p>
+<h3 id="BioGRID"><a href="#BioGRID" class="headerlink" title="BioGRID"></a>BioGRID</h3><p>thebiogrid.org</p>
+<h3 id="IntAct"><a href="#IntAct" class="headerlink" title="IntAct"></a>IntAct</h3><h1 id="三-非编码RNA数据库"><a href="#三-非编码RNA数据库" class="headerlink" title="三. 非编码RNA数据库"></a>三. 非编码RNA数据库</h1><h2 id="非编码小RNA数据库"><a href="#非编码小RNA数据库" class="headerlink" title="非编码小RNA数据库"></a><strong>非编码小RNA数据库</strong></h2><h3 id="miRBase"><a href="#miRBase" class="headerlink" title="miRBase"></a>miRBase</h3><p><a target="_blank" rel="noopener" href="http://www.mirbase.org/">www.mirbase.org/</a></p>
+<h3 id="piRNAbank"><a href="#piRNAbank" class="headerlink" title="piRNAbank"></a>piRNAbank</h3><p>pirnabank.ibab.ac.in&#x2F;</p>
+<h3 id="piRNAbank-1"><a href="#piRNAbank-1" class="headerlink" title="piRNAbank"></a>piRNAbank</h3><p>gtrnadb.ucsc.edu&#x2F;</p>
+<h3 id="SILVA"><a href="#SILVA" class="headerlink" title="SILVA"></a>SILVA</h3><p><a target="_blank" rel="noopener" href="http://www.arb-silva.de/">www.arb-silva.de/</a></p>
+<h2 id="长非编码RNA数据库"><a href="#长非编码RNA数据库" class="headerlink" title="长非编码RNA数据库"></a><strong>长非编码RNA数据库</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=http://www.lncrnadb.org/">LncRNAdb</a> 真核生物长非编码RNA数据库</li>
+<li><a href="https://link.zhihu.com/?target=http://lncrna.big.ac.cn/index.php/Main_Page">LncRNAwiki</a> 人类长非编码RNA数据库</li>
+</ul>
+<h2 id="非编码RNA家族数据库"><a href="#非编码RNA家族数据库" class="headerlink" title="非编码RNA家族数据库"></a><strong>非编码RNA家族数据库</strong></h2><h3 id="Rfam"><a href="#Rfam" class="headerlink" title="Rfam"></a>Rfam</h3><p>rfam.xfam.org  类似于Pfam的RNA家族注释数据库</p>
+<h2 id="非编码RNA序列数据库"><a href="#非编码RNA序列数据库" class="headerlink" title="非编码RNA序列数据库"></a><strong>非编码RNA序列数据库</strong></h2><p>RNAcentral</p>
+<h1 id="四-代谢数据库"><a href="#四-代谢数据库" class="headerlink" title="四. 代谢数据库"></a>四. <strong>代谢数据库</strong></h1><h3 id="MapMan"><a href="#MapMan" class="headerlink" title="MapMan"></a>MapMan</h3><p>mapman.gabipd.org 一个功能强大的代谢途径查看和编辑软件</p>
+<h2 id="代谢通路数据库"><a href="#代谢通路数据库" class="headerlink" title="代谢通路数据库"></a>代谢通路数据库</h2><h3 id="KEGG"><a href="#KEGG" class="headerlink" title="KEGG"></a>KEGG</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/96008506">https://zhuanlan.zhihu.com/p/96008506</a></p>
+<p><strong>1. 介绍</strong></p>
+<p>1995年开发的KEGG数据库，全称为 Kyoto Encyclopedia of Genes and Genomes（京都基因与基因组百科全书）。拥有多个子数据库，包含基因组，生化反应，生化物质，疾病与药物，以及最常用PATHWAY通路信息。</p>
+<img src="2022-05-29-BioDatabase/3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<img src="./3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<p><strong>2. KEGG的数据库构成</strong></p>
+<img src="2022-05-29-BioDatabase/4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<img src="./4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<p><font color="red"><strong>3. KEGG PATHWAY 数据库</strong></font></p>
+<p>所有子数据库中最重要也最常用的是<strong>KEGG PATHWAY</strong>，包括大量由科研人员根据已有文献，手动绘制的KEGG通路图，代表代谢过程，环境信息过程，细胞过程，生物系统，人类疾病和药物开发。</p>
+<p>每个通路都由一个五位数字标识，后跟以下任意一个：map，ko，ec，rn和三字母或四字母生物代码，它们分别代表五种通路类型：</p>
+<ul>
+<li><strong>map编号</strong>：代表reference pathway，根据已有的知识绘制的、概括的、详尽的具有一般参考意义的代谢图。 <font color="blue">一个点</font>同时表示一个基因，这个基因编码的酶或这个酶参加的反应 </li>
+<li><strong>org编号</strong>：<font color="blue">物种特异性通路</font>，这里就是将K编号基因（直系同源基因，后面介绍）换为每个物种中对应的基因</li>
+<li><strong>ko编号</strong>：KO通路中的点表示<font color="blue">直系同源基因 </font></li>
+<li><strong>ec编号</strong>：EC通路中的<font color="blue">点表示相关的酶 </font></li>
+<li><strong>rn编号</strong>：化学反应通路中的点只表示该点参与的某个反应、反应物及反应类型</li>
+</ul>
+<p>在了解每种通路之前先学会在KEGG中切换每种通路类型</p>
+<p><a target="_blank" rel="noopener" href="https://www.kegg.jp/kegg-bin/show_pathway?org_name=map&amp;mapno=00020&amp;mapscale=&amp;show_description=hide">https://www.kegg.jp/kegg-bin/show_pathway?org_name=map&amp;mapno=00020&amp;mapscale=&amp;show_description=hide</a></p>
+<p>进入<a target="_blank" rel="noopener" href="https://www.kegg.jp/kegg-bin/show_pathway?org_name=map&mapno=00020&mapscale=&show_description=hide">TCA循环</a> ，点击<code>change pathway type</code> 按钮：</p>
+<img src="2022-05-29-BioDatabase/5.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<img src="./5.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<p><strong>3.1 参考通路图 (map)</strong></p>
+<p>以 <a href="https://link.zhihu.com/?target=https://www.kegg.jp/kegg-bin/show_pathway?org_name=map&mapno=00020&mapscale=&show_description=hide">TCA循环</a> 的通路图为例，进入参考通路图(Reference pathway)。这是原始版本的通路，也是后续几种通路图的”模板”。每个白框可以代表直系同源基因，酶，反应，也可以点击链接至KO，ENZYME和REACTION详细信息。</p>
+<p>形状，箭头，线段的意义</p>
+<img src="2022-05-29-BioDatabase/6.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<img src="./6.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<p><strong>3.2 物种特异性通路 (org)</strong></p>
+<p>选择人的物种名<code>Homo sapiens (human)</code>，点击<code>Go</code>。可以看到与Reference pathway 图（map00020）不同的是有物种特异性基因被标注为绿色，而且通路编号为<code>hsa00020</code></p>
+<p>点击绿色基因，会进入<code>Gene</code>详细信息</p>
+<p><strong>3.3 直系同源物通路 (ko)</strong></p>
+<p>选择ko，蓝色框超链接到从原始版本中选择的KO条目</p>
+<p>进入<code>PCK</code>的直系同源基因信息</p>
+<p><strong>3.4 酶通路 (ec)</strong></p>
+<p>选择ec，蓝色框超链接到从原始版本中选择的ENZYME条目</p>
+<p><strong>3.5 反应通路 (reaction)</strong></p>
+<p>选择rn，蓝色框超链接到从原始版本中选择的反应条目</p>
+<p><strong>4. KEGG ORTHOLOGY（KO）数据库</strong></p>
+<p>KEGG ORTHOLOGY （KO）数据库是构建Pathway和Module的基础，相当于KEGG数据库构建的基石，理解KO数据库的构成对于使用及了解KEGG至关重要。</p>
+<p>KEGG的开发者根据不同生物之间基因和基因组的保守和变异，引入<font color="blue">直系同源物（KO）</font>的概念，使得KEGG通路图，BRITE层次结构和KEGG模块的参考数据集可以广泛应用于任何细胞生物。</p>
+<p><strong>4.1 KO号</strong>：表示<strong>不分物种的通路</strong>，相当于所有物种的这一通路的并集，比如<code>ko00020</code>代表的 <a href="https://link.zhihu.com/?target=https://www.kegg.jp/kegg-bin/show_pathway?ko00020">TCA 循环</a> (下图所示)，下图的每个圆角矩形也代表着一个KO通路。</p>
+<p><strong>4.2 K号</strong>：表示<strong>基因</strong>，每个号代表的是所有物种的一个同源基因，比如上图中的<code>K01596</code>代表的是 <a href="https://link.zhihu.com/?target=https://www.kegg.jp/dbget-bin/www_bget?K01596">PCK</a>。</p>
+<p>进入K01596的<a href="https://link.zhihu.com/?target=https://www.kegg.jp/dbget-bin/www_bget?K01596">详细页面</a>，我们会看到它代表的是一个基因列表，这些基因具有一个功能却来自于不同的物种。</p>
+<p><strong>4.3 C号</strong>：表示<strong>化合物</strong></p>
+<hr>
+<h3 id="GO"><a href="#GO" class="headerlink" title="GO"></a>GO</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/99789859">https://zhuanlan.zhihu.com/p/99789859</a></p>
+<p><strong>1. 介绍</strong></p>
+<p>读懂基因本体论（Gene Ontology）前，先看看什么是本体论：</p>
+<p>本体论（Ontology ）是探究世界的本原或基质的哲学理论 。</p>
+<p>本体论通常处理的问题：存在哪些本质，如何将这些本质分组，在层次结构内关联以及如何根据相似性和差异进行细分 。</p>
+<p>基因本体论（Gene Ontology）包含生物学领域知识体系本质的表示形式，本体通常由一组类（或术语或概念）组成，它们之间具有关系。 基因本体论（GO）从三个方面（GO domains）描述了我们对生物学领域的了解：</p>
+<p><strong>1.1 分子功能（Molecular Function，MF ）</strong></p>
+<p><strong>单个的基因产物（包括蛋白质和RNA）或多个基因产物的复合物在分子水平上的活动</strong>，比如<font color="red"><strong>“催化”，“转运”</strong></font></p>
+<p>此处描述只表示活动，而不指定执行功能的实体（分子或复合物），动作发生的地点，时间或背景</p>
+<p>广义上例子是<font color="blue">催化活性和转运蛋白活性</font>。具体例子是<font color="blue">腺苷酸环化酶活性或Toll样受体结合</font></p>
+<p><font color="blue">为避免基因产物名与其分子功能混淆，GO分子功能通常<strong>附加“活性（activity）”一词</strong>。如蛋白激酶（protein kinase）具有GO分子功能：蛋白激酶活性（ protein kinase activity）</font></p>
+<p><strong>1.2. 细胞组分（Cellular Component ，CC）</strong>**</p>
+<p><strong>基因产物在执行功能时所处的细胞结构位置</strong>，比如线粒体，核糖体</p>
+<p>需要注意：细胞组分是<font color="blue">细胞解刨结构</font>，不指代过程</p>
+<p><strong>1.3. 生物过程（Biological Process ，BP）</strong>**</p>
+<p><strong>通过多种分子活动完成的生物学过程</strong></p>
+<p>广义上的例子是<font color="red"><strong>DNA修复或信号转导</strong></font>。更加具体的例子是<font color="blue">嘧啶核苷生物合成过程或葡萄糖跨膜转运</font></p>
+<p>需要注意：<font color="blue">生物学过程不等同于通路</font>。目前GO没有表示完整的通路信息所需的动力学或依赖性的描述信息</p>
+<p>举例，在基因本体论GO的角度来解释一个基因：</p>
+<p>基因产物：细胞色素C（cytochrome c）</p>
+<p>分子功能：氧化还原酶活性</p>
+<p>细胞组分：线粒体基质</p>
+<p>生物过程：氧化磷酸化</p>
+<hr>
+<ul>
+<li><a href="https://link.zhihu.com/?target=https://www.ncbi.nlm.nih.gov/biosystems">NCBI BioSystems</a></li>
+<li><a href="https://link.zhihu.com/?target=http://imp.princeton.edu/">IMP</a></li>
+<li><a href="https://link.zhihu.com/?target=https://www.plantcyc.org/">plantCyc</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/79626339/">MANET</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/79626339/">MetaNetX</a></li>
+</ul>
+<h2 id="代谢组学常用数据库"><a href="#代谢组学常用数据库" class="headerlink" title="代谢组学常用数据库"></a><strong>代谢组学常用数据库</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=https://www.ebi.ac.uk/metabolights/">MataboLights</a></li>
+<li><a href="https://link.zhihu.com/?target=http://www.hmdb.ca/">HMDB</a></li>
+<li><a href="https://link.zhihu.com/?target=http://www.ymdb.ca/">YMDB</a></li>
+<li><a href="https://link.zhihu.com/?target=http://ecmdb.ca/">ECMDB</a></li>
+</ul>
+<h2 id="表型数据库"><a href="#表型数据库" class="headerlink" title="表型数据库"></a><strong>表型数据库</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=http://www.planteome.org/">Planteome</a></li>
+<li><a href="https://link.zhihu.com/?target=https://www.ncbi.nlm.nih.gov/gap/">dbGaP</a></li>
+<li><a href="https://link.zhihu.com/?target=https://www.plant-phenotyping.org/">IPPN</a></li>
+</ul>
+<h1 id="五-序列比对"><a href="#五-序列比对" class="headerlink" title="五. 序列比对"></a>五. 序列比对</h1><h2 id="序列与数据库比对"><a href="#序列与数据库比对" class="headerlink" title="序列与数据库比对"></a><strong>序列与数据库比对</strong></h2><h3 id="Blast"><a href="#Blast" class="headerlink" title="Blast"></a>Blast</h3><p>blast.ncbi.nlm.nih.gov&#x2F;Blast.cgi</p>
+<hr>
+<h2 id="多序列间比对"><a href="#多序列间比对" class="headerlink" title="多序列间比对"></a><strong>多序列间比对</strong></h2><h3 id="Clustal"><a href="#Clustal" class="headerlink" title="Clustal"></a>Clustal</h3><h2 id="序列进化树分析"><a href="#序列进化树分析" class="headerlink" title="序列进化树分析"></a><strong>序列进化树分析</strong></h2><h3 id="MEGA"><a href="#MEGA" class="headerlink" title="MEGA"></a>MEGA</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/141835886">https://zhuanlan.zhihu.com/p/141835886</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/36598434">https://zhuanlan.zhihu.com/p/36598434</a></p>
+<h1 id="六-基因分析"><a href="#六-基因分析" class="headerlink" title="六. 基因分析"></a>六. 基因分析</h1><h2 id="基因信息"><a href="#基因信息" class="headerlink" title="基因信息"></a>基因信息</h2><p><a href="https://link.zhihu.com/?target=https://www.genecards.org/">GeneCard</a></p>
+<p><a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Wikipedia:Gene_Wiki">Gene Wiki</a></p>
+<h2 id="基因注释"><a href="#基因注释" class="headerlink" title="基因注释"></a><strong>基因注释</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=https://blast.ncbi.nlm.nih.gov/Blast.cgi">Blast</a></li>
+<li><a href="https://link.zhihu.com/?target=http://www.ebi.ac.uk/interpro/">Interproscan</a></li>
+<li><a href="https://link.zhihu.com/?target=http://wego.genomics.org.cn/">WEGO</a></li>
+<li><a href="https://link.zhihu.com/?target=https://www.genome.jp/tools/kaas/">KAAS</a></li>
+</ul>
+<h2 id="基因功能预测"><a href="#基因功能预测" class="headerlink" title="基因功能预测"></a><strong>基因功能预测</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=http://linux1.softberry.com/berry.phtml?topic=fgenesh&group=programs&subgroup=gfind">FGENESH</a></li>
+<li><a href="https://link.zhihu.com/?target=http://bioinf.uni-greifswald.de/augustus/submission.php">AUGUSTUS</a></li>
+<li><a href="https://link.zhihu.com/?target=http://argonaute.mit.edu/GENSCAN.html">GENESCAN</a></li>
+<li><a href="https://link.zhihu.com/?target=http://topaz.gatech.edu/GeneMark/">GeneMark</a></li>
+<li><a href="https://link.zhihu.com/?target=http://ccb.jhu.edu/software/glimmer/index.shtml">Glimmer</a></li>
+</ul>
+<h2 id="基因结构预测"><a href="#基因结构预测" class="headerlink" title="基因结构预测"></a><strong>基因结构预测</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=http://wormweb.org/exonintron">Exon-Intron Graphic Maker</a> 根据候选基因的外显子和内含子等信息绘制基因结构</li>
+<li><a href="https://link.zhihu.com/?target=https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastp&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome">Blastp</a> 可在线获取蛋白结构域的注释和位置信息</li>
+</ul>
+<h2 id="同源基因分析"><a href="#同源基因分析" class="headerlink" title="同源基因分析"></a><strong>同源基因分析</strong></h2><p>OrthoDB是直系同源物的综合目录</p>
+<h2 id="亚细胞定位预测"><a href="#亚细胞定位预测" class="headerlink" title="亚细胞定位预测"></a><strong>亚细胞定位预测</strong></h2><p>PSORT Prediction</p>
+<h2 id="启动子分析"><a href="#启动子分析" class="headerlink" title="启动子分析"></a><strong>启动子分析</strong></h2><p>Plantcare</p>
+<h2 id="调控目的基因的miRNA预测"><a href="#调控目的基因的miRNA预测" class="headerlink" title="调控目的基因的miRNA预测"></a><strong>调控目的基因的miRNA预测</strong></h2><p>psRNAtarget</p>
+<h2 id="表达分析"><a href="#表达分析" class="headerlink" title="表达分析"></a><strong>表达分析</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=https://www.ebi.ac.uk/arrayexpress%3E/">ArrayExpress</a><br>数据来自EMBL的高通量功能基因组学实验的数据；</li>
+<li><a href="https://link.zhihu.com/?target=http://bar.utoronto.ca/">BAR</a><br>在分析基因功能时，通常会参考基因的表达模式，即基因在植物不同组织不同发育时期的表达丰度变化。通过在线分析网站BAR对候基因进行表达分析。 是一个植物生信分析资源网站，用该网站分析基因表达时，不仅可以获得基因表达模式的热图，还可以获得可视化的电子荧光图片，直观呈现基因在植物组织中的表达位置。</li>
+</ul>
+<h2 id="基因结构绘制"><a href="#基因结构绘制" class="headerlink" title="基因结构绘制"></a><strong>基因结构绘制</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=http://gsds.cbi.pku.edu.cn/">GSDS</a><br>Gene Structure Display Server，基于基因组注释文件绘制序列基因结构等功能</li>
+</ul>
+<h1 id="七-蛋白质分析"><a href="#七-蛋白质分析" class="headerlink" title="七. 蛋白质分析"></a>七. <strong>蛋白质分析</strong></h1><h3 id="1-蛋白二级三级结构预测及绘图"><a href="#1-蛋白二级三级结构预测及绘图" class="headerlink" title="1. 蛋白二级三级结构预测及绘图"></a><strong>1. 蛋白二级三级结构预测及绘图</strong></h3><ul>
+<li><a href="https://link.zhihu.com/?target=http://www.biogem.org/tool/chou-fasman/">CFSSP</a></li>
+<li><a href="https://link.zhihu.com/?target=https://npsa-prabi.ibcp.fr/cgi-bin/npsa_automat.pl?page=npsa_sopma.html">SOPMA</a></li>
+<li><a href="https://link.zhihu.com/?target=https://www.predictprotein.org/">PredictProtein</a></li>
+<li><a href="https://link.zhihu.com/?target=https://swissmodel.expasy.org/interactive">SWISS-MODEL</a></li>
+</ul>
+<h3 id="2-蛋白特性分析"><a href="#2-蛋白特性分析" class="headerlink" title="2.蛋白特性分析"></a><strong>2.蛋白特性分析</strong></h3><ul>
+<li><a href="https://link.zhihu.com/?target=http://web.expasy.org/protparam/">ProtParam</a><br>蛋白特性分析是指蛋白的一些物理和化学参数，如分子量、等电点、氨基酸和原子组成、消光系数、半衰期、不稳定系数、脂肪族氨基酸指数、亲水性。这些参数，有助于进行蛋白的相关生化实验。比如在体外体系（大肠杆菌、酵母等）表达和纯化目的蛋白时，需要考虑蛋白的分子量、等电点、消光系数、不稳定系数和亲水性等。在酶活实验中，也需要根据这些参数优化实验体系。</li>
+</ul>
+<h3 id="3-蛋白亲疏水性分析"><a href="#3-蛋白亲疏水性分析" class="headerlink" title="3.蛋白亲疏水性分析"></a><strong>3.蛋白亲疏水性分析</strong></h3><ul>
+<li><a href="https://link.zhihu.com/?target=https://web.expasy.org/protscale/">Protscale</a><br>蛋白氨基酸的亲疏水性主要由其侧链基团R，如果R只是H或是C、H两元素组成的话，都是疏水的，如果含有极性侧链基团，如-OH、-SH、-COOH、-NH2 等，则就是极性的（亲水的）。疏水性氨基酸有酪氨酸、色氨酸、苯丙氨酸、缬氨酸、亮氨酸、异亮氨酸、丙氨酸和蛋氨酸（甲硫氨酸）。疏水性氨基酸在蛋白质内部，在保持蛋白质的三级结构上，酶和基质、抗体和抗原间的相互作用等各种非共价键的分子结合方面，具有重要作用。</li>
+</ul>
+<h3 id="4-跨膜结构分析"><a href="#4-跨膜结构分析" class="headerlink" title="4.跨膜结构分析"></a><strong>4.跨膜结构分析</strong></h3><ul>
+<li><a href="https://link.zhihu.com/?target=http://www.cbs.dtu.dk/services/TMHMM/">TMHMM</a><br>蛋白的跨膜结构分析对于预测蛋白的亚细胞定位密切相关。如果具有跨膜结构，蛋白很可能定位于细胞中与膜相关的结构，如细胞质膜、叶绿体膜或线粒体膜等内膜系统。此外，蛋白跨膜结构分析对于蛋白功能分析也有一定的帮助。比如某蛋白没有跨膜结构，但是亚细胞定位实验显示其可定位于膜相关结构，这说明该蛋白可能通过其他膜定位蛋白招募过去的。</li>
+</ul>
+<h3 id="5-信号肽分析"><a href="#5-信号肽分析" class="headerlink" title="5.信号肽分析"></a><strong>5.信号肽分析</strong></h3><ul>
+<li><a href="https://link.zhihu.com/?target=http://www.cbs.dtu.dk/services/SignalP/">SignalP</a><br>峰信号位置为信号肽切割点，峰之前的序列为信号肽 信号肽是指引导新合成的蛋白质向分泌通路转移的短肽链，常位于蛋白的N-末端，负责把蛋白质引导到不同膜结构的亚细胞器内。编码分泌蛋白的mRNA在翻译时首先合成N末端的信号肽，它被信号肽识别蛋白(SRP)所识别，SRP将核糖体携带至内质网上，内质网膜上的 SPR 受体识别并与之结合。新合成蛋白在信号肽引导下到达内质网内腔，而信号肽则在信号肽酶的作用下被切除。由于它的引导，新生的多肽就能够通过内质网膜进入腔内，最终被分泌到胞外。在宿主菌中表达外源蛋白时，可用信号肽引导外源蛋白定位分泌到胞外，提高蛋白可溶性，在原核表达系统（大肠杆菌、芽孢杆菌等）和真核表达系统（如毕赤酵母）中均有应用。</li>
+</ul>
+<h3 id="6-磷酸化位点分析"><a href="#6-磷酸化位点分析" class="headerlink" title="6.磷酸化位点分析"></a><strong>6.磷酸化位点分析</strong></h3><ul>
+<li><a href="https://link.zhihu.com/?target=http://www.cbs.dtu.dk/services/NetPhos/">NetPhos</a></li>
+<li><a href="https://link.zhihu.com/?target=http://kinasephos2.mbc.nctu.edu.tw/">KinasePhos-2.0</a><br>蛋白质磷酸化指由蛋白质激酶催化的把 ATP 的磷酸基转移到底物蛋白质氨基酸残基（丝氨酸、苏氨酸、酪氨酸）上的过程，或者在信号作用下结合 GTP（通常以 GTP 取代 GDP），是生物体内一种普通的调节方式，在细胞信号转导的过程中起重要作用。在信号达到时通过获得一个或几个磷酸集团而被激活，而在信号减弱时能去除这些集团，从而失去活性。有时某个信号蛋白磷酸化通常造成下游的蛋白依次发生磷酸化，形成磷酸化级联反应。</li>
+</ul>
+<p>ref： <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/79626339">https://zhuanlan.zhihu.com/p/79626339</a></p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Biology/" class="category-chain-item">Biology</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/database/">#database</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Database</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-BioDatabase/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>May 29, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/06/05/2022-06-05-FuncAnno-eggNOG/" title="【FuncAnno】【eggNOG-mapper】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【FuncAnno】【eggNOG-mapper】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/05/29/2022-05-29-ncRNA-prediction/" title="ncRNA prediction">
+                        <span class="hidden-mobile">ncRNA prediction</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>
