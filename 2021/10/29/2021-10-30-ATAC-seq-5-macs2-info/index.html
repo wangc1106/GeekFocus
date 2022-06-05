@@ -1,0 +1,784 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="MACS2 detail">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ATAC-seq-5【PeakCalling-MACS2】">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2021/10/29/2021-10-30-ATAC-seq-5-macs2-info/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="MACS2 detail">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/3.png">
+<meta property="article:published_time" content="2021-10-29T07:58:55.043Z">
+<meta property="article:modified_time" content="2022-06-05T11:48:32.479Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="atac-seq">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+  
+  
+  
+  <title>ATAC-seq-5【PeakCalling-MACS2】 - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ATAC-seq-5【PeakCalling-MACS2】"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-10-29 15:58" pubdate>
+          October 29, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.6k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          64 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ATAC-seq-5【PeakCalling-MACS2】</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <h2 id="MACS2-detail"><a href="#MACS2-detail" class="headerlink" title="MACS2 detail"></a>MACS2 detail</h2><span id="more"></span>
+
+
+<h3 id="粗略介绍MACS基本原理。"><a href="#粗略介绍MACS基本原理。" class="headerlink" title="粗略介绍MACS基本原理。"></a>粗略介绍MACS基本原理。</h3><p>TF在基因组上的结合是随机过程，基因组的每个位置都有机会结合某个TF，只是概率不一样，peak出现的位置，是TF结合热点，而peak-calling就为了找这些热点。</p>
+<p>如何定义热点？通俗讲，热点是这样一些位置，这些位置多次被测得的read所覆盖（我们测的是一个细胞群体，read出现次数多，说明该位置被TF结合的几率大）。read数达到多少才叫多？就要用到统计检验。假设TF在基因组上的分布没有任何规律，那么测序得到的read在基因组上的分布也必然是随机的，某个碱基上覆盖的read的数目应服从二项分布。和抽小球的过程类似。当n很大，p很小时，二项分布近似用泊松分布替代，在这里：<br><img src="/GeekFocus/./1.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p>拉姆达是泊松分布唯一参数，n是测序read总数目，l是单个read长度，s是基因组大小。有了分布，可以算出在某个置信概率（如0.00001）下，随机情况下，某个碱基上可以覆盖的read数目的最小值，当实际观察到的read数目超过这个值（单侧检验）时，认为该碱基是TF的一个结合热点。反过来，针对每一个read数目，我们也可以算出对应的置信概率P。</p>
+<p>但这只是简化模型，实际情况复杂好多。由于测序、mapping过程内在<font color=red>偏好性</font>，以及不同染色质间的差异性，相比全基因组，某些碱基可能内在地会被更多的read所覆盖，这种情况得到的很多peak可能都是假的。MACS考虑到这点，<font color=red>当对某个碱基进行假设检验，MACS只考虑该碱基附近染色质区段（如10k），此时上述公式中n表示附近10k区间内的read数目，s被置为10k</font>。当有对照组（Control，相比实验组没有用抗体捕获TF或用了一个通用抗体）存在，利用Control组的数据构建泊松分布，<font color=red>没有Control时，利用实验组，稍大一点的局部区间（比如50k）</font>的数据构建泊松分布。</p>
+<p>还有一个问题，read只是跟随着TF一起沉淀下来的DNA fragment的末端，read的位置并不是真实的TF结合位置。所以在peak-calling之前，延伸read是必须的。不同TF大小不一样，对read延伸的长度也理应不同.测得的<font color=red>read最终其实会近似地平均分配到正负链</font>，对于一个TF结合热点，read在附近正负链上会近似地形成<font color=red>“双峰”</font>。MACS会以<font color=red>某个window size扫描基因组，统计每个window里面read的富集程度，然后抽取（比如1000个）合适的（read富集程度适中，过少，无法建立模型，过大，可能反映的只是某种偏好性）window作样本，建立“双峰模型”</font>。最后，两个峰之间的距离就被认为是<font color=red>TF的长度D，每个read将延伸D&#x2F;2</font>。见下图：</p>
+<p><img src="/GeekFocus/./2.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p>当有对照组，MACS会进行两次peak calling。第一次以实验组（Treatment）为实验组，对照组为对照组，第二次颠倒，以实验组为对照组，对照组为实验组。之后，MACS对每一个P计算了相应的FDR（False Discovery Rate）值：</p>
+<p><img src="/GeekFocus/./3.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p>表示第二次peak calling（颠倒的）得到的置信概率小于P的peak的个数。表示第一次peak calling得到的置信概率小于P的peak的个数。FDR综合利用了实验组和对照组的信息，显然，FDR越小越好。</p>
+<h3 id="MACS-peak-calling-pipeline："><a href="#MACS-peak-calling-pipeline：" class="headerlink" title="MACS peak-calling pipeline："></a>MACS peak-calling pipeline：</h3><p>在某些情况下，如对组蛋白修饰的ChIP-seq数据peak-calling时，“双峰模型”会建立失败，<font color=red>因为组蛋白修饰往往并不是孤立存在的，可能很长一段染色质区间都被同一个组蛋白修饰占据，组蛋白修饰的peak并不典型。</font>这时，只要多加一个参数：</p>
+<p><font color=red>–nomodel –shiftsize&#x3D;number</font></p>
+<p>–nomodel将<font color=red>略过“双峰模型”建立的过程</font>，而<font color=red>–shiftsize将人为指定reads延伸的长度</font>。<font color=red>一个核小体上大概缠绕着147bpDNA</font>，在对组蛋白修饰做peak-calling时可以指定：</p>
+<p><font color=red>–nomodel –shiftsize&#x3D;73</font></p>
+<p>CTCF_peaks.bed详细列出了每一个peak的位置信息和可信度（最后一列：)，BED文件格式详见：<a target="_blank" rel="noopener" href="http://genome.ucsc.edu/FAQ/FAQformat.html#format1">http://genome.ucsc.edu/FAQ/FAQformat.html#format1</a></p>
+<p>其他常用参数：-bw number 建立“双峰模型”过程中window size的一半，默认300bp.<br><font color=red>-p Pvalue</font>设定peak置信概率的临界值（threshold），默认0.00001?(macs2 callpeak -h: pvalue not set, dont use p and q value at the same time)，对于H3k36me3、H3k27me3、H3k9me3等具有“非常规”特征的peak（broad peak）而言，此参数可以稍微设大一点，比如0.001。</p>
+<p>-m number1,number2 建立“双峰模型”用到，设定挑选的window上reads的富集程度（<font color=red>fold enrichment</font>，相对全基因组而言），默认10,30。</p>
+<p>-slocal&#x3D;number -llocal&#x3D;number 共同确定MACS动态计算时所考察的局部区间的长度。默认参数，-slocal&#x3D;1000 -llocal&#x3D;10000。除了建立“双峰模型”，在寻找peak过程中，MACS依然会以2倍于-bw的window扫描基因组，对于当前window而言（-slocal,-llocal取默认参数）：</p>
+<p>-w&#x2F;-B 建立wig或BED格式的raw signal（最高精确到每个碱基上reads的覆盖情况）文件，默认每条染色体建一个。</p>
+<p>-S 只建立一个raw signal文件。</p>
+<p>-space 与-w搭配使用，确定wig文件的分辨率，默认10bp。</p>
+<hr>
+<p>link：<a target="_blank" rel="noopener" href="https://www.plob.org/article/7227.html">https://www.plob.org/article/7227.html</a></p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://github.com/macs3-project/MACS/blob/master/docs/callpeak.md">https://github.com/macs3-project/MACS/blob/master/docs/callpeak.md</a></p>
+<p>Pay attention to BAMPE(pair end) and BED(shift extend) mode</p>
+<h1 id="f-x2F-format-FORMAT"><a href="#f-x2F-format-FORMAT" class="headerlink" title="-f&#x2F;--format FORMAT"></a><code>-f</code>&#x2F;<code>--format FORMAT</code></h1><p>Format of tag file can be <code>ELAND</code>, <code>BED</code>, <code>ELANDMULTI</code>, <code>ELANDEXPORT</code>, <code>SAM</code>, <code>BAM</code>, <code>BOWTIE</code>, <code>BAMPE</code>, or <code>BEDPE</code>. Default is <code>AUTO</code> which will allow MACS to decide the format automatically. <code>AUTO</code> is also useful when you combine different formats of files. Note that MACS <font color="red"><strong>can’t detect</strong></font> <code>BAMPE</code> or <code>BEDPE</code> format with <code>AUTO</code>, and you have to implicitly specify the format for <code>BAMPE</code> and <code>BEDPE</code>.</p>
+<p>Nowadays, the most common formats are <code>BED</code> or <code>BAM</code> (including <code>BEDPE</code> and <code>BAMPE</code>). Our recommendation is to convert your data to<code>BED</code> or <code>BAM</code> first.</p>
+<p>Also, MACS3 can detect and read gzipped file. For example, <code>.bed.gz</code> file can be directly used without being uncompressed with <code>--format BED</code>.</p>
+<h1 id="BAM-SAM-not-use"><a href="#BAM-SAM-not-use" class="headerlink" title="BAM/SAM(not use)"></a>BAM<code>/</code>SAM(not use)</h1><p>If the format is <code>BAM</code>&#x2F;<code>SAM</code>, please check the definition in (<a target="_blank" rel="noopener" href="http://samtools.sourceforge.net/samtools.shtml">http://samtools.sourceforge.net/samtools.shtml</a>). If the <code>BAM</code> file is generated for paired-end data, MACS will <font color="red"><strong>only keep the left mate</strong></font>(5’ end) tag. However, when format <code>BAMPE</code> is specified, MACS will use the <font color="red"><strong>real fragments[BAMPE]</strong></font> inferred from alignment results for reads pileup.</p>
+<h1 id="BAMPE-pair-end"><a href="#BAMPE-pair-end" class="headerlink" title="BAMPE(pair end)"></a>BAMPE(pair end)</h1><p>A <font color="red"><strong>special mode</strong> will be triggered</font> while the format is specified as <code>BAMPE</code> or <code>BEDPE</code>. In this way, MACS3 will process the <code>BAM</code> or <code>BED</code> files as paired-end data. Instead of building a bimodal distribution of plus and minus strand reads to predict fragment size, MACS3 will <font color="red">use <strong>actual insert sizes of pairs of reads</strong></font> to build fragment pileup.</p>
+<p>The <code>BAMPE</code> format is just a <code>BAM</code> format containing paired-end alignment information, such as those from <code>BWA</code> or <code>BOWTIE</code>.</p>
+<p>The <code>BEDPE</code> format is a simplified and more flexible <code>BED</code> format, which <font color="red">only contains the first three columns(then, how to get pair info??)</font> defining the chromosome name, left and right position of the fragment from Paired-end sequencing. Please note, this is NOT the same format used by <code>BEDTOOLS</code>, and the <code>BEDTOOLS</code> version of <code>BEDPE</code> is actually not in a standard <code>BED</code> format. You can use MACS3 subcommand <code>randsample</code> to convert a <code>BAM</code> file containing paired-end information to a <code>BEDPE</code> format file:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">macs3 randsample -<span class="hljs-selector-tag">i</span> the_BAMPE_file<span class="hljs-selector-class">.bam</span> -f BAMPE -<span class="hljs-selector-tag">p</span> <span class="hljs-number">100</span> -o the_BEDPE_file.bed<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="BED-shift-extend-mode"><a href="#BED-shift-extend-mode" class="headerlink" title="BED(shift extend) mode"></a>BED(shift extend) mode</h1><p>The BED format can be found at <a target="_blank" rel="noopener" href="http://genome.ucsc.edu/FAQ/FAQformat#format1">UCSC genome browser website</a>.</p>
+<p>The essential columns in BED format input are the 1st column <code>chromosome name</code>, the 2nd <code>start position</code>, the 3rd <code>end position</code>, and the<font color="red"> <strong>6th, strand</strong></font>.(<font color="red"><strong>usage for extending to 5’</strong>) keep the <strong>Tn5 break point in the middle of the peak</strong></font></p>
+<p>Note that, for <code>BED</code> format, the <font color="red"><strong>6th</strong></font> column of strand information is required by MACS. And please pay attention that the coordinates in BED format are zero-based and half-open. See more detail at <a target="_blank" rel="noopener" href="http://genome.ucsc.edu/FAQ/FAQtracks#tracks1">UCSC site</a>.</p>
+<h1 id="slocal-llocal"><a href="#slocal-llocal" class="headerlink" title="--slocal, --llocal"></a><code>--slocal</code>, <code>--llocal</code></h1><p>These two parameters control which two levels of regions will be checked around the peak regions to calculate the maximum lambda as local lambda. <font color="red"><strong>By default</strong></font>, MACS considers <strong>1000bp</strong> for small local region(<code>--slocal</code>), and <strong>10000bps</strong> for large local region(<code>--llocal</code>) which captures the bias from a long-range effect like an open chromatin domain. You can tweak these according to your project. Remember that if the region is set too small, a sharp spike in the input data may kill a significant peak.</p>
+<h1 id="nomodel"><a href="#nomodel" class="headerlink" title="--nomodel"></a><code>--nomodel</code></h1><p>While on, MACS will bypass building the shifting model.</p>
+<h1 id="extsize"><a href="#extsize" class="headerlink" title="--extsize"></a><code>--extsize</code></h1><p>While <code>--nomodel</code> is set, MACS uses this parameter to extend reads in 5’-&gt;3’ direction to fix-sized fragments. For example, if the size of the binding region for your transcription factor is 200 bp, and you want to bypass the model building by MACS, this parameter can be set as 200. This option is only valid when <code>--nomodel</code> is set or when MACS fails to build model and <code>--fix-bimodal</code> is on.</p>
+<h3 id="shift"><a href="#shift" class="headerlink" title="--shift"></a><code>--shift</code></h3><p>Note, this is NOT the legacy <code>--shiftsize</code> option which is replaced by <code>--extsize</code>! You can set an arbitrary shift in bp here. Please Use discretion while setting it other than the default value (0). When <code>--nomodel</code> is set, MACS will use this value to move cutting ends (5’) then apply <code>--extsize</code> from 5’ to 3’ direction to extend them to fragments. <font color="red">When this value is <strong>negative</strong>, ends will be moved toward 3’-&gt;5’ direction</font>, otherwise 5’-&gt;3’ direction. <font color="red"><strong>Recommended</strong> to keep it as <strong>default 0 for ChIP-Seq</strong> datasets</font>, or -1 * half of <em>EXTSIZE</em> together with <code>--extsize</code> option for detecting enriched cutting loci such as certain DNAseI-Seq datasets. Note, you can’t set values other than 0 if the format is <strong>BAMPE or BEDPE</strong>(<strong>nouse in setting nomodel</strong>) for paired-end data. The default is 0.</p>
+<p>Here are some examples for combining <code>--shift</code> and <code>--extsize</code>:</p>
+<ol>
+<li>To find enriched cutting sites such as some DNAse-Seq datasets. In this case, all 5’ ends of sequenced reads should be extended in both directions to smooth the pileup signals. If the wanted smoothing window is 200bps, then use <code>--nomodel --shift -100 --extsize 200</code>.</li>
+<li>For certain nucleosome-seq data, we need to pile up the centers of nucleosomes using a half-nucleosome size for wavelet analysis (e.g. NPS algorithm). Since the DNA wrapped on nucleosome is about 147bps, this option can be used: <code>--nomodel --shift 37 --extsize 73</code>.</li>
+</ol>
+<h3 id="keep-dup"><a href="#keep-dup" class="headerlink" title="--keep-dup"></a><code>--keep-dup</code></h3><p>It controls the MACS behavior towards duplicate tags at the exact same location – the same coordination and the same strand. The default<code>auto</code> option makes MACS calculate the maximum tags at the exact same location based on binomial distribution using 1e-5 as p-value cutoff; and the <code>all</code> option keeps every tag. If an integer is given, at most this number of tags will be kept at the same location. The default is to keep one tag at the same location. Default: 1</p>
+<h3 id="broad"><a href="#broad" class="headerlink" title="--broad"></a><code>--broad</code></h3><p>When this flag is on, MACS will try to composite broad regions in BED12 ( a gene-model-like format ) by putting nearby highly enriched regions into a broad region with loose cutoff. The broad region is controlled by another cutoff through <code>--broad-cutoff</code>. Please note that, the <code>max-gap</code> value for merging nearby weaker&#x2F;broad peaks is 4 times of <code>max-gap</code> for merging nearby stronger peaks. The later one can be controlled by <code>--max-gap</code> option, and by default it is the average fragment&#x2F;insertion length in the PE data. DEFAULT: False</p>
+<h3 id="broad-cutoff"><a href="#broad-cutoff" class="headerlink" title="--broad-cutoff"></a><code>--broad-cutoff</code></h3><p>Cutoff for the broad region. This option is not available unless <code>--broad</code> is set. If <code>-p</code> is set, this is a p-value cutoff, otherwise, it’s a q-value cutoff. DEFAULT: 0.1</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/atac-seq/">#atac-seq</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ATAC-seq-5【PeakCalling-MACS2】</div>
+      <div>https://wangc1106.github.io/GeekFocus/2021/10/29/2021-10-30-ATAC-seq-5-macs2-info/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>October 29, 2021</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2021/10/29/2021-10-30-ATAC-seq-4-macs3-install/" title="ATAC-seq-4【Macs2/3 Installation】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ATAC-seq-4【Macs2/3 Installation】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2021/10/26/2021-10-30-ATAC-seq-3-hbctraining/" title="【ATAC-seq-3】【hbctraining_pipeline】">
+                        <span class="hidden-mobile">【ATAC-seq-3】【hbctraining_pipeline】</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

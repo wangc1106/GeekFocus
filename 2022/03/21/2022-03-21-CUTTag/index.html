@@ -1,0 +1,1187 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="CUT&amp;Tag Data Processing and Analysis Tutorial Ye Zheng, Kami Ahmad, Steven Henikoff [following NC] https:&#x2F;&#x2F;yezhengstat.github.io&#x2F;CUTTag_tutorial&#x2F;#223_Intepret_the_quality_check_results https:&#x2F;&#x2F;www">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CUT&amp;Tag-pipeline】">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/03/21/2022-03-21-CUTTag/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="CUT&amp;Tag Data Processing and Analysis Tutorial Ye Zheng, Kami Ahmad, Steven Henikoff [following NC] https:&#x2F;&#x2F;yezhengstat.github.io&#x2F;CUTTag_tutorial&#x2F;#223_Intepret_the_quality_check_results https:&#x2F;&#x2F;www">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/6.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/7.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/8.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/9.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/10.png">
+<meta property="article:published_time" content="2022-03-21T05:58:54.780Z">
+<meta property="article:modified_time" content="2022-06-05T12:16:45.996Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="pipeline">
+<meta property="article:tag" content="CUT-tag">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+  
+  
+  
+  <title>【CUT&amp;Tag-pipeline】 - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【CUT&amp;Tag-pipeline】"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-21 13:58" pubdate>
+          March 21, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          46k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          386 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【CUT&amp;Tag-pipeline】</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p><strong>CUT&amp;Tag Data Processing and Analysis Tutorial</strong></p>
+<p>Ye Zheng, Kami Ahmad, Steven Henikoff [following NC]</p>
+<p><a target="_blank" rel="noopener" href="https://yezhengstat.github.io/CUTTag_tutorial/#223_Intepret_the_quality_check_results">https://yezhengstat.github.io/CUTTag_tutorial/#223_Intepret_the_quality_check_results</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1a23656a0713">https://www.jianshu.com/p/1a23656a0713</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUxNTkzODIzMg==&mid=2247484049&idx=2&sn=b74aa66a9c9e4bd36a8a1d50e2834226&chksm=f9ae4046ced9c950efee443e1f0692e37dbce2b856e4f2f841ecd723affcff9c67c698ebe2fa&scene=21#wechat_redirect">wechat</a></p>
+<span id="more"></span>
+
+<hr>
+<h1 id="I-Introduction"><a href="#I-Introduction" class="headerlink" title="I. Introduction"></a>I. Introduction</h1><h2 id="1-1-Overview-of-CUT-amp-Tag"><a href="#1-1-Overview-of-CUT-amp-Tag" class="headerlink" title="1.1. Overview of CUT&amp;Tag"></a>1.1. Overview of CUT&amp;Tag</h2><p>All dynamic processes that take place on DNA in the eukaryotic nucleus occur in the context of a chromatin landscape that comprises nucleosomes and their modifications, transcription factors, and chromatin-associated complexes. A variety of chromatin features mark sites of activating and silencing transcriptional regulatory elements and chromatin domains that differ between cell types and change during development.</p>
+<p>The mapping of chromatin features genome-wide has traditionally been performed using chromatin immunoprecipitation (ChIP), in which chromatin is <strong>cross-linked</strong> and <strong>solubilized</strong>, and an <strong>antibody</strong> to a <strong>protein or modification of interest</strong> is used to <strong>immunoprecipitate the bound DNA</strong> (<font color="green"><strong>Fig. 1a</strong></font>). Very little has changed in the way <strong>ChIP</strong> is most generally performed since it was first described <strong>35 years ago</strong>, and remains fraught with <strong>signal-to-noise issues</strong> and <strong>artifacts</strong>. An alternative chromatin profiling strategy is <strong>enzyme tethering in situ</strong> whereby the chromatin protein or modification of interest is targeted by an <strong>antibody or fusion protein</strong>. Then, the underlying DNA is marked or cleaved, and a succession of enzyme-tethering methods have been introduced over the past two decades. <font color="green"><strong>Cleavage Under Targets &amp; Tagmentation (CUT&amp;Tag)</strong></font> is a tethering method that uses a <font color="green"><strong>protein-A-Tn5 (pA-Tn5) transposome fusion protein</strong></font> (<font color="green"><strong>Fig. 1b</strong></font>). In CUT&amp;Tag, permeabilized cells or nuclei are incubated with antibody to a specified chromatin protein, and then <strong>pA-Tn5 loaded with mosaic end adaptors</strong> is successively tethered to antibody-bound sites. Activation of the transposome by adding magnesium ions[<strong>Mg2+</strong>] results in the <strong>integration of the adaptors into nearby DNA</strong>. These are then amplified to generate sequencing libraries. Antibody-tethered Tn5-based methods achieve high sensitivity owing to stringent washing of samples after pA-Tn5 tethering and the high efficiency of adaptor integration. The <font color="green"><strong>improved signal-to-noise</strong></font> relative to ChIP-seq translates to an order-of-magnitude reduction in the amount of sequencing required to map chromatin features, allowing sample pooling (typically up to 90 samples) for paired-end sequencing on Illumina NGS sequencers by barcoded PCR of libraries.</p>
+<p><img src="/GeekFocus/./1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="Figure 1. Differences between immunoprecipitation and in antibody-targeted chromatin profiling strategies. A. ChIP-seq experimental procedure. B. CUT&amp;Tag experimental procedure. Cells and nuclei are indicated in grey, chromatin as red nucleosomes, and a specific chromatin protein in green."></p>
+<p>Cells and nuclei are indicated in grey, chromatin as red nucleosomes, and a specific chromatin protein in green.</p>
+<h2 id="1-2-Objectives"><a href="#1-2-Objectives" class="headerlink" title="1.2. Objectives"></a>1.2. Objectives</h2><p>This tutorial is designed for processing and analyzing CUT&amp;Tag data following the <a target="_blank" rel="noopener" href="https://www.protocols.io/view/bench-top-cut-amp-tag-bcuhiwt6/abstract">Bench top CUT&amp;Tag V.3 protocol</a> <strong>NC</strong>. The illustration data used in <strong>this tutorial</strong> is the profiling of <strong>histone modifications</strong> in the human lymphoma K562 cell line, but the tutorial is <strong>generally applicable to</strong> any chromatin protein, including <strong>transcription factors, RNA polymerase II</strong>, and epitope-tagged proteins.</p>
+<h2 id="1-3-CUT-amp-Tag-data-processing-and-analysis-outline"><a href="#1-3-CUT-amp-Tag-data-processing-and-analysis-outline" class="headerlink" title="1.3 CUT&amp;Tag data processing and analysis outline."></a>1.3 CUT&amp;Tag data processing and analysis outline.</h2><p><img src="/GeekFocus/./2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="Figure 2. CUT&amp;Tag data processing and analysis."></p>
+<ol start="3">
+<li><strong>Alignment</strong>: Bowtie2 alignment; Duplicates; Fragment size; Replicate reproducibility</li>
+</ol>
+<blockquote>
+<p>Bowtie2, Samtools, Picard</p>
+</blockquote>
+<ol start="4">
+<li><strong>Filtering and Conversion</strong>: Sam to bam; bam to bed</li>
+</ol>
+<blockquote>
+<p>Samtools, Bedtools</p>
+</blockquote>
+<ol start="5">
+<li><strong>Spike-in Calibration?:</strong> Sam to bam; Bam to bed</li>
+</ol>
+<blockquote>
+<p>Bowtie2, Bedtools</p>
+</blockquote>
+<ol start="6">
+<li><strong>Peak Calling:</strong> SEACR peak calling; Fragment propotion in peak regions(FRiPs)</li>
+</ol>
+<blockquote>
+<p>SEACR, R: chromVAR</p>
+</blockquote>
+<ol start="7">
+<li>Visualization: Genome browser; Heatmap</li>
+</ol>
+<blockquote>
+<p>IGV, UCSC browser, Deeptools</p>
+</blockquote>
+<ol start="8">
+<li>Different Analysis</li>
+<li>Additional alternatives</li>
+</ol>
+<h2 id="1-4-Requirements"><a href="#1-4-Requirements" class="headerlink" title="1.4. Requirements"></a>1.4. Requirements</h2><ul>
+<li>R (versions &gt;&#x3D; 3.6)<ul>
+<li>dplyr</li>
+<li>stringr</li>
+<li>ggplot2</li>
+<li>viridis</li>
+<li>GenomicRanges</li>
+<li><strong>chromVAR</strong></li>
+<li>DESeq2</li>
+<li><strong>ggpubr</strong></li>
+<li><strong>corrplot</strong></li>
+<li>ChIPseqSpikeInFree [Optional]</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs r">library<span class="hljs-punctuation">(</span>dplyr<span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>stringr<span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>ggplot2<span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>viridis<span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>GenomicRanges<span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>chromVAR<span class="hljs-punctuation">)</span> <span class="hljs-comment">## For FRiP analysis and differential analysis</span><br>library<span class="hljs-punctuation">(</span>DESeq2<span class="hljs-punctuation">)</span> <span class="hljs-comment">## For differential analysis section</span><br>library<span class="hljs-punctuation">(</span>ggpubr<span class="hljs-punctuation">)</span> <span class="hljs-comment">## For customizing figures</span><br>library<span class="hljs-punctuation">(</span>corrplot<span class="hljs-punctuation">)</span> <span class="hljs-comment">## For correlation plot</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>FastQC(version &gt;&#x3D; 0.11.9)</li>
+<li>Bowtie2 (version &gt;&#x3D; 2.3.4.3)</li>
+<li>samtools (version &gt;&#x3D; 1.10)</li>
+<li>bedtools (version &gt;&#x3D; 2.29.1)</li>
+<li>Picard (version &gt;&#x3D; 2.18.29)</li>
+<li><strong>SEACR (version &gt;&#x3D; 1.3)</strong></li>
+<li>deepTools (version &gt;&#x3D; 2.0)</li>
+</ul>
+<h2 id="1-5-Data-Downloading"><a href="#1-5-Data-Downloading" class="headerlink" title="1.5. Data Downloading"></a>1.5. Data Downloading</h2><ol>
+<li>Using <a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/sra/docs/sradownload/">SRA Toolkit</a></li>
+<li>Download through <a href="file:///Users/yezheng/Downloads/downloading_fastq_GEO.pdf">European Nucleotide Archive</a>. New ENA Browser: <a target="_blank" rel="noopener" href="https://www.ebi.ac.uk/ena/browser/view">https://www.ebi.ac.uk/ena/browser/view</a>. We are using this option as illustration.</li>
+</ol>
+<ul>
+<li><strong>H3K27me3</strong>:<ul>
+<li>SH_Hs_K27m3_NX_0918 as replicate 1: GEO accession: GSE145187, SRA entry: SRX8754646</li>
+<li>SH_Hs_K27m3_Xpc_0107 as replicate 2: GEO accession: GSE145187, SRA entry: SRX7713678</li>
+</ul>
+</li>
+<li><strong>H3K4me3</strong>:<ul>
+<li>SH_Hs_K4m3_NX_0918 as replicate 1: GEO accession: GSE145187, SRA entry: SRX7713692</li>
+<li>SH_Hs_K4m3_Xpc_0107 as replicate 2: GEO accession: GSE145187, SRA entry: SRX7713696</li>
+</ul>
+</li>
+<li><strong>IgG</strong>:<ul>
+<li>SH_Hs_IgG_1x_0924 as replicate 1:GEO accession: GSE145187, SRA entry: SRX8468909</li>
+<li>SH_Hs_IgG_20181224 as replicate 2: GEO accession: GSM3680227, SRA entry: SRX5545346</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#example</span><br>wget -O <span class="hljs-variable">$projPath</span>/data/IgG_rep2/IgG_rep2_R1_001.fastq.gz ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR875/001/SRR8754611/SRR8754611_1.fastq.gz<br>wget -O <span class="hljs-variable">$projPath</span>/data/IgG_rep2/IgG_rep2_R2_001.fastq.gz ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR875/001/SRR8754611/SRR8754611_2.fastq.gz<br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="II-Data-Pre-processing"><a href="#II-Data-Pre-processing" class="headerlink" title="II. Data Pre-processing"></a>II. Data Pre-processing</h1><p>FASTQC</p>
+<p><strong>Per base sequence content fails the FastQC quality check.</strong></p>
+<p><strong>The discordant sequence content at the begining of the reads are common phenomenon for CUT&amp;Tag reads. Failing to pass the Per base seuqnence content does not mean your data failed.</strong></p>
+<ul>
+<li>It can be due to the Tn5 preference.</li>
+<li>What you might be detecting is <font color="green">the 10-bp</font> periodicity that shows up as a sawtooth pattern in the length distribution. If so, <font color="blue"><strong>this is normal and will not affect alignment or peak calling</strong></font>. In any case we do not recommend trimming as the bowtie2 parameters that we list <font color="blue"><strong>will give accurate mapping information without trimming</strong></font>.</li>
+</ul>
+<h2 id="2-2-Merge-technical-replicates-x2F-lanes-if-needed-Optional"><a href="#2-2-Merge-technical-replicates-x2F-lanes-if-needed-Optional" class="headerlink" title="2.2. Merge technical replicates&#x2F;lanes if needed [Optional]"></a>2.2. Merge technical replicates&#x2F;lanes if needed [Optional]</h2><p>Sometimes, samples are often sequenced across <strong>multiple lanes for efficiency</strong> and can be pooled before alignment. <font color="blue">If you want to <strong>check the reproducibility</strong> between sequences of different lanes of the same sample</font>, you can skip this step and <strong>align</strong> each sequencing file (fastq file) <strong>respectively</strong>.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#combination of the data</span><br><span class="hljs-built_in">cat</span> <span class="hljs-variable">$&#123;projPath&#125;</span>/data/<span class="hljs-variable">$&#123;histName&#125;</span>/*_R1_*.fastq.gz &gt;<span class="hljs-variable">$&#123;projPath&#125;</span>/fastq/<span class="hljs-variable">$&#123;histName&#125;</span>_R1.fastq.gz<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="III-Alignment"><a href="#III-Alignment" class="headerlink" title="III. Alignment"></a>III. Alignment</h1><h2 id="3-1-Bowtie2-alignment-required"><a href="#3-1-Bowtie2-alignment-required" class="headerlink" title="3.1. Bowtie2 alignment [required]"></a>3.1. Bowtie2 alignment [required]</h2><p>The structure of <font color="blue"><strong>CUT&amp;Tag insert libraries</strong></font> with <font color="blue"><strong>Tn5 adapters</strong></font> and <font color="blue"><strong>barcoded PCR primers</strong></font> is shown below:</p>
+<p><img src="/GeekFocus/./3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="Figure 4. CUT&amp;Tag insert libraries with the sequence of adapters."></p>
+<p>Our standard pipeline is to perform <font color="blue">single-index 25x25 PE Illumina sequencing??</font> on up to 90 pooled samples on a single HiSeq 2500 flowcell, where <font color="blue">each sample</font> has a <font color="blue">unique PCR primer barcode</font>. Amounts for <strong>each library</strong> are adjusted to provide <strong>~5 million</strong> paired-end reads, which provides high-quality profiling for abundant chromatin features with a specific and high-yield antibody. Less abundant features typically require fewer reads, while <strong>lower-quality antibodies</strong> may increase the number of reads needed for generating robust chromatin profiles. A thorough discussion of feature recall and <strong>sequencing depths for CUT&amp;Tag</strong> has been published (Kaya-Okur et al 2020).</p>
+<h3 id="3-1-1-Alignment-to-ref"><a href="#3-1-1-Alignment-to-ref" class="headerlink" title="3.1.1 Alignment to ref."></a>3.1.1 Alignment to <font color="red">ref</font>.</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs sh">bowtie2 \<br>--end-to-end \<br>--very-sensitive \<br><span class="hljs-comment">#runs a little faster, only consider alignment status of pairs per se</span><br>--no-mixed \<br><span class="hljs-comment">#disablelooks for discordant alignments if it cannot find any concordant alignments. </span><br>--no-discordant \<br>--phred33 \<br><span class="hljs-comment">#-I The minimum fragment length for valid paired-end alignments. Default: 0</span><br>-I 10 \<br>-X 700 \<br>-p <span class="hljs-variable">$&#123;cores&#125;</span> \<br>-x <span class="hljs-variable">$&#123;ref&#125;</span> \<br>-1 <span class="hljs-variable">$&#123;projPath&#125;</span>/fastq/<span class="hljs-variable">$&#123;histName&#125;</span>_R1.fastq.gz -2 <span class="hljs-variable">$&#123;projPath&#125;</span>/fastq/<span class="hljs-variable">$&#123;histName&#125;</span>_R2.fastq.gz \<br>-S <span class="hljs-variable">$&#123;projPath&#125;</span>/alignment/sam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.sam &amp;&gt; <span class="hljs-variable">$&#123;projPath&#125;</span>/alignment/sam/bowtie2_summary/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.txt<br></code></pre></td></tr></table></figure>
+
+<p><code>--end-to-end --very-sensitive --no-mixed --no-discordant --phred33 -I 10 -X 700</code> for mapping of <strong>inserts 10-700 bp</strong> in length.</p>
+<p><font color="red"><strong>Critical step</strong></font>: There is no need to trim reads from out standard 25x25 PE sequencing?, as adapter sequences will not be included in reads of inserts &gt;25 bp. However, for users <strong>performing longer sequencing</strong>, reads will need to be trimmed by Cutadapt and mapped by <code>--local --very-sensitive --no-mixed --no-discordant --phred33 -I 10 -X 700</code> to ignore any remaining adapter sequence at the 3’ ends of reads during mapping.</p>
+<p><font color="red">–local</font> In this mode, Bowtie 2 does not require that the entire read align from one end to the other. Rather, some characters may be omitted (“soft clipped”) from the ends <strong>in order to achieve the greatest possible alignment score</strong>. The match bonus <a target="_blank" rel="noopener" href="http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#bowtie2-options-ma"><code>--ma</code></a>is used in this mode, and the best possible alignment score is equal to the match bonus (<a target="_blank" rel="noopener" href="http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#bowtie2-options-ma"><code>--ma</code></a>) times the length of the read. Specifying <code>--local</code> and one of the presets (e.g. <code>--local --very-fast</code>) is equivalent to specifying the local version of the preset (<code>--very-fast-local</code>). This is mutually exclusive with <a target="_blank" rel="noopener" href="http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#bowtie2-options-end-to-end"><code>--end-to-end</code></a>. <code>--end-to-end</code> is the default mode.</p>
+<h3 id="3-1-2-Alignment-to-spike-in-genome-for-spike-in-calibration-optional-x2F-recommended"><a href="#3-1-2-Alignment-to-spike-in-genome-for-spike-in-calibration-optional-x2F-recommended" class="headerlink" title="3.1.2 Alignment to spike-in genome for spike-in calibration [optional&#x2F;recommended]"></a>3.1.2 Alignment to <font color="red">spike-in genome</font> for spike-in calibration [optional&#x2F;recommended]</h3><p>This section is <strong>optional</strong> but <strong>recommended</strong> depending on your experimental protocol.</p>
+<p><font color="red"><strong>E. coli</strong> DNA is <strong>carried along with</strong> bacterially-produced <strong>pA-Tn5 protein</strong></font> and gets tagmented non-specifically during the reaction. <strong>The fraction of total reads that map to the E.coli genome</strong> <font color="blue"><strong>depends on</strong></font> the <strong>yield of epitope-targeted CUT&amp;Tag</strong>, and so <font color="blue"><strong>depends on</strong></font> the <strong>number of cells used and the abundance of that epitope in chromatin</strong>. Since a constant amount of pATn5 is added to CUT&amp;Tag reactions and brings along a fixed amount of E. coli DNA, E. coli reads can be used to <font color="red"><strong>normalize epitope abundance</strong></font> in a set of experiments. More discussion, please see Section V.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># download E.coli K12 MG1655</span><br>bowtie2-build ecoli.fa ecoli<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br>spikeInRef=/path/to/index/eoli<br>chromSize=<span class="hljs-string">&quot;hg38.chrom.size&quot;</span><br><span class="hljs-comment"># download ecoli K-12 substr.MG1655[INSDC:U00096.3;size:4.64M;]</span><br>bowtie2-build path/to/Ecoli/fasta/Ecoli.fa /path/to/bowtie2Index/Ecoli<br>bowtie2 --end-to-end --very-sensitive --no-overlap --no-dovetail --no-mixed --no-discordant --phred33 -I 10 -X 700 -p <span class="hljs-variable">$&#123;cores&#125;</span> -x <span class="hljs-variable">$&#123;spikeInRef&#125;</span> -1 _R1.fastq.gz -2 _R2.fastq.gz -S _bowtie2_spikeIn.sam &amp;&gt; log_bowtie2_spikeIn.txt<br><br><span class="hljs-comment">#-f output alignments with bits</span><br><span class="hljs-comment">#-F Do not output alignments with any bits set in INT present in the FLAG field. INT can be specified in hex by beginning with 0x&#x27; (i.e. /^0x[0-9A-F]+/) or in octal by beginning with0&#x27; (i.e./^0 [0-7]+/) </span><br><span class="hljs-comment"># FLAGS 0x2 PROPER_PAIR each segment properly aligned according to the aligner</span><br><span class="hljs-comment"># FLAGS 0x4 UNMAP segment unmapped</span><br>seqDepthDouble=`samtools view -F 0x04 _bowtie2_spikeIn.sam | <span class="hljs-built_in">wc</span> -l`<br>seqDepth=$((seqDepthDouble/<span class="hljs-number">2</span>))<br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$seqDepth</span> &gt; _bowtie2_spikeIn.seqDepth<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>For spike-in normalization, reads are aligned to the <strong>E. coli genome U00096.3</strong> with two more parameters <code>--no-overlap</code>and <code>--no-dovetail</code>(<code>--end-to-end --very-sensitive --no-overlap --no-dovetail --no-mixed --no-discordant --phred33 -I 10 -X 700</code>) to avoid possible cross-mapping of the experimental genome to that of the carry-over E. coli DNA that is used for calibration.</li>
+</ul>
+<h3 id="3-1-3-Alignment-summary"><a href="#3-1-3-Alignment-summary" class="headerlink" title="3.1.3 Alignment summary"></a>3.1.3 Alignment summary</h3><p>For more detailed parameters explanation, users can refer to the <a target="_blank" rel="noopener" href="http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml">bowite2 manual</a>.</p>
+<p>Bowtie2 alignment results summary is saved at <code>log</code> .</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">2984630</span> reads; of these:<br>  <span class="hljs-attribute">2984630</span> (<span class="hljs-number">100</span>.<span class="hljs-number">00</span>%) were paired; of these:<br>    <span class="hljs-attribute">125110</span> (<span class="hljs-number">4</span>.<span class="hljs-number">19</span>%) aligned concordantly <span class="hljs-number">0</span> times<br>    <span class="hljs-attribute">2360430</span> (<span class="hljs-number">79</span>.<span class="hljs-number">09</span>%) aligned concordantly exactly <span class="hljs-number">1</span> time<br>    <span class="hljs-attribute">499090</span> (<span class="hljs-number">16</span>.<span class="hljs-number">72</span>%) aligned concordantly &gt;<span class="hljs-number">1</span> times<br><span class="hljs-attribute">95</span>.<span class="hljs-number">81</span>% overall alignment rate<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>2984640 is the <strong>sequencing depth?</strong>, i.e., total number of paired reads.</li>
+<li>125110 is the number of read pairs that fail to be mapped.</li>
+<li>2360430 + 499090 is the number of read paris that are successfully mapped.</li>
+<li>95.81% is the overall alignment rate</li>
+</ul>
+<h2 id="3-2-Report-sequencing-mapping-summary-required"><a href="#3-2-Report-sequencing-mapping-summary-required" class="headerlink" title="3.2 Report sequencing mapping summary [required]"></a>3.2 Report sequencing mapping summary [required]</h2><p>Summarize the raw reads and uniquely mapping reads to report the efficiency of alignment. Alignment frequencies are expected to be &gt;80% for high-quality data. <strong>CUT&amp;Tag</strong> data typically has <font color="red"><strong>very low backgrounds</strong></font>, so as few as 1 million mapped fragments can give robust profiles for a histone modification in the human genome. Profiling of less-abundant transcription factors and chromatin proteins may require 10 times as many mapped fragments for downstream analysis.</p>
+<p>We can evaluate the following metrics:</p>
+<ul>
+<li>Sequencing depth</li>
+<li>Alignment rate</li>
+<li>Number of mappable fragments</li>
+<li>Duplication rate</li>
+<li>Unique library size</li>
+<li>Fragment size distribution</li>
+</ul>
+<h3 id="3-2-1-Sequencing-depth"><a href="#3-2-1-Sequencing-depth" class="headerlink" title="3.2.1 Sequencing depth"></a>3.2.1 Sequencing depth</h3><p>code in this part, <font color="red"><strong>no use</strong></font>. Summary all reads, mapped reads, and mapping ratio</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs R"><span class="hljs-comment">##=== R command ===## </span><br><span class="hljs-comment">## Path to the project and histone list</span><br>projPath <span class="hljs-operator">=</span> <span class="hljs-string">&quot;///CUTTag_tutorial&quot;</span><br>sampleList <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;K27me3_rep1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;K27me3_rep2&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;K4me3_rep1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;K4me3_rep2&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;IgG_rep1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;IgG_rep2&quot;</span><span class="hljs-punctuation">)</span><br>histList <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;K27me3&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;K4me3&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;IgG&quot;</span><span class="hljs-punctuation">)</span><br><br><span class="hljs-comment">## Collect the alignment results from the bowtie2 alignment summary files</span><br>alignResult <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br><span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>hist <span class="hljs-keyword">in</span> sampleList<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  alignRes <span class="hljs-operator">=</span> read.table<span class="hljs-punctuation">(</span>paste0<span class="hljs-punctuation">(</span>projPath<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/alignment/sam/bowtie2_summary/&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_bowtie2.txt&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> header <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><br>  alignRate <span class="hljs-operator">=</span> substr<span class="hljs-punctuation">(</span>alignRes<span class="hljs-operator">$</span>V1<span class="hljs-punctuation">[</span><span class="hljs-number">6</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span> nchar<span class="hljs-punctuation">(</span><span class="hljs-built_in">as.character</span><span class="hljs-punctuation">(</span>alignRes<span class="hljs-operator">$</span>V1<span class="hljs-punctuation">[</span><span class="hljs-number">6</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-operator">-</span><span class="hljs-number">1</span><span class="hljs-punctuation">)</span><br>  histInfo <span class="hljs-operator">=</span> strsplit<span class="hljs-punctuation">(</span>hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">[[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span><br>  alignResult <span class="hljs-operator">=</span> data.frame<span class="hljs-punctuation">(</span>Histone <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> Replicate <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <br>                           SequencingDepth <span class="hljs-operator">=</span> alignRes<span class="hljs-operator">$</span>V1<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.character</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">,</span> <br>                           MappedFragNum_hg38 <span class="hljs-operator">=</span> alignRes<span class="hljs-operator">$</span>V1<span class="hljs-punctuation">[</span><span class="hljs-number">4</span><span class="hljs-punctuation">]</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.character</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.numeric</span> <span class="hljs-operator">+</span> alignRes<span class="hljs-operator">$</span>V1<span class="hljs-punctuation">[</span><span class="hljs-number">5</span><span class="hljs-punctuation">]</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.character</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">,</span> <br>                           AlignmentRate_hg38 <span class="hljs-operator">=</span> alignRate <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">)</span>  <span class="hljs-operator">%&gt;%</span> rbind<span class="hljs-punctuation">(</span>alignResult<span class="hljs-punctuation">,</span> .<span class="hljs-punctuation">)</span><br><span class="hljs-punctuation">&#125;</span><br>alignResult<span class="hljs-operator">$</span>Histone <span class="hljs-operator">=</span> factor<span class="hljs-punctuation">(</span>alignResult<span class="hljs-operator">$</span>Histone<span class="hljs-punctuation">,</span> levels <span class="hljs-operator">=</span> histList<span class="hljs-punctuation">)</span><br>alignResult <span class="hljs-operator">%&gt;%</span> mutate<span class="hljs-punctuation">(</span>AlignmentRate_hg38 <span class="hljs-operator">=</span> paste0<span class="hljs-punctuation">(</span>AlignmentRate_hg38<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;%&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-2-2-Spike-in-alignment"><a href="#3-2-2-Spike-in-alignment" class="headerlink" title="3.2.2 Spike-in alignment"></a>3.2.2 Spike-in alignment</h3><p>Summary of bowtie2 log file</p>
+<h3 id="3-2-3-Summarize-the-alignment-to-hg38-and-E-coli"><a href="#3-2-3-Summarize-the-alignment-to-hg38-and-E-coli" class="headerlink" title="3.2.3 Summarize the alignment to hg38 and E.coli"></a>3.2.3 Summarize the alignment to hg38 and E.coli</h3><p>Summary of bowtie2 log file(ref and ecoli)</p>
+<h3 id="3-2-4-Visualizing-the-sequencing-depth-and-alignment-results"><a href="#3-2-4-Visualizing-the-sequencing-depth-and-alignment-results" class="headerlink" title="3.2.4 Visualizing the sequencing depth and alignment results"></a>3.2.4 Visualizing the sequencing depth and alignment results</h3><p><font color="red"><strong>No use</strong></font> . barplot learning</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">## Generate sequencing depth boxplot</span><br>fig3A = alignResult %&gt;% ggplot(aes(x = Histone, y = SequencingDepth/1000000, fill = Histone)) +<br>    geom_boxplot() +<br>    geom_jitter(aes(color = Replicate), position = position_jitter(0.15)) +<br>    scale_fill_viridis(discrete = TRUE, begin = 0.1, end = 0.9, option = <span class="hljs-string">&quot;magma&quot;</span>, alpha = 0.8) +<br>    scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +<br>    theme_bw(base_size = 18) +<br>    ylab(<span class="hljs-string">&quot;Sequencing Depth per Million&quot;</span>) +<br>    xlab(<span class="hljs-string">&quot;&quot;</span>) + <br>    ggtitle(<span class="hljs-string">&quot;A. Sequencing Depth&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>In a typical <strong>CUT&amp;Tag experiment</strong> targeting the abundant <strong>H3K27me3</strong> histone modification in <strong>65,000</strong> <strong>K562 cells</strong>, the <font color="red"><strong>percentage</strong> of <strong>E. coli</strong> reads range from ~<strong>0.01% to 10%</strong></font>. With <font color="red"><strong>fewer cells</strong> or <strong>less abundant epitopes</strong></font>, E. coli reads can comprise[<strong>more</strong>] as much as 70% or the total mapped reads. For <font color="red"><strong>IgG</strong> controls</font>, the percentage of <strong>E. coli</strong> reads is typically <font color="red"><strong>much higher</strong></font> than that for an abundant histone modification.</p>
+<h2 id="3-3-Remove-duplicates-optional-x2F-required"><a href="#3-3-Remove-duplicates-optional-x2F-required" class="headerlink" title="3.3. Remove duplicates [optional&#x2F;required]"></a>3.3. Remove duplicates [optional&#x2F;required]</h2><p>CUT&amp;Tag integrates adapters into DNA in the vicinity of the antibody-tethered pA-Tn5, and the exact sites of integration are affected by the accessibility of surrounding DNA. For this reason fragments that share exact starting and ending positions are expected to be common, and <font color="red">such ‘duplicates’ <strong>may not be due to duplication during PCR</strong></font>. In practice, we have found that the <font color="red">apparent <strong>duplication rate is low for high quality CUT&amp;Tag datasets</strong></font>, and even the apparent ‘duplicate’ fragments are <strong>likely to be true fragments</strong>. Thus, we <font color="red"><strong>do not recommend removing</strong> the duplicates</font>. In experiments with very small amounts of material or where PCR duplication is suspected, duplicates can be removed. The following commands show how to check the duplication rate using <a target="_blank" rel="noopener" href="https://broadinstitute.github.io/picard/">Picard</a>.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br><span class="hljs-comment">## depending on how you load picard and your server environment, the picardCMD can be different. Adjust accordingly.</span><br>picardCMD=<span class="hljs-string">&quot;java -jar picard.jar&quot;</span><br><span class="hljs-built_in">mkdir</span> -p <span class="hljs-variable">$projPath</span>/alignment/removeDuplicate/picard_summary<br><br><span class="hljs-comment">## Sort by coordinate</span><br><span class="hljs-variable">$picardCMD</span> SortSam I=<span class="hljs-variable">$projPath</span>/alignment/sam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.sam O=<span class="hljs-variable">$projPath</span>/alignment/sam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.sorted.sam SORT_ORDER=coordinate<br><br><span class="hljs-comment">## mark duplicates</span><br><span class="hljs-variable">$picardCMD</span> MarkDuplicates I=<span class="hljs-variable">$projPath</span>/alignment/sam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.sorted.sam O=<span class="hljs-variable">$projPath</span>/alignment/removeDuplicate/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.sorted.dupMarked.sam METRICS_FILE=<span class="hljs-variable">$projPath</span>/alignment/removeDuplicate/picard_summary/<span class="hljs-variable">$&#123;histName&#125;</span>_picard.dupMark.txt<br><br><span class="hljs-comment">## remove duplicates</span><br>picardCMD MarkDuplicates I=<span class="hljs-variable">$projPath</span>/alignment/sam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.sorted.sam O=<span class="hljs-variable">$projPath</span>/alignment/removeDuplicate/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.sorted.rmDup.sam REMOVE_DUPLICATES=<span class="hljs-literal">true</span> METRICS_FILE=<span class="hljs-variable">$projPath</span>/alignment/removeDuplicate/picard_summary/<span class="hljs-variable">$&#123;histName&#125;</span>_picard.rmDup.txt<br></code></pre></td></tr></table></figure>
+
+<p>We summarize the apparent duplication rate and calculate the unique library size without duplicates.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##=== R command ===## </span><br><span class="hljs-comment">## Summarize the duplication information from the picard summary outputs.</span><br>library<span class="hljs-punctuation">(</span>magrittr<span class="hljs-punctuation">)</span><br>libry<span class="hljs-punctuation">(</span>dplyr<span class="hljs-punctuation">)</span><br>libry<span class="hljs-punctuation">)</span><span class="hljs-punctuation">(</span>idyverse<br>sampleList <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;K27me3_rep1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;K27me3_rep2&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;K4me3_rep1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;K4me3_rep2&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;IgG_rep1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;IgG_rep2&quot;</span><span class="hljs-punctuation">)</span><br>histList <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;K27me3&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;K4me3&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;IgG&quot;</span><span class="hljs-punctuation">)</span><br><br>dupResult <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br><span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>hist <span class="hljs-keyword">in</span> sampleList<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  dupRes <span class="hljs-operator">=</span> read.table<span class="hljs-punctuation">(</span>paste0<span class="hljs-punctuation">(</span>projPath<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/alignment/removeDuplicate/picard_summary/&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_picard.rmDup.txt&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> header <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><br>  <br>  histInfo <span class="hljs-operator">=</span> strsplit<span class="hljs-punctuation">(</span>hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">[[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span><br>  dupResult <span class="hljs-operator">=</span> data.frame<span class="hljs-punctuation">(</span>Histone <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> Replicate <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> MappedFragNum_hg38 <span class="hljs-operator">=</span> dupRes<span class="hljs-operator">$</span>READ_PAIRS_EXAMINED<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.character</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">,</span> DuplicationRate <span class="hljs-operator">=</span> dupRes<span class="hljs-operator">$</span>PERCENT_DUPLICATION<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.character</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.numeric</span> <span class="hljs-operator">*</span> <span class="hljs-number">100</span><span class="hljs-punctuation">,</span> EstimatedLibrarySize <span class="hljs-operator">=</span> dupRes<span class="hljs-operator">$</span>ESTIMATED_LIBRARY_SIZE<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.character</span> <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> mutate<span class="hljs-punctuation">(</span>UniqueFragNum <span class="hljs-operator">=</span> MappedFragNum_hg38 <span class="hljs-operator">*</span> <span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-operator">-</span>DuplicationRate<span class="hljs-operator">/</span><span class="hljs-number">100</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span>  <span class="hljs-operator">%&gt;%</span> rbind<span class="hljs-punctuation">(</span>dupResult<span class="hljs-punctuation">,</span> .<span class="hljs-punctuation">)</span><br><span class="hljs-punctuation">&#125;</span><br>dupResult<span class="hljs-operator">$</span>Histone <span class="hljs-operator">=</span> factor<span class="hljs-punctuation">(</span>dupResult<span class="hljs-operator">$</span>Histone<span class="hljs-punctuation">,</span> levels <span class="hljs-operator">=</span> histList<span class="hljs-punctuation">)</span><br>alignDupSummary <span class="hljs-operator">=</span> left_join<span class="hljs-punctuation">(</span>alignSummary<span class="hljs-punctuation">,</span> dupResult<span class="hljs-punctuation">,</span> by <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Histone&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;Replicate&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;MappedFragNum_hg38&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> mutate<span class="hljs-punctuation">(</span>DuplicationRate <span class="hljs-operator">=</span> paste0<span class="hljs-punctuation">(</span>DuplicationRate<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;%&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>alignDupSummary<br></code></pre></td></tr></table></figure>
+
+<p>计算总reads，比对到ref和ecoli的frag和ratio，计算<strong>duplicationrate，estimatedlibrarysize和uniqueFragNum</strong></p>
+<ul>
+<li>In these example datasets, the <strong>IgG</strong> control samples have <strong>relatively high duplication rates</strong>, since reads in this sample derive from <strong>non-specific tagmentation</strong> in the CUT&amp;Tag reactions. Therefore, <font color="red">it is appropriate to <strong>remove the duplicates</strong> from the <strong>IgG</strong> datasets before downstream analysis</font>.</li>
+<li>The <font color="red"><strong>estimated library size</strong></font> are the estimated <strong>number of unique molecules in the library based on PE duplication</strong> calculated by <strong>Picard</strong>.</li>
+<li>The estimated library sizes is proportional to the <strong>abundance of the targeted epitope</strong> and to the <strong>quality of the antibody</strong> used, while the estimated library sizes of <font color="red">IgG</font> samples are expected to be <font color="red">very low</font>.</li>
+<li><strong>Unique fragment number</strong> is calculated by the MappedFragNum_hg38 * (1-DuplicationRate&#x2F;100).</li>
+</ul>
+<p><font color="red"><strong>no use</strong>, code</font></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##=== R command ===## </span><br><span class="hljs-comment">## generate boxplot figure for the  duplication rate</span><br>fig4A <span class="hljs-operator">=</span> dupResult <span class="hljs-operator">%&gt;%</span> ggplot<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> DuplicationRate<span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_boxplot<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_jitter<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>color <span class="hljs-operator">=</span> Replicate<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> position <span class="hljs-operator">=</span> position_jitter<span class="hljs-punctuation">(</span><span class="hljs-number">0.15</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_fill_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">,</span> option <span class="hljs-operator">=</span> <span class="hljs-string">&quot;magma&quot;</span><span class="hljs-punctuation">,</span> alpha <span class="hljs-operator">=</span> <span class="hljs-number">0.8</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_color_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    theme_bw<span class="hljs-punctuation">(</span>base_size <span class="hljs-operator">=</span> <span class="hljs-number">18</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    ylab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Duplication Rate (*100%)&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    xlab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">)</span> <br><span class="hljs-comment">## generate boxplot figure for the  Estimated Library Size</span><br>fig4B <span class="hljs-operator">=</span> dupResult <span class="hljs-operator">%&gt;%</span> ggplot<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> EstimatedLibrarySize<span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_boxplot<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_jitter<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>color <span class="hljs-operator">=</span> Replicate<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> position <span class="hljs-operator">=</span> position_jitter<span class="hljs-punctuation">(</span><span class="hljs-number">0.15</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_fill_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">,</span> option <span class="hljs-operator">=</span> <span class="hljs-string">&quot;magma&quot;</span><span class="hljs-punctuation">,</span> alpha <span class="hljs-operator">=</span> <span class="hljs-number">0.8</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_color_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    theme_bw<span class="hljs-punctuation">(</span>base_size <span class="hljs-operator">=</span> <span class="hljs-number">18</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    ylab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Estimated Library Size&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    xlab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">)</span> <br><span class="hljs-comment">## generate boxplot figure for the  Unique Fragments</span><br>fig4C <span class="hljs-operator">=</span> dupResult <span class="hljs-operator">%&gt;%</span> ggplot<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> UniqueFragNum<span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_boxplot<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_jitter<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>color <span class="hljs-operator">=</span> Replicate<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> position <span class="hljs-operator">=</span> position_jitter<span class="hljs-punctuation">(</span><span class="hljs-number">0.15</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_fill_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">,</span> option <span class="hljs-operator">=</span> <span class="hljs-string">&quot;magma&quot;</span><span class="hljs-punctuation">,</span> alpha <span class="hljs-operator">=</span> <span class="hljs-number">0.8</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_color_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    theme_bw<span class="hljs-punctuation">(</span>base_size <span class="hljs-operator">=</span> <span class="hljs-number">18</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    ylab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;# of Unique Fragments&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    xlab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">)</span><br><br>ggarrange<span class="hljs-punctuation">(</span>fig4A<span class="hljs-punctuation">,</span> fig4B<span class="hljs-punctuation">,</span> fig4C<span class="hljs-punctuation">,</span> ncol <span class="hljs-operator">=</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span> common.legend <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> legend<span class="hljs-operator">=</span><span class="hljs-string">&quot;bottom&quot;</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="3-4-Assess-mapped-fragment-size-distribution-Required"><a href="#3-4-Assess-mapped-fragment-size-distribution-Required" class="headerlink" title="3.4. Assess mapped fragment size distribution [Required]"></a>3.4. Assess mapped fragment size distribution [Required]</h2><p>CUT&amp;Tag inserts adapters on either side of chromatin particles in the vicinity of the tethered enzyme, although tagmentation within chromatin particles can also occur. So, CUT&amp;Tag reactions targeting a histone modification predominantly results in fragments that are nucleosomal lengths (~180 bp), or multiples of that length. CUT&amp;Tag targeting transcription factors predominantly produce nucleosome-sized fragments and variable amounts of shorter fragments, from neighboring nucleosomes and the factor-bound site, respectively. Tagmentation of DNA on the surface of nucleosomes also occurs, and plotting fragment lengths with single-basepair resolution reveal a 10-bp sawtooth periodicity, which is typical of successful CUT&amp;Tag experiments.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs linux">##== linux command ==##<br>mkdir -p $projPath/alignment/sam/fragmentLen<br><br>## Extract the 9th column from the alignment sam file which is the fragment length<br>samtools view -F 0x04 $projPath/alignment/sam/$&#123;histName&#125;_bowtie2.sam | awk -F&#x27;\t&#x27; &#x27;function abs(x)&#123;return ((x &lt; 0.0) ? -x : x)&#125; &#123;print abs($9)&#125;&#x27; | sort | uniq -c | awk -v OFS=&quot;\t&quot; &#x27;&#123;print $2, $1/2&#125;&#x27; &gt;$projPath/alignment/sam/fragmentLen/$&#123;histName&#125;_fragmentLen.txt<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##=== R command ===## </span><br><span class="hljs-comment">## Collect the fragment size information</span><br>fragLen <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br><span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>hist <span class="hljs-keyword">in</span> sampleList<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  <br>  histInfo <span class="hljs-operator">=</span> strsplit<span class="hljs-punctuation">(</span>hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">[[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span><br>  fragLen <span class="hljs-operator">=</span> read.table<span class="hljs-punctuation">(</span>paste0<span class="hljs-punctuation">(</span>projPath<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/alignment/sam/fragmentLen/&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_fragmentLen.txt&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> header <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> mutate<span class="hljs-punctuation">(</span>fragLen <span class="hljs-operator">=</span> V1 <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">,</span> fragCount <span class="hljs-operator">=</span> V2 <span class="hljs-operator">%&gt;%</span> <span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">,</span> Weight <span class="hljs-operator">=</span> <span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">(</span>V2<span class="hljs-punctuation">)</span><span class="hljs-operator">/</span><span class="hljs-built_in">sum</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">(</span>V2<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> Histone <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> Replicate <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> sampleInfo <span class="hljs-operator">=</span> hist<span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> rbind<span class="hljs-punctuation">(</span>fragLen<span class="hljs-punctuation">,</span> .<span class="hljs-punctuation">)</span> <br><span class="hljs-punctuation">&#125;</span><br>fragLen<span class="hljs-operator">$</span>sampleInfo <span class="hljs-operator">=</span> factor<span class="hljs-punctuation">(</span>fragLen<span class="hljs-operator">$</span>sampleInfo<span class="hljs-punctuation">,</span> levels <span class="hljs-operator">=</span> sampleList<span class="hljs-punctuation">)</span><br>fragLen<span class="hljs-operator">$</span>Histone <span class="hljs-operator">=</span> factor<span class="hljs-punctuation">(</span>fragLen<span class="hljs-operator">$</span>Histone<span class="hljs-punctuation">,</span> levels <span class="hljs-operator">=</span> histList<span class="hljs-punctuation">)</span><br><span class="hljs-comment">## Generate the fragment size density plot (violin plot)</span><br>fig5A <span class="hljs-operator">=</span> fragLen <span class="hljs-operator">%&gt;%</span> ggplot<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> sampleInfo<span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> fragLen<span class="hljs-punctuation">,</span> weight <span class="hljs-operator">=</span> Weight<span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_violin<span class="hljs-punctuation">(</span>bw <span class="hljs-operator">=</span> <span class="hljs-number">5</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_y_continuous<span class="hljs-punctuation">(</span>breaks <span class="hljs-operator">=</span> seq<span class="hljs-punctuation">(</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-number">800</span><span class="hljs-punctuation">,</span> <span class="hljs-number">50</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_fill_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">,</span> option <span class="hljs-operator">=</span> <span class="hljs-string">&quot;magma&quot;</span><span class="hljs-punctuation">,</span> alpha <span class="hljs-operator">=</span> <span class="hljs-number">0.8</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_color_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    theme_bw<span class="hljs-punctuation">(</span>base_size <span class="hljs-operator">=</span> <span class="hljs-number">20</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    ggpubr<span class="hljs-operator">::</span>rotate_x_text<span class="hljs-punctuation">(</span>angle <span class="hljs-operator">=</span> <span class="hljs-number">20</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    ylab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Fragment Length&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    xlab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">)</span><br><br>fig5B <span class="hljs-operator">=</span> fragLen <span class="hljs-operator">%&gt;%</span> ggplot<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> fragLen<span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> fragCount<span class="hljs-punctuation">,</span> color <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">,</span> group <span class="hljs-operator">=</span> sampleInfo<span class="hljs-punctuation">,</span> linetype <span class="hljs-operator">=</span> Replicate<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>  geom_line<span class="hljs-punctuation">(</span>size <span class="hljs-operator">=</span> <span class="hljs-number">1</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>  scale_color_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">,</span> option <span class="hljs-operator">=</span> <span class="hljs-string">&quot;magma&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>  theme_bw<span class="hljs-punctuation">(</span>base_size <span class="hljs-operator">=</span> <span class="hljs-number">20</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>  xlab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Fragment Length&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>  ylab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Count&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>  coord_cartesian<span class="hljs-punctuation">(</span>xlim <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-number">500</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br><br>ggarrange<span class="hljs-punctuation">(</span>fig5A<span class="hljs-punctuation">,</span> fig5B<span class="hljs-punctuation">,</span> ncol <span class="hljs-operator">=</span> <span class="hljs-number">2</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/GeekFocus/./4.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<ul>
+<li>The smaller fragments (50-100 bp) can be due to that tethered Tn5 can tagment on the surface of a nucleosome as well as in linker regions(NFR?), so the <strong>small fragments might not be background.</strong></li>
+</ul>
+<h2 id="3-5-Assess-replicate-reproducibility"><a href="#3-5-Assess-replicate-reproducibility" class="headerlink" title="3.5 Assess replicate reproducibility"></a>3.5 Assess replicate reproducibility</h2><p>Data reproducibility between replicates is assessed by <strong>correlation</strong> analysis of <strong>mapped read counts</strong> across the genome. For the simplicity of implementation, we will postpone this analysis after Section IV when the file format has been converted into fragment bed files.</p>
+<hr>
+<h1 id="IV-Alignments-results-filtering-and-file-format-conversion"><a href="#IV-Alignments-results-filtering-and-file-format-conversion" class="headerlink" title="IV. Alignments results filtering and file format conversion"></a>IV. Alignments results filtering and file format conversion</h1><h2 id="4-1-Filtering-mapped-reads-by-the-mapping-quality-filtering-optinal"><a href="#4-1-Filtering-mapped-reads-by-the-mapping-quality-filtering-optinal" class="headerlink" title="4.1 Filtering mapped reads by the mapping quality filtering [optinal]"></a>4.1 Filtering mapped reads by the mapping quality filtering [<font color="red">optinal</font>]</h2><p>Some project may require more stringent filtering on the alignment quality score. This <a target="_blank" rel="noopener" href="http://biofinysics.blogspot.com/2014/05/how-does-bowtie2-assign-mapq-scores.html">blog</a> detailedly discussed how does bowtie assign quality score with examples.</p>
+<p>MAPQ(x) &#x3D; -10 * log10(P(x is mapped wrongly)) &#x3D; -10 * log10(p)</p>
+<p>which ranges from 0 to 37, 40 or 42.</p>
+<p><code>samtools view -q minQualityScore</code> will <strong>eliminate</strong> all the alignment results that are below the minQualityScore defined by user.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br>minQualityScore=2<span class="hljs-comment">#20?30?</span><br>samtools view -q <span class="hljs-variable">$minQualityScore</span> <span class="hljs-variable">$&#123;projPath&#125;</span>/alignment/sam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.sam &gt;<span class="hljs-variable">$&#123;projPath&#125;</span>/alignment/sam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.qualityScore<span class="hljs-variable">$minQualityScore</span>.sam<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>If you do implement this filtering, please replace the <code>$&#123;histName&#125;_bowtie2.sam</code> in the following steps by this filtered sam file <code>$&#123;histName&#125;_bowtie2.qualityScore$minQualityScore.sam</code>. <font color="red">Use the MAPQ20&#x2F;30 reads</font></li>
+</ul>
+<h2 id="4-2-File-format-conversion-required"><a href="#4-2-File-format-conversion-required" class="headerlink" title="4.2 File format conversion [required]"></a>4.2 File format conversion [required]</h2><p>This section is <strong>required</strong> in preparation for the <font color="red">peak calling</font> and <font color="red">visualization</font> where there are a few filtering and file format conversion that need to be done.</p>
+<p>For example, in MACS2, it has bed(shift extent mode) and pe mode</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br><span class="hljs-comment">## Filter and keep the mapped read pairs</span><br>samtools view -bS -F 0x4 <span class="hljs-variable">$projPath</span>/alignment/sam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.sam &gt;<span class="hljs-variable">$projPath</span>/alignment/bam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.mapped.bam<br><br><span class="hljs-comment">## Convert into bed file format</span><br>bedtools bamtobed -i <span class="hljs-variable">$projPath</span>/alignment/bam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.mapped.bam -bedpe &gt;<span class="hljs-variable">$projPath</span>/alignment/bed/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.bed<br><br><span class="hljs-comment">## Keep the read pairs that are on the same chromosome and fragment length less than 1000bp.</span><br>awk <span class="hljs-string">&#x27;$1==$4 &amp;&amp; $6-$2 &lt; 1000 &#123;print $0&#125;&#x27;</span> <span class="hljs-variable">$projPath</span>/alignment/bed/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.bed &gt;<span class="hljs-variable">$projPath</span>/alignment/bed/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.clean.bed<br><br><span class="hljs-comment">## Only extract the fragment related columns</span><br><span class="hljs-built_in">cut</span> -f 1,2,6 <span class="hljs-variable">$projPath</span>/alignment/bed/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.clean.bed | <span class="hljs-built_in">sort</span> -k1,1 -k2,2n -k3,3n  &gt;<span class="hljs-variable">$projPath</span>/alignment/bed/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.fragments.bed<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-3-Assess-replicate-reproducibility-continue-section-3-5"><a href="#4-3-Assess-replicate-reproducibility-continue-section-3-5" class="headerlink" title="4.3 Assess replicate reproducibility (continue section 3.5)"></a>4.3 Assess replicate reproducibility (continue section 3.5)</h2><p>To study the reproducibility between replicates and across conditions, the <strong>genome is split into 500 bp bins</strong>, and a <strong>Pearson correlation of the log2-transformed values</strong> of <strong>read counts in each bin</strong> is calculated between replicate datasets. Multiple replicates and IgG control datasets are displayed in a hierarchically clustered correlation matrix.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br><span class="hljs-comment">## We use the mid point of each fragment to infer which 500bp bins does this fragment belong to.</span><br>binLen=500<br>awk -v w=<span class="hljs-variable">$binLen</span> <span class="hljs-string">&#x27;&#123;print $1, int(($2 + $3)/(2*w))*w + w/2&#125;&#x27;</span> <span class="hljs-variable">$projPath</span>/alignment/bed/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.fragments.bed | <span class="hljs-built_in">sort</span> -k1,1V -k2,2n | <span class="hljs-built_in">uniq</span> -c | awk -v OFS=<span class="hljs-string">&quot;\t&quot;</span> <span class="hljs-string">&#x27;&#123;print $2, $3, $1&#125;&#x27;</span> |  <span class="hljs-built_in">sort</span> -k1,1V -k2,2n  &gt;<span class="hljs-variable">$projPath</span>/alignment/bed/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.fragmentsCount.bin<span class="hljs-variable">$binLen</span>.bed<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##== R command ==##</span><br>reprod <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>fragCount <span class="hljs-operator">=</span> <span class="hljs-literal">NULL</span><br><span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>hist <span class="hljs-keyword">in</span> sampleList<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  <br>  <span class="hljs-keyword">if</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">is.null</span><span class="hljs-punctuation">(</span>fragCount<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>    <br>    fragCount <span class="hljs-operator">=</span> read.table<span class="hljs-punctuation">(</span>paste0<span class="hljs-punctuation">(</span>projPath<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/alignment/bed/&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_bowtie2.fragmentsCount.bin500.bed&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> header <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">)</span> <br>    colnames<span class="hljs-punctuation">(</span>fragCount<span class="hljs-punctuation">)</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;chrom&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;bin&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">)</span><br>  <br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-keyword">else</span><span class="hljs-punctuation">&#123;</span><br>    <br>    fragCountTmp <span class="hljs-operator">=</span> read.table<span class="hljs-punctuation">(</span>paste0<span class="hljs-punctuation">(</span>projPath<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/alignment/bed/&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_bowtie2.fragmentsCount.bin500.bed&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> header <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">)</span><br>    colnames<span class="hljs-punctuation">(</span>fragCountTmp<span class="hljs-punctuation">)</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;chrom&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;bin&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">)</span><br>    fragCount <span class="hljs-operator">=</span> full_join<span class="hljs-punctuation">(</span>fragCount<span class="hljs-punctuation">,</span> fragCountTmp<span class="hljs-punctuation">,</span> by <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;chrom&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;bin&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>    <br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br><br>M <span class="hljs-operator">=</span> cor<span class="hljs-punctuation">(</span>fragCount <span class="hljs-operator">%&gt;%</span> select<span class="hljs-punctuation">(</span><span class="hljs-operator">-</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;chrom&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;bin&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> log2<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> use <span class="hljs-operator">=</span> <span class="hljs-string">&quot;complete.obs&quot;</span><span class="hljs-punctuation">)</span> <br><br>corrplot<span class="hljs-punctuation">(</span>M<span class="hljs-punctuation">,</span> method <span class="hljs-operator">=</span> <span class="hljs-string">&quot;color&quot;</span><span class="hljs-punctuation">,</span> outline <span class="hljs-operator">=</span> <span class="hljs-built_in">T</span><span class="hljs-punctuation">,</span> addgrid.col <span class="hljs-operator">=</span> <span class="hljs-string">&quot;darkgray&quot;</span><span class="hljs-punctuation">,</span> order<span class="hljs-operator">=</span><span class="hljs-string">&quot;hclust&quot;</span><span class="hljs-punctuation">,</span> addrect <span class="hljs-operator">=</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span> rect.col <span class="hljs-operator">=</span> <span class="hljs-string">&quot;black&quot;</span><span class="hljs-punctuation">,</span> rect.lwd <span class="hljs-operator">=</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span>cl.pos <span class="hljs-operator">=</span> <span class="hljs-string">&quot;b&quot;</span><span class="hljs-punctuation">,</span> tl.col <span class="hljs-operator">=</span> <span class="hljs-string">&quot;indianred4&quot;</span><span class="hljs-punctuation">,</span> tl.cex <span class="hljs-operator">=</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span> cl.cex <span class="hljs-operator">=</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span> addCoef.col <span class="hljs-operator">=</span> <span class="hljs-string">&quot;black&quot;</span><span class="hljs-punctuation">,</span> number.digits <span class="hljs-operator">=</span> <span class="hljs-number">2</span><span class="hljs-punctuation">,</span> number.cex <span class="hljs-operator">=</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span> col <span class="hljs-operator">=</span> colorRampPalette<span class="hljs-punctuation">(</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;midnightblue&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;white&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;darkred&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">(</span><span class="hljs-number">100</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/GeekFocus/./5.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<hr>
+<h1 id="V-Spike-in-calibration"><a href="#V-Spike-in-calibration" class="headerlink" title="V. Spike-in calibration"></a>V. Spike-in calibration</h1><p>This section is <strong>optional</strong> but <strong>recommended</strong> depending on your experimental protocol. We have shown the alignment to the spike-in genome in Section 3.1.2 and the spike-in alignment summary in Section 3.2.2.</p>
+<p>The underlying assumption is that the ratio of fragments mapped to the primary genome to the E. coli genome is the same for a series of samples, each using the same number of cells. Because of this assumption, we do not normalize between experiments or between batches of purified pATn5, which can have very different amounts of carry-over E. coli DNA. Using a constant C to avoid small fractions in normalized data, we define a scaling factor S as</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">S</span> <span class="hljs-operator">=</span> C / (fragments mapped to E. coli genome)<br></code></pre></td></tr></table></figure>
+
+<p>Normalized coverage is then calculated as:</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">Normalized coverage <span class="hljs-operator">=</span> (primary_genome_coverage) * S<br></code></pre></td></tr></table></figure>
+
+<p>The Constant is an arbitrary multiplier, typically 10,000. The resulting file will be comparatively small as a genomic coverage bedgraph file.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br><span class="hljs-keyword">if</span> [[ <span class="hljs-string">&quot;<span class="hljs-variable">$seqDepth</span>&quot;</span> -gt <span class="hljs-string">&quot;1&quot;</span> ]]; <span class="hljs-keyword">then</span><br>    <br>    <span class="hljs-built_in">mkdir</span> -p <span class="hljs-variable">$projPath</span>/alignment/bedgraph<br><br>    scale_factor=`<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;10000 / <span class="hljs-variable">$seqDepth</span>&quot;</span> | bc -l`<br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Scaling factor for <span class="hljs-variable">$histName</span> is: <span class="hljs-variable">$scale_factor</span>!&quot;</span><br>    bedtools genomecov -<span class="hljs-built_in">bg</span> -scale <span class="hljs-variable">$scale_factor</span> -i <span class="hljs-variable">$projPath</span>/alignment/bed/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.fragments.bed -g <span class="hljs-variable">$chromSize</span> &gt; <span class="hljs-variable">$projPath</span>/alignment/bedgraph/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.fragments.normalized.bedgraph<br>    <br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-1-Scaling-factor"><a href="#5-1-Scaling-factor" class="headerlink" title="5.1 Scaling factor"></a>5.1 Scaling factor</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##=== R command ===## </span><br>scaleFactor <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>multiplier <span class="hljs-operator">=</span> <span class="hljs-number">10000</span><br><span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>hist <span class="hljs-keyword">in</span> sampleList<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  spikeDepth <span class="hljs-operator">=</span> read.table<span class="hljs-punctuation">(</span>paste0<span class="hljs-punctuation">(</span>projPath<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/alignment/sam/bowtie2_summary/&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_bowtie2_spikeIn.seqDepth&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> header <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><span class="hljs-operator">$</span>V1<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><br>  <br>  histInfo <span class="hljs-operator">=</span> strsplit<span class="hljs-punctuation">(</span>hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">[[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span><br>  scaleFactor <span class="hljs-operator">=</span> data.frame<span class="hljs-punctuation">(</span>scaleFactor <span class="hljs-operator">=</span> multiplier<span class="hljs-operator">/</span>spikeDepth<span class="hljs-punctuation">,</span> Histone <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> Replicate <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span>  <span class="hljs-operator">%&gt;%</span> rbind<span class="hljs-punctuation">(</span>scaleFactor<span class="hljs-punctuation">,</span> .<span class="hljs-punctuation">)</span><br><span class="hljs-punctuation">&#125;</span><br>scaleFactor<span class="hljs-operator">$</span>Histone <span class="hljs-operator">=</span> factor<span class="hljs-punctuation">(</span>scaleFactor<span class="hljs-operator">$</span>Histone<span class="hljs-punctuation">,</span> levels <span class="hljs-operator">=</span> histList<span class="hljs-punctuation">)</span><br>left_join<span class="hljs-punctuation">(</span>alignDupSummary<span class="hljs-punctuation">,</span> scaleFactor<span class="hljs-punctuation">,</span> by <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Histone&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;Replicate&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<p>Histone<br>Replicate<br>SequencingDepth<br>MappedFragNum_hg38<br>AlignmentRate_hg38<br>MappedFragNum_spikeIn<br>AlignmentRate_spikeIn<br><strong>DuplicationRate</strong><br><strong>EstimatedLibrarySize</strong><br><strong>UniqueFragNum</strong><br><strong>scaleFactor</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##=== R command ===##</span><br><span class="hljs-comment">## Generate sequencing depth boxplot</span><br>fig6A <span class="hljs-operator">=</span> scaleFactor <span class="hljs-operator">%&gt;%</span> ggplot<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> scaleFactor<span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_boxplot<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_jitter<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>color <span class="hljs-operator">=</span> Replicate<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> position <span class="hljs-operator">=</span> position_jitter<span class="hljs-punctuation">(</span><span class="hljs-number">0.15</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_fill_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">,</span> option <span class="hljs-operator">=</span> <span class="hljs-string">&quot;magma&quot;</span><span class="hljs-punctuation">,</span> alpha <span class="hljs-operator">=</span> <span class="hljs-number">0.8</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_color_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    theme_bw<span class="hljs-punctuation">(</span>base_size <span class="hljs-operator">=</span> <span class="hljs-number">20</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    ylab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Spike-in Scalling Factor&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    xlab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">)</span><br><br>normDepth <span class="hljs-operator">=</span> inner_join<span class="hljs-punctuation">(</span>scaleFactor<span class="hljs-punctuation">,</span> alignResult<span class="hljs-punctuation">,</span> by <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Histone&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;Replicate&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> mutate<span class="hljs-punctuation">(</span>normDepth <span class="hljs-operator">=</span> MappedFragNum_hg38 <span class="hljs-operator">*</span> scaleFactor<span class="hljs-punctuation">)</span><br><br>fig6B <span class="hljs-operator">=</span> normDepth <span class="hljs-operator">%&gt;%</span> ggplot<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> normDepth<span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> Histone<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_boxplot<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    geom_jitter<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>color <span class="hljs-operator">=</span> Replicate<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> position <span class="hljs-operator">=</span> position_jitter<span class="hljs-punctuation">(</span><span class="hljs-number">0.15</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_fill_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">,</span> option <span class="hljs-operator">=</span> <span class="hljs-string">&quot;magma&quot;</span><span class="hljs-punctuation">,</span> alpha <span class="hljs-operator">=</span> <span class="hljs-number">0.8</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    scale_color_viridis<span class="hljs-punctuation">(</span>discrete <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> begin <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> <span class="hljs-number">0.9</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    theme_bw<span class="hljs-punctuation">(</span>base_size <span class="hljs-operator">=</span> <span class="hljs-number">20</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    ylab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Normalization Fragment Count&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>    xlab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> <br>    coord_cartesian<span class="hljs-punctuation">(</span>ylim <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">1000000</span><span class="hljs-punctuation">,</span> <span class="hljs-number">130000000</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>ggarrange<span class="hljs-punctuation">(</span>fig6A<span class="hljs-punctuation">,</span> fig6B<span class="hljs-punctuation">,</span> ncol <span class="hljs-operator">=</span> <span class="hljs-number">2</span><span class="hljs-punctuation">,</span> common.legend <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> legend<span class="hljs-operator">=</span><span class="hljs-string">&quot;bottom&quot;</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/GeekFocus/./6.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<hr>
+<h1 id="VI-Peak-calling"><a href="#VI-Peak-calling" class="headerlink" title="VI. Peak calling"></a>VI. Peak calling</h1><h2 id="6-1-SEACR"><a href="#6-1-SEACR" class="headerlink" title="6.1. SEACR"></a>6.1. SEACR</h2><p>The Sparse Enrichment Analysis for CUT&amp;RUN, <a target="_blank" rel="noopener" href="https://github.com/FredHutch/SEACR/">SEACR</a>, package is designed to call peaks and enriched regions from chromatin profiling data <strong>with very low backgrounds</strong> (i.e., regions with no read coverage) that are <strong>typical for CUT&amp;Tag</strong> chromatin profiling experiments. SEACR requires <strong>bedGraph files from paired-end sequencing as input</strong> and defines <strong>peaks</strong> as <strong>contiguous blocks of basepair coverage</strong> that <strong>do not overlap</strong> with <strong>blocks of background signal delineated in the IgG</strong> control dataset. SEACR is effective for calling <strong>both</strong> <strong>narrow</strong> peaks from <strong>factor binding sites</strong> and <strong>broad</strong> domains characteristic of some <strong>histone</strong> modifications. The description of the method is published at <a target="_blank" rel="noopener" href="https://epigeneticsandchromatin.biomedcentral.com/articles/10.1186/s13072-019-0287-4">Meers et al. 2019</a>, and the user’s manual is available on <a target="_blank" rel="noopener" href="https://github.com/FredHutch/SEACR/">github</a>. Since we have normalized fragment counts with the E. coli read count, we set the normalization option of SEACR to “non”. <strong>Otherwise</strong>, the “<strong>norm</strong>” is <strong>recommended</strong>.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br>seacr=<span class="hljs-string">&quot;/fh/fast/gottardo_r/yezheng_working/Software/SEACR/SEACR_1.3.sh&quot;</span><br>histControl=<span class="hljs-variable">$2</span><br><span class="hljs-built_in">mkdir</span> -p <span class="hljs-variable">$projPath</span>/peakCalling/SEACR<br><br>bash <span class="hljs-variable">$seacr</span> <span class="hljs-variable">$projPath</span>/alignment/bedgraph/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.fragments.normalized.bedgraph \<br>     <span class="hljs-variable">$projPath</span>/alignment/bedgraph/<span class="hljs-variable">$&#123;histControl&#125;</span>_bowtie2.fragments.normalized.bedgraph \<br>     non stringent <span class="hljs-variable">$projPath</span>/peakCalling/SEACR/<span class="hljs-variable">$&#123;histName&#125;</span>_seacr_control.peaks<br><br>bash <span class="hljs-variable">$seacr</span> <span class="hljs-variable">$projPath</span>/alignment/bedgraph/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.fragments.normalized.bedgraph 0.01 non stringent <span class="hljs-variable">$projPath</span>/peakCalling/SEACR/<span class="hljs-variable">$&#123;histName&#125;</span>_seacr_top0.01.peaks<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-1-1-Number-of-peaks-called"><a href="#6-1-1-Number-of-peaks-called" class="headerlink" title="6.1.1 Number of peaks called"></a>6.1.1 Number of peaks called</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##=== R command ===## </span><br>peakN <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>peakWidth <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>peakType <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;control&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;top0.01&quot;</span><span class="hljs-punctuation">)</span><br><span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>hist <span class="hljs-keyword">in</span> sampleList<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  histInfo <span class="hljs-operator">=</span> strsplit<span class="hljs-punctuation">(</span>hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">[[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span><br>  <span class="hljs-keyword">if</span><span class="hljs-punctuation">(</span>histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span> <span class="hljs-operator">!=</span> <span class="hljs-string">&quot;IgG&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>type <span class="hljs-keyword">in</span> peakType<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>      peakInfo <span class="hljs-operator">=</span> read.table<span class="hljs-punctuation">(</span>paste0<span class="hljs-punctuation">(</span>projPath<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/peakCalling/SEACR/&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_seacr_&quot;</span><span class="hljs-punctuation">,</span> type<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;.peaks.stringent.bed&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> header <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span>  <span class="hljs-operator">%&gt;%</span> mutate<span class="hljs-punctuation">(</span>width <span class="hljs-operator">=</span> <span class="hljs-built_in">abs</span><span class="hljs-punctuation">(</span>V3<span class="hljs-operator">-</span>V2<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>      peakN <span class="hljs-operator">=</span> data.frame<span class="hljs-punctuation">(</span>peakN <span class="hljs-operator">=</span> nrow<span class="hljs-punctuation">(</span>peakInfo<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> peakType <span class="hljs-operator">=</span> type<span class="hljs-punctuation">,</span> Histone <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> Replicate <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> rbind<span class="hljs-punctuation">(</span>peakN<span class="hljs-punctuation">,</span> .<span class="hljs-punctuation">)</span><br>      peakWidth <span class="hljs-operator">=</span> data.frame<span class="hljs-punctuation">(</span>width <span class="hljs-operator">=</span> peakInfo<span class="hljs-operator">$</span>width<span class="hljs-punctuation">,</span> peakType <span class="hljs-operator">=</span> type<span class="hljs-punctuation">,</span> Histone <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> Replicate <span class="hljs-operator">=</span> histInfo<span class="hljs-punctuation">[</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span>  <span class="hljs-operator">%&gt;%</span> rbind<span class="hljs-punctuation">(</span>peakWidth<span class="hljs-punctuation">,</span> .<span class="hljs-punctuation">)</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br>peakN <span class="hljs-operator">%&gt;%</span> select<span class="hljs-punctuation">(</span>Histone<span class="hljs-punctuation">,</span> Replicate<span class="hljs-punctuation">,</span> peakType<span class="hljs-punctuation">,</span> peakN<span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">Histone<chr></th>
+<th align="left">Replicate<chr></th>
+<th align="left">peakType<chr></th>
+<th align="right">peakN<int></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">K27me3</td>
+<td align="left">rep1</td>
+<td align="left">control</td>
+<td align="right">144906</td>
+</tr>
+<tr>
+<td align="left">K27me3</td>
+<td align="left">rep1</td>
+<td align="left">top0.01</td>
+<td align="right">5829</td>
+</tr>
+<tr>
+<td align="left">K27me3</td>
+<td align="left">rep2</td>
+<td align="left">control</td>
+<td align="right">74444</td>
+</tr>
+<tr>
+<td align="left">K27me3</td>
+<td align="left">rep2</td>
+<td align="left">top0.01</td>
+<td align="right">9642</td>
+</tr>
+<tr>
+<td align="left">K4me3</td>
+<td align="left">rep1</td>
+<td align="left">control</td>
+<td align="right">8709</td>
+</tr>
+<tr>
+<td align="left">K4me3</td>
+<td align="left">rep1</td>
+<td align="left">top0.01</td>
+<td align="right">878</td>
+</tr>
+</tbody></table>
+<h3 id="6-1-2-Reproducibility-of-the-peak-across-biological-replicates"><a href="#6-1-2-Reproducibility-of-the-peak-across-biological-replicates" class="headerlink" title="6.1.2 Reproducibility of the peak across biological replicates"></a>6.1.2 Reproducibility of the peak across biological replicates</h3><p>Peak calling on replicate datasets is compared to define reproducible peaks. The top 1% of peaks (ranked by total signal in each block) are selected as high-confidence sites.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##=== R command ===## </span><br>histL <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;K27me3&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;K4me3&quot;</span><span class="hljs-punctuation">)</span><br>repL <span class="hljs-operator">=</span> paste0<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;rep&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-number">1</span><span class="hljs-operator">:</span><span class="hljs-number">2</span><span class="hljs-punctuation">)</span><br>peakType <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;control&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;top0.01&quot;</span><span class="hljs-punctuation">)</span><br>peakOverlap <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br><span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>type <span class="hljs-keyword">in</span> peakType<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>hist <span class="hljs-keyword">in</span> histL<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>    overlap.gr <span class="hljs-operator">=</span> GRanges<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>    <span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">rep</span> <span class="hljs-keyword">in</span> repL<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>      peakInfo <span class="hljs-operator">=</span> read.table<span class="hljs-punctuation">(</span>paste0<span class="hljs-punctuation">(</span>projPath<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/peakCalling/SEACR/&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">rep</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_seacr_&quot;</span><span class="hljs-punctuation">,</span> type<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;.peaks.stringent.bed&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> header <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">,</span> fill <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><br>      peakInfo.gr <span class="hljs-operator">=</span> GRanges<span class="hljs-punctuation">(</span>peakInfo<span class="hljs-operator">$</span>V1<span class="hljs-punctuation">,</span> IRanges<span class="hljs-punctuation">(</span>start <span class="hljs-operator">=</span> peakInfo<span class="hljs-operator">$</span>V2<span class="hljs-punctuation">,</span> end <span class="hljs-operator">=</span> peakInfo<span class="hljs-operator">$</span>V3<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> strand <span class="hljs-operator">=</span> <span class="hljs-string">&quot;*&quot;</span><span class="hljs-punctuation">)</span><br>      <span class="hljs-keyword">if</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">length</span><span class="hljs-punctuation">(</span>overlap.gr<span class="hljs-punctuation">)</span> <span class="hljs-operator">&gt;</span><span class="hljs-number">0</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>        overlap.gr <span class="hljs-operator">=</span> overlap.gr<span class="hljs-punctuation">[</span>findOverlaps<span class="hljs-punctuation">(</span>overlap.gr<span class="hljs-punctuation">,</span> peakInfo.gr<span class="hljs-punctuation">)</span><span class="hljs-operator">@</span>from<span class="hljs-punctuation">]</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-keyword">else</span><span class="hljs-punctuation">&#123;</span><br>        overlap.gr <span class="hljs-operator">=</span> peakInfo.gr<br>        <br>      <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">&#125;</span><br>    peakOverlap <span class="hljs-operator">=</span> data.frame<span class="hljs-punctuation">(</span>peakReprod <span class="hljs-operator">=</span> <span class="hljs-built_in">length</span><span class="hljs-punctuation">(</span>overlap.gr<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> Histone <span class="hljs-operator">=</span> hist<span class="hljs-punctuation">,</span> peakType <span class="hljs-operator">=</span> type<span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> rbind<span class="hljs-punctuation">(</span>peakOverlap<span class="hljs-punctuation">,</span> .<span class="hljs-punctuation">)</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br><br>peakReprod <span class="hljs-operator">=</span> left_join<span class="hljs-punctuation">(</span>peakN<span class="hljs-punctuation">,</span> peakOverlap<span class="hljs-punctuation">,</span> by <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Histone&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;peakType&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> mutate<span class="hljs-punctuation">(</span>peakReprodRate <span class="hljs-operator">=</span> peakReprod<span class="hljs-operator">/</span>peakN <span class="hljs-operator">*</span> <span class="hljs-number">100</span><span class="hljs-punctuation">)</span><br>peakReprod <span class="hljs-operator">%&gt;%</span> select<span class="hljs-punctuation">(</span>Histone<span class="hljs-punctuation">,</span> Replicate<span class="hljs-punctuation">,</span> peakType<span class="hljs-punctuation">,</span> peakN<span class="hljs-punctuation">,</span> peakReprodNum <span class="hljs-operator">=</span> peakReprod<span class="hljs-punctuation">,</span> peakReprodRate<span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">Histone<chr></th>
+<th align="left">Replicate<chr></th>
+<th align="left">peakType<chr></th>
+<th align="right">peakN<int></th>
+<th align="right">peakReprodNum<int></th>
+<th align="right">peakReprodRate<dbl></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">K27me3</td>
+<td align="left">rep1</td>
+<td align="left">control</td>
+<td align="right">144906</td>
+<td align="right">71692</td>
+<td align="right">49.47483</td>
+</tr>
+<tr>
+<td align="left">K27me3</td>
+<td align="left">rep1</td>
+<td align="left">top0.01</td>
+<td align="right">5829</td>
+<td align="right">5314</td>
+<td align="right">91.16487</td>
+</tr>
+<tr>
+<td align="left">K27me3</td>
+<td align="left">rep2</td>
+<td align="left">control</td>
+<td align="right">74444</td>
+<td align="right">71692</td>
+<td align="right">96.30326</td>
+</tr>
+<tr>
+<td align="left">K27me3</td>
+<td align="left">rep2</td>
+<td align="left">top0.01</td>
+<td align="right">9642</td>
+<td align="right">5314</td>
+<td align="right">55.11305</td>
+</tr>
+</tbody></table>
+<p>The reproducibility is calculated by</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean">`# peaks overlapping rep1 and rep2/# peaks <span class="hljs-keyword">of</span> rep1 or rep2 * <span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+
+<p>Therefore, it is sensitive to the total number of peaks called in each replicate.</p>
+<h3 id="6-1-3-FRagment-proportion-in-Peaks-regions-FRiPs"><a href="#6-1-3-FRagment-proportion-in-Peaks-regions-FRiPs" class="headerlink" title="6.1.3 FRagment proportion in Peaks regions (FRiPs)."></a>6.1.3 FRagment proportion in Peaks regions (FRiPs).</h3><p>We calculate the fraction of reads in peaks (FRiPs) as a measure of signal-to-noise, and contrast it to FRiPs in the IgG control dataset for illustration. Although sequencing depths for CUT&amp;Tag are typically only 1-5 million reads, the low background of the method results in high FRiP scores.</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">##=== R command ===## <br>library(chromVAR)<br><br>bamDir = paste0(projPath, <span class="hljs-string">&quot;/alignment/bam&quot;</span>)<br>inPeakData = c<span class="hljs-literal">()</span><br>## overlap <span class="hljs-keyword">with</span> bam file <span class="hljs-keyword">to</span> get count<br><span class="hljs-keyword">for</span>(hist <span class="hljs-keyword">in</span> histL)&#123;<br>  <span class="hljs-keyword">for</span>(rep <span class="hljs-keyword">in</span> repL)&#123;<br>    peakRes = read.table(paste0(projPath, <span class="hljs-string">&quot;/peakCalling/SEACR/&quot;</span>, hist, <span class="hljs-string">&quot;_&quot;</span>, rep, <span class="hljs-string">&quot;_seacr_control.peaks.stringent.bed&quot;</span>), header = FALSE, fill = TRUE)<br>    peak.gr = <span class="hljs-constructor">GRanges(<span class="hljs-params">seqnames</span> = <span class="hljs-params">peakRes$V1</span>, IRanges(<span class="hljs-params">start</span> = <span class="hljs-params">peakRes$V2</span>, <span class="hljs-params">end</span> = <span class="hljs-params">peakRes$V3</span>)</span>, strand = <span class="hljs-string">&quot;*&quot;</span>)<br>    bamFile = paste0(bamDir, <span class="hljs-string">&quot;/&quot;</span>, hist, <span class="hljs-string">&quot;_&quot;</span>, rep, <span class="hljs-string">&quot;_bowtie2.mapped.bam&quot;</span>)<br>    fragment_counts &lt;- get<span class="hljs-constructor">Counts(<span class="hljs-params">bamFile</span>, <span class="hljs-params">peak</span>.<span class="hljs-params">gr</span>, <span class="hljs-params">paired</span> = TRUE, <span class="hljs-params">by_rg</span> = FALSE, <span class="hljs-params">format</span> = <span class="hljs-string">&quot;bam&quot;</span>)</span><br>    inPeakN = counts(fragment_counts)<span class="hljs-literal">[,<span class="hljs-number">1</span>]</span> %&gt;% sum<br>    inPeakData = rbind(inPeakData, data.frame(inPeakN = inPeakN, Histone = hist, Replicate = rep))<br>  &#125;<br>&#125;<br><br>frip = left<span class="hljs-constructor">_join(<span class="hljs-params">inPeakData</span>, <span class="hljs-params">alignResult</span>, <span class="hljs-params">by</span> = <span class="hljs-params">c</span>(<span class="hljs-string">&quot;Histone&quot;</span>, <span class="hljs-string">&quot;Replicate&quot;</span>)</span>) %&gt;% mutate(frip = inPeakN/MappedFragNum_hg38<span class="hljs-operator"> * </span><span class="hljs-number">100</span>)<br>frip %&gt;% select(Histone, Replicate, SequencingDepth, MappedFragNum_hg38, AlignmentRate_hg38, FragInPeakNum = inPeakN, FRiPs = frip)<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">Histone<chr></th>
+<th align="left">Replicate<chr></th>
+<th align="right">SequencingDepth<dbl></th>
+<th align="right">MappedFragNum_hg38<dbl></th>
+<th align="right">AlignmentRate_hg38<dbl></th>
+<th align="right">FragInPeakNum<dbl></th>
+<th align="left"><strong>FRiPs</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">K27me3</td>
+<td align="left">rep1</td>
+<td align="right">2984630</td>
+<td align="right">2859520</td>
+<td align="right">95.81</td>
+<td align="right">2223813</td>
+<td align="left">77.76875</td>
+</tr>
+<tr>
+<td align="left">K27me3</td>
+<td align="left">Rep2</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left">40.68507</td>
+</tr>
+<tr>
+<td align="left">K4me3</td>
+<td align="left">rep1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left">91.60169</td>
+</tr>
+<tr>
+<td align="left">K4me3</td>
+<td align="left">Rep2</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left">71.46116</td>
+</tr>
+</tbody></table>
+<h3 id="6-1-4-Visualization-of-peak-number-peak-width-peak-reproducibility-and-FRiPs"><a href="#6-1-4-Visualization-of-peak-number-peak-width-peak-reproducibility-and-FRiPs" class="headerlink" title="6.1.4 Visualization of peak number, peak width, peak reproducibility and FRiPs."></a>6.1.4 Visualization of peak number, peak width, peak reproducibility and FRiPs.</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs sh">fig7A = peakN %&gt;% ggplot(aes(x = Histone, y = peakN, fill = Histone)) +<br>    geom_boxplot() +<br>    geom_jitter(aes(color = Replicate), position = position_jitter(0.15)) +<br>    facet_grid(~peakType) +<br>    scale_fill_viridis(discrete = TRUE, begin = 0.1, end = 0.55, option = <span class="hljs-string">&quot;magma&quot;</span>, alpha = 0.8) +<br>    scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +<br>    theme_bw(base_size = 18) +<br>    ylab(<span class="hljs-string">&quot;Number of Peaks&quot;</span>) +<br>    xlab(<span class="hljs-string">&quot;&quot;</span>)<br><br>fig7B = peakWidth %&gt;% ggplot(aes(x = Histone, y = width, fill = Histone)) +<br>    geom_violin() +<br>    facet_grid(Replicate~peakType) +<br>    scale_fill_viridis(discrete = TRUE, begin = 0.1, end = 0.55, option = <span class="hljs-string">&quot;magma&quot;</span>, alpha = 0.8) +<br>    scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +<br>    scale_y_continuous(trans = <span class="hljs-string">&quot;log&quot;</span>, breaks = c(400, 3000, 22000)) +<br>    theme_bw(base_size = 18) +<br>    ylab(<span class="hljs-string">&quot;Width of Peaks&quot;</span>) +<br>    xlab(<span class="hljs-string">&quot;&quot;</span>)<br><br>fig7C = peakReprod %&gt;% ggplot(aes(x = Histone, y = peakReprodRate, fill = Histone, label = round(peakReprodRate, 2))) +<br>    geom_bar(<span class="hljs-built_in">stat</span> = <span class="hljs-string">&quot;identity&quot;</span>) +<br>    geom_text(vjust = 0.1) +<br>    facet_grid(Replicate~peakType) +<br>    scale_fill_viridis(discrete = TRUE, begin = 0.1, end = 0.55, option = <span class="hljs-string">&quot;magma&quot;</span>, alpha = 0.8) +<br>    scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +<br>    theme_bw(base_size = 18) +<br>    ylab(<span class="hljs-string">&quot;% of Peaks Reproduced&quot;</span>) +<br>    xlab(<span class="hljs-string">&quot;&quot;</span>)<br><br>fig7D = frip %&gt;% ggplot(aes(x = Histone, y = frip, fill = Histone, label = round(frip, 2))) +<br>    geom_boxplot() +<br>    geom_jitter(aes(color = Replicate), position = position_jitter(0.15)) +<br>    scale_fill_viridis(discrete = TRUE, begin = 0.1, end = 0.55, option = <span class="hljs-string">&quot;magma&quot;</span>, alpha = 0.8) +<br>    scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +<br>    theme_bw(base_size = 18) +<br>    ylab(<span class="hljs-string">&quot;% of Fragments in Peaks&quot;</span>) +<br>    xlab(<span class="hljs-string">&quot;&quot;</span>)<br><br>ggarrange(fig7A, fig7B, fig7C, fig7D, ncol = 2, nrow=2, common.legend = TRUE, legend=<span class="hljs-string">&quot;bottom&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/GeekFocus/./7.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="7"></p>
+<hr>
+<h1 id="VII-Visualization"><a href="#VII-Visualization" class="headerlink" title="VII. Visualization"></a>VII. Visualization</h1><p>Typically we are interested in visualizing a chromatin landscape in regions using a genome browser. The <a target="_blank" rel="noopener" href="http://software.broadinstitute.org/software/igv/home">Integrative Genomic Viewer</a> provides a web app version and a local desktop version that are easy to use. The <a target="_blank" rel="noopener" href="https://genome.ucsc.edu/">UCSC Genome Browser</a> provides the most comprehensive supplementary genome information.</p>
+<h2 id="7-1-Browser-display-of-normalized-bedgraph-files"><a href="#7-1-Browser-display-of-normalized-bedgraph-files" class="headerlink" title="7.1. Browser display of normalized bedgraph files."></a>7.1. Browser display of normalized bedgraph files.</h2><p><img src="/GeekFocus/./8.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="7"></p>
+<h2 id="7-2-Heatmap-visualization-on-specific-regions"><a href="#7-2-Heatmap-visualization-on-specific-regions" class="headerlink" title="7.2. Heatmap visualization on specific regions"></a>7.2. Heatmap visualization on specific regions</h2><p>We are also interested in looking at chromatin features at a list of annotated sites, for example histone modification signal at gene promoters.We will use the <code>computeMatrix</code> and <code>plotHeatmap</code> functions from <a target="_blank" rel="noopener" href="https://deeptools.readthedocs.io/en/develop/">deepTools</a> to generate the heatmap.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br><span class="hljs-built_in">mkdir</span> -p <span class="hljs-variable">$projPath</span>/alignment/bigwig                                                                                                                                        <br>samtools <span class="hljs-built_in">sort</span> -o <span class="hljs-variable">$projPath</span>/alignment/bam/<span class="hljs-variable">$&#123;histName&#125;</span>.sorted.bam <span class="hljs-variable">$projPath</span>/alignment/bam/<span class="hljs-variable">$&#123;histName&#125;</span>_bowtie2.mapped.bam                                                     <br>samtools index <span class="hljs-variable">$projPath</span>/alignment/bam/<span class="hljs-variable">$&#123;histName&#125;</span>.sorted.bam                                                                                                              <br>bamCoverage -b <span class="hljs-variable">$projPath</span>/alignment/bam/<span class="hljs-variable">$&#123;histName&#125;</span>.sorted.bam -o <span class="hljs-variable">$projPath</span>/alignment/bigwig/<span class="hljs-variable">$&#123;histName&#125;</span>_raw.bw         <br></code></pre></td></tr></table></figure>
+
+<h3 id="7-2-1-Heatmap-over-transcription-units"><a href="#7-2-1-Heatmap-over-transcription-units" class="headerlink" title="7.2.1 Heatmap over transcription units"></a>7.2.1 Heatmap over transcription units</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br>cores=8<br>computeMatrix scale-regions -S <span class="hljs-variable">$projPath</span>/alignment/bigwig/K27me3_rep1_raw.bw \<br>                               <span class="hljs-variable">$projPath</span>/alignment/bigwig/K27me3_rep2_raw.bw \<br>                               <span class="hljs-variable">$projPath</span>/alignment/bigwig/K4me3_rep1_raw.bw \<br>                               <span class="hljs-variable">$projPath</span>/alignment/bigwig/K4me3_rep2_raw.bw \<br>                              -R <span class="hljs-variable">$projPath</span>/data/hg38_gene/hg38_gene.tsv \<br>                              --beforeRegionStartLength 3000 \<br>                              --regionBodyLength 5000 \<br>                              --afterRegionStartLength 3000 \<br>                              --skipZeros -o <span class="hljs-variable">$projPath</span>/data/hg38_gene/matrix_gene.mat.gz -p <span class="hljs-variable">$cores</span><br><br>plotHeatmap -m <span class="hljs-variable">$projPath</span>/data/hg38_gene/matrix_gene.mat.gz -out <span class="hljs-variable">$projPath</span>/data/hg38_gene/Histone_gene.png --sortUsing <span class="hljs-built_in">sum</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/GeekFocus/./9.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="7"></p>
+<h3 id="7-2-2-Heatmap-on-CUT-amp-Tag-peaks"><a href="#7-2-2-Heatmap-on-CUT-amp-Tag-peaks" class="headerlink" title="7.2.2. Heatmap on CUT&amp;Tag peaks"></a>7.2.2. Heatmap on CUT&amp;Tag peaks</h3><p>We use the midpoint of the signal block returned from SEACR to align signals in heatmaps. The sixth column of the SEACR output is an entry in the form chr:start-end that represents the first and ending bases of the region with the maximum signal of the region. We first generate a new bed file containing this midpoint information in column 6 and use deeptools for the heatmap visualization.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#== linux command ==##</span><br>awk <span class="hljs-string">&#x27;&#123;split($6, summit, &quot;:&quot;); split(summit[2], region, &quot;-&quot;); print summit[1]&quot;\t&quot;region[1]&quot;\t&quot;region[2]&#125;&#x27;</span> <span class="hljs-variable">$projPath</span>/peakCalling/SEACR/<span class="hljs-variable">$&#123;histName&#125;</span>_<span class="hljs-variable">$&#123;repName&#125;</span>_seacr_control.pe\<br>aks.stringent.bed &gt;<span class="hljs-variable">$projPath</span>/peakCalling/SEACR/<span class="hljs-variable">$&#123;histName&#125;</span>_<span class="hljs-variable">$&#123;repName&#125;</span>_seacr_control.peaks.summitRegion.bed<br><br>computeMatrix reference-point -S <span class="hljs-variable">$projPath</span>/alignment/bigwig/<span class="hljs-variable">$&#123;histName&#125;</span>_<span class="hljs-variable">$&#123;repName&#125;</span>_raw.bw \<br>              -R <span class="hljs-variable">$projPath</span>/peakCalling/SEACR/<span class="hljs-variable">$&#123;histName&#125;</span>_<span class="hljs-variable">$&#123;repName&#125;</span>_seacr_control.peaks.summitRegion.bed \<br>              --skipZeros -o <span class="hljs-variable">$projPath</span>/peakCalling/SEACR/<span class="hljs-variable">$&#123;histName&#125;</span>_<span class="hljs-variable">$&#123;repName&#125;</span>_SEACR.mat.gz -p <span class="hljs-variable">$cores</span> -a 3000 -b 3000 --referencePoint center<br><br>plotHeatmap -m <span class="hljs-variable">$projPath</span>/peakCalling/SEACR/<span class="hljs-variable">$&#123;histName&#125;</span>_SEACR.mat.gz -out <span class="hljs-variable">$projPath</span>/peakCalling/SEACR/<span class="hljs-variable">$&#123;histName&#125;</span>_SEACR_heatmap.png --sortUsing <span class="hljs-built_in">sum</span> --startLabel <span class="hljs-string">&quot;Peak Start&quot;</span> -\<br>-endLabel <span class="hljs-string">&quot;Peak End&quot;</span> --xAxisLabel <span class="hljs-string">&quot;&quot;</span> --regionsLabel <span class="hljs-string">&quot;Peaks&quot;</span> --samplesLabel <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;histName&#125;</span> <span class="hljs-variable">$&#123;repName&#125;</span>&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/GeekFocus/./10.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="7"></p>
+<hr>
+<h1 id="VIII-Differention-analysis"><a href="#VIII-Differention-analysis" class="headerlink" title="VIII. Differention analysis"></a>VIII. Differention analysis</h1><ul>
+<li>DESeq2: <a target="_blank" rel="noopener" href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8">Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2</a></li>
+</ul>
+<p>Estimate variance-mean dependence in count data from high-throughput sequencing assays and test for differential expression based on a model using the negative binomial distribution.</p>
+<h2 id="8-1-Create-the-peak-x-sample-matrix"><a href="#8-1-Create-the-peak-x-sample-matrix" class="headerlink" title="8.1. Create the peak x sample matrix."></a>8.1. Create the peak x sample matrix.</h2><p>Usually, the differential tests compare two or more conditions of the same histone modification. In this tutorial, limited by the demonstration data, we will illustrate the differential detection by comparing two replicates of H3K27me3 and two replicates of H3K4me3. We will use DESeq2 (<a target="_blank" rel="noopener" href="http://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#why-un-normalized-counts">complete tutorial</a>) as illustration.</p>
+<h3 id="8-1-1-Create-a-master-peak-list-merging-all-the-peaks-called-for-each-sample"><a href="#8-1-1-Create-a-master-peak-list-merging-all-the-peaks-called-for-each-sample" class="headerlink" title="8.1.1 Create a master peak list merging all the peaks called for each sample."></a>8.1.1 Create a master peak list merging all the peaks called for each sample.</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##=== R command ===## </span><br>mPeak = GRanges()<br><span class="hljs-comment">## overlap with bam file to get count</span><br><span class="hljs-keyword">for</span>(hist <span class="hljs-keyword">in</span> histL)&#123;<br>  <span class="hljs-keyword">for</span>(rep <span class="hljs-keyword">in</span> repL)&#123;<br>    peakRes = read.table(paste0(projPath, <span class="hljs-string">&quot;/peakCalling/SEACR/&quot;</span>, hist, <span class="hljs-string">&quot;_&quot;</span>, rep, <span class="hljs-string">&quot;_seacr_control.peaks.stringent.bed&quot;</span>), header = FALSE, fill = TRUE)<br>    mPeak = GRanges(seqnames = peakRes<span class="hljs-variable">$V1</span>, IRanges(start = peakRes<span class="hljs-variable">$V2</span>, end = peakRes<span class="hljs-variable">$V3</span>), strand = <span class="hljs-string">&quot;*&quot;</span>) %&gt;% append(mPeak, .)<br>  &#125;<br>&#125;<br>masterPeak = reduce(mPeak)<br></code></pre></td></tr></table></figure>
+
+<h3 id="8-1-2-Get-the-fragment-counts-for-each-peak-in-the-master-peak-list"><a href="#8-1-2-Get-the-fragment-counts-for-each-peak-in-the-master-peak-list" class="headerlink" title="8.1.2 Get the fragment counts for each peak in the master peak list."></a>8.1.2 Get the fragment counts for each peak in the master peak list.</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##=== R command ===## </span><br>library<span class="hljs-punctuation">(</span>DESeq2<span class="hljs-punctuation">)</span><br>bamDir <span class="hljs-operator">=</span> paste0<span class="hljs-punctuation">(</span>projPath<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/alignment/bam&quot;</span><span class="hljs-punctuation">)</span><br>countMat <span class="hljs-operator">=</span> matrix<span class="hljs-punctuation">(</span><span class="hljs-literal">NA</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">length</span><span class="hljs-punctuation">(</span>masterPeak<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">length</span><span class="hljs-punctuation">(</span>histL<span class="hljs-punctuation">)</span><span class="hljs-operator">*</span><span class="hljs-built_in">length</span><span class="hljs-punctuation">(</span>repL<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br><span class="hljs-comment">## overlap with bam file to get count</span><br>i <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br><span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span>hist <span class="hljs-keyword">in</span> histL<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-keyword">for</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">rep</span> <span class="hljs-keyword">in</span> repL<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>    <br>    bamFile <span class="hljs-operator">=</span> paste0<span class="hljs-punctuation">(</span>bamDir<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;/&quot;</span><span class="hljs-punctuation">,</span> hist<span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">rep</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_bowtie2.mapped.bam&quot;</span><span class="hljs-punctuation">)</span><br>    fragment_counts <span class="hljs-operator">&lt;-</span> getCounts<span class="hljs-punctuation">(</span>bamFile<span class="hljs-punctuation">,</span> masterPeak<span class="hljs-punctuation">,</span> paired <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> by_rg <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">,</span> format <span class="hljs-operator">=</span> <span class="hljs-string">&quot;bam&quot;</span><span class="hljs-punctuation">)</span><br>    countMat<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span> i<span class="hljs-punctuation">]</span> <span class="hljs-operator">=</span> counts<span class="hljs-punctuation">(</span>fragment_counts<span class="hljs-punctuation">)</span><span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><br>    i <span class="hljs-operator">=</span> i <span class="hljs-operator">+</span> <span class="hljs-number">1</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br>colnames<span class="hljs-punctuation">(</span>countMat<span class="hljs-punctuation">)</span> <span class="hljs-operator">=</span> paste<span class="hljs-punctuation">(</span><span class="hljs-built_in">rep</span><span class="hljs-punctuation">(</span>histL<span class="hljs-punctuation">,</span> <span class="hljs-number">2</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">rep</span><span class="hljs-punctuation">(</span>repL<span class="hljs-punctuation">,</span> each <span class="hljs-operator">=</span> <span class="hljs-number">2</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> sep <span class="hljs-operator">=</span> <span class="hljs-string">&quot;_&quot;</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="8-2-Sequencing-depth-normalization-and-differential-enriched-peaks-detection"><a href="#8-2-Sequencing-depth-normalization-and-differential-enriched-peaks-detection" class="headerlink" title="8.2. Sequencing depth normalization and differential enriched peaks detection"></a>8.2. Sequencing depth normalization and differential enriched peaks detection</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment">##=== R command ===## </span><br>selectR <span class="hljs-operator">=</span> which<span class="hljs-punctuation">(</span>rowSums<span class="hljs-punctuation">(</span>countMat<span class="hljs-punctuation">)</span> <span class="hljs-operator">&gt;</span> <span class="hljs-number">5</span><span class="hljs-punctuation">)</span> <span class="hljs-comment">## remove low count genes</span><br>dataS <span class="hljs-operator">=</span> countMat<span class="hljs-punctuation">[</span>selectR<span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>condition <span class="hljs-operator">=</span> factor<span class="hljs-punctuation">(</span><span class="hljs-built_in">rep</span><span class="hljs-punctuation">(</span>histL<span class="hljs-punctuation">,</span> each <span class="hljs-operator">=</span> <span class="hljs-built_in">length</span><span class="hljs-punctuation">(</span>repL<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>dds <span class="hljs-operator">=</span> DESeqDataSetFromMatrix<span class="hljs-punctuation">(</span>countData <span class="hljs-operator">=</span> dataS<span class="hljs-punctuation">,</span><br>                              colData <span class="hljs-operator">=</span> DataFrame<span class="hljs-punctuation">(</span>condition<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                              design <span class="hljs-operator">=</span> <span class="hljs-operator">~</span> condition<span class="hljs-punctuation">)</span><br>DDS <span class="hljs-operator">=</span> DESeq<span class="hljs-punctuation">(</span>dds<span class="hljs-punctuation">)</span><br>normDDS <span class="hljs-operator">=</span> counts<span class="hljs-punctuation">(</span>DDS<span class="hljs-punctuation">,</span> normalized <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span> <span class="hljs-comment">## normalization with respect to the sequencing depth</span><br>colnames<span class="hljs-punctuation">(</span>normDDS<span class="hljs-punctuation">)</span> <span class="hljs-operator">=</span> paste0<span class="hljs-punctuation">(</span>colnames<span class="hljs-punctuation">(</span>normDDS<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;_norm&quot;</span><span class="hljs-punctuation">)</span><br>res <span class="hljs-operator">=</span> results<span class="hljs-punctuation">(</span>DDS<span class="hljs-punctuation">,</span> independentFiltering <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">,</span> altHypothesis <span class="hljs-operator">=</span> <span class="hljs-string">&quot;greaterAbs&quot;</span><span class="hljs-punctuation">)</span><br><br>countMatDiff <span class="hljs-operator">=</span> cbind<span class="hljs-punctuation">(</span>dataS<span class="hljs-punctuation">,</span> normDDS<span class="hljs-punctuation">,</span> res<span class="hljs-punctuation">)</span><br>head<span class="hljs-punctuation">(</span>countMatDiff<span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs r">DataFrame with <span class="hljs-number">6</span> rows and <span class="hljs-number">14</span> columns<br>  K27me3_rep1 K4me3_rep1 K27me3_rep2 K4me3_rep2 K27me3_rep1_norm<br>    <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span>  <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span>   <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span>  <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span>        <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span><br><span class="hljs-number">1</span>           <span class="hljs-number">6</span>          <span class="hljs-number">2</span>           <span class="hljs-number">1</span>          <span class="hljs-number">6</span>         <span class="hljs-number">1.408657</span><br><span class="hljs-number">2</span>           <span class="hljs-number">1</span>          <span class="hljs-number">0</span>         <span class="hljs-number">242</span>        <span class="hljs-number">182</span>         <span class="hljs-number">0.234776</span><br><span class="hljs-number">3</span>           <span class="hljs-number">0</span>          <span class="hljs-number">0</span>         <span class="hljs-number">176</span>         <span class="hljs-number">88</span>         <span class="hljs-number">0.000000</span><br><span class="hljs-number">4</span>           <span class="hljs-number">0</span>          <span class="hljs-number">0</span>         <span class="hljs-number">274</span>        <span class="hljs-number">194</span>         <span class="hljs-number">0.000000</span><br><span class="hljs-number">5</span>           <span class="hljs-number">3</span>          <span class="hljs-number">4</span>           <span class="hljs-number">0</span>          <span class="hljs-number">1</span>         <span class="hljs-number">0.704328</span><br><span class="hljs-number">6</span>           <span class="hljs-number">0</span>          <span class="hljs-number">1</span>         <span class="hljs-number">109</span>         <span class="hljs-number">59</span>         <span class="hljs-number">0.000000</span><br>  K4me3_rep1_norm K27me3_rep2_norm K4me3_rep2_norm  baseMean log2FoldChange<br>        <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span>        <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span>       <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span> <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span>      <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span><br><span class="hljs-number">1</span>        <span class="hljs-number">0.620403</span>            <span class="hljs-number">4.170</span>         <span class="hljs-number">18.2724</span>   <span class="hljs-number">6.11787</span>       <span class="hljs-number">3.496854</span><br><span class="hljs-number">2</span>        <span class="hljs-number">0.000000</span>         <span class="hljs-number">1009.141</span>        <span class="hljs-number">554.2634</span> <span class="hljs-number">390.90978</span>      <span class="hljs-number">12.510325</span><br><span class="hljs-number">3</span>        <span class="hljs-number">0.000000</span>          <span class="hljs-number">733.921</span>        <span class="hljs-number">267.9955</span> <span class="hljs-number">250.47905</span>      <span class="hljs-number">13.297304</span><br><span class="hljs-number">4</span>        <span class="hljs-number">0.000000</span>         <span class="hljs-number">1142.581</span>        <span class="hljs-number">590.8082</span> <span class="hljs-number">433.34733</span>      <span class="hljs-number">14.089840</span><br><span class="hljs-number">5</span>        <span class="hljs-number">1.240806</span>            <span class="hljs-number">0.000</span>          <span class="hljs-number">3.0454</span>   <span class="hljs-number">1.24763</span>       <span class="hljs-number">0.846266</span><br><span class="hljs-number">6</span>        <span class="hljs-number">0.310202</span>          <span class="hljs-number">454.530</span>        <span class="hljs-number">179.6788</span> <span class="hljs-number">158.62986</span>      <span class="hljs-number">11.189689</span><br>      lfcSE      stat      pvalue        padj<br>  <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span> <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span>   <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span>   <span class="hljs-operator">&lt;</span>numeric<span class="hljs-operator">&gt;</span><br><span class="hljs-number">1</span>   <span class="hljs-number">1.19893</span>  <span class="hljs-number">2.916635</span> <span class="hljs-number">3.53829e-03</span> <span class="hljs-number">4.22134e-02</span><br><span class="hljs-number">2</span>   <span class="hljs-number">1.50039</span>  <span class="hljs-number">8.338074</span> <span class="hljs-number">7.55102e-17</span> <span class="hljs-number">2.18197e-15</span><br><span class="hljs-number">3</span>   <span class="hljs-number">1.58547</span>  <span class="hljs-number">8.386969</span> <span class="hljs-number">4.98837e-17</span> <span class="hljs-number">1.50548e-15</span><br><span class="hljs-number">4</span>   <span class="hljs-number">1.55196</span>  <span class="hljs-number">9.078730</span> <span class="hljs-number">1.09850e-19</span> <span class="hljs-number">6.73560e-18</span><br><span class="hljs-number">5</span>   <span class="hljs-number">2.18326</span>  <span class="hljs-number">0.387617</span> <span class="hljs-number">6.98300e-01</span> <span class="hljs-number">9.72755e-01</span><br><span class="hljs-number">6</span>   <span class="hljs-number">1.53046</span>  <span class="hljs-number">7.311313</span> <span class="hljs-number">2.64545e-13</span> <span class="hljs-number">4.33546e-12</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>DESeq2 requires the input matrix should be un-normalized counts or estimated counts of sequencing reads.</li>
+<li>DESeq2 model internally corrects for library size.</li>
+<li><strong>countMatDiff</strong> summarizes the differential analysis results:<ul>
+<li>First 4 columns: raw reads counts after filtering the peak regions with low counts</li>
+<li>Second 4 columns: normalized read counts eliminating library size difference.</li>
+<li>Remaining columns: differential detection results.</li>
+</ul>
+</li>
+</ul>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Kaya</span>-Okur HS, Wu SJ, Codomo CA, Pledger ES, Bryson TD, Henikoff JG, Ahmad K, Henikoff S: CUT&amp;Tag for efficient epigenomic profiling of small samples and single cells. Nature Communications <span class="hljs-number">2019</span> <span class="hljs-number">10</span>:<span class="hljs-number">1930</span> (PMID:<span class="hljs-number">31036827</span>).<br><br><span class="hljs-attribute">Meers</span>, M.P., Tenenbaum, D. &amp; Henikoff, S. Peak calling by Sparse Enrichment Analysis for CUT&amp;RUN chromatin profiling. Epigenetics &amp; Chromatin <span class="hljs-number">12</span>, <span class="hljs-number">42</span> (<span class="hljs-number">2019</span>). https://doi.org/<span class="hljs-number">10</span>.<span class="hljs-number">1186</span>/s13072-<span class="hljs-number">019</span>-<span class="hljs-number">0287</span>-<span class="hljs-number">4</span><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="IX-Additional-Alternatives"><a href="#IX-Additional-Alternatives" class="headerlink" title="IX. Additional Alternatives"></a>IX. Additional Alternatives</h1><h2 id="9-1-ChIPseqSpikeInFree-for-normalizing-data-without-spike-in-DNA-Optional"><a href="#9-1-ChIPseqSpikeInFree-for-normalizing-data-without-spike-in-DNA-Optional" class="headerlink" title="9.1 ChIPseqSpikeInFree for normalizing data without spike-in DNA [Optional]"></a>9.1 ChIPseqSpikeInFree for normalizing data without spike-in DNA [Optional]</h2><p><a target="_blank" rel="noopener" href="https://academic.oup.com/bioinformatics/article/36/4/1270/5578481">ChIPseqSpikeInFree: a ChIP-seq normalization approach to reveal global changes in histone modifications without spike-in</a> is a novel ChIP-seq normalization method to effectively determine scaling factors for samples across various conditions and treatments, which does not rely on exogenous spike-in chromatin or peak detection to reveal global changes in histone modification occupancy. The installation details can be found on <a target="_blank" rel="noopener" href="https://github.com/stjude/ChIPseqSpikeInFree">github</a>.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/stjude/ChIPseqSpikeInFree#interpretation-of-scaling-factor-table">Interpretation of the ChIPseqSpikeInFree output.</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/stjude/ChIPseqSpikeInFree#how-to-use-chipseqspikein-scaling-factor">How to use ChIPseqSpikeInFree scaling factor.</a></li>
+</ul>
+<h2 id="9-2-Other-peak-calling-methods"><a href="#9-2-Other-peak-calling-methods" class="headerlink" title="9.2. Other peak calling methods."></a>9.2. Other peak calling methods.</h2><ul>
+<li>MACS2: <a target="_blank" rel="noopener" href="https://genomebiology.biomedcentral.com/articles/10.1186/gb-2008-9-9-r137">Model-based Analysis of ChIP-Seq (MACS)</a>. Installation details can be found <a target="_blank" rel="noopener" href="https://github.com/taoliu/MACS/wiki">here</a>.</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">##== linux command ==##</span><br>histName=<span class="hljs-string">&quot;K27me3&quot;</span><br>controlName=<span class="hljs-string">&quot;IgG&quot;</span><br><br><span class="hljs-built_in">mkdir</span> -p <span class="hljs-variable">$projPath</span>/peakCalling<br>macs2 callpeak -t <span class="hljs-variable">$&#123;projPath&#125;</span>/alignment/bam/<span class="hljs-variable">$&#123;histName&#125;</span>_rep1_bowtie2.mapped.bam \<br>      -c <span class="hljs-variable">$&#123;projPath&#125;</span>/alignment/bam/<span class="hljs-variable">$&#123;controlName&#125;</span>_rep1_bowtie2.mapped.bam \<br>      -g hs -f BAMPE -n macs2_peak_q0.1 --outdir <span class="hljs-variable">$projPath</span>/peakCalling/MACS2 -q 0.1 --keep-dup all 2&gt;<span class="hljs-variable">$&#123;projPath&#125;</span>/peakCalling/MACS2/macs2Peak_summary.txt<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>dPeak: <a target="_blank" rel="noopener" href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003246">dPeak: High Resolution Identification of Transcription Factor Binding Sites from PET and SET ChIP-Seq Data</a></li>
+<li>MOSAiCS: <a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4608541/">A Statistical Framework for the Analysis of ChIP-Seq Data</a></li>
+</ul>
+<h2 id="9-3-Other-packages-for-differential-analysis-of-binding-sites"><a href="#9-3-Other-packages-for-differential-analysis-of-binding-sites" class="headerlink" title="9.3 Other packages for differential analysis of binding sites"></a>9.3 Other packages for differential analysis of binding sites</h2><ul>
+<li>Limma: <a target="_blank" rel="noopener" href="https://academic.oup.com/nar/article/43/7/e47/2414268">limma powers differential expression analyses for RNA-sequencing and microarray studies</a></li>
+</ul>
+<p>Limma is an R package for the analysis of gene expression microarray data, especially the use of linear models for analysing designed experiments and the assessment of differential expression. Limma provides the ability to analyse comparisons between many RNA targets simultaneously in arbitrary complicated designed experiments. Empirical Bayesian methods are used to provide stable results even when the number of arrays is small. Limma can be extended to study differential fragment enrichment analysis within peak regions. Notably, limma can deal with both fixed effect model and random effect model.</p>
+<ul>
+<li>edgeR: <a target="_blank" rel="noopener" href="https://academic.oup.com/nar/article/40/10/4288/2411520">Differential Expression Analysis of Multifactor RNA-Seq Experiments With Respect to Biological Variation</a></li>
+</ul>
+<p>Differential expression analysis of RNA-seq expression profiles with biological replication. Implements a range of statistical methodology based on the negative binomial distributions, including empirical Bayes estimation, exact tests, generalized linear models and quasi-likelihood tests. As well as RNA-seq, it be applied to differential signal analysis of other types of genomic data that produce read counts, including ChIP-seq, ATAC-seq, Bisulfite-seq, SAGE and CAGE. edgeR can deal with multifactor problem.</p>
+<h1 id="X-Troubleshooting-Generating-your-data"><a href="#X-Troubleshooting-Generating-your-data" class="headerlink" title="X. Troubleshooting: Generating your data"></a>X. Troubleshooting: Generating your data</h1><p>This workflow can be followed with your own data and will generate a standardized set of quality-control reports. However, many sequencing facilities do not perform 25x25 PE sequencing, and alternate parameters for trimming and mapping are provided here. Control datasets for non-specific antibody (IgG) profiling or ATAC-seq profiling of your material can also be used for optional analysis detailed here.</p>
+<p>Stringent washing with 300 mM NaCl is critical to limit the affinity of Tn5 for exposed DNA. We describe here the need for controlling background Tn5 affinities and describe how our CUT&amp;Tag protocol effectively suppresses this artifact for unambiguous mapping of chromatin epitopes. We present a protocol that can process either native or fixed nuclei and includes alternative methods for DNA isolation. To illustrate the method, we describe a typical experiment, including evaluation of the results using a new metric for peak-calling information. Further, we validate a single-tube format for CUT&amp;Tag that requires no DNA isolation but instead uses tagmented material directly for library amplification. We document critical steps for the CUT&amp;Tag protocol, informed by our experiences, helping users establish this method in their research.</p>
+<hr>
+<p>Cite:<a target="_blank" rel="noopener" href="https://yezhengstat.github.io/CUTTag_tutorial/#">https://yezhengstat.github.io/CUTTag_tutorial/#</a> Zheng Y et al (2020). Protocol.io</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/NGS/" class="category-chain-item">NGS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/pipeline/">#pipeline</a>
+      
+        <a href="/GeekFocus/tags/CUT-tag/">#CUT-tag</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【CUT&amp;Tag-pipeline】</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/03/21/2022-03-21-CUTTag/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 21, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/22/2022-03-22-S-Locus/" title="S-Locus">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">S-Locus</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/20/2022-03-20-ATAC-seq-6/" title="【ATAC-seq-pipeline】">
+                        <span class="hidden-mobile">【ATAC-seq-pipeline】</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

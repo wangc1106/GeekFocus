@@ -1,0 +1,918 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="Minimap2 is a versatile sequence alignment program that aligns DNA or mRNA sequences against a large reference database.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【long reads mapping】【minimap2】">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/03/16/2022-03-16-minimap2/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="Minimap2 is a versatile sequence alignment program that aligns DNA or mRNA sequences against a large reference database.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-16T12:47:36.697Z">
+<meta property="article:modified_time" content="2022-03-19T14:17:14.096Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="denovo-III">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>【long reads mapping】【minimap2】 - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【long reads mapping】【minimap2】"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-16 20:47" pubdate>
+          March 16, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          21k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          172 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【long reads mapping】【minimap2】</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on March 19, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>Minimap2 is a versatile sequence alignment program that aligns DNA or mRNA sequences against a large reference database. </p>
+<span id="more"></span>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/lh3/minimap2">https://github.com/lh3/minimap2</a></p>
+<ul>
+<li>将PacBio或OXford Nanopore的read和已有参考基因组（如人类）进行比对(<strong>long reads mapping</strong>)</li>
+<li>寻找高错误率read(15%)之间的overlap</li>
+<li>将PacBio Iso-Seq 或Nanopore cDNA或RNA序列比对到参考基因组(splicing aware)</li>
+<li>将<strong>illumina</strong> 单端或者双端序列比对到参考基因组</li>
+<li><strong>组装之间</strong>的比对</li>
+<li><strong>临近物种</strong>的全基因组比对</li>
+</ul>
+<h2 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs sh">git <span class="hljs-built_in">clone</span> https://github.com/lh3/minimap2<br><span class="hljs-built_in">cd</span> minimap2 &amp;&amp; make<br><span class="hljs-comment"># long sequences against a reference genome</span><br>./minimap2 -a <span class="hljs-built_in">test</span>/MT-human.fa <span class="hljs-built_in">test</span>/MT-orang.fa &gt; test.sam<br><span class="hljs-comment"># create an index first and then map</span><br>./minimap2 -x map-ont -d MT-human-ont.mmi <span class="hljs-built_in">test</span>/MT-human.fa<br>./minimap2 -a MT-human-ont.mmi <span class="hljs-built_in">test</span>/MT-orang.fa &gt; test.sam<br><span class="hljs-comment"># use presets (no test data)</span><br>./minimap2 -ax map-pb ref.fa pacbio.fq.gz &gt; aln.sam       <span class="hljs-comment"># PacBio CLR genomic reads</span><br>./minimap2 -ax map-ont ref.fa ont.fq.gz &gt; aln.sam         <span class="hljs-comment"># Oxford Nanopore genomic reads</span><br>./minimap2 -ax map-hifi ref.fa pacbio-ccs.fq.gz &gt; aln.sam <span class="hljs-string">&#x27;PacBio HiFi/CCS genomic reads (v2.19 or later)&#x27;</span><br>./minimap2 -ax asm20 ref.fa pacbio-ccs.fq.gz &gt; aln.sam    <span class="hljs-string">&#x27;PacBio HiFi/CCS genomic reads (v2.18 or earlier)&#x27;</span><br>./minimap2 -ax sr ref.fa read1.fa read2.fa &gt; aln.sam      <span class="hljs-comment"># short genomic paired-end reads</span><br>./minimap2 -ax splice ref.fa rna-reads.fa &gt; aln.sam       <span class="hljs-comment"># spliced long reads (strand unknown)</span><br>./minimap2 -ax splice -uf -k14 ref.fa reads.fa &gt; aln.sam  <span class="hljs-comment"># noisy Nanopore Direct RNA-seq</span><br>./minimap2 -ax splice:hq -uf ref.fa query.fa &gt; aln.sam    <span class="hljs-comment"># Final PacBio Iso-seq or traditional cDNA</span><br>./minimap2 -ax splice --junc-bed anno.bed12 ref.fa query.fa &gt; aln.sam  <span class="hljs-comment"># prioritize on annotated junctions</span><br>./minimap2 -cx asm5 asm1.fa asm2.fa &gt; aln.paf             <span class="hljs-string">&#x27;intra-species asm-to-asm alignment&#x27;</span><br>./minimap2 -x ava-pb reads.fa reads.fa &gt; overlaps.paf     <span class="hljs-comment"># PacBio read overlap</span><br>./minimap2 -x ava-ont reads.fa reads.fa &gt; overlaps.paf    <span class="hljs-comment"># Nanopore read overlap</span><br><span class="hljs-comment"># man page for detailed command line options</span><br>man ./minimap2.1<br></code></pre></td></tr></table></figure>
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="Users’-Guide"><a href="#Users’-Guide" class="headerlink" title="Users’ Guide"></a>Users’ Guide</h2><p>Minimap2 is a versatile sequence alignment program that aligns <strong>DNA or mRNA</strong> sequences <strong>against</strong> a large <strong>reference</strong> database. </p>
+<p>Typical use cases include: </p>
+<p>(1) <strong>mapping PacBio</strong> or Oxford <strong>Nanopore</strong> genomic <strong>reads</strong> to the human genome;</p>
+<p>(2) <strong>finding overlaps between long read</strong>s with <strong>error rate</strong> up to ~15%;</p>
+<p>(3) <strong>splice-aware alignment</strong> of PacBio Iso-Seq or Nanopore cDNA or Direct RNA reads <strong>against</strong> a <strong>reference</strong> genome;</p>
+<p>(4) aligning <strong>Illumina</strong> single- or paired-end reads; </p>
+<p>(5) <strong>assembly-to-assembly alignment</strong>; </p>
+<p>(6) <strong>full-genome alignment</strong> between <strong>two closely related species</strong> with <strong>divergence below ~15%</strong>.</p>
+<p>For ~10kb noisy reads sequences, minimap2 is <strong>tens of times faster</strong> than mainstream long-read mappers such as BLASR, BWA-MEM, NGMLR and GMAP. It is <strong>more accurate</strong> on simulated long reads and produces biologically meaningful alignment ready for downstream analyses. For &gt;100bp <strong>Illumina short reads</strong>, minimap2 is <strong>three times</strong> as fast as <strong>BWA-MEM</strong> and <strong>Bowtie2</strong>, and as accurate on simulated data. Detailed evaluations are available from the <a target="_blank" rel="noopener" href="https://doi.org/10.1093/bioinformatics/bty191">minimap2 paper</a> or the <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1708.01492">preprint</a>.</p>
+<h3 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">cd</span> minimap2 &amp;&amp; <span class="hljs-keyword">make</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="PAF-a-Pairwise-mApping-Format"><a href="#PAF-a-Pairwise-mApping-Format" class="headerlink" title="PAF: a Pairwise mApping Format"></a>PAF: a Pairwise mApping Format</h3><p>PAF is a text format describing the <strong>approximate mapping positions</strong> between two set of sequences. PAF is TAB-delimited with each line consisting of the following predefined fields:</p>
+<table>
+<thead>
+<tr>
+<th>Col</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>string</td>
+<td>Query sequence name</td>
+</tr>
+<tr>
+<td>2</td>
+<td>int</td>
+<td>Query sequence length</td>
+</tr>
+<tr>
+<td>3</td>
+<td>int</td>
+<td>Query start (0-based; BED-like; closed)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>int</td>
+<td>Query end (0-based; BED-like; open)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>char</td>
+<td>Relative strand: “+” or “-“</td>
+</tr>
+<tr>
+<td>6</td>
+<td>string</td>
+<td>Target sequence name</td>
+</tr>
+<tr>
+<td>7</td>
+<td>int</td>
+<td>Target sequence length</td>
+</tr>
+<tr>
+<td>8</td>
+<td>int</td>
+<td>Target start on original strand (0-based)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>int</td>
+<td>Target end on original strand (0-based)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>int</td>
+<td>Number of residue matches</td>
+</tr>
+<tr>
+<td>11</td>
+<td>int</td>
+<td>Alignment block length</td>
+</tr>
+<tr>
+<td>12</td>
+<td>int</td>
+<td>Mapping quality (0-255; 255 for missing)</td>
+</tr>
+</tbody></table>
+<p>If PAF is generated from an alignment, <strong>column 10 equals the number of sequence matches</strong>, and <strong>column 11 equals the total number of sequence matches, mismatches, insertions and deletions in the alignment</strong>. If alignment is not available, column 10 and 11 are still required but may be highly inaccurate.</p>
+<p>A PAF file may optionally contain SAM-like typed key-value pairs at the end of each line.</p>
+<h3 id="General-usage"><a href="#General-usage" class="headerlink" title="General usage"></a>General usage</h3><p>Without any options, minimap2 takes a <strong>reference</strong> database and a <strong>query sequence</strong> file as input and produce approximate mapping, without base-level alignment (i.e. coordinates are only approximate and no CIGAR in output), in the PAF format:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">minimap2 <span class="hljs-keyword">ref</span>.fa query.fq &gt; approx-<span class="hljs-keyword">mapping</span>.paf<br></code></pre></td></tr></table></figure>
+
+<p>You can ask minimap2 to generate CIGAR at the <code>cg</code> tag of PAF with:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">minimap2 -c ref<span class="hljs-selector-class">.fa</span> query<span class="hljs-selector-class">.fq</span> &gt; alignment.paf<br></code></pre></td></tr></table></figure>
+
+<p>or to output alignments in the <a target="_blank" rel="noopener" href="https://samtools.github.io/hts-specs/SAMv1.pdf">SAM format</a>:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">minimap2 -<span class="hljs-selector-tag">a</span> ref<span class="hljs-selector-class">.fa</span> query<span class="hljs-selector-class">.fq</span> &gt; alignment.sam<br></code></pre></td></tr></table></figure>
+
+<p>Minimap2 seamlessly works with <strong>gzip’d FASTA</strong> and <strong>FASTQ</strong> formats as input. You <strong>don’t need to convert</strong> between FASTA and FASTQ or decompress gzip’d files first.</p>
+<p>For the human reference genome, minimap2 takes a few minutes to generate a minimizer index for the reference before mapping. To <strong>reduce indexing time</strong>, you can optionally save the index with option <strong>-d</strong> and <strong>replace the reference sequence file with the index file</strong> on the minimap2 command line:</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">minimap2 -d <span class="hljs-keyword">ref</span>.mmi <span class="hljs-keyword">ref</span>.fa                     <span class="hljs-comment"># indexing</span><br>minimap2 -<span class="hljs-keyword">a ref</span>.mmi reads.fq &gt; alignment.sam   <span class="hljs-comment"># alignment</span><br></code></pre></td></tr></table></figure>
+
+<p><em><strong>Importantly</strong></em>, it should be noted that once you build the index, indexing parameters such as <strong>-k</strong>, <strong>-w</strong>, <strong>-H</strong> and <strong>-I</strong> can’t be changed during mapping. If you are running minimap2 for <strong>different data types</strong>, you will probably need to keep <strong>multiple indexes generated</strong> with different parameters. This makes minimap2 different from BWA which always uses the same index regardless of query data types.</p>
+<h3 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h3><p>Minimap2 uses the same base algorithm for all applications. However, due to the different data types it supports (e.g. short vs long reads; DNA vs mRNA reads), minimap2 needs to be tuned for optimal performance and accuracy. It is usually recommended to choose a preset with option <strong>-x</strong>, which <strong>sets multiple parameters</strong> at the same time. The default setting is the same as <code>map-ont</code>.</p>
+<h4 id="Map-long-noisy-genomic-reads"><a href="#Map-long-noisy-genomic-reads" class="headerlink" title="Map long noisy genomic reads"></a>Map long noisy genomic reads</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">minimap2 -ax map-pb  ref.fa pacbio-reads.fq &gt; aln.sam   <span class="hljs-comment"># for 【PacBio CLR】 reads</span><br>minimap2 -ax map-ont ref.fa ont-reads.fq &gt; aln.sam      <span class="hljs-comment"># for 【Oxford Nanopore】 reads</span><br></code></pre></td></tr></table></figure>
+
+<p>The difference between <code>map-pb</code> and <code>map-ont</code> is that <code>map-pb</code> uses homopolymer-compressed (HPC) minimizers as <strong>seeds</strong>, while <code>map-ont</code> uses ordinary minimizers as seeds. Emperical evaluation suggests HPC minimizers improve performance and sensitivity when aligning PacBio CLR reads, but hurt when aligning Nanopore reads.</p>
+<h4 id="Map-long-mRNA-x2F-cDNA-reads"><a href="#Map-long-mRNA-x2F-cDNA-reads" class="headerlink" title="Map long mRNA&#x2F;cDNA reads"></a>Map long mRNA&#x2F;cDNA reads</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs perl">minimap2 -ax <span class="hljs-keyword">splice</span>:hq -uf ref.fa iso-seq.fq &gt; aln.sam       <span class="hljs-comment"># PacBio Iso-seq/traditional cDNA</span><br>minimap2 -ax <span class="hljs-keyword">splice</span> ref.fa nanopore-cdna.fa &gt; aln.sam        <span class="hljs-comment"># Nanopore 2D cDNA-seq</span><br>minimap2 -ax <span class="hljs-keyword">splice</span> -uf -k14 ref.fa direct-rna.fq &gt; aln.sam  <span class="hljs-comment"># Nanopore Direct RNA-seq</span><br>minimap2 -ax <span class="hljs-keyword">splice</span> --<span class="hljs-keyword">splice</span>-flank=<span class="hljs-keyword">no</span> SIRV.fa SIRV-seq.fa    <span class="hljs-comment"># mapping against SIRV control</span><br></code></pre></td></tr></table></figure>
+
+<p>There are different long-read RNA-seq technologies, including tranditional full-length cDNA, EST, PacBio Iso-seq, Nanopore 2D cDNA-seq and Direct RNA-seq. They produce data of varying quality and properties. By default, <code>-x splice</code> <strong>assumes the read orientation relative to the transcript strand is unknown</strong>. It tries two rounds of alignment to infer the orientation and write the strand to the <code>ts</code> SAM&#x2F;PAF tag if possible. For <strong>Iso-seq, Direct RNA-seq</strong> and tranditional full-length <strong>cDNAs</strong>, it would be desired to apply <code>-u f</code> to force minimap2 to <strong>consider the forward transcript strand only</strong>. This speeds up alignment with slight improvement to accuracy. For <strong>noisy Nanopore Direct RNA-seq reads</strong>, it is recommended to use a smaller k-mer size for increased sensitivity to the first or the last exons.</p>
+<p>Minimap2 rates an alignment by the score of the max-scoring sub-segment, <em>excluding</em> introns, and marks the best alignment as primary in SAM. When a <strong>spliced gene also has unspliced pseudogenes</strong>, minimap2 does not intentionally prefer spliced alignment, though in practice it more often marks the spliced alignment as the primary. By default, minimap2 outputs up to five secondary alignments (i.e. likely pseudogenes in the context of RNA-seq mapping). This can be tuned with option <strong>-N</strong>.</p>
+<p>For <strong>long RNA-seq reads</strong>, minimap2 may produce chimeric alignments potentially caused by gene fusions&#x2F;structural variations or by an intron longer than the max intron length <strong>-G</strong> (200k by default). For now, it is not recommended to apply an excessively large <strong>-G</strong> as this slows down minimap2 and sometimes leads to false alignments.</p>
+<p>It is worth noting that by default <code>-x splice</code> prefers GT[A&#x2F;G]..[C&#x2F;T]AG over GT[C&#x2F;T]..[A&#x2F;G]AG, and then over other splicing signals. Considering one additional base improves the junction accuracy for noisy reads, but reduces the accuracy when aligning against the widely used SIRV control data. This is because SIRV does not honor the evolutionarily conservative splicing signal. If you are studying <strong>SIRV</strong>, you may apply <code>--splice-flank=no</code> to let minimap2 only model GT..AG, ignoring the additional base.</p>
+<p>Since v2.17, minimap2 can optionally <strong>take annotated genes as input</strong> and prioritize on annotated splice junctions. To use this feature, you can</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">paftools<span class="hljs-selector-class">.js</span> gff2bed anno<span class="hljs-selector-class">.gff</span> &gt; anno<span class="hljs-selector-class">.bed</span><br>minimap2 -ax splice <span class="hljs-attr">--junc-bed</span> anno<span class="hljs-selector-class">.bed</span> ref<span class="hljs-selector-class">.fa</span> query<span class="hljs-selector-class">.fa</span> &gt; aln.sam<br></code></pre></td></tr></table></figure>
+
+<p>Here, <code>anno.gff</code> is the gene annotation in the GTF or GFF3 format (<code>gff2bed</code> automatically tests the format). The output of <code>gff2bed</code> is in the 12-column BED format, or the BED12 format. With the <code>--junc-bed</code> option, minimap2 adds a bonus score (tuned by <code>--junc-bonus</code>) if an aligned junction matches a junction in the annotation. Option <code>--junc-bed</code> also takes 5-column BED, including the strand field. In this case, each line indicates an oriented junction.</p>
+<h4 id="Find-overlaps-between-long-reads"><a href="#Find-overlaps-between-long-reads" class="headerlink" title="Find overlaps between long reads"></a>Find overlaps between long reads</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">minimap2</span> -x ava-pb  reads.fq reads.fq &gt; ovlp.paf    <span class="hljs-comment"># PacBio 【CLR read】 overlap</span><br>minimap2 -x ava-ont reads.fq reads.fq &gt; ovlp.paf    <span class="hljs-comment"># Oxford 【Nanopore read】 overlap</span><br></code></pre></td></tr></table></figure>
+
+<p>Similarly, <code>ava-pb</code> uses HPC minimizers while <code>ava-ont</code> uses ordinary minimizers. It is usually not recommended to perform base-level alignment in the overlapping mode because it is slow and may produce false positive overlaps. However, if performance is not a concern, you may try to add <code>-a</code> or <code>-c</code> anyway.</p>
+<h4 id="Map-short-accurate-genomic-reads"><a href="#Map-short-accurate-genomic-reads" class="headerlink" title="Map short accurate genomic reads"></a>Map short accurate genomic reads</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs applescript">minimap2 -ax sr <span class="hljs-keyword">ref</span>.fa reads-se.fq &gt; aln.sam           <span class="hljs-comment"># single-end alignment</span><br>minimap2 -ax sr <span class="hljs-keyword">ref</span>.fa read1.fq read2.fq &gt; aln.sam     <span class="hljs-comment"># paired-end alignment</span><br>minimap2 -ax sr <span class="hljs-keyword">ref</span>.fa reads-interleaved.fq &gt; aln.sam  <span class="hljs-comment"># paired-end alignment</span><br></code></pre></td></tr></table></figure>
+
+<p>When two read files are specified, minimap2 reads from each file in turn and merge them into an interleaved stream internally. Two reads are considered to be paired if they are adjacent in the input stream and have the same name (with the <code>/[0-9]</code> suffix trimmed if present). Single- and paired-end reads can be mixed.</p>
+<p>Minimap2 <strong>does not work well with short spliced reads</strong>. There are many capable RNA-seq mappers for short reads.</p>
+<h4 id="Full-genome-x2F-assembly-alignment"><a href="#Full-genome-x2F-assembly-alignment" class="headerlink" title="Full genome&#x2F;assembly alignment"></a><font color="blue">Full genome&#x2F;assembly alignment</font></h4><figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs d">minimap2 -ax asm5 <span class="hljs-keyword">ref</span>.fa <span class="hljs-keyword">asm</span>.fa &gt; aln.sam       # assembly to assembly/<span class="hljs-keyword">ref</span> alignment<br></code></pre></td></tr></table></figure>
+
+<p>For <strong>cross-species</strong> full-genome alignment, the scoring system needs to be tuned according to the sequence divergence.</p>
+<h3 id="Advanced-features"><a href="#Advanced-features" class="headerlink" title="Advanced features"></a>Advanced features</h3><h4 id="Working-with-gt-65535-CIGAR-operations"><a href="#Working-with-gt-65535-CIGAR-operations" class="headerlink" title="Working with &gt;65535 CIGAR operations"></a>Working with &gt;65535 CIGAR operations</h4><p>Due to a design flaw, BAM does not work with CIGAR strings with &gt;65535 operations (SAM and CRAM work). However, for <strong>ultra-long nanopore reads</strong> minimap2 may align ~1% of read bases with long CIGARs beyond the capability of BAM. If you convert such SAM&#x2F;CRAM to BAM, Picard and recent samtools will throw an error and abort. Older samtools and other tools may create corrupted BAM.</p>
+<p>To avoid this issue, you can add option <code>-L</code> at the minimap2 command line. This option moves a long CIGAR to the <code>CG</code> tag and leaves a fully clipped CIGAR at the SAM CIGAR column. Current tools that don’t read CIGAR (e.g. merging and sorting) still work with such BAM records; tools that read CIGAR will effectively ignore these records. It has been decided that future tools will seamlessly recognize long-cigar records generated by option <code>-L</code>.</p>
+<p><strong>TL;DR</strong>: if you work with ultra-long reads and use tools that only process BAM files, please add option <code>-L</code>.</p>
+<h4 id="The-cs-optional-tag"><a href="#The-cs-optional-tag" class="headerlink" title="The cs optional tag"></a>The cs optional tag</h4><p>The <code>cs</code> SAM&#x2F;PAF tag encodes bases at mismatches and INDELs. It matches regular expression <code>/(:[0-9]+|\*[a-z][a-z]|[=\+\-][A-Za-z]+)+/</code>. Like CIGAR, <code>cs</code> consists of series of operations. Each leading character specifies the operation; the following sequence is the one involved in the operation.</p>
+<p>The <code>cs</code> tag is enabled by command line option <code>--cs</code>. The following alignment, for example:</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">CGATCGATAAATAGAGTAG---GAATAGCA<br>||||||<span class="hljs-string">   </span>||||||||||<span class="hljs-string">   </span>||||<span class="hljs-string"> </span>|||<br>CGATCG---AATAGAGTAGGTCGAATtGCA<br></code></pre></td></tr></table></figure>
+
+<p>is represented as <code>:6-ata:10+gtc:4*at:3</code>, where <code>:[0-9]+</code> represents an identical block, <code>-ata</code> represents a deletion, <code>+gtc</code> an insertion and <code>*at</code> indicates reference base <code>a</code> is substituted with a query base <code>t</code>. It is similar to the <code>MD</code> SAM tag but is standalone and easier to parse.</p>
+<p>If <code>--cs=long</code> is used, the <code>cs</code> string also contains identical sequences in the alignment. The above example will become <code>=CGATCG-ata=AATAGAGTAG+gtc=GAAT*at=GCA</code>. The long form of <code>cs</code> <strong>encodes both reference and query sequences in one string</strong>. The <code>cs</code> tag also encodes <strong>intron positions</strong> and <strong>splicing signals</strong> (see the <a target="_blank" rel="noopener" href="https://lh3.github.io/minimap2/minimap2.html#10">minimap2 manpage</a> for details).</p>
+<h4 id="Working-with-the-PAF-format"><a href="#Working-with-the-PAF-format" class="headerlink" title="Working with the PAF format"></a><font color="red">Working with the PAF format</font></h4><p>Minimap2 also comes with a (java)script <a target="_blank" rel="noopener" href="https://github.com/lh3/minimap2/blob/master/misc/paftools.js">paftools.js</a> that processes alignments in the PAF format. It calls variants from assembly-to-reference alignment, lifts over BED files based on alignment, converts between formats and provides utilities for various evaluations. For details, please see <a target="_blank" rel="noopener" href="https://github.com/lh3/minimap2/blob/master/misc/README.md">misc&#x2F;README.md</a>.</p>
+<h3 id="Algorithm-overview"><a href="#Algorithm-overview" class="headerlink" title="Algorithm overview"></a>Algorithm overview</h3><p>In the following, minimap2 command line options have a dash ahead and are highlighted in bold. The description may help to tune minimap2 parameters.</p>
+<ol>
+<li>Read <strong>-I</strong> [&#x3D;<em>4G</em>] reference bases, extract (<strong>-k</strong>,<strong>-w</strong>)-minimizers and index them in a hash table.</li>
+<li>Read <strong>-K</strong> [&#x3D;<em>200M</em>] query bases. For each query sequence, do step 3 through 7:</li>
+<li>For each (<strong>-k</strong>,<strong>-w</strong>)-minimizer on the query, check against the reference index. If a reference minimizer is not among the top <strong>-f</strong> [&#x3D;<em>2e-4</em>] most frequent, collect its the occurrences in the reference, which are called <em>seeds</em>.</li>
+<li>Sort seeds by position in the reference. Chain them with dynamic programming. Each chain represents a potential mapping. For read overlapping, report all chains and then go to step 8. For reference mapping, do step 5 through 7:</li>
+<li>Let <em>P</em> be the set of primary mappings, which is an empty set initially. For each chain from the best to the worst according to their chaining scores: if on the query, the chain overlaps with a chain in <em>P</em> by <strong>–mask-level</strong> [&#x3D;<em>0.5</em>] or higher fraction of the shorter chain, mark the chain as <em>secondary</em> to the chain in <em>P</em>; otherwise, add the chain to <em>P</em>.</li>
+<li>Retain all primary mappings. Also retain up to <strong>-N</strong> [&#x3D;<em>5</em>] top secondary mappings if their chaining scores are higher than <strong>-p</strong> [&#x3D;<em>0.8</em>] of their corresponding primary mappings.</li>
+<li>If alignment is requested, filter out an internal seed if it potentially leads to both a long insertion and a long deletion. Extend from the left-most seed. Perform global alignments between internal seeds. Split the chain if the accumulative score along the global alignment drops by <strong>-z</strong> [&#x3D;<em>400</em>], disregarding long gaps. Extend from the right-most seed. Output chains and their alignments.</li>
+<li>If there are more query sequences in the input, go to step 2 until no more queries are left.</li>
+<li>If there are more reference sequences, reopen the query file from the start and go to step 1; otherwise stop.</li>
+</ol>
+<h3 id="Getting-help"><a href="#Getting-help" class="headerlink" title="Getting help"></a>Getting help</h3><p>Manpage <a target="_blank" rel="noopener" href="https://lh3.github.io/minimap2/minimap2.html">minimap2.1</a> provides detailed description of minimap2 command line options and optional tags. The <a target="_blank" rel="noopener" href="https://github.com/lh3/minimap2/blob/master/FAQ.md">FAQ</a>page answers several frequently asked questions. If you encounter bugs or have further questions or requests, you can raise an issue at the <a target="_blank" rel="noopener" href="https://github.com/lh3/minimap2/issues">issue page</a>. There is not a specific mailing list for the time being.</p>
+<h2 id="Limitations"><a href="#Limitations" class="headerlink" title="Limitations"></a>Limitations</h2><ul>
+<li>Minimap2 may produce <strong>suboptimal alignments</strong> through <strong>long low-complexity regions</strong> where seed positions may be suboptimal. This should not be a big concern because even the optimal alignment may be wrong in such regions.</li>
+<li>Minimap2 requires SSE2 instructions on x86 CPUs or NEON on ARM CPUs. It is possible to add non-SIMD support, but it would make minimap2 slower by several times.</li>
+<li>Minimap2 <strong>does not work</strong> with a single query or database sequence ~<strong>2 billion bases or longer</strong> (2,147,483,647 to be exact). The total length of all sequences can well exceed this threshold.</li>
+<li>Minimap2 often <strong>misses small exons</strong>.</li>
+</ul>
+<h2 id="methods"><a href="#methods" class="headerlink" title="methods"></a>methods</h2><p>Minimap2 follows a typical <strong>seed-chain-align procedure</strong> as is used by most full-genome aligners. It <strong>collects minimizers</strong> (Roberts <em>et al</em>., 2004) of the <strong>reference sequences</strong> and <strong>indexes them in a hash table</strong>, with the <strong>key</strong> being the hash of a minimizer and the <strong>value</strong> being a list of locations of the minimizer copies. Then for <strong>each query sequence</strong>, minimap2 takes query minimizers as <em>seeds</em>, finds exact matches (i.e. <em>anchors</em>) to the reference, and identifies sets of colinear anchors as <em>chains</em>. If base-level alignment is requested, minimap2 applies <strong>dynamic programming</strong> (DP) to extend from the ends of chains and to close regions between adjacent anchors in chains.</p>
+<p>Minimap2 uses indexing and seeding algorithms similar to minimap (Li, 2016), and furthers the predecessor with more accurate chaining, the ability to produce base-level alignment and the support of spliced alignment.</p>
+<h1 id="asm-vs-asm"><a href="#asm-vs-asm" class="headerlink" title="asm vs asm"></a>asm vs asm</h1><h2 id="Difference-of-SNP-amp-indel-between-asm-vs-asm"><a href="#Difference-of-SNP-amp-indel-between-asm-vs-asm" class="headerlink" title="Difference of SNP&amp;indel between asm vs asm"></a>Difference of SNP&amp;indel between asm vs asm</h2><p><a target="_blank" rel="noopener" href="https://bleepcoder.com/cn/minimap2/296555096/a-best-practices-document-for-assembly-to-assembly">ref</a></p>
+<p><code>paftools.js call</code>现在支持 VCF 输出。 要使用它，请将<code>-f ref.fa</code>加到命令行中：</p>
+<p>对同一物种的asm使用<code>asm5</code> 。 如果略有不同，请使用<code>asm10</code> 。 如果序列差异很大，请使用<code>-a</code> 。</p>
+<p>variant calling</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh">git <span class="hljs-built_in">clone</span> https://github.com/lh3/minimap2   <span class="hljs-comment"># you need the latest version; not from conda</span><br><span class="hljs-built_in">cd</span> minimap2 &amp;&amp; make<br><br>curl -L https://github.com/attractivechaos/k8/releases/download/v0.2.4/k8-0.2.4.tar.bz2 | tar -jxf -<br><span class="hljs-built_in">cp</span> k8-0.2.4/k8-`<span class="hljs-built_in">uname</span> -s` k8   <span class="hljs-comment"># or copy it to a directory on you $PATH</span><br><br>./minimap2 -c --cs ref.fa query.fa \<br>  | <span class="hljs-built_in">sort</span> -k6,6 -k8,8n \<br>  | ./k8 misc/paftools.js call -f ref.fa -L20000 - &gt; var.vcf<br></code></pre></td></tr></table></figure>
+
+<p>两asm差异太大。 可以先尝试：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">./minimap2 -c --cs ref.fa query.fa | <span class="hljs-built_in">sort</span> -k6,6 -k8,8n | ./k8 misc/paftools.js call -L20000 - &gt; var.txt<br></code></pre></td></tr></table></figure>
+
+<p>生成vcf方法</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">git <span class="hljs-built_in">clone</span> https://github.com/lh3/htsbox<br>(<span class="hljs-built_in">cd</span> htsbox &amp;&amp; make)<br>minimap2 -axasm5 wt_minion.fasta wt_pacbio.fasta | samtool <span class="hljs-built_in">sort</span> - &gt; sorted.bam<br>htsbox/htsbox pileup -q5 -S10000 -vcf wt_minion.fasta sorted.bam &gt; diff.vcf<br></code></pre></td></tr></table></figure>
+
+<h2 id="convert-sam-asm-vs-asm-to-paf"><a href="#convert-sam-asm-vs-asm-to-paf" class="headerlink" title="convert sam(asm vs asm) to paf"></a>convert sam(asm vs asm) to paf</h2><p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/479287/">ref</a></p>
+<p>Looks like no one has actually read the question correctly. <font color="blue"><strong>PAF is missing lots of information compared to SAM</strong></font>, because it is <font color="blue"><strong>a summary of alignment</strong></font>, but it also has <font color="blue">easy access to the <strong>alignment start</strong> and <strong>stop coordinates</strong>, <strong>sequences length</strong></font>, etc. Since <font color="blue">PAF is less information-dense you <strong>cannot convert in both directions</strong></font>.</p>
+<p>There are several options:</p>
+<ol>
+<li>Use Heng Li’s experimental toolkit, <font color="blue">htsbox samview -p in.bam</font>: <a target="_blank" rel="noopener" href="https://github.com/lh3/htsbox">https://github.com/lh3/htsbox</a></li>
+<li>Use <font color="green"><strong>paftools.js sam2paf</strong></font>: <a target="_blank" rel="noopener" href="https://github.com/lh3/minimap2/blob/master/misc/README.md#introduction">https://github.com/lh3/minimap2/blob/master/misc/README.md#introduction</a></li>
+<li>Use this <font color="blue">python</font> library: <a target="_blank" rel="noopener" href="https://bioconvert.readthedocs.io/en/master/_modules/bioconvert/sam2paf.html">https://bioconvert.readthedocs.io/en/master/_modules/bioconvert/sam2paf.html</a></li>
+</ol>
+<h2 id="visualization-of-PAF-file-obtained-from-asm-vs-asm-in-minimap2"><a href="#visualization-of-PAF-file-obtained-from-asm-vs-asm-in-minimap2" class="headerlink" title="visualization of PAF file obtained from asm_vs_asm in minimap2"></a>visualization of PAF file obtained from asm_vs_asm in minimap2</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/befb3a440aed">Ref</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs r">source<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;.paf.R&quot;</span><span class="hljs-punctuation">)</span><br>df <span class="hljs-operator">&lt;-</span> read.paf<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;./asm_vs_ref.paf&quot;</span><span class="hljs-punctuation">)</span><br>plot_synteny<span class="hljs-punctuation">(</span>df<span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>grid系统里面的视图(viewport)可以继续分为多个图层，每个图层可有不同的坐标系统。</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br></pre></td><td class="code"><pre><code class="hljs r">read.paf <span class="hljs-operator">&lt;-</span> <span class="hljs-keyword">function</span><span class="hljs-punctuation">(</span>file<span class="hljs-punctuation">,</span> sep <span class="hljs-operator">=</span> <span class="hljs-string">&quot;\t&quot;</span><span class="hljs-punctuation">,</span><br>                     header <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">,</span><br>                     MQ <span class="hljs-operator">=</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span><br>                     ...<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  data <span class="hljs-operator">&lt;-</span> readLines<span class="hljs-punctuation">(</span>file<span class="hljs-punctuation">)</span><br>  <br>  dataSize <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">length</span><span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">)</span><br>  <span class="hljs-comment"># initialize </span><br>  qName   <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;character&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  qLength <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  qStart  <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  qEnd    <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  strand  <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;character&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  tName   <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;character&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  tLength <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  tStart  <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  tEnd    <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  reMatch <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  bLength <span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br>  mQuality<span class="hljs-operator">&lt;-</span> vector<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span> dataSize<span class="hljs-punctuation">)</span><br><br>  i <span class="hljs-operator">&lt;-</span> 1<br>  j <span class="hljs-operator">&lt;-</span> 0<br>  <span class="hljs-keyword">for</span> <span class="hljs-punctuation">(</span>i <span class="hljs-keyword">in</span> seq<span class="hljs-punctuation">(</span>dataSize<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>    items   <span class="hljs-operator">&lt;-</span> strsplit<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">[</span>i<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> split <span class="hljs-operator">=</span> sep<span class="hljs-punctuation">)</span><span class="hljs-punctuation">[[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span><br>    <br>    quality <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">12</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span> <span class="hljs-comment">#Mapping Quality 0-255</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-punctuation">(</span>quality <span class="hljs-operator">&lt;</span> MQ<span class="hljs-punctuation">)</span><br>      <span class="hljs-keyword">next</span><br>    j <span class="hljs-operator">&lt;-</span> j <span class="hljs-operator">+</span> <span class="hljs-number">1</span><br>    qName<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span>   <span class="hljs-operator">&lt;-</span> items<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span> <span class="hljs-comment"># Query sequence name</span><br>    qLength<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span> <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.integer</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><br>    qStart<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span>  <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.integer</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">3</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> <span class="hljs-number">1L</span><br>    qEnd<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span>    <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.integer</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">4</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> <span class="hljs-number">1L</span> <span class="hljs-comment"># convert 0-based to 1-based</span><br>    strand<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span>  <span class="hljs-operator">&lt;-</span> items<span class="hljs-punctuation">[</span><span class="hljs-number">5</span><span class="hljs-punctuation">]</span> <span class="hljs-comment"># Relative strand: &quot;+&quot; or &quot;-&quot;</span><br>    tName<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span>   <span class="hljs-operator">&lt;-</span> items<span class="hljs-punctuation">[</span><span class="hljs-number">6</span><span class="hljs-punctuation">]</span> <span class="hljs-comment"># Target sequence name</span><br>    tLength<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span> <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.integer</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">7</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><br>    tStart<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span>  <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.integer</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">8</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> <span class="hljs-number">1L</span><br>    tEnd<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span>    <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.integer</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">9</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> <span class="hljs-number">1L</span><br>    reMatch<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span> <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.integer</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">10</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span>  <span class="hljs-comment">#Number of residue matches</span><br>    bLength<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span> <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.integer</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">11</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span> <span class="hljs-comment">#Alignment block length</span><br>    mQuality<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">]</span><span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.integer</span><span class="hljs-punctuation">(</span>items<span class="hljs-punctuation">[</span><span class="hljs-number">12</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span> <span class="hljs-comment">#Alignment block length</span><br>  <span class="hljs-punctuation">&#125;</span> <br>    pafDataframe <span class="hljs-operator">&lt;-</span> data.frame<span class="hljs-punctuation">(</span>qName <span class="hljs-operator">=</span> qName<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> qStart <span class="hljs-operator">=</span> qStart<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> qEnd <span class="hljs-operator">=</span> qEnd<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>                               tName <span class="hljs-operator">=</span> tName<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> tStart <span class="hljs-operator">=</span> tStart<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> tEnd <span class="hljs-operator">=</span> tEnd<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>                               qLength <span class="hljs-operator">=</span> qLength<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> tLength <span class="hljs-operator">=</span> tLength<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <br>                               strand  <span class="hljs-operator">=</span> strand<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>                               reMatch <span class="hljs-operator">=</span> reMatch<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> bLength <span class="hljs-operator">=</span> bLength<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>                               mQuality <span class="hljs-operator">=</span> mQuality<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>j<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>                               stringsAsFactors <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">)</span><br>  <span class="hljs-built_in">return</span><span class="hljs-punctuation">(</span>pafDataframe<span class="hljs-punctuation">)</span> <br><span class="hljs-punctuation">&#125;</span><br><br><br>plot_synteny <span class="hljs-operator">&lt;-</span> <span class="hljs-keyword">function</span><span class="hljs-punctuation">(</span>df<span class="hljs-punctuation">,</span> contigs <span class="hljs-operator">=</span> <span class="hljs-number">20</span><span class="hljs-punctuation">,</span><br>                         lineSize <span class="hljs-operator">=</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span><br>                         borderCol <span class="hljs-operator">=</span> <span class="hljs-string">&quot;#5496ff&quot;</span><span class="hljs-punctuation">,</span>... <span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  <br>  <span class="hljs-comment"># select the top N contig</span><br>  x <span class="hljs-operator">&lt;-</span> df<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;qName&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;qLength&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><br>  x <span class="hljs-operator">&lt;-</span> x<span class="hljs-punctuation">[</span><span class="hljs-operator">!</span>duplicated<span class="hljs-punctuation">(</span>x<span class="hljs-operator">$</span>qName<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>  x <span class="hljs-operator">&lt;-</span> x<span class="hljs-punctuation">[</span>order<span class="hljs-punctuation">(</span>x<span class="hljs-operator">$</span>qLength<span class="hljs-punctuation">,</span> decreasing <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>contigs<span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br><br>  y <span class="hljs-operator">&lt;-</span> df<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;tName&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;tLength&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><br>  y <span class="hljs-operator">&lt;-</span> y<span class="hljs-punctuation">[</span><span class="hljs-operator">!</span>duplicated<span class="hljs-punctuation">(</span>y<span class="hljs-operator">$</span>tName<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>  y <span class="hljs-operator">&lt;-</span> y<span class="hljs-punctuation">[</span>order<span class="hljs-punctuation">(</span>y<span class="hljs-operator">$</span>tLength<span class="hljs-punctuation">,</span> decreasing <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span>contigs<span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>  <br>  <span class="hljs-comment"># make new page for ploting</span><br>  grid<span class="hljs-operator">::</span>grid.newpage<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>  <br>  <span class="hljs-comment"># allot the ratio of each contig</span><br>  x_frac <span class="hljs-operator">&lt;-</span> x<span class="hljs-operator">$</span>qLength <span class="hljs-operator">/</span> <span class="hljs-built_in">sum</span><span class="hljs-punctuation">(</span>x<span class="hljs-operator">$</span>qLength<span class="hljs-punctuation">)</span><br>  y_frac <span class="hljs-operator">&lt;-</span> y<span class="hljs-operator">$</span>tLength <span class="hljs-operator">/</span> <span class="hljs-built_in">sum</span><span class="hljs-punctuation">(</span>y<span class="hljs-operator">$</span>tLength<span class="hljs-punctuation">)</span><br>  <br>  <span class="hljs-comment"># draw the contig name</span><br>  grid<span class="hljs-operator">::</span>pushViewport<span class="hljs-punctuation">(</span>grid<span class="hljs-operator">::</span>viewport<span class="hljs-punctuation">(</span>height <span class="hljs-operator">=</span> <span class="hljs-number">0.7</span><span class="hljs-punctuation">,</span><br>                        width <span class="hljs-operator">=</span>  <span class="hljs-number">0.7</span><span class="hljs-punctuation">,</span><br>                        gp <span class="hljs-operator">=</span> grid<span class="hljs-operator">::</span>gpar<span class="hljs-punctuation">(</span>cex <span class="hljs-operator">=</span> <span class="hljs-number">0.75</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                        name <span class="hljs-operator">=</span> <span class="hljs-string">&quot;contigName&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>  x_pos <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">cumsum</span><span class="hljs-punctuation">(</span>x_frac<span class="hljs-punctuation">)</span><span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span><span class="hljs-punctuation">(</span>contigs<span class="hljs-operator">-</span><span class="hljs-number">1</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><br>  y_pos <span class="hljs-operator">&lt;-</span> 1<span class="hljs-operator">-</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">cumsum</span><span class="hljs-punctuation">(</span>y_frac<span class="hljs-punctuation">)</span><span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-operator">:</span><span class="hljs-punctuation">(</span>contigs<span class="hljs-operator">-</span><span class="hljs-number">1</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><br>  <span class="hljs-keyword">for</span> <span class="hljs-punctuation">(</span>i <span class="hljs-keyword">in</span> <span class="hljs-built_in">seq.int</span><span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span>contigs<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>    grid<span class="hljs-operator">::</span>grid.text<span class="hljs-punctuation">(</span>label <span class="hljs-operator">=</span> x<span class="hljs-punctuation">[</span>i<span class="hljs-punctuation">,</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <br>              x <span class="hljs-operator">=</span> grid<span class="hljs-operator">::</span>unit<span class="hljs-punctuation">(</span>x_pos<span class="hljs-punctuation">[</span>i<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;npc&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>              y <span class="hljs-operator">=</span> grid<span class="hljs-operator">::</span>unit<span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;npc&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>              just <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;left&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;bottom&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>              rot <span class="hljs-operator">=</span> <span class="hljs-number">35</span><br>              <span class="hljs-punctuation">)</span><br>    grid<span class="hljs-operator">::</span>grid.text<span class="hljs-punctuation">(</span>label <span class="hljs-operator">=</span> y<span class="hljs-punctuation">[</span>i<span class="hljs-punctuation">,</span> <span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>              x <span class="hljs-operator">=</span> grid<span class="hljs-operator">::</span>unit<span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;npc&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>              y <span class="hljs-operator">=</span> grid<span class="hljs-operator">::</span>unit<span class="hljs-punctuation">(</span>y_pos<span class="hljs-punctuation">[</span>i<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;npc&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>              just <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;left&quot;</span><span class="hljs-punctuation">)</span><br>              <span class="hljs-punctuation">)</span><br>    <br>  <span class="hljs-punctuation">&#125;</span><br>  <br>  vplay <span class="hljs-operator">&lt;-</span> grid<span class="hljs-operator">::</span>grid.layout<span class="hljs-punctuation">(</span>contigs<span class="hljs-punctuation">,</span> contigs<span class="hljs-punctuation">,</span> <br>                       widths  <span class="hljs-operator">=</span> x_frac<span class="hljs-punctuation">,</span><br>                       heights <span class="hljs-operator">=</span> y_frac<span class="hljs-punctuation">)</span><br>  grid<span class="hljs-operator">::</span>pushViewport<span class="hljs-punctuation">(</span>grid<span class="hljs-operator">::</span>viewport<span class="hljs-punctuation">(</span>layout <span class="hljs-operator">=</span> vplay<span class="hljs-punctuation">,</span><br>                        name <span class="hljs-operator">=</span> <span class="hljs-string">&quot;vplay&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>  <br>  <br>  <span class="hljs-comment"># line represent the synteny</span><br>  <span class="hljs-keyword">for</span> <span class="hljs-punctuation">(</span> i <span class="hljs-keyword">in</span> seq<span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> contigs<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-keyword">for</span> <span class="hljs-punctuation">(</span>j <span class="hljs-keyword">in</span> seq<span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> contigs<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>      <br>      <span class="hljs-comment"># get the name and length for subsetting</span><br>      xName   <span class="hljs-operator">&lt;-</span> x<span class="hljs-punctuation">[</span>i<span class="hljs-punctuation">,</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><br>      xLength <span class="hljs-operator">&lt;-</span> x<span class="hljs-punctuation">[</span>i<span class="hljs-punctuation">,</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><br>      yName   <span class="hljs-operator">&lt;-</span> y<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">,</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span> <br>      yLength <span class="hljs-operator">&lt;-</span> y<span class="hljs-punctuation">[</span>j<span class="hljs-punctuation">,</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><br>      <br>      <span class="hljs-comment"># push view port for plot Collinearity</span><br>      grid<span class="hljs-operator">::</span>pushViewport<span class="hljs-punctuation">(</span>grid<span class="hljs-operator">::</span>viewport<span class="hljs-punctuation">(</span>layout.pos.col <span class="hljs-operator">=</span> i<span class="hljs-punctuation">,</span><br>                            layout.pos.row <span class="hljs-operator">=</span> j<span class="hljs-punctuation">,</span><br>                            xscale <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> xLength<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                            yscale <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> yLength<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                            name <span class="hljs-operator">=</span> paste0<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;pos&quot;</span><span class="hljs-punctuation">,</span>i<span class="hljs-punctuation">,</span>j<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>  <br>      grid<span class="hljs-operator">::</span>grid.rect<span class="hljs-punctuation">(</span>gp<span class="hljs-operator">=</span>grid<span class="hljs-operator">::</span>gpar<span class="hljs-punctuation">(</span>col<span class="hljs-operator">=</span>borderCol<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>      <span class="hljs-comment"># select the data</span><br>      plot_df <span class="hljs-operator">&lt;-</span> df<span class="hljs-punctuation">[</span>df<span class="hljs-operator">$</span>qName <span class="hljs-operator">==</span> xName <span class="hljs-operator">&amp;</span> df<span class="hljs-operator">$</span>tName <span class="hljs-operator">==</span> yName<span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span> <br>      blocks <span class="hljs-operator">&lt;-</span> nrow<span class="hljs-punctuation">(</span>plot_df<span class="hljs-punctuation">)</span><br>      <span class="hljs-comment">#cat(sprintf(&quot;block size is %d\n&quot;, blocks))</span><br>      <br>      <span class="hljs-keyword">if</span> <span class="hljs-punctuation">(</span>blocks <span class="hljs-operator">==</span> <span class="hljs-number">0</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">&#123;</span><br>        grid<span class="hljs-operator">::</span>upViewport<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <br>        <span class="hljs-keyword">next</span><br>      <span class="hljs-punctuation">&#125;</span><br>      <br>      <span class="hljs-comment"># plot the line</span><br>      <span class="hljs-keyword">for</span> <span class="hljs-punctuation">(</span>k <span class="hljs-keyword">in</span> seq<span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> blocks<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-punctuation">(</span>plot_df<span class="hljs-operator">$</span>strand<span class="hljs-punctuation">[</span>k<span class="hljs-punctuation">]</span> <span class="hljs-operator">==</span> <span class="hljs-string">&quot;+&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>          grid<span class="hljs-operator">::</span>grid.lines<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span>plot_df<span class="hljs-operator">$</span>qStart<span class="hljs-punctuation">[</span>k<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> plot_df<span class="hljs-operator">$</span>qEnd<span class="hljs-punctuation">[</span>k<span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                     y <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span>plot_df<span class="hljs-operator">$</span>tStart<span class="hljs-punctuation">[</span>k<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> plot_df<span class="hljs-operator">$</span>tEnd<span class="hljs-punctuation">[</span>k<span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                     gp<span class="hljs-operator">=</span>grid<span class="hljs-operator">::</span>gpar<span class="hljs-punctuation">(</span>lwd <span class="hljs-operator">=</span> lineSize<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                     default.units <span class="hljs-operator">=</span> <span class="hljs-string">&quot;native&quot;</span><span class="hljs-punctuation">)</span><br>        <span class="hljs-punctuation">&#125;</span> <span class="hljs-keyword">else</span> <span class="hljs-punctuation">&#123;</span><br>          grid<span class="hljs-operator">::</span>grid.lines<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span>plot_df<span class="hljs-operator">$</span>qStart<span class="hljs-punctuation">[</span>k<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> plot_df<span class="hljs-operator">$</span>qEnd<span class="hljs-punctuation">[</span>k<span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                     y <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span>plot_df<span class="hljs-operator">$</span>tEnd<span class="hljs-punctuation">[</span>k<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> plot_df<span class="hljs-operator">$</span>tStart<span class="hljs-punctuation">[</span>k<span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                     gp<span class="hljs-operator">=</span>grid<span class="hljs-operator">::</span>gpar<span class="hljs-punctuation">(</span>lwd <span class="hljs-operator">=</span> lineSize<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                     default.units <span class="hljs-operator">=</span> <span class="hljs-string">&quot;native&quot;</span><span class="hljs-punctuation">)</span><br>        <span class="hljs-punctuation">&#125;</span><br><br>      <span class="hljs-punctuation">&#125;</span><br>      <br>      grid<span class="hljs-operator">::</span>upViewport<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/denovo-III/">#denovo-III</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【long reads mapping】【minimap2】</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/03/16/2022-03-16-minimap2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 16, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/16/2022-03-16-juicer/" title="【Hi-C】【Juicer】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【Hi-C】【Juicer】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/16/2022-03-16-HiFi-7-HiC-assembly2/" title="HiFi-7-[HiFi+HiC-assembly-method]">
+                        <span class="hidden-mobile">HiFi-7-[HiFi+HiC-assembly-method]</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

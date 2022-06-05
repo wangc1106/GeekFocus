@@ -1,0 +1,1037 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="RNA-seq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RNA-seq【hisat2】">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/05/11/2022-05-11-hisat2/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="RNA-seq">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-05-11-hisat2/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/11/2022-05-11-hisat2/2022-05-11-hisat2/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022/05/11/2022-05-11-hisat2/2022-05-11-hisat2/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-05-11-hisat2/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-05-11-hisat2/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/4.png">
+<meta property="article:published_time" content="2022-05-11T02:37:17.574Z">
+<meta property="article:modified_time" content="2022-06-05T12:19:59.132Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="RNA-seq">
+<meta property="article:tag" content="mapping">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/2022-05-11-hisat2/1.png">
+  
+  
+  
+  <title>RNA-seq【hisat2】 - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RNA-seq【hisat2】"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-11 10:37" pubdate>
+          May 11, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          24k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          198 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">RNA-seq【hisat2】</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>RNA-seq </p>
+<span id="more"></span>
+
+<h1 id="一-软件比较"><a href="#一-软件比较" class="headerlink" title="一. 软件比较"></a>一. 软件比较</h1><p>tophat2 不更新，速度慢。hisat2同实验室开发</p>
+<p>tophat+cufflinks可替换为：hisat2+stringtie+ballgown</p>
+<blockquote>
+<p>Star的比对速度是tophat的50倍，hisat是star的1.2倍。<br>stringTie的组装速度是cufflinks的25倍，内存消耗不到其一半。<br>Ballgown在差异分析方面比cuffdiff更高的特异性及准确性，时间消耗不到cuffdiff的千分之一<br>Bowtie2+eXpress做质量控制优于tophat2+cufflinks和bowtie2+RSEM<br>Sailfish跳过比对步骤，直接进行kmer计数做QC，特异性及准确性都还行，但速度提高了25倍<br>kallisto同样不需要比对，速度比sailfish提高5倍.</p>
+</blockquote>
+<p>good introduction：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1703051">https://cloud.tencent.com/developer/article/1703051</a></p>
+<h1 id="二-hisat2介绍"><a href="#二-hisat2介绍" class="headerlink" title="二.hisat2介绍"></a>二.hisat2介绍</h1><p>Hisat是一种高效的RNA-seq实验比对工具。它使用了基于BWT和Ferragina-manzini (Fm) index 两种算法的索引框架。使用了两类索引去比对，一类是全基因组范围的FM索引来锚定每一个比对，另一类是大量的局部索引对这些比对做快速的扩展。比对原理可阅读文献原文：HISAT: a fast spliced aligner with low memory requirements.</p>
+<p>（一）背景</p>
+<p>自2008年起，RNAseq已经成为研究基因表达、转录本结构、长链非编码RNA确定以及融合转录本的重要手段。随着测序深度的加深和read读长的延长，给比对工作带来很多困难。目前的工具如Tophat2和GSNAP等在对单个转录组实验的比对中耗时几天，而新型的STAR虽然很快，但是会吃掉大量的内存空间，如基于人类基因组的比对需要消耗28G左右，而hisat2是4.3G，小鼠3.8G左右。</p>
+<p>（二）Hisat设计原则</p>
+<p>1.优化了索引建立策略</p>
+<p>hisat应用了基于bowtie2的方法去处理很多低水平的用于构建和查询FM索引的操作。但是与其它比对器不同的是，该软件应用了两类不同的索引类型：代表全基因组的全局FM索引和大量的局部小索引，每个索引代表64000bp。以人类基因组为例，创建了48000个局部索引，每一个覆盖1024bp，最终可以覆盖这个3 billion 的碱基的基因组。这种存在交叉（overlap）的边界可以轻松的比对那些跨区域的read（可变剪切体）。尽管有很多索引，但是hisat会把他们使用合适方法压缩，最终只占4gb左右的内存。</p>
+<p>2.采用了新的比对策略</p>
+<p>RNA-seq产生的reads可能跨长度比较大的内含子，哺乳动物中甚至最长能达到1MB，同时外显子比较短，read也比较短，会有很多read（模拟数据中大概34%）跨两个外显子的情况。为了更好的比对，将跨外显子的reads分成了三类：1）长锚定read，至少有16bp在两个外显子的每一个上 2）中间锚定read，有8-15bp在一个外显子上 3）短锚定read，只有1-7bp在一个外显子上。所以总的reads可以被划分为五类：1）不跨外显子的read 2）长锚定read 3）中间锚定read 4）短锚定read 5）跨两个外显子以上的read。在模拟的数据中，有25%左右的read是长锚定read，这种read在大多数情况下可以被唯一的定位到人的基因组上。5%为中间锚定read，对于这类，很多依赖于全局索引的算法就很难执行下去（需要比对很多次），而hisat，可以先将read中的长片段实现唯一比对，之后再使用局部索引对剩下的小片段进行比对（局部索引可以实现快速检索）。4.2%为短锚定read，因为这些序列特别短，因此只能通过在hisat比对其它read时发现的剪切位点或者用户自己提供的剪切位点来辅助比对。最后还有3%的是跨多个外显子的read，比对策略在hisat的online method中有介绍，文章中没有详解。比对过程中，中间锚定read、短锚定read、跨多个外显子read的比对占总比对时长的30%-60%，而且比对错误率很高！【引用：1】</p>
+<p>官方手册：<a target="_blank" rel="noopener" href="https://daehwankimlab.github.io/hisat2/manual/">https://daehwankimlab.github.io/hisat2/manual/</a><br>（三）.HiSat2进行比对的参数设置 【引用：2】</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br></pre></td><td class="code"><pre><code class="hljs sh">HISAT2 version 2.1.0 by Daehwan Kim (infphilo@gmail.com, www.ccb.jhu.edu/people/infphilo)<br>Usage: <br>  hisat2 [options]* -x &lt;ht2-idx&gt; &#123;-1 &lt;m1&gt; -2 &lt;m2&gt; | -U &lt;r&gt;&#125; [-S &lt;sam&gt;]<br><br>  &lt;ht2-idx&gt;  Index filename prefix (minus trailing .X.ht2).<br>             索引文件的前缀<br>  &lt;m1&gt;       Files with <span class="hljs-comment">#1 mates, paired with files in &lt;m2&gt;.</span><br>             Could be gzip<span class="hljs-string">&#x27;ed (extension: .gz) or bzip2&#x27;</span>ed (extension: .bz2).<br>             Paired-end测序的第一个文件，可以是压缩格式的（`.gz`或者`.bz2`）<br>  &lt;m2&gt;       Files with <span class="hljs-comment">#2 mates, paired with files in &lt;m1&gt;.</span><br>             Could be gzip<span class="hljs-string">&#x27;ed (extension: .gz) or bzip2&#x27;</span>ed (extension: .bz2).<br>             Paired-end测序的第二个文件<br>  &lt;r&gt;        Files with unpaired reads.<br>             Could be gzip<span class="hljs-string">&#x27;ed (extension: .gz) or bzip2&#x27;</span>ed (extension: .bz2).<br>             single-end测序的文件<br>  &lt;sam&gt;      File <span class="hljs-keyword">for</span> SAM output (default: stdout)<br>             输出比对的结果（`.sam`）<br><br>  &lt;m1&gt;, &lt;m2&gt;, &lt;r&gt; can be comma-separated lists (no whitespace) and can be<br>  specified many <span class="hljs-built_in">times</span>.  E.g. <span class="hljs-string">&#x27;-U file1.fq,file2.fq -U file3.fq&#x27;</span>.<br>  可以是多个序列文件用逗号分隔<br><br>Options (defaults <span class="hljs-keyword">in</span> parentheses):<br><br> Input:<br>  -q                 query input files are FASTQ .fq/.fastq (default)<br>                     输入检索序列为FASTQG格式<br>  --qseq             query input files are <span class="hljs-keyword">in</span> Illumina<span class="hljs-string">&#x27;s qseq format</span><br><span class="hljs-string">                     输入检索序列是Illumina qseq格式</span><br><span class="hljs-string">  -f                 query input files are (multi-)FASTA .fa/.mfa</span><br><span class="hljs-string">                     输入文件是多个FASTA文件</span><br><span class="hljs-string">  -r                 query input files are raw one-sequence-per-line</span><br><span class="hljs-string">                     输入检索序列是每行一个原始序列</span><br><span class="hljs-string">  -c                 &lt;m1&gt;, &lt;m2&gt;, &lt;r&gt; are sequences themselves, not files</span><br><span class="hljs-string">                     直接输入序列，而不是文件</span><br><span class="hljs-string">  -s/--skip &lt;int&gt;    skip the first &lt;int&gt; reads/pairs in the input (none)</span><br><span class="hljs-string">                     忽略输入序列的前`&lt;int&gt;`个</span><br><span class="hljs-string">  -u/--upto &lt;int&gt;    stop after first &lt;int&gt; reads/pairs (no limit)</span><br><span class="hljs-string">                     只分析输入序列的前`&lt;int&gt;`个</span><br><span class="hljs-string">  -5/--trim5 &lt;int&gt;   trim &lt;int&gt; bases from 5&#x27;</span>/left end of reads (0)<br>                     剪去reads长度为`&lt;int&gt;`的5<span class="hljs-string">&#x27;端序列</span><br><span class="hljs-string">  -3/--trim3 &lt;int&gt;   trim &lt;int&gt; bases from 3&#x27;</span>/right end of reads (0)<br>                     剪去reads长度为`&lt;int&gt;`的3<span class="hljs-string">&#x27;端序列</span><br><span class="hljs-string">  --phred33          qualities are Phred+33 (default)</span><br><span class="hljs-string">                     序列质量打分为Phred+33</span><br><span class="hljs-string">  --phred64          qualities are Phred+64</span><br><span class="hljs-string">                     序列质量打分为Phred+64</span><br><span class="hljs-string">  --int-quals        qualities encoded as space-delimited integers</span><br><span class="hljs-string">                     序列质量打分为用空格分隔的整数</span><br><span class="hljs-string"></span><br><span class="hljs-string"> Alignment:</span><br><span class="hljs-string">  --n-ceil &lt;func&gt;    func for max # non-A/C/G/Ts permitted in aln (L,0,0.15)</span><br><span class="hljs-string">                     允许在比对结果中出现的最多非ACTG的计算函数</span><br><span class="hljs-string">  --ignore-quals     treat all quality values as 30 on Phred scale (off)</span><br><span class="hljs-string">                     将所有质量分值设为30</span><br><span class="hljs-string">  --nofw             do not align forward (original) version of read (off)</span><br><span class="hljs-string">                     不比对前向的read</span><br><span class="hljs-string">  --norc             do not align reverse-complement version of read (off)</span><br><span class="hljs-string">                     不比对后向的read</span><br><span class="hljs-string"></span><br><span class="hljs-string"> Spliced Alignment:</span><br><span class="hljs-string">  --pen-cansplice &lt;int&gt;              penalty for a canonical splice site (0)</span><br><span class="hljs-string">                                     对已知剪接位点的罚分</span><br><span class="hljs-string">  --pen-noncansplice &lt;int&gt;           penalty for a non-canonical splice site (12)</span><br><span class="hljs-string">                                     对新的剪接位点的罚分</span><br><span class="hljs-string">  --pen-canintronlen &lt;func&gt;          penalty for long introns (G,-8,1) with canonical splice sites</span><br><span class="hljs-string">                                     对已知剪接位点中长内含子的罚分</span><br><span class="hljs-string">  --pen-noncanintronlen &lt;func&gt;       penalty for long introns (G,-8,1) with noncanonical splice sites</span><br><span class="hljs-string">                                     对未知剪接位点中长内含子的罚分</span><br><span class="hljs-string">  --min-intronlen &lt;int&gt;              minimum intron length (20)</span><br><span class="hljs-string">                                     最小允许的内含子长度</span><br><span class="hljs-string">  --max-intronlen &lt;int&gt;              maximum intron length (500000)</span><br><span class="hljs-string">                                     最大允许的内含子长度</span><br><span class="hljs-string">  --known-splicesite-infile &lt;path&gt;   provide a list of known splice sites</span><br><span class="hljs-string">                                     提供一个已知的剪接位点列表</span><br><span class="hljs-string">  --novel-splicesite-outfile &lt;path&gt;  report a list of splice sites</span><br><span class="hljs-string">                                     报告新的剪接位点</span><br><span class="hljs-string">  --novel-splicesite-infile &lt;path&gt;   provide a list of novel splice sites</span><br><span class="hljs-string">                                     提供新的剪接位点</span><br><span class="hljs-string">  --no-temp-splicesite               disable the use of splice sites found</span><br><span class="hljs-string">                                     不使用发现的新剪接位点</span><br><span class="hljs-string">  --no-spliced-alignment             disable spliced alignment</span><br><span class="hljs-string">                                     不允许剪接比对</span><br><span class="hljs-string">  --rna-strandness &lt;string&gt;          specify strand-specific information (unstranded)</span><br><span class="hljs-string">                                     指定链特异性的信息</span><br><span class="hljs-string">  --tmo                              reports only those alignments within known transcriptome</span><br><span class="hljs-string">                                     报告只包含已知转录组信息的比对结果</span><br><span class="hljs-string">  --dta                              reports alignments tailored for transcript assemblers</span><br><span class="hljs-string">                                     结果适合用于stringtie进行转录本的拼接</span><br><span class="hljs-string">  --dta-cufflinks                    reports alignments tailored specifically for cufflinks</span><br><span class="hljs-string">                                     结果适合于cufflinks的应用</span><br><span class="hljs-string">  --avoid-pseudogene                 tries to avoid aligning reads to pseudogenes (experimental option)</span><br><span class="hljs-string">                                     避免与假基因的比对</span><br><span class="hljs-string">  --no-templatelen-adjustment        disables template length adjustment for RNA-seq reads</span><br><span class="hljs-string">                                     不允许对reads的模板长度进行调整</span><br><span class="hljs-string"></span><br><span class="hljs-string"> Scoring:</span><br><span class="hljs-string">  --mp &lt;int&gt;,&lt;int&gt;   max and min penalties for mismatch; lower qual = lower penalty &lt;6,2&gt;</span><br><span class="hljs-string">                     不匹配的最大与最小罚分值，低质量对应低罚分</span><br><span class="hljs-string">  --sp &lt;int&gt;,&lt;int&gt;   max and min penalties for soft-clipping; lower qual = lower penalty &lt;2,1&gt;</span><br><span class="hljs-string">                     soft-clipping的最大与最小罚分</span><br><span class="hljs-string">  --no-softclip      no soft-clipping</span><br><span class="hljs-string">                     不考虑Soft-clipping</span><br><span class="hljs-string">  --np &lt;int&gt;         penalty for non-A/C/G/Ts in read/ref (1)</span><br><span class="hljs-string">                     对read或参考序列中出现的非ATCG的罚分</span><br><span class="hljs-string">  --rdg &lt;int&gt;,&lt;int&gt;  read gap open, extend penalties (5,3)</span><br><span class="hljs-string">                     对read的gap-open, gap-extension的罚分</span><br><span class="hljs-string">  --rfg &lt;int&gt;,&lt;int&gt;  reference gap open, extend penalties (5,3)</span><br><span class="hljs-string">                     对参考序列的gap-open,gap-extension的罚分</span><br><span class="hljs-string">  --score-min &lt;func&gt; min acceptable alignment score w/r/t read length</span><br><span class="hljs-string">                     (L,0.0,-0.2)</span><br><span class="hljs-string">                     相对read长度的最小接受比对分值</span><br><span class="hljs-string"></span><br><span class="hljs-string"> Reporting:</span><br><span class="hljs-string">  -k &lt;int&gt; (default: 5) report up to &lt;int&gt; alns per read</span><br><span class="hljs-string">                     对每个read只报告`&lt;int&gt;`个比对结果</span><br><span class="hljs-string"></span><br><span class="hljs-string"> Paired-end:</span><br><span class="hljs-string">  -I/--minins &lt;int&gt;  minimum fragment length (0), only valid with --no-spliced-alignment</span><br><span class="hljs-string">                     paired-end的最小片段长度</span><br><span class="hljs-string">  -X/--maxins &lt;int&gt;  maximum fragment length (500), only valid with --no-spliced-alignment</span><br><span class="hljs-string">                     最大片段长度</span><br><span class="hljs-string">  --fr/--rf/--ff     -1, -2 mates align fw/rev, rev/fw, fw/fw (--fr)</span><br><span class="hljs-string">                     `--fr==fw/rev`，`--rf==rev/fw`, `--ff==fw/fw`</span><br><span class="hljs-string">  --no-mixed         suppress unpaired alignments for paired reads</span><br><span class="hljs-string">                     不输出paired reads的不能匹配的比对结果</span><br><span class="hljs-string">  --no-discordant    suppress discordant alignments for paired reads</span><br><span class="hljs-string">                     不输出paired-reads的不统一的比对结果</span><br><span class="hljs-string"></span><br><span class="hljs-string"> Output:</span><br><span class="hljs-string">  -t/--time          print wall-clock time taken by search phases</span><br><span class="hljs-string">                     输出搜索阶段所花费的wall-clock时间</span><br><span class="hljs-string">  --un &lt;path&gt;           write unpaired reads that didn&#x27;</span>t align to &lt;path&gt;<br>                        输出没有与`&lt;path&gt;`比对的unpaired reads<br>  --al &lt;path&gt;           write unpaired reads that aligned at least once to &lt;path&gt;<br>                        输出至少与`&lt;path&gt;`有一次比对的unpaired reads<br>  --un-conc &lt;path&gt;      write pairs that didn<span class="hljs-string">&#x27;t align concordantly to &lt;path&gt;</span><br><span class="hljs-string">  --al-conc &lt;path&gt;      write pairs that aligned concordantly at least once to &lt;path&gt;</span><br><span class="hljs-string">  (Note: for --un, --al, --un-conc, or --al-conc, add &#x27;</span>-gz<span class="hljs-string">&#x27; to the option name, e.g.</span><br><span class="hljs-string">  --un-gz &lt;path&gt;, to gzip compress output, or add &#x27;</span>-bz2<span class="hljs-string">&#x27; to bzip2 compress output.)</span><br><span class="hljs-string">                    将输出结果进行`gz`或者`bz2`压缩</span><br><span class="hljs-string">  --summary-file     print alignment summary to this file.</span><br><span class="hljs-string">                     将比对的总结输出到文件中</span><br><span class="hljs-string">  --new-summary      print alignment summary in a new style, which is more machine-friendly.</span><br><span class="hljs-string">                     将比对总结以新的形式输出</span><br><span class="hljs-string">  --quiet            print nothing to stderr except serious errors</span><br><span class="hljs-string">                     除了严重错误以外，不将任何结果输出到stderr</span><br><span class="hljs-string">  --met-file &lt;path&gt;  send metrics to file at &lt;path&gt; (off)</span><br><span class="hljs-string">                     将度量值i输出到文件</span><br><span class="hljs-string">  --met-stderr       send metrics to stderr (off)</span><br><span class="hljs-string">                     将度量值输出到stderr</span><br><span class="hljs-string">  --met &lt;int&gt;        report internal counters &amp; metrics every &lt;int&gt; secs (1)</span><br><span class="hljs-string">                     每隔`&lt;int&gt;`秒输出当前的内部计数器和度量值</span><br><span class="hljs-string">  --no-head          supppress header lines, i.e. lines starting with @</span><br><span class="hljs-string">                     不输出header行，也就是所有以`@`开始的行</span><br><span class="hljs-string">  --no-sq            supppress @SQ header lines</span><br><span class="hljs-string">                     不输出`@SQ`行</span><br><span class="hljs-string">  --rg-id &lt;text&gt;     set read group id, reflected in @RG line and RG:Z: opt field</span><br><span class="hljs-string">                     设置`@RG`</span><br><span class="hljs-string">  --rg &lt;text&gt;        add &lt;text&gt; (&quot;lab:value&quot;) to @RG line of SAM header.</span><br><span class="hljs-string">                     Note: @RG line only printed when --rg-id is set.</span><br><span class="hljs-string">                     将`&lt;text&gt;`加到SAM文件的`@RG`行</span><br><span class="hljs-string">  --omit-sec-seq     put &#x27;</span>*<span class="hljs-string">&#x27; in SEQ and QUAL fields for secondary alignments.</span><br><span class="hljs-string">                     将&quot;*&quot;置于SEQ和QUAL两列中，进行二次比对</span><br><span class="hljs-string"></span><br><span class="hljs-string"> Performance:</span><br><span class="hljs-string">  -o/--offrate &lt;int&gt; override offrate of index; must be &gt;= index&#x27;</span>s offrate<br>                     重置索引的`offrate`，该值必须大于原有的`offrate`<br>  -p/--threads &lt;int&gt; number of alignment threads to launch (1)<br>                     比对所用的线程数<br>  --reorder          force SAM output order to match order of input reads<br>                     强制要求SAM输出顺序比对与输入reads一致<br>  --mm               use memory-mapped I/O <span class="hljs-keyword">for</span> index; many <span class="hljs-string">&#x27;hisat2&#x27;</span>s can share<br>                     使用内存映射的I/O作为索引<br><br> Other:<br>  --qc-filter        filter out reads that are bad according to QSEQ filter<br>                     根据QSEQ filter过滤输入的reads<br>  --seed &lt;int&gt;       seed <span class="hljs-keyword">for</span> random number generator (0)<br>                     设置RNG seeds的值<br>  --non-deterministic seed rand. gen. arbitrarily instead of using <span class="hljs-built_in">read</span> attributes<br>                     不根据reads的属性产生随机数<br>  --remove-chrname   remove <span class="hljs-string">&#x27;chr&#x27;</span> from reference names <span class="hljs-keyword">in</span> alignment<br>                     比对结果中的参考序列名称中去除`chr`<br>  --add-chrname      add <span class="hljs-string">&#x27;chr&#x27;</span> to reference names <span class="hljs-keyword">in</span> alignment<br>                     在比对结果的参考序列名称中加入`chr` <br>  --version          <span class="hljs-built_in">print</span> version information and quit<br>                     输出版本信息<br>  -h/--help          <span class="hljs-built_in">print</span> this usage message<br>                     输出帮助信息<br></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"> --dta                              reports alignments tailored <span class="hljs-keyword">for</span> transcript assemblers<br>                                     结果适合用于stringtie进行转录本的拼接<br><span class="hljs-comment">#Cufflinks error: BAM record error: found spliced alignment without XS attribute</span><br>https://www.biostars.org/p/118904/<br>https://bioinformatics.stackexchange.com/questions/4074/hisat2-which-option-should-mention-for-strand-specific-library-read<br>--rna-strandness	Specify strand-specific information: the default is unstranded. For single-end reads, use F or R. <span class="hljs-string">&#x27;F&#x27;</span> means a <span class="hljs-built_in">read</span> corresponds to a transcript. <span class="hljs-string">&#x27;R&#x27;</span> means a <span class="hljs-built_in">read</span> corresponds to the reverse complemented counterpart of a transcript. For paired-end reads, use either FR or RF. With this option being used, every <span class="hljs-built_in">read</span> alignment will have an XS attribute tag: <span class="hljs-string">&#x27;+&#x27;</span> means a <span class="hljs-built_in">read</span> belongs to a transcript on <span class="hljs-string">&#x27;+&#x27;</span> strand of genome. <span class="hljs-string">&#x27;-&#x27;</span> means a <span class="hljs-built_in">read</span> belongs to a transcript on <span class="hljs-string">&#x27;-&#x27;</span> strand of genome.<br>--fr/--rf/--ff	The upstream/downstream mate orientations <span class="hljs-keyword">for</span> a valid paired-end alignment against the forward reference strand. E.g., <span class="hljs-keyword">if</span> --fr is specified and there is a candidate paired-end alignment <span class="hljs-built_in">where</span> mate 1 appears upstream of the reverse complement of mate 2 and the fragment length constraints (-I and -X) are met, that alignment is valid. Also, <span class="hljs-keyword">if</span> mate 2 appears upstream of the reverse complement of mate 1 and all other constraints are met, that too is valid. --rf likewise requires that an upstream mate1 be reverse-complemented and a downstream mate2 be forward-oriented. --ff requires both an upstream mate 1 and a downstream mate 2 to be forward-oriented. Default: --fr (appropriate <span class="hljs-keyword">for</span> Illumina<span class="hljs-string">&#x27;s Paired-end Sequencing Assay).</span><br><span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>--fr</code>&#x2F;<code>--rf</code>&#x2F;<code>--ff</code> should rarely be set, since they refer to the relative orientation of reads and basically everything these days is <code>--fr</code>. Mate-pairs were <code>--rf</code>, but you don’t see those much any more.</p>
+<p><code>--rna-strandedness</code> is a very different option, since it sets how reads are expected to align against genes. Most stranded protocols in use these days follow the dUTP-method, where read #2 in a pair has the same orientation as the transcript from which it arose. So either <code>R</code> or <code>RF</code>would typically be appropriate, unless the library is unstranded. In practice, I expect this is more useful if you plan to run stringTie downstream, since then the <code>XS</code> auxiliary tag is set appropriately.</p>
+</blockquote>
+<p>hisat2可以自己建立index文件，如果没有现成的index的话，那就得自己去建立了，这个就比较麻烦而且耗内存和时间，下面是建立index的一些参数介绍。因为我们的index文件是直接下载的，所以我后面不需要建立index文件，关于这部分，后面有机会介绍。</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">HISAT2 <span class="hljs-built_in">version</span> <span class="hljs-number">2.1</span><span class="hljs-number">.0</span> <span class="hljs-keyword">by</span> Daehwan Kim (infphilo@gmail.com, <span class="hljs-keyword">http</span>://www.ccb.jhu.edu/people/infphilo)<br>Usage: hisat2-build [options]* &lt;reference_in&gt; &lt;ht2_index_base&gt;<br>    reference_in            <span class="hljs-literal">comma</span>-separated list <span class="hljs-keyword">of</span> <span class="hljs-built_in">files</span> <span class="hljs-keyword">with</span> ref sequences<br>                            以逗号分隔的参考序列文件的列表<br>    hisat2_index_base       <span class="hljs-built_in">write</span> ht2 data <span class="hljs-built_in">to</span> <span class="hljs-built_in">files</span> <span class="hljs-keyword">with</span> this dir/basename<br>                            输出的索引文件的`basename`<br>Options:<br>    -c                      reference sequences given <span class="hljs-keyword">on</span> <span class="hljs-title">cmd</span> <span class="hljs-title">line</span> (<span class="hljs-title">as</span><br>                            &lt;reference_in&gt;)<br>                            输入的参考序列<br>    <span class="hljs-comment">--large-index           force generated index to be &#x27;large&#x27;, even if ref</span><br>                            has fewer than <span class="hljs-number">4</span> billion nucleotides<br>                            强制要求产生的索引为`large`<br>    -<span class="hljs-keyword">a</span>/<span class="hljs-comment">--noauto             disable automatic -p/--bmax/--dcv memory-fitting</span><br>                            关闭-p/<span class="hljs-comment">--bmax/--dcv等自动内存匹配</span><br>    -p                      <span class="hljs-built_in">number</span> <span class="hljs-keyword">of</span> threads<br>                            线程数<br>    <span class="hljs-comment">--bmax &lt;int&gt;            max bucket sz for blockwise suffix-array builder</span><br>                            逐块后缀数组建立采用的最大bucket size<br>    <span class="hljs-comment">--bmaxdivn &lt;int&gt;        max bucket sz as divisor of ref len (default: 4)</span><br>    <span class="hljs-comment">--dcv &lt;int&gt;             diff-cover period for blockwise (default: 1024)</span><br>    <span class="hljs-comment">--nodc                  disable diff-cover (algorithm becomes quadratic)</span><br>    -r/<span class="hljs-comment">--noref              don&#x27;t build .3/.4.ht2 (packed reference) portion</span><br>    <span class="hljs-number">-3</span>/<span class="hljs-comment">--justref            just build .3/.4.ht2 (packed reference) portion</span><br>    -o/<span class="hljs-comment">--offrate &lt;int&gt;      SA is sampled every 2^offRate BWT chars (default: 5)</span><br>    -t/<span class="hljs-comment">--ftabchars &lt;int&gt;    # of chars consumed in initial lookup (default: 10)</span><br>    <span class="hljs-comment">--localoffrate &lt;int&gt;    SA (local) is sampled every 2^offRate BWT chars (default: 3)</span><br>    <span class="hljs-comment">--localftabchars &lt;int&gt;  # of chars consumed in initial lookup in a local index (default: 6)</span><br>    <span class="hljs-comment">--snp &lt;path&gt;            SNP file name</span><br>    <span class="hljs-comment">--haplotype &lt;path&gt;      haplotype file name</span><br>    <span class="hljs-comment">--ss &lt;path&gt;             Splice site file name</span><br>    <span class="hljs-comment">--exon &lt;path&gt;           Exon file name</span><br>    <span class="hljs-comment">--seed &lt;int&gt;            seed for random number generator</span><br>    -q/<span class="hljs-comment">--quiet              verbose output (for debugging)</span><br>    -h/<span class="hljs-comment">--help               print detailed description of tool and its options</span><br>    <span class="hljs-comment">--usage                 print this usage message</span><br>    <span class="hljs-comment">--version               print version information and quit</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="三-stringtie2介绍"><a href="#三-stringtie2介绍" class="headerlink" title="三. stringtie2介绍"></a>三. stringtie2介绍</h1><p><a target="_blank" rel="noopener" href="https://ccb.jhu.edu/software/stringtie/">https://ccb.jhu.edu/software/stringtie/</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gpertea/stringtie">https://github.com/gpertea/stringtie</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1702981">https://cloud.tencent.com/developer/article/1702981</a></p>
+<p>StringTie 是用于 RNA-seq 的转录本<font color="blue">组装和定量</font>软件，StringTie 是<font color="blue">cufflinks升级版</font>，功能和Cufflinks一样，包括下面两个主要功能：转录本组装和定量；相比Cuffinks, 运行速度更快</p>
+<p>1、Stringtie通过<font color="blue">genome指导组装与从头组装结合</font>的新方法来改善转录组组装。</p>
+<p> 2、Stringtie的输入不仅可以是经过比对的结果，<font color="blue">也可以是Stringtie从头组装read得到的contig</font>，当这两种输入都用到的时候，称之为<font color="blue">stringtie+SR</font>。</p>
+<p> 3、对于很多<font color="blue">使用参考基因组辅助组装</font>的方法，组装的的策略都是<font color="blue">先对read进行cluter</font>，然后建立<font color="blue">graph model</font>推测每个基因<font color="blue">所有可能的isoform</font>，最终通过不同的graph的解析方法得到对转录本的组装结果。</p>
+<p> 4、<font color="blue">cufflinks</font>采用<font color="blue">overlap graph</font>，该模型中<font color="blue">nodes代表fragment</font>，如果两个fragment<font color="blue">存在overlap并存在兼容的剪切模式</font>，则对应的node连接起来。其解析方法为一种保守的算法，<font color="blue">可以产生能够解释所有read的最少的转录本</font>，尽管这种方法很吸引人，但是<font color="red">没有考虑到转录本的丰度</font>并且<font color="blue">某些isoform</font>该方法<font color="blue">无法组装</font>！</p>
+<p> 5、stringtie采用<font color="red"><strong>组装转录本和估计表达量同步进行</strong></font>的方法，不同于cufflinks的先组装后定量的策略。</p>
+<p> 6、首先，stringtie将read聚成cluster，然后采用<font color="blue">splice graph</font>，其中<font color="blue">node代表外显子或外显子的一部分</font>，path将graph中可能的剪切现象连接，最终对每个转录本通过创建一个网络流的方法，利用<font color="blue">最大流算法</font>（maximum flow algorithm）<font color="red">估计转录本的表达量</font>。</p>
+<p> 7、<font color="red">最大流的问题是最优理论中的经典问题</font>，但是目前还没有应用到转录本定量中。</p>
+<p> 8、与其它组装软件相比，stringtie具有很高的<font color="red"><strong>准确性</strong>和<strong>新型isoform发现</strong>能力</font>，其优势在于使用网络流算法，同时stringtie也支持将read从头组装成<font color="blue">更长片段</font>，进一步提高了其组装的正确性。</p>
+<p> 9、其另一个优势在于它的<font color="blue">最优化策略</font>，它<font color="blue">平衡了每次组装中每条转录本的覆盖度</font>，这样可以对组装算法产生一定的限制，因为在组装基因组时，覆盖度是很重要的一个参数因为它需要被用来限制算法，否则组装器可能将重复的片段错误地堆叠到一起，相似地转录组装也是如此，<font color="red"><strong>在isoform中的每一个外显子需要有相似的覆盖度</strong></font>，如果忽略这个参数可能会产生一些保守但是错误的转录本，其中含有大量剪切位点的基因组装起来尤其困难。</p>
+<p>常用的参数及描述：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>–</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-o [<path/>]&lt;out.gtf&gt;</td>
+<td>设置StringTie组装转录本的输出GTF文件的<strong>全路径和文件名</strong>。默认情况下，StringTie将GTF写入标准输出</td>
+</tr>
+<tr>
+<td>-p <int></td>
+<td>线程数，默认1</td>
+</tr>
+<tr>
+<td>-G &lt;ref_ann.gff&gt;</td>
+<td>使用参考注释基因文件指导组装过程，格式GTF&#x2F;GFF3。-e未设置时输出文件中既包含参考文件转录本，也包含新转录本。选项-B，-b，-e，-C需要此选项</td>
+</tr>
+<tr>
+<td>-l <label></td>
+<td>输出转录本名称的前缀。默认：STRG</td>
+</tr>
+<tr>
+<td>-A &lt;gene_abund.tab&gt;</td>
+<td>输出的gtf统计基因表达量（tab分隔）</td>
+</tr>
+<tr>
+<td>-C &lt;cov_refs.gtf&gt;</td>
+<td>输出所有转录本对应的reads覆盖度的文件，此处的转录本是指参考注释基因文件中提供的转录本。(需要参数 -G).</td>
+</tr>
+<tr>
+<td>-B</td>
+<td>应用该选项，则会输出Ballgown输入表文件（* .ctab），其中包含用-G选项给出的参考转录本的覆盖率数据。（有关这些文件的说明，请参阅Ballgown文档。）如果选项-o 给出输出转录文件的完整路径，则* .ctab文件与输出GTF文件在相同的目录下。</td>
+</tr>
+<tr>
+<td>-b <path></td>
+<td>#指定 *.ctab 文件的输出路径, 而非由-o选项指定的目录。注意: 建议在使用-B&#x2F;-b选项中同时使用-e选项，除非StringTie GTF输出文件中仍需要新的转录本,-B和-b选一个使用就行。</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>限制reads比对的处理，仅估计和输出与用-G选项给出的参考转录本匹配的组装转录本。使用该选项，则会跳过处理与参考转录本不匹配的组装转录本，提速</td>
+</tr>
+<tr>
+<td>-m <int></td>
+<td>预测转录本设置最小长度，默认200</td>
+</tr>
+<tr>
+<td>–merge</td>
+<td>#转录本合并模式。在合并模式下，StringTie将所有样品的GTF&#x2F;GFF文件列表作为输入，并将这些转录本合并&#x2F;组装成非冗余的转录本集合。这种模式被用于新的差异分析流程中，用以生成一个跨多个RNA-Seq样品的全局的、统一的转录本。如果提供了-G选项（参考注释基因组文件），则StringTie将从输入的GTF文件中将参考转录本组装到transfrags中。(个人理解：transfrags可能指的是拼接成更大的转录本片段，tanscript fragments)。在此模式下可以使用以下附加选项：</td>
+</tr>
+<tr>
+<td>-G <guide_gff></td>
+<td>#参考注释基因组文件(GTF&#x2F;GFF3)</td>
+</tr>
+<tr>
+<td>-o <out_gtf></td>
+<td>#指定输出合并的GTF文件的路径和名称 (默认值：标准输出)</td>
+</tr>
+<tr>
+<td>-m <min_len></td>
+<td>#合并文件中，指定允许最小输入转录本的长度 (默认值: 50)</td>
+</tr>
+<tr>
+<td>-c <min_cov></td>
+<td>#合并文件中，指定允许最低输入转录本的覆盖度(默认值: 0)</td>
+</tr>
+<tr>
+<td>-F <min_fpkm></td>
+<td>#合并文件中，指定允许最低输入转录本的FPKM值 (默认值: 0)</td>
+</tr>
+<tr>
+<td>-T <min_tpm></td>
+<td>#合并文件中，指定允许最低输入转录本的TPM值 (默认值: 0)</td>
+</tr>
+<tr>
+<td>-f <min_iso></td>
+<td>#minimum isoform fraction (默认值: 0.01)</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>#合并后，保留含retained introns的转录本 (默认值: 除非有强有力的证据，否则不予保留)</td>
+</tr>
+<tr>
+<td>-l <label></td>
+<td>#输出转录本的名称前缀 (默认值: MSTRG)</td>
+</tr>
+</tbody></table>
+<h1 id="四-stringtie2-使用"><a href="#四-stringtie2-使用" class="headerlink" title="四. stringtie2 使用"></a>四. stringtie2 使用</h1><p><strong>1.单样本转录本组装</strong></p>
+<p>输入文档是BAM.sorted。可以是来源于Tophat或hisat2。此外，还需要gtf注释文件??</p>
+<p>gtf下载 genecode官网：<a target="_blank" rel="noopener" href="https://www.gencodegenes.org/">https://www.gencodegenes.org/</a></p>
+<p>单样本组装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">stringtie -p 8 -G /data/mouse_annotation/gencode.mouse.annotation.gtf -o cleandata/stringtiedata/CK-4.gtf cleandata/samtools_bam/CK-4_sort.bam<br></code></pre></td></tr></table></figure>
+
+<p><strong>2.多样本转录本整合</strong></p>
+<p>stringtie –merge [options] gtf.list :转录组merge模式，在该模式下，Stringtie可以利用输入的一个gtf list并将他们中的转录本进行非冗余的整理。可以在处理多个RNA-seq样本的时候，由于转录组存在时空特异性，可以将每个样本各自的转录组进行非冗余的整合，如果-G提供了参考gtf文件，可以将其一起整合到一个文件中,最终输出成一个完整的gtf文件。</p>
+<p>将文件名的完整路径输入到一个文件中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">find /data/RNAseq/cleandata/stringtiedata/ -name *.gtf &gt; /data/RNAseq/cleandata/stringtiedata/merglist.txt<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">stringtie --merge -p 8 -G /data/mouse_annotation/gencode.mouse.annotation.gtf -o cleandata/stringtiedata/stringtie_merged.gtf cleandata/stringtiedata/merglist.txt<br></code></pre></td></tr></table></figure>
+
+<p><strong>3. 使用gffcompare检验数据比对到基因组上的情况(可选)</strong></p>
+<p>程序gffcompare可用于比较、合并、注释和估计一个或多个GFF文件(“查询”文件)的准确性。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">gffcompare [options]* &#123;-i <span class="hljs-tag">&lt;<span class="hljs-name">input_gtf_list</span>&gt;</span> | <span class="hljs-tag">&lt;<span class="hljs-name">input1.gtf</span>&gt;</span> [<span class="hljs-tag">&lt;<span class="hljs-name">input2.gtf</span>&gt;</span> .. <span class="hljs-tag">&lt;<span class="hljs-name">inputN.gtf</span>&gt;</span>]&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>4.重新组装转录本并估算基因表达丰度</strong></p>
+<p>利用merge得到的gtf重新对各个样本做定量，并创建ballgown可读取文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> CK-4 CK-7 CK-8 HGJ-10 HGJ-6 HGJ-9; <span class="hljs-keyword">do</span> stringtie -e -B -p 8 -G cleandata/stringtiedata/stringtie_merged.gtf  -o cleandata/ballgown/<span class="hljs-variable">$&#123;i&#125;</span>/<span class="hljs-variable">$&#123;i&#125;</span>.gtf cleandata/samtools_bam/<span class="hljs-variable">$&#123;i&#125;</span>_sort.bam; <span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>5.read count数据输出</strong></p>
+<p>这里需要prepDE.py这个脚本。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">prepDE.py -i cleandata<span class="hljs-regexp">/ballgown/</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="五-Trinity"><a href="#五-Trinity" class="headerlink" title="五. Trinity"></a>五. Trinity</h1><p>下载github 最新版</p>
+<p>make plugins</p>
+<ul>
+<li>Inchworm （虫）（C++）</li>
+<li>Chrysalis （蛹）（C++）</li>
+<li>Butterfly （蝶）（Java）</li>
+</ul>
+<h3 id="Trinity组装原理"><a href="#Trinity组装原理" class="headerlink" title="Trinity组装原理"></a>Trinity组装原理</h3><p>Trinity组装依据的算法是de Bruijn Graph,即从打断的文库中提取一定长度的K-mer，然后根据k-1错位相似的方法拼接组装的可能路径，最终确定完整的参考组装转录组。</p>
+<p><img src="/GeekFocus/2022-05-11-hisat2/1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/GeekFocus/./1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p><strong>Trinity根据该原理，将主要操作步骤分为3个模块，分别形象的命名为虫，蛹，蝶：</strong></p>
+<ul>
+<li>序列延伸 (inchworm) ——虫<ul>
+<li>将 reads切为 k-mers (k bp长度的短片段)</li>
+<li>利用Overlap关系对k-mers进行延伸 (贪婪算法)</li>
+<li>输出所有的序列 (“contigs”)</li>
+</ul>
+</li>
+<li>构建 de Bruijn graph (chrysalis)——蛹<ul>
+<li>聚类所有相似区域大于k-1bp的 contigs</li>
+<li>构图 (区分不同的 “components”)</li>
+<li>将reads比对回 components，进行验证</li>
+</ul>
+</li>
+<li>解图，列举转录本 (butterfly)——蝶<ul>
+<li>拆分graph 为线性序列</li>
+<li>使用reads以及 pairs关系消除错误序列</li>
+</ul>
+</li>
+</ul>
+<img src="2022-05-11-hisat2/2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<p><img src="/GeekFocus/./2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<h3 id="Trinity-组装流程"><a href="#Trinity-组装流程" class="headerlink" title="Trinity 组装流程"></a>Trinity 组装流程</h3><p>Trinity组装流程主要包括以下几个步骤：</p>
+<ul>
+<li>组装前数据的质控</li>
+<li>组装</li>
+<li>组装质量的评估</li>
+<li>下游分析<ul>
+<li>差异分析</li>
+<li>富集分析</li>
+<li>功能分析</li>
+</ul>
+</li>
+</ul>
+<img src="2022-05-11-hisat2/3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img" style="zoom:67%;" />
+
+<p><img src="/GeekFocus/./3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<h4 id="STEP1-组装前质控"><a href="#STEP1-组装前质控" class="headerlink" title="STEP1: 组装前质控"></a>STEP1: 组装前质控</h4><p>fatqc——trimmamatic等去除低质量的reads等</p>
+<h4 id="STEP2-组装"><a href="#STEP2-组装" class="headerlink" title="STEP2: 组装"></a>STEP2: 组装</h4><p><strong>Trinity 基本命令的含义：</strong></p>
+<ul>
+<li><code>--seqType</code> : [fa&#x2F;fq] 原始数据的格式，可以是fasta或fastq，可以是.gz或不是</li>
+<li><code>--left/--right</code>：针对双端测序，如果是同一样本不同时期的多个文件，可以中间以逗号分隔，没有空格。</li>
+<li><code>--single</code>: 针对单端测序</li>
+<li><code>--SS_lib_type</code>：[RF]—双端链特异测序；</li>
+<li><code>--output</code>：输出文件，命名必须带Trinity</li>
+<li><code>--CPU</code>：组装使用CPU个数</li>
+<li><code>--max_memory</code>：组装所需内存（eg：10G）</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">## my_trinity_script.sh</span><br><span class="hljs-comment">#!/bin/bash</span><br>/software/trinityrnaseq-2.2.0/Trinity --seqType fq \<br>--left RNASEQ_data/Sp_ds.left.fq.gz,RNASEQ_data/Sp_hs.left.fq.gz,RNASEQ_data/Sp_log.left.fq.gz,RNASEQ_data/Sp_plat.left.fq.gz \<br>--right RNASEQ_data/Sp_ds.right.fq.gz,RNASEQ_data/Sp_hs.right.fq.gz,RNASEQ_data/Sp_log.right.fq.gz,RNASEQ_data/Sp_plat.right.fq.gz \<br>--CPU  1 \<br>--max_memory 1G<br></code></pre></td></tr></table></figure>
+
+<p><strong>trinity组装结果</strong></p>
+<p>会自动生成Trinity_out_dir, 其中Trinity.fasta即组装的初步结果</p>
+<p><img src="/GeekFocus/2022-05-11-hisat2/4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/GeekFocus/./4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p><strong>组装结果统计</strong></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/software/</span>trinityrnaseq-<span class="hljs-number">2.2</span>.<span class="hljs-number">0</span><span class="hljs-regexp">/util/</span>TrinityStats.pl trinity_out_dir<span class="hljs-regexp">/Trinity.fasta &gt; ./</span>trinity_out_dir/assembly_report.txt<br></code></pre></td></tr></table></figure>
+
+<h4 id="STEP3-组装后质量评估"><a href="#STEP3-组装后质量评估" class="headerlink" title="STEP3: 组装后质量评估"></a>STEP3: 组装后质量评估</h4><p><strong>组装质量评估标准</strong></p>
+<ul>
+<li>Unigene数量</li>
+<li>N50</li>
+<li>比对率–比对率大于80%</li>
+<li>注释比率–物种近缘性良好CDS序列相对完整60%以上</li>
+<li>核心蛋白比对率–真核生物中存在一些高度保守区域所编码的蛋白（2748&#x2F;80%以上）</li>
+</ul>
+<p><strong>组装完整性</strong></p>
+<ul>
+<li>N50长度，可以初步评估，但不是越长越好，对应物种考虑</li>
+<li>通过统计Unigene对近缘物种基因覆盖度分布</li>
+</ul>
+<p><strong>组装准确性</strong></p>
+<ul>
+<li>组装长度会影响定量的准确性</li>
+</ul>
+<p><strong>后续定量准确性</strong></p>
+<p><strong>组装冗余度</strong></p>
+<ul>
+<li><p>影响定量准确性的最大因素：<strong>冗余</strong></p>
+</li>
+<li><p>冗余：组装出的Unigene的数量大大超过基因数；</p>
+</li>
+<li><p>冗余的来源：（1）可变剪切；（2）测序错误引入的“新” 转录本；</p>
+</li>
+<li><p>冗余的最大影响：导致多重比对，给定量带来困难</p>
+</li>
+<li><p>减少冗余策略<br>（1）去除低质量的reads;（2）是否有外援污染;（3）使用Normalization参数，降低高丰度基因的reads数据，同时提高组装效率；（4） 后续序列聚类或过滤</p>
+</li>
+<li><p><strong>去冗余方法</strong></p>
+<p>（1）筛选同一基因的最长转录本作为unigene</p>
+<p>（2）软件：TGICL、CAP3通过聚类筛选unigene</p>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 1.提取最长转录本</span><br>/software/trinityrnaseq-2.2.0/util/misc/get_longest_isoform_seq_per_trinity_gene.pl \ <br>./trinity_out_dir/Trinity.fasta &gt; ./trinity_out_dir/unigene1.fasta<br><br><span class="hljs-comment"># 2.软件聚类去冗余</span><br>cd-hit-est -i ./trinity_out_dir/Trinity.fasta -o  output-cdhit -T 1 -M 1000<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"># unigene长度分布<br>perl /software/trinityrnaseq<span class="hljs-number">-2.2</span><span class="hljs-number">.0</span>/util/misc/fasta_seq_length.pl ./trinity_out_dir/Trinity.fasta &gt; ./trinity_out_dir/length.txt<br><span class="hljs-meta">#R画图</span><br>data &lt;- <span class="hljs-keyword">read</span>.<span class="hljs-keyword">table</span>(&quot;length.txt&quot;,<span class="hljs-keyword">header</span>=T)<br>data[,<span class="hljs-number">2</span>][which(<span class="hljs-keyword">as</span>.numeric(data[,<span class="hljs-number">2</span>])&gt;=<span class="hljs-number">2000</span>)]&lt;<span class="hljs-number">-2000</span><br><br>library(ggplot2)<br>pdf(&quot;length_distribution.pdf&quot;,height=<span class="hljs-number">7</span>,width=<span class="hljs-number">10</span>)<br>ggplot(<span class="hljs-keyword">as</span>.data.frame(data), aes(x = <span class="hljs-keyword">as</span>.numeric(data[,<span class="hljs-number">2</span>])))+geom_histogram(binwidth =<span class="hljs-number">100</span>)+<br>xlab(&quot;Transcripts Length Interval&quot;)+<br>ylab(&quot;Number ofTranscripts&quot;)+<br>labs(title=&quot;Transcripts Length Distribution&quot;)+<br>scale_x_continuous(breaks=seq(<span class="hljs-number">100</span>,<span class="hljs-number">2000</span>,<span class="hljs-keyword">by</span>=<span class="hljs-number">100</span>),<br>labels=c(&quot;100&quot;,&quot;200&quot;,&quot;300&quot;,&quot;400&quot;,&quot;500&quot;,&quot;600&quot;,&quot;700&quot;,&quot;800&quot;,&quot;900&quot;,&quot;1000&quot;,&quot;1100&quot;,&quot;1200&quot;,&quot;1<br>300&quot;,&quot;1400&quot;,&quot;1500&quot;,&quot;1600&quot;,&quot;1700&quot;,&quot;1800&quot;,&quot;1900&quot;,&quot;&gt;=2000&quot;))<br>dev.<span class="hljs-keyword">off</span>()<br></code></pre></td></tr></table></figure>
+
+<h3 id="Trinity组装后下游分析"><a href="#Trinity组装后下游分析" class="headerlink" title="Trinity组装后下游分析"></a>Trinity组装后下游分析</h3><h4 id="STEP4-定量：比对和丰度计算"><a href="#STEP4-定量：比对和丰度计算" class="headerlink" title="STEP4: 定量：比对和丰度计算"></a>STEP4: 定量：比对和丰度计算</h4><p>利用RSEM进行丰度估计，</p>
+<p><img src="/GeekFocus/2022-05-11-hisat2/4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/GeekFocus/./4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 比对reads评估表达量（每个样品运行一次）</span><br><span class="hljs-comment"># Sp_log</span><br>/software/trinityrnaseq-2.2.0/util/align_and_estimate_abundance.pl \<br>--transcripts ./trinity_out_dir/unigene1.fasta --seqType fq \<br>--left RNASEQ_data/Sp_log.left.fq.gz --right RNASEQ_data/Sp_log.right.fq.gz \<br>--est_method RSEM --aln_method bowtie --trinity_mode --prep_reference \<br>--output_dir rsem_Sp_log_outdir<br><span class="hljs-comment"># Sp_ds</span><br>/software/trinityrnaseq-2.2.0/util/align_and_estimate_abundance.pl \<br>--transcripts ./trinity_out_dir/unigene1.fasta --seqType fq \<br>--left RNASEQ_data/Sp_ds.left.fq.gz --right RNASEQ_data/Sp_ds.right.fq.gz \<br>--est_method RSEM --aln_method bowtie --trinity_mode --prep_reference \<br>--output_dir rsem_Sp_ds_outdir<br><br><span class="hljs-comment"># Sp_hs</span><br>/software/trinityrnaseq-2.2.0/util/align_and_estimate_abundance.pl \<br>--transcripts ./trinity_out_dir/unigene1.fasta --seqType fq \<br>--left RNASEQ_data/Sp_hs.left.fq.gz --right RNASEQ_data/Sp_hs.right.fq.gz \<br>--est_method RSEM --aln_method bowtie --trinity_mode --prep_reference \<br>--output_dir rsem_Sp_hs_outdir<br><br><span class="hljs-comment"># Sp_plat</span><br>/software/trinityrnaseq-2.2.0/util/align_and_estimate_abundance.pl \<br>--transcripts ./trinity_out_dir/unigene1.fasta --seqType fq \<br>--left RNASEQ_data/Sp_plat.left.fq.gz --right RNASEQ_data/Sp_plat.right.fq.gz \<br>--est_method RSEM --aln_method bowtie --trinity_mode --prep_reference \<br>--output_dir rsem_Sp_plat_outdir <br></code></pre></td></tr></table></figure>
+
+<p>参数含义：</p>
+<ul>
+<li><code>--aln_method</code>: 默认是bowtie</li>
+<li><code>--est_method</code>:丰度评估方法，默认是RSEM，更准确，也可选择<code>eXpress</code>, 更快和所需RAM少</li>
+<li><code>--trinity_mode</code>: 参考文件来自trinity，如果不是需要一个gene-isoform 比对文件 <code>--gene_trans_map</code></li>
+</ul>
+<p><strong>查看mapping结果</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># ds</span><br>perl /software/trinityrnaseq-2.2.0/util/SAM_nameSorted_to_uniq_count_stats.pl rsem_Sp_ds_outdir/bowtie.bam &gt; rsem_Sp_ds_outdir/mapping.out<br></code></pre></td></tr></table></figure>
+
+<h4 id="STEP5-差异分析"><a href="#STEP5-差异分析" class="headerlink" title="STEP5: 差异分析"></a>STEP5: 差异分析</h4><p><strong>创建数量矩阵</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs undefined">/software/trinityrnaseq-2.2.0/util/abundance_estimates_to_matrix.pl \<br>--est_method RSEM \<br>--out_prefix Trinity_trans \<br>rsem_Sp_ds_outdir/ds_RSEM.isoforms.results \<br>rsem_Sp_hs_outdir/hs_RSEM.isoforms.results \<br>rsem_Sp_log_outdir/log_RSEM.isoforms.results \<br>rsem_Sp_plat_outdir/plat_RSEM.isoforms.results<br></code></pre></td></tr></table></figure>
+
+<p><strong>无生物学重复进行差异表达分析</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs undefined">/software/trinityrnaseq-2.2.0/Analysis/DifferentialExpression/run_DE_analysis.pl \<br>--matrix trinity_trans.matrix/Trinity_trans.counts.matrix \<br>--dispersion 0.1 --method edgeR \<br>--output edgeR<br></code></pre></td></tr></table></figure>
+
+<p><strong>查看差异数</strong></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs dart">sed <span class="hljs-string">&#x27;1,1d&#x27;</span> edgeR/Trinity_trans.counts.matrix.ds_RSEM_vs_hs_RSEM.edgeR.DE_results | awk <span class="hljs-string">&#x27;&#123; if (<span class="hljs-subst">$5</span> &lt;= 0.05) print;&#125;&#x27;</span> &gt; edgeR/ds_hs_DE_num<br><br>sed <span class="hljs-string">&#x27;1,1d&#x27;</span> edgeR/Trinity_trans.counts.matrix.ds_RSEM_vs_log_RSEM.edgeR.DE_results | awk <span class="hljs-string">&#x27;&#123; if (<span class="hljs-subst">$5</span> &lt;= 0.05) print;&#125;&#x27;</span> &gt; edgeR/ds_log_DE_num<br><br>sed <span class="hljs-string">&#x27;1,1d&#x27;</span> edgeR/Trinity_trans.counts.matrix.ds_RSEM_vs_plat_RSEM.edgeR.DE_results | awk <span class="hljs-string">&#x27;&#123; if (<span class="hljs-subst">$5</span> &lt;= 0.05) print;&#125;&#x27;</span> &gt; edgeR/ds_plat_DE_num<br><br>sed <span class="hljs-string">&#x27;1,1d&#x27;</span> edgeR/Trinity_trans.counts.matrix.hs_RSEM_vs_log_RSEM.edgeR.DE_results | awk <span class="hljs-string">&#x27;&#123; if (<span class="hljs-subst">$5</span> &lt;= 0.05) print;&#125;&#x27;</span> &gt; edgeR/hs_log_DE_num<br><br>sed <span class="hljs-string">&#x27;1,1d&#x27;</span> edgeR/Trinity_trans.counts.matrix.hs_RSEM_vs_plat_RSEM.edgeR.DE_results | awk <span class="hljs-string">&#x27;&#123; if (<span class="hljs-subst">$5</span> &lt;= 0.05) print;&#125;&#x27;</span> &gt; edgeR/hs_plat_DE_num<br><br>sed <span class="hljs-string">&#x27;1,1d&#x27;</span> edgeR/Trinity_trans.counts.matrix.log_RSEM_vs_plat_RSEM.edgeR.DE_results | awk <span class="hljs-string">&#x27;&#123; if (<span class="hljs-subst">$5</span> &lt;= 0.05) print;&#125;&#x27;</span> &gt; edgeR/log_plat_DE_num<br></code></pre></td></tr></table></figure>
+
+<h4 id="STEP6-聚类-x2F-网络分析"><a href="#STEP6-聚类-x2F-网络分析" class="headerlink" title="STEP6: 聚类&#x2F;网络分析"></a>STEP6: 聚类&#x2F;网络分析</h4><p><strong>提取差异表达的序列绘制热图</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 提取差异表达的序列绘制热图</span><br><span class="hljs-built_in">cd</span> edgeR/<br>/software/trinityrnaseq-2.2.0/Analysis/DifferentialExpression/analyze_diff_expr.pl \<br>--matrix ../trinity_trans.matrix/Trinity_trans.TMM.EXPR.matrix -P 1e-3 -C 2<br><br><span class="hljs-comment"># 根据聚类图提取子类</span><br>/software/trinityrnaseq-2.2.0/Analysis/DifferentialExpression/define_clusters_by_cutting_tree.pl \<br>--Ptree 60 -R diffExpr.P1e-3_C2.matrix.RData<br></code></pre></td></tr></table></figure>
+
+<h3 id="根据聚类图提取子类"><a href="#根据聚类图提取子类" class="headerlink" title="根据聚类图提取子类"></a>根据聚类图提取子类</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 提取差异表达的序列绘制热图</span><br><span class="hljs-built_in">cd</span> edgeR/<br>/software/trinityrnaseq-2.2.0/Analysis/DifferentialExpression/analyze_diff_expr.pl \<br>--matrix ../trinity_trans.matrix/Trinity_trans.TMM.EXPR.matrix -P 1e-3 -C 2<br><br><span class="hljs-comment"># 根据聚类图提取子类</span><br>/software/trinityrnaseq-2.2.0/Analysis/DifferentialExpression/define_clusters_by_cutting_tree.pl \<br>--Ptree 60 -R diffExpr.P1e-3_C2.matrix.RData<br></code></pre></td></tr></table></figure>
+
+<h4 id="STEP7-功能注释和富集分析"><a href="#STEP7-功能注释和富集分析" class="headerlink" title="STEP7: 功能注释和富集分析"></a>STEP7: 功能注释和富集分析</h4><p>使用TransDecoder-对trinity结果进行注释</p>
+<p><strong>1. 预测ORF (open-reading-frame) ( DNA -&gt; protein sequence)</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">/software/TransDecoder/TransDecoder.LongOrfs -t trinity_out_dir/unigene1.fasta<br><span class="hljs-comment"># </span><br>/software/TransDecoder/TransDecoder.Predict -t trinity_out_dir/unigene1.fasta<br></code></pre></td></tr></table></figure>
+
+<p><strong>2. 预测基因功能</strong></p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/RNA-seq/">#RNA-seq</a>
+      
+        <a href="/GeekFocus/tags/mapping/">#mapping</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RNA-seq【hisat2】</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/05/11/2022-05-11-hisat2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>May 11, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/05/25/2022-05-25-LTR/" title="LTR-RT/LTR REs">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LTR-RT/LTR REs</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/04/21/2022-04-28-BRAKER/" title="BRAKER2">
+                        <span class="hidden-mobile">BRAKER2</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

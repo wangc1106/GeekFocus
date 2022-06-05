@@ -1,0 +1,841 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="Genome assemble pipeline">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Genome assemble pipeline">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/02/28/2022-02-28-genome-assemble/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="Genome assemble pipeline">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/6.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/7.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/8.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/9.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/10.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/11.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/12.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/13.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/14.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/15.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/16.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/18.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/19.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/20.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/21.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/22.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/23.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/24.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/25.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/26.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/27.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/28.png">
+<meta property="article:published_time" content="2022-02-28T08:12:24.000Z">
+<meta property="article:modified_time" content="2022-06-05T12:08:46.681Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="assembly">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+  
+  
+  
+  <title>Genome assemble pipeline - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Genome assemble pipeline"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-28 16:12" pubdate>
+          February 28, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Genome assemble pipeline</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>Genome assemble pipeline</p>
+<span id="more"></span>
+
+<blockquote>
+<p>内容均来自菲沙基因（<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://www.frasergen.com/">Frasergen</a>）暑期生信培训班课堂笔记</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c7663d2cf337">https://www.jianshu.com/p/c7663d2cf337</a></p>
+</blockquote>
+<h2 id="Genome-de-nove-基础知识"><a href="#Genome-de-nove-基础知识" class="headerlink" title="Genome de nove 基础知识"></a>Genome <em>de nove</em> 基础知识</h2><ul>
+<li>基因组是物种所含有的一套遗传物质(单倍体细胞核、细胞器所含的全部DNA分子) , 包括全套基因和间隔序列</li>
+<li>基因组&#x3D;物种所拥有的一套完整单倍体序列</li>
+<li>利用测序技术对物种体内所有DNA分子进行测序,获取碱基组成,明确基因结构信息,外显子及内含子区域、启动子位置,以及基因的排列顺序及功能</li>
+<li>基因组<em>de nove</em>,又称基因组从头测序,是指对基因组序列未知(或仅有基因组草图)的物种进行全基因组测序,然后进行拼装,从而得到该物种的全基因组序列,为后续功能基因挖掘、调控代谢网络构建、物种进化分析等奠定基础。</li>
+</ul>
+<h2 id="构建参考基因组pipeline"><a href="#构建参考基因组pipeline" class="headerlink" title="构建参考基因组pipeline"></a>构建参考基因组pipeline</h2><p><img src="/GeekFocus/./1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="1"></p>
+<h3 id="基因组Survey分析"><a href="#基因组Survey分析" class="headerlink" title="基因组Survey分析"></a>基因组Survey分析</h3><ul>
+<li><p>基因组Survey基于小片段文库的低深度测序数据( 50X-100X ) ;</p>
+</li>
+<li><p>通过K-mer分析 ,有效的<strong>评估基因组大小、GC含量、杂合度以及重复序列的含量等信息</strong>;</p>
+</li>
+<li><p>是全面了解某一物种基因组特征的有效方法;</p>
+</li>
+<li><p>为后续的全基因组 <em>de novo</em> 测序的组装策略的制定提供理论依据。</p>
+</li>
+</ul>
+<p><img src="/GeekFocus/./2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="2"></p>
+<h4 id="补充知识1：基因组复杂度评估"><a href="#补充知识1：基因组复杂度评估" class="headerlink" title="补充知识1：基因组复杂度评估"></a>补充知识1：基因组复杂度评估</h4><p><img src="/GeekFocus/./3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="3"></p>
+<h4 id="补充知识2：根据kmer-图确认物种倍型"><a href="#补充知识2：根据kmer-图确认物种倍型" class="headerlink" title="补充知识2：根据kmer-图确认物种倍型"></a>补充知识2：根据kmer-图确认物种倍型</h4><blockquote>
+<p>二倍体：杂合峰：主峰：重复峰&#x3D;1：2：4（x）</p>
+</blockquote>
+<p><img src="/GeekFocus/./4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="4"></p>
+<blockquote>
+<p>三倍体：正常情况下杂合峰：主峰：重复峰 &#x3D; 1:2:3（左图）。主峰和重复峰深度低则可能重叠在一起：杂合峰：主峰：重复峰 &#x3D; 1:2（右图）</p>
+</blockquote>
+<p><img src="/GeekFocus/./5.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="5"></p>
+<blockquote>
+<p><strong>异源四倍体</strong>：2个峰，呈现1:2的关系</p>
+</blockquote>
+<p><img src="/GeekFocus/./6.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="6"></p>
+<blockquote>
+<p><strong>同源四倍体</strong>：同源四倍体的峰就是1 : 2 : 3 : 4 ,其中3和4经常重叠在一起</p>
+</blockquote>
+<p><img src="/GeekFocus/./7.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="7"></p>
+<h4 id="补充知识3：Survey优势"><a href="#补充知识3：Survey优势" class="headerlink" title="补充知识3：Survey优势"></a>补充知识3：Survey优势</h4><p><img src="/GeekFocus/./8.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="8"></p>
+<h3 id="基因组组装与注释"><a href="#基因组组装与注释" class="headerlink" title="基因组组装与注释"></a>基因组组装与注释</h3><ul>
+<li><strong>Contig</strong>：使用短reads之间的overlap关系拼接所得的无GAP序列片段</li>
+<li><strong>Scaffold</strong>：通过大片段文库将Contig进-步连接所得的长序列片段，各个Contig之间用”N”填补</li>
+</ul>
+<p><img src="/GeekFocus/./9.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="9"></p>
+<ul>
+<li><p>组装质量评价基本指标：<strong>ContigN50</strong>与<strong>ScaffoldN50</strong></p>
+</li>
+<li><p>将组装所得序列<strong>从大到小</strong>排列，并依次相加，当<strong>累加长度达到总长度一半时，最后一条序列的长度</strong>即为N50;N50越大，组装结果连续性越好</p>
+</li>
+</ul>
+<h4 id="组装流程"><a href="#组装流程" class="headerlink" title="组装流程"></a>组装流程</h4><p><img src="/GeekFocus/./10.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="10"></p>
+<h4 id="组装"><a href="#组装" class="headerlink" title="组装"></a>组装</h4><p>常用软件有**<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://canu.readthedocs.io/en/latest/">Canu</a>, <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/xiaochuanle/MECAT">MECAT</a>, <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/PacificBiosciences/pb-assembly">FALCON</a><strong>。从项目周期、组装结果、资源消耗等方面综合来看,菲沙基因（<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://www.frasergen.com/">Frasergen</a>）首选</strong>Mecat 2**进行基因组组装。</p>
+<p>####Hi-C辅助组装</p>
+<p>Hi-C数据的一般规律:<br>➢ 染色体内的互作高于染色体间的互作<br>➢ 染色体内互作强度随线性距离增加而减弱</p>
+<p><img src="/GeekFocus/./11.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="11"></p>
+<h4 id="组装结果评估"><a href="#组装结果评估" class="headerlink" title="组装结果评估"></a>组装结果评估</h4><p>数据回比：为了评估组装的完整性和测序覆盖的均匀性,选择CLR (Continuous Long Reads) subreads ,使用比对工具Minimap2 ( v2.5默认参数)比对回组装好的基因组,统计reads的比对率、覆盖基因组的程度以及深度的分布情况,由此评估组装的完整性和测序覆盖的均匀性,结果如下表所示。</p>
+<p>BUSCO评估：基于OrthoDB中的单拷贝同源基因集,使用BUSCO ( V3.0.2 )预测这些基因并统计其完整度,碎片化程度及可能的丢失率。由此评估整个组装结果中基因区的完整性(大于90%较好)。BUSCO评估结果如下表所示。</p>
+<p><img src="/GeekFocus/./12.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="12"></p>
+<h4 id="基因结构注释"><a href="#基因结构注释" class="headerlink" title="基因结构注释"></a>基因结构注释</h4><p>基因结构预测包括预测基因组中的基因位点、开放性阅读框架（ORF）、翻译起始位点和终止位点、内含子和外显子区域、启动子和终止子、可变剪切位点以及蛋白编码序列（CDS）等</p>
+<p><img src="/GeekFocus/./13.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="13"></p>
+<h4 id="基因功能注释"><a href="#基因功能注释" class="headerlink" title="基因功能注释"></a>基因功能注释</h4><p>全基因组测序将产生大量数据，此前普遍采用比对方法对对预测出来的<strong>编码基因</strong>进行功能注释，通过与各种功能数据库（NR、Swiss-Prot 、GO、KOG、KEGG）进行蛋白质比对，获取该基因的功能信息。其中GO和KEGG数据库分别在基因功能和代谢通路研究中占据重要地位。</p>
+<p><img src="/GeekFocus/./14.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="14"></p>
+<h4 id="非编码RNA注释"><a href="#非编码RNA注释" class="headerlink" title="非编码RNA注释"></a>非编码RNA注释</h4><p>非编码RNA（ncRNA），指不翻译成蛋白质的RNA，如<br> miRNA(MicroRNA),<br> tRNA(转运RNA)，<br> rRNA(核糖体RNA),<br> snRNA（小核RNA）等。<br> 利用tRNAscan-SE对全基因组进行tRNA预测；利用RNAmmer预测全基因的rRNA；利用Rfam数据库通过cmscan鉴定全基因组非编码RNA</p>
+<p><img src="/GeekFocus/./15.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="15"></p>
+<h4 id="重复序列分析"><a href="#重复序列分析" class="headerlink" title="重复序列分析"></a>重复序列分析</h4><p>重复序列广泛存在于真核生物基因组中，这些重复序列或集中成簇，或分散在基因之间，根据分布把重复序列分为分散重复序列（Interpersed repeat）和串联重复序列（Tendam repeat）</p>
+<p><img src="/GeekFocus/./16.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="16"></p>
+<h4 id="基因组圈图结果展示"><a href="#基因组圈图结果展示" class="headerlink" title="基因组圈图结果展示"></a>基因组圈图结果展示</h4><p><img src="/GeekFocus/./18.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="18"></p>
+<h3 id="比较基因组学"><a href="#比较基因组学" class="headerlink" title="比较基因组学"></a>比较基因组学</h3><ul>
+<li><p>比较基因组学是从基因组中解析生物学意义</p>
+<p><img src="/GeekFocus/./19.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="19"></p>
+</li>
+</ul>
+<h4 id="基因家族聚类"><a href="#基因家族聚类" class="headerlink" title="基因家族聚类"></a>基因家族聚类</h4><p><img src="/GeekFocus/./20.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="20"></p>
+<h4 id="系统进化树"><a href="#系统进化树" class="headerlink" title="系统进化树"></a>系统进化树</h4><p><img src="/GeekFocus/./21.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="21"></p>
+<h4 id="物种分歧时间计算"><a href="#物种分歧时间计算" class="headerlink" title="物种分歧时间计算"></a>物种分歧时间计算</h4><p><img src="/GeekFocus/./22.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="22"></p>
+<h4 id="基因家族扩展收缩分析"><a href="#基因家族扩展收缩分析" class="headerlink" title="基因家族扩展收缩分析"></a>基因家族扩展收缩分析</h4><p><img src="/GeekFocus/./23.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="23"></p>
+<h4 id="正选择分析"><a href="#正选择分析" class="headerlink" title="正选择分析"></a>正选择分析</h4><p><img src="/GeekFocus/./24.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="24"></p>
+<h4 id="共线性分析-需到染色体水平"><a href="#共线性分析-需到染色体水平" class="headerlink" title="共线性分析(需到染色体水平)"></a>共线性分析(需到染色体水平)</h4><p><img src="/GeekFocus/./25.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="25"></p>
+<h4 id="全基因组复制分析-WGD"><a href="#全基因组复制分析-WGD" class="headerlink" title="全基因组复制分析(WGD)"></a>全基因组复制分析(WGD)</h4><p><img src="/GeekFocus/./26.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="26"></p>
+<h4 id="泛基因组分析（需要多份基因组de-nove测序数据）"><a href="#泛基因组分析（需要多份基因组de-nove测序数据）" class="headerlink" title="泛基因组分析（需要多份基因组de nove测序数据）"></a>泛基因组分析（需要多份基因组<em>de nove</em>测序数据）</h4><p><img src="/GeekFocus/./27.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="27"></p>
+<h2 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h2><p><img src="/GeekFocus/./28.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="28"></p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://pan.baidu.com/s/1t_xbRf4Bj3DoHTQV-y6xAQ">https://pan.baidu.com/s/1t_xbRf4Bj3DoHTQV-y6xAQ</a></p>
+<p>yyds</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Biology/" class="category-chain-item">Biology</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/assembly/">#assembly</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Genome assemble pipeline</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/02/28/2022-02-28-genome-assemble/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 28, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/01/2022-03-01-sequencing-data/" title="Sequencing data and fastq.gz">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Sequencing data and fastq.gz</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/02/24/2022-02-25-soapdenovo2/" title="Soapdenovo2">
+                        <span class="hidden-mobile">Soapdenovo2</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
