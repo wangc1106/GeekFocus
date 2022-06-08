@@ -1,73 +1,906 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="eggNOG(evolutionary genealogy of genes: Non-supervised Orthologous Groups)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【FuncAnno】【eggNOG-mapper】">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/06/05/2022-06-05-FuncAnno-eggNOG/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="eggNOG(evolutionary genealogy of genes: Non-supervised Orthologous Groups)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-06-05-FuncAnno-eggNOG/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-06-05-FuncAnno-eggNOG/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-06-05-FuncAnno-eggNOG/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/3.png">
+<meta property="article:published_time" content="2022-06-05T06:56:25.504Z">
+<meta property="article:modified_time" content="2022-06-05T08:23:16.550Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="FuncAnno">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/2022-06-05-FuncAnno-eggNOG/1.png">
+  
+  
+  
+  <title>【FuncAnno】【eggNOG-mapper】 - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【FuncAnno】【eggNOG-mapper】"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-05 14:56" pubdate>
+          June 5, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          108 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【FuncAnno】【eggNOG-mapper】</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>eggNOG(evolutionary genealogy of genes: Non-supervised Orthologous Groups)</p>
+<span id="more"></span>
+
+
+
+<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs sh">github download<br>Download error on https://pypi.org/simple/: [Errno -3] Temporary failure <span class="hljs-keyword">in</span> name resolution -- Some packages may not be found!<br>No <span class="hljs-built_in">local</span> packages or working download links found <span class="hljs-keyword">for</span> xlsxwriter==1.4.3<br>error: Could not find suitable distribution <span class="hljs-keyword">for</span> Requirement.parse(<span class="hljs-string">&#x27;xlsxwriter==1.4.3&#x27;</span>)<br><br>loginal1 (loginal2 no internet)<br><span class="hljs-comment">#pip install xlsxwriter failed</span><br>pip install xlsxwriter==1.4.3<br>eggnog-mapper 2.1.7 requires biopython==1.76, <span class="hljs-built_in">which</span> is not installed.<br>eggnog-mapper 2.1.7 requires psutil==5.7.0, but you have psutil 5.8.0 <span class="hljs-built_in">which</span> is incompatible.<br><br>error: Could not find suitable distribution <span class="hljs-keyword">for</span> Requirement.parse(<span class="hljs-string">&#x27;psutil==5.7.0&#x27;</span>)<br>pip install psutil==5.7.0<br>pip install biopython==1.76<br><br>fat<br>python setup.py install<br>Using /xtdisk/xueyb_group/wangchenA/miniconda3/lib/python3.9/site-packages<br>Finished processing dependencies <span class="hljs-keyword">for</span> eggnog-mapper==2.1.7<br><br>download db <br>http://eggnog5.embl.de/download/emapperdb-5.0.2/<br>http://eggnog5.embl.de/<span class="hljs-comment">#/app/downloads</span><br><span class="hljs-built_in">mv</span> to data<br>unzip<br><br><span class="hljs-built_in">export</span> PATH=/home/user/eggnog-mapper:/home/user/eggnog-mapper/eggnogmapper/bin:<span class="hljs-string">&quot;<span class="hljs-variable">$PATH</span>&quot;</span><br><span class="hljs-built_in">export</span> EGGNOG_DATA_DIR=/home/user/eggnog-mapper-data<br></code></pre></td></tr></table></figure>
+
+<h1 id="github"><a href="#github" class="headerlink" title="github"></a>github</h1><h2 id="eggNOG-mapper-v2-1-5-to-v2-1-7"><a href="#eggNOG-mapper-v2-1-5-to-v2-1-7" class="headerlink" title="eggNOG mapper v2.1.5 to v2.1.7"></a>eggNOG mapper v2.1.5 to v2.1.7</h2><p><a target="_blank" rel="noopener" href="https://github.com/eggnogdb/eggnog-mapper/wiki/eggNOG-mapper-v2.1.5-to-v2.1.7#Installation">https://github.com/eggnogdb/eggnog-mapper/wiki/eggNOG-mapper-v2.1.5-to-v2.1.7#Installation</a></p>
+<p>overview</p>
+<p><strong>EggNOG-mapper</strong> (a.k.a. <code>emapper.py</code> ) is a tool for fast functional annotation of novel sequences. It uses <font color="blue">precomputed orthologous groups (OGs)</font> and <font color="blue">phylogenies</font> from the <font color="blue">eggNOG db</font> (<a target="_blank" rel="noopener" href="http://eggnogdb.embl.de/">http://eggnogdb.embl.de/</a>) to transfer functional information from fine-grained orthologs only. </p>
+<p>Common uses of eggNOG-mapper include the annotation of <strong>novel genomes</strong>, <strong>transcriptomes</strong> or even <strong>metagenomic</strong> gene catalogs. </p>
+<p>The use of orthology predictions for functional annotation permits a <font color="blue">higher precision[fewer results]</font> than <font color="blue">traditional homology searches</font> (i.e. BLAST searches), as it avoids transferring annotations from close paralogs (duplicate genes with a higher chance of being involved in functional divergence). </p>
+<p>Benchmarks comparing <font color="red"><strong>different</strong></font> eggNOG-mapper options against <font color="red"><strong>BLAST and InterProScan</strong></font> are available at <a target="_blank" rel="noopener" href="https://github.com/jhcepas/emapper-benchmark/blob/master/benchmark_analysis.ipynb">https://github.com/jhcepas/emapper-benchmark/blob/master/benchmark_analysis.ipynb</a>. </p>
+<p>EggNOG-mapper is also available as a public online resource: <a target="_blank" rel="noopener" href="http://eggnog-mapper.embl.de/">http://eggnog-mapper.embl.de</a></p>
+<h2 id="storage-requirements"><a href="#storage-requirements" class="headerlink" title="storage requirements"></a>storage requirements</h2><ul>
+<li>~40 GB for the eggNOG annotation databases (<em>eggnog.db</em> and <em>eggnog.taxa.db</em>)</li>
+<li>~9 GB for Diamond database of eggNOG sequences (required if using <font color="red"><strong>-m diamond, which is the default search mode</strong></font>).</li>
+<li><del>11 GB for MMseqs2 database of eggNOG sequences (</del>86 GB if MMseqs2 index is created) (required if using <code>-m mmseqs</code>).</li>
+<li>~3 GB for PFAM database (required if using <code>--pfam_realign</code> options for realignment of queries to <font color="red">PFAM domains</font>).</li>
+<li>The size of eggNOG diamond&#x2F;mmseqs databases created with <code>create_dbs.py</code> is highly variable, depending on the size of the chosen taxonomic groups.</li>
+</ul>
+<p>Databases for specific taxonomic ranges can be downloaded (for HMMER) or created (for Diamond and MMseqs2). The size of these databases is highly variable. For the size of HMMER databases, check <a target="_blank" rel="noopener" href="http://eggnog5.embl.de/#/app/downloads">http://eggnog5.embl.de/#/app/downloads</a>. For Diamond and MMseqs2 databases, DB size will depend on the number of proteins which are from those taxonomic ranges. Also, these proteins need to be downloaded to create the databases, and can be removed afterwards.</p>
+<h2 id="download-eggnog-data-py"><a href="#download-eggnog-data-py" class="headerlink" title="download_eggnog_data.py"></a>download_eggnog_data.py</h2><ul>
+<li>The <code>-P</code> flag is required to download the PFAM database. you may wish to download the PFAM database to be able to run PFAM realignemnts with <code>--pfam_realign realign</code> or <code>--pfam_realign denovo</code>.</li>
+<li>The <code>-M</code> flag is required to download the MMseqs2 database. The whole MMseqs2 database includes eggNOG proteins which do not belong to any eggNOG Orthologous Group (OG), whereas the Diamond database only includes those which belong to an OG. Also, note that no MMseqs2 index is provided. To create it, you could use the <code>mmseqs createindex &quot;$EGGNOG_DATA_DIR&quot;/mmseqs tmp</code> command (see <a target="_blank" rel="noopener" href="https://mmseqs.com/latest/userguide.pdf">https://mmseqs.com/latest/userguide.pdf</a> for more details).</li>
+<li>The <code>-H -d taxID</code> flag is required to download a HMMER database for a given <em>taxID</em> (check list of databases at <a target="_blank" rel="noopener" href="http://eggnog5.embl.de/#/app/downloads">http://eggnog5.embl.de/#/app/downloads</a>).</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">./download_eggnog_data.py -H -d euk<br>Skipping eggnog.db database (already present). Use -f to force download<br>Skipping eggnog.taxa.db database (already present). Use -f to force download<br>Skipping diamond database (or already present). Use -f to force download<br>Skipping Pfam database (or already present). Use -P and -f to force download<br>Skipping MMseqs2 database (or already present). Use -M and -f to force download<br>Download HMMER database of tax ID euk? [y,n] <br><br></code></pre></td></tr></table></figure>
+
+<h2 id="option-tools"><a href="#option-tools" class="headerlink" title="option tools"></a>option tools</h2><p>all of them are actually included, bundled, along with eggNOG-mapper. </p>
+<ul>
+<li>Prodigal: required if using <code>--itype genome</code> or <code>--itype metagenome</code> along with the option <code>--genepred prodigal</code>. Current bundled version is V2.6.3: February, 2016.</li>
+<li>Diamond: required to run the search steps with <code>-m diamond</code>. Current bundled version is 2.0.11.</li>
+<li>MMseqs2: required to run the search steps with <code>-m mmseqs</code>. </li>
+<li>HMMER: required to run the search steps with <code>-m hmmer</code>, to run the HMMER based scripts (<code>hmm_mapper.py</code>, <code>hmm_server.py</code>, <code>hmm_worker.py</code>), and to perform realignments to PFAM with <code>--pfam_realign realign</code> or <code>--pfam_realign denovo</code>. Current bundled version is HMMER 3.1b2 (February 2015).</li>
+</ul>
+<p>first search in PATH, then use bundled ones.</p>
+<h2 id="Basic-usage"><a href="#Basic-usage" class="headerlink" title="Basic usage"></a>Basic usage</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">emapper.py -i FASTA_FILE_PROTEINS -o <span class="hljs-built_in">test</span><br></code></pre></td></tr></table></figure>
+
+<p>This basic example will run a <font color="red"><strong>diamond blastp search</strong></font>, and for those queries with hits to eggNOG proteins, will carry out functional annotation.</p>
+<p>- Run <font color="blue">search and annotation</font>, using <font color="blue">Diamond in blastx</font> mode</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -m diamond <span class="hljs-attr">--itype</span> CDS -<span class="hljs-selector-tag">i</span> FASTA_FILE_NTS -o test<br></code></pre></td></tr></table></figure>
+
+<p>- Run<font color="blue"> search and annotation</font>, using <font color="blue">MMseqs after translating input CDS to proteins</font>. Add the search and annotation results to the attributes of an existing GFF file (<em>GFF decoration</em>), using the <em>GeneID</em> field to link features from the GFF to the annotation results.</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -m mmseqs <span class="hljs-attr">--itype</span> CDS <span class="hljs-attr">--translate</span> -<span class="hljs-selector-tag">i</span> FASTA_FILE_CDS -o test \<br><span class="hljs-attr">--decorate_gff</span> MY_GFF_FILE <span class="hljs-attr">--decorate_gff_ID_field</span> GeneID<br></code></pre></td></tr></table></figure>
+
+<p>- Run <strong>search</strong> and <strong>annotation</strong> for <strong>assembled contigs</strong>, using <strong>MMseqs2 “blastx”</strong> hits for <strong>gene prediction</strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -m mmseqs <span class="hljs-attr">--itype</span> metagenome -<span class="hljs-selector-tag">i</span> FASTA_FILE_NTS -o test<br></code></pre></td></tr></table></figure>
+
+<p>- Run <strong>search</strong> and <strong>annotation</strong> for a <strong>genome</strong>, using <strong>Diamond search</strong> on proteins <strong>predicted by Prodigal</strong>, changing the output directory.</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -m diamond <span class="hljs-attr">--itype</span> genome <span class="hljs-attr">--genepred</span> prodigal \<br>-<span class="hljs-selector-tag">i</span> FASTA_FILE_NTS -o test <span class="hljs-attr">--output_dir</span> /home/me/mydir<br></code></pre></td></tr></table></figure>
+
+<p>- Run gene prediction using a genome to train Prodigal</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -m mmseqs <span class="hljs-attr">--itype</span> genome <span class="hljs-attr">--genepred</span> prodigal -<span class="hljs-selector-tag">i</span> FASTA_FILE_NTS -o test \<br><span class="hljs-attr">--training_genome</span> FASTA_FILE <span class="hljs-attr">--training_file</span> OUT_TRAIN_FILE<br></code></pre></td></tr></table></figure>
+
+<p>- Perform a 2-step (search + annotation) run, using Diamond in <em>more-sensitive</em> mode and loading the annotation DB into memory (–dbmem; requires ~44 GB free mem)</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -m diamond <span class="hljs-attr">--sensmode</span> more-sensitive <span class="hljs-attr">--no_annot</span> -<span class="hljs-selector-tag">i</span> FASTA_FILE_PROTS -o test<br><br>emapper<span class="hljs-selector-class">.py</span> -m no_search <span class="hljs-attr">--annotate_hits_file</span> test<span class="hljs-selector-class">.emapper</span><span class="hljs-selector-class">.seed_orthologs</span> -o test_annot_1 <span class="hljs-attr">--dbmem</span><br></code></pre></td></tr></table></figure>
+
+<p>- Repeat the annotation step, using specific taxa as target and reporting the one-to-one orthologs found</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -m no_search <span class="hljs-attr">--annotate_hits_file</span> test<span class="hljs-selector-class">.emapper</span><span class="hljs-selector-class">.seed_orthologs</span> -o test_annot_2 <span class="hljs-attr">--dbmem</span> \<br><span class="hljs-attr">--report_orthologs</span> <span class="hljs-attr">--target_orthologs</span> one2one <span class="hljs-attr">--target_taxa</span> <span class="hljs-number">72274</span>,<span class="hljs-number">1123487</span><br></code></pre></td></tr></table></figure>
+
+<p>- Use <strong>HMMER</strong> to search a database of bacterial proteins, using current directory for temporary files, and using a “scratch” directory to write output on a different hard drive than the one used to read. Once emapper.py finishes, output files in the scratch dir will be moved to the actual output dir, and the scratch dir will be removed.</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -m hmmer -d bact -<span class="hljs-selector-tag">i</span> FASTA_FILE_PROTS -o test <span class="hljs-attr">--scratch_dir</span> /scratch/test <span class="hljs-attr">--temp_dir</span> .<br></code></pre></td></tr></table></figure>
+
+<p>- Perform a <strong>Diamond search,</strong> and annotation also realigning queries to the <strong>PFAM domains found on the Orthologous Groups</strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -<span class="hljs-selector-tag">i</span> FASTA_FILE_PROTS -o test <span class="hljs-attr">--pfam_realign</span> realign<br></code></pre></td></tr></table></figure>
+
+<p>- Perform a <strong>Diamond search</strong>, and annotation also realigning queries to the whole PFAM database</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -<span class="hljs-selector-tag">i</span> FASTA_FILE_PROTS -o test <span class="hljs-attr">--pfam_realign</span> denovo<br></code></pre></td></tr></table></figure>
+
+<p>- Perform a Diamond search and annotation, constraining the Orthologous Groups from which to retrieve annotations to the <em>Bacteria</em> taxon:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -<span class="hljs-selector-tag">i</span> FASTA_FILE_PROTS -o test <span class="hljs-attr">--tax_scope</span> Bacteria<br></code></pre></td></tr></table></figure>
+
+<p>- Perform a Diamond search and annotation, constraining the Orthologous Groups from which to retrieve annotations to a predefined tax scope (defined in the file <code>eggnogmapper/annotation/tax_scopes/bacteria</code>) for Bacteria and its descendants. The difference with the previous example is that here the <em>bacteria</em> file used as tax scope contains a list of taxa instead of only <em>Bacteria</em>. If several OGs intersect with the scope, for a given protein, the narrowest will be used to transfer annotations to the query:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -<span class="hljs-selector-tag">i</span> FASTA_FILE_PROTS -o test <span class="hljs-attr">--tax_scope</span> bacteria<br></code></pre></td></tr></table></figure>
+
+<p>- Perform a Diamond search and annotation, constraining the Orthologous Groups from which to retrieve annotations to the <em>Gammaproteobacteria</em> tax scope. Also, from those OGs, force to retrieve annotations at the <em>Bacteria</em> level:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">emapper<span class="hljs-selector-class">.py</span> -<span class="hljs-selector-tag">i</span> FASTA_FILE_PROTS -o test <span class="hljs-attr">--tax_scope</span> Gammaproteobacteria <span class="hljs-attr">--tax_scope_mode</span> Bacteria<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="文档1"><a href="#文档1" class="headerlink" title="文档1"></a>文档1</h1><h2 id="同源"><a href="#同源" class="headerlink" title="同源"></a>同源</h2><p><strong>同源（Homologs</strong>）：来源于共同祖先的相似序列为同源序列。相似序列有两种，来源于共同祖先可以叫同源，不来源于共同祖先尽管相似也不能叫同源。第二种情况概率虽低但存在，所以<strong>相似序列并不一定是同源序列</strong>。同源又分为三种，<strong>直系同源</strong>，<strong>旁系同源</strong>和<strong>异同源</strong>。同源只是对性质的一种判定，只能定性描述，不能定量。</p>
+<p><strong>直系同源（Orthologs）</strong>是指来自于不同物种的由垂直家系，也就是物种形成，进化而来的基因，并且典型的保留与原始基因相同的功能。随着进化分支，一个基因进入了不同的物种，并保留了原有功能。这时，不同物种中的这个基因就属于直系同源。 <strong>Orthologous genes</strong> <em>(or orthologs) are a particular class of homologous genes. They are found in different species and have diverged following the speciation of the species hosting them. Therefore, orthologous genes in different species derive from a common ancestral gene found in the ancestor of those species.</em></p>
+<p><strong>旁系同源（Paralogs）</strong>是指在同一物种中的来源于<strong>基因复制</strong>的基因，可能会进化出新的但与原功能相关的功能。</p>
+<p><strong>异同源（Xenologs）</strong>是指通过水平基因转移，来源于<strong>共生或病毒侵染</strong>所产生的相似基因。异同源的产生不是垂直进化而来的，也不是平行复制产生的，而是由于<strong>原核生物与真核生物的接触</strong>，比如病毒感染，在跨度巨大的物种间跳跃转移产生的。</p>
+<p><strong>为什么说旁系同源没有共进化信息呢</strong>，在进化起源上，直系同源是强调在不同基因组中的垂直传递，旁系同源则是在同一基因组中的横向加倍；在功能上，<strong>直系同源要求功能高度相似</strong>，而<strong>旁系同源在定义上对功能上没有严格要求，可能相似，但也可能并不相似</strong>(尽管结构上具一定程度的相似)，甚至于没有功能(如基因家族中的假基因)。</p>
+<p>即 <strong>co-evolution 是在不同物种的同源序列，某一个位点发生了某种变化，为了维持之前的形状和功能，相应的位点也发生了相应的变化，这就是共进化。即直系同源可以得到共进化信息，但是旁系同源直接连原始的形状和功能都不在乎了，失去了或者说没有那么保守，那么旁系同源序列自然就体现不出来共进化信息。</strong></p>
+<h2 id="eggNOG-Mapper介绍"><a href="#eggNOG-Mapper介绍" class="headerlink" title="eggNOG-Mapper介绍"></a>eggNOG-Mapper介绍</h2><p>通常功能注释的思路都是基于序列相似性找直系同源基因，常用方法是BLAST+BLAST2GO， 或InterProScan。eggNOG-mapper认为这种方法不够可靠，毕竟有可能找到的是旁系同源基因。对多个工具的整体评估发现<font color="red">eggNOG(evolutionary genealogy of genes: Non-supervised Orthologous Groups)</font>在区分旁系同源基因和直系同源基因上较优，基于eggNOG数据库开发<code>eggNOG-mapper</code>工具，用于对新序列功能注释。</p>
+<p><code>eggNOG-mapper</code>算法：</p>
+<p>第一步：<font color="red">序列比对</font>。首先，每条蛋白序列用HMMER3在整理的eggNOG库中搜索。由于每个HMM匹配都和一个功能注释的eggNOG OG对应，这一步就提供初步的注释信息。之后，每条蛋白序列用<code>phmmer</code>在最佳匹配的HMM对应的一组eggNOG蛋白中进一步搜索。最后，每条序列的<font color="red">最佳匹配结果以 <strong>seed ortholog</strong> 形式存放</font>，用于获取其他直系同源基因。目前eggNOG HMM数据库中拥有1,911,745个OG，覆盖了1,678种细菌,115种古细菌，238种真核物种以及352种病毒。除HMMER3外，还可用DIAMOND直接对所有的eggNOG蛋白序列进行搜索，它的速度更快，适合类似于宏基因组这类大数据集，或者是已有物种和eggNOG所收集的物种比较近。当然服务器性能强大的话，还是有限选择HMMER3.</p>
+<p><img src="/GeekFocus/2022-06-05-FuncAnno-eggNOG/1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="2"></p>
+<p><img src="/GeekFocus/./1.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p><strong>step1: 序列比对</strong></p>
+<p>第二步：推测直系同源基因。每个用于检索的蛋白序列的最佳匹配序列会对应eggNOG的一个蛋白, 这些蛋白基于预分析的eggNOG进化树数据库会提取一组更加精细的直系同源基因。这一步还会根据bit-screo或E-value对结果进行一次过来，<strong>剔除</strong>同源性不高的结果</p>
+<p><img src="/GeekFocus/2022-06-05-FuncAnno-eggNOG/2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="2"></p>
+<p><img src="/GeekFocus/./2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="2"></p>
+<p><strong>step2: 推测直系同源基因</strong></p>
+<p>第三步：功能注释。用于搜索的蛋白序列对应的直系同源基因的功能描述就是最终的注释结果。比如说GO, KEGG, COG等。</p>
+<p><img src="/GeekFocus/2022-06-05-FuncAnno-eggNOG/3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="2"></p>
+<p><img src="/GeekFocus/./3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="2"></p>
+<p><strong>step3: 功能注释</strong></p>
+<h2 id="具体用法"><a href="#具体用法" class="headerlink" title="具体用法"></a>具体用法</h2><p><code>eggnog-mapper</code>用法简单，需提供蛋白序列作为输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">python emapper.py -i <span class="hljs-built_in">test</span>/p53.fa --output p53_maNOG -d euk<br>python emapper.py -i <span class="hljs-built_in">test</span>/p53.fa --output p53_maNOG -d maNOG<br>python emapper.py -i <span class="hljs-built_in">test</span>/p53.fa --output p53_maNOG -d maNOG --usemem --cpu 10<br></code></pre></td></tr></table></figure>
+
+<p><code>eggnog-mapper</code>默认是以HMMER进行序列搜索，尽管可以通过<code>-m diamond</code>更改成DIAMOND，但结果中就会缺少一些信息列。HMM的搜索参数，有<code>--hmm_maxhits</code>, <code>--hmm_evalue</code>, <code>--hmm_score</code>, <code>--hmm_qcov</code>和<code>--Z</code>, 一般默认。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">-d/--database <span class="hljs-comment">#`表示搜索数据库的类型，既可以是&quot;euk, bact, arch&quot; 三大类的其中一种，也可以是&quot;eggnog-mapper/data/OG_fasta&quot;中的小类，例如&quot;maNOG&quot;表示的就是哺乳动物的NOG。此外也可以是自定义HMM数据库， `-d /path/to/pfam.hmm</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh">-m MODE <span class="hljs-comment">#how input queries will be searched against eggNOG sequences. Default is -m diamond</span><br><span class="hljs-comment">#diamond, hmmer(HMMER), mmseqs(MMseqs2), diff options</span><br>--usemem <span class="hljs-comment">#内存</span><br>--cpu <span class="hljs-comment">#线程</span><br>--output <span class="hljs-comment"># 输出文件前缀,默认输出在当前文件夹</span><br>--output_dir <span class="hljs-comment"># 输出文件路径</span><br>--resume <span class="hljs-comment">#任务重启后跳过之前已经完成部分</span><br>--override <span class="hljs-comment"># 覆盖原先输出结果</span><br><span class="hljs-comment">#--other</span><br>--list_taxa <span class="hljs-comment">#List available taxonomic names and IDs for OGs and exit，These are valid tax names and IDs for --tax_scope/--tax_scope_mode</span><br>--itype INPUT_TYPE <span class="hljs-comment">#Type of sequences in the input (-i) file. Default is --itype proteins. All INPUT_TYPE options are shown the next table:CDS，genome，metagenome</span><br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-m MODE</code></li>
+<li>how input queries will be searched against eggNOG sequences. Default is -m diamond. All MODE options are shown in the next table:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><em>MODE</em></th>
+<th>description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>diamond</em></td>
+<td>search queries against eggNOG sequences using Diamond.</td>
+<td>Requires <code>-i FILE</code>.</td>
+</tr>
+<tr>
+<td><em>hmmer</em></td>
+<td>search sequences&#x2F;hmm against sequences&#x2F;hmm using HMMER.</td>
+<td>Requires <code>-i FILE</code> and <code>-d DB_NAME</code>.</td>
+</tr>
+<tr>
+<td><em>mmseqs</em></td>
+<td>search queries against eggNOG sequences using MMseqs2.</td>
+<td>Requires <code>-i FILE</code>.</td>
+</tr>
+<tr>
+<td><em>cache</em></td>
+<td>annotate queries using a previously annotated file (<code>-c</code>) which includes md5 hashes of the annotated sequences.</td>
+<td>Requires <code>-i FILE</code> and <code>-c FILE</code>.</td>
+</tr>
+<tr>
+<td><em>no_search</em></td>
+<td>skip search stage. Annotate an existing <em>emapper.seed_orthologs</em> file.</td>
+<td>Requires <code>--annotate_hits_table FILE</code>, unless <code>--no_annot</code> is used.</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Common search options; diamond search options; MMseqs2 search options; HMMER search options</li>
+</ul>
+<h2 id="结果解读"><a href="#结果解读" class="headerlink" title="结果解读"></a>结果解读</h2><p>eggnog-mapper会生成三个文件，</p>
+<ul>
+<li><code>[project_name].emapper.hmm_hits</code>: 记录每个用于搜索序列对应的所有的显著性的eggNOG Orthologous Groups(OG). 所有标记为”-“则表明该序列未找到可能的OG . A file with the results from the search phase, from HMMER, Diamond or MMseqs2.</li>
+<li><code>[project_name].emapper.seed_orthologs</code>: 记录每个用于搜索序列对的的最佳的OG，也就是<code>[project_name].emapper.hmm_hits</code>里选择得分最高的结果。之后会从eggNOG中提取更精细的直系同源关系(orthology relationships). A file with the results from parsing the hits. Each row links a query with a seed ortholog. This file has the same format independently of which searcher was used, except that it can be in short format (4 fields), or full.</li>
+<li><code>[project_name].emapper.annotations</code>: 该文件提供了最终的注释结果。大部分需要的内容都可以通过写脚本从从提取，一共有13列。A file with the results from the annotation phase. Therefore, each row represents the annotation reported  for a given query.</li>
+</ul>
+<h2 id="annotation-files"><a href="#annotation-files" class="headerlink" title="annotation files"></a>annotation files</h2><p><code>[project_name].emapper.annotations</code>每一列对应的记录如下：</p>
+<ol>
+<li><code>query_name</code>: 检索的基因名或者其他ID</li>
+<li><code>sedd_eggNOG_ortholog</code>: eggNOG中最佳的蛋白匹配</li>
+<li><code>seed_orholog_evalue</code>: 最佳匹配的e-value</li>
+<li><code>seed_ortolog_evalu</code>: 最佳匹配的bit-score</li>
+<li><code>predicted_gene_name</code>: 预测的基因名，特别指的是类似AP2有一定含义的基因名，而不是AT2G17950这类编号</li>
+<li><code>GO_term</code>: 推测的GO的词条， 未必最新</li>
+<li><code>KEGG_KO</code>: 推测的KEGG KO词条， 未必最新</li>
+<li><code>BiGG_Reactions</code>: BiGG代谢反应的预测结果</li>
+<li><code>Annotation_tax_scope</code>: 对该序列在分类范围的注释</li>
+<li><code>Matching_OGs</code>: 匹配的eggNOG Orthologous Groups</li>
+<li><code>best_OG|evalue|score</code>: 最佳匹配的OG(HMM模式才有)</li>
+<li><code>COG functional categories</code>: 从最佳匹配的OG中推测出的COG功能分类</li>
+<li><code>eggNOG_HMM_model_annotation</code>: 从最佳匹配的OG中推测出eggNOG功能描述</li>
+</ol>
+<p>如果打算做富集分析，用命令行的cut&#x2F;awk提取对应的列，过滤掉其中未注释的部分。</p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/FuncAnno/">#FuncAnno</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【FuncAnno】【eggNOG-mapper】</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/06/05/2022-06-05-FuncAnno-eggNOG/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>June 5, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/06/05/2022-06-05-FuncAnno-BLASTP/" title="【FuncAnno】【BLAST】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【FuncAnno】【BLAST】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/06/05/hello-world/" title="Hello World">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>
