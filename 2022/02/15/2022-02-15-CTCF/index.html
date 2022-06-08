@@ -1,73 +1,774 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="【paper1】CTCF: the protein, the binding partners, the binding sites and their chromatin loops">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTCF">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/02/15/2022-02-15-CTCF/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="【paper1】CTCF: the protein, the binding partners, the binding sites and their chromatin loops">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-02-15-CTCF/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-02-15-CTCF/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-02-15-CTCF/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-02-15-CTCF/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-02-15-CTCF/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-02-15-CTCF/3.png">
+<meta property="article:published_time" content="2022-02-15T06:37:01.772Z">
+<meta property="article:modified_time" content="2022-06-08T07:18:18.140Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="paper">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/2022-02-15-CTCF/1.png">
+  
+  
+  
+  <title>CTCF - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CTCF"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-15 14:37" pubdate>
+          February 15, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          46 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CTCF</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 8, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <h1 id="【paper1】CTCF-the-protein-the-binding-partners-the-binding-sites-and-their-chromatin-loops"><a href="#【paper1】CTCF-the-protein-the-binding-partners-the-binding-sites-and-their-chromatin-loops" class="headerlink" title="【paper1】CTCF: the protein, the binding partners, the binding sites and their chromatin loops"></a>【paper1】CTCF: the protein, the binding partners, the binding sites and their chromatin loops</h1><span id="more"></span>
+
+<p>review: <a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/23650640/">https://pubmed.ncbi.nlm.nih.gov/23650640/</a></p>
+<h1 id="CTCF-the-protein-the-binding-partners-the-binding-sites-and-their-chromatin-loops"><a href="#CTCF-the-protein-the-binding-partners-the-binding-sites-and-their-chromatin-loops" class="headerlink" title="CTCF: the protein, the binding partners, the binding sites and their chromatin loops"></a>CTCF: the protein, the binding partners, the binding sites and their chromatin loops</h1><p>CTCF:蛋白质，结合伙伴，结合位点和染色质环</p>
+<p>CTCF什么都有。转录因子与成千上万个基因组位点结合，有些是组织特异性的，有些是超保守的。它可以作为<strong>转录激活因子</strong>、<strong>抑制子</strong>和<strong>绝缘子</strong>，并可以<strong>暂停转录</strong>。CTCF<strong>结合</strong>在<strong>染色质结构域边界</strong>，<strong>增强子</strong>和<strong>启动子</strong>，以及<strong>基因区</strong>。它可以吸引许多其他转录因子到染色质，包括组织特异性转录激活因子、抑制子、粘连蛋白和RNA聚合酶II，并形成染色质环。因此，CTCF在特定基因组位点的确切功能是不可预测的。它似乎是由相关的转录因子、结合位点相对于基因转录起始位点的位置、以及该位点在染色质环中与其他ctcf位点的结合、与增强子或启动子的结合决定的。该review将讨论CTCF结合事件的全基因组特征，以及这个显著的转录因子的位点特异性功能。</p>
+<ol>
+<li>introduction</li>
+</ol>
+<p>CTCF是一种普遍表达的必需蛋白，在许多方面都是一种特殊的转录因子。它最初被描述为转录<strong>抑制</strong>因子，但也被发现作为转录<strong>激活</strong>因子。还具有<strong>绝缘体活性</strong>:当它位于增强子和基因启动子之间时，它阻断它们的通信并阻止转录激活。通过<strong>ChIP-seq</strong>系统研究，在<strong>不同物种的许多组织</strong>中绘制CTCF在基因组尺度的结合事件。结果显示基因组被<strong>无数的CTCF结合位点</strong>所覆盖。与大多数其他转录因子相比，CTCF似乎<strong>更容易</strong>与基因间序列<strong>结合</strong>，通常<strong>距</strong>离转录起始位点(<strong>TSS</strong>)<strong>较远</strong>。CTCF是<strong>最早被证实介导染色质成环</strong>的蛋白之一。进一步观察到，它经常会<strong>结合</strong>到位于细胞核中不同位置的<strong>染色体区域之间的边界</strong>，<strong>结合</strong>具有<strong>不同表观遗传特征</strong>和&#x2F;或<strong>不同转录活性</strong>的<strong>区域边界</strong>，以及最近确定的<strong>拓扑域之间的边界</strong>，这是空间上确定的<strong>染色体单位</strong>，在其中<strong>序列优先相互作用</strong>。本文讨论CTCF的研究，并评估其在<strong>基因组折叠</strong>和<strong>基因表达</strong>中的功能。</p>
+<ol start="2">
+<li>CTCF在<strong>Β-globin</strong>和<strong>h19-igf2</strong>位点:一个短暂的历史</li>
+</ol>
+<p>多功能DNA结合蛋白CTCF的功能最初是在<strong>单个位点</strong>上探索的，特别是在<strong>β-珠蛋白位点</strong>和<strong>印迹H19-Igf2位点</strong>。<strong>chicken β-珠蛋白位点</strong>在其5 ‘侧携带一个DNaseI超敏位点(5 ‘ hs4)，该位点将该位点<strong>与邻近的异染色质分离</strong>，该位点被发现能够<strong>阻断增强子活性</strong>。CTCF随后被证明与5 ‘ hs4的绝缘体活性有关。人和小鼠的β-珠蛋白位点也位于不活跃染色质的大染色体区域内，并类似地被ctcf结合位点包围。这些被怀疑会对进入的异染色质形成屏障，但它们的缺失不会导致β-珠蛋白位点的关闭或失活。<strong>染色体构象捕获(3C)技术</strong>的应用使β-珠蛋白CTCF位点的物理相互作用成为可能。它们形成<strong>大染色质环</strong>，包括β-珠蛋白的主要调节元件，<strong>Locus control region基因位点控制区(LCR)<strong>及其</strong>基因</strong>。这些环是红细胞特异性的，在lcr介导的β-珠蛋白基因高表达之前，在红细胞祖细胞中形成(图1a;)。据推测，CTCF环可以<strong>促进LCR与其靶基因之间的后续空间相互作用</strong>，但这方面的证据仍然缺乏。</p>
+<p><img src="/GeekFocus/2022-02-15-CTCF/1.png" srcset="/GeekFocus/img/loading.gif" lazyload><br><img src="/GeekFocus/img/2022-02-15-CTCF/1.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p>Figure 1. CTCF，染色质环和特定基因位点的转录调控。(a)<strong>位于β-珠蛋白位点的基因</strong>受<strong>基因位点控制区(LCR)*<em><strong>控制。</strong>ctcf结合位点相互作用</em>*，形成</strong>染色质枢纽<strong>，其中包含</strong>LCR和β-珠蛋白基因<strong>。在</strong>红细胞分化<strong>时，</strong>红细胞特异性转录因子和内聚蛋白能够形成一个活跃的染色质枢纽<strong>，其中</strong>LCR与基因接触并增强其表达<strong>。(b) H19和Igf2基因的印迹表达是通过CTCF在印迹控制区(ICR)的甲基化依赖结合介导的。(i)在父系等位基因上，ICR的甲基化</strong>阻止CTCF结合**，并通过远端增强子(E)与Igf2启动子的接触介导Igf2基因的表达。(ii) <strong>CTCF结合在ICR上阻断了Igf2基因和远端增强子之间的通信</strong>，从而导致母源等位基因H19基因的表达。</p>
+<p>印迹H19&#x2F;Igf2位点。该位点包含一个<strong>差异甲基化区域</strong>，称为<strong>印迹控制区(ICR)<strong>，位于H19和Igf2基因之间。ICR决定了H19在</strong>母体等位基因</strong>上<strong>活跃</strong>，而<strong>Igf2</strong>则是从<strong>父系等位基因转录</strong>而来的。当CTCF被发现以<strong>甲基化依赖</strong>的方式与<strong>ICR结合</strong>时，CTCF进入了这个阶段:<strong>CTCF与未甲基化的母源ICR的结合阻</strong>止了H19基因附近的共享增强子<strong>跨越并激活</strong>Igf2。在<strong>父系等位基因CTCF不能发挥其绝缘体活性，因为DNA甲基化阻止了其与ICR的结合</strong>(图1b;)。染色质环再次形成，似乎对ICR的功能很重要。带有增强子和启动子的等位基因特异性染色质环是由母体的、与ctcf结合的ICR形成的，这表明这种接触可能是ctcf介导的绝缘体活性的基础。总的来说，早期关于CTCF在β-珠蛋白和H19-Igf2位点功能的研究表明，该蛋白可以<strong>干扰启动子-增强子通信</strong>。CTCF可以在其结合位点之间形成染色质环，也可能与其他调控序列形成染色质环。</p>
+<ol start="3">
+<li>CTCF通过基因组与染色质边界、增强子和基因启动子结合</li>
+</ol>
+<p>通过ChIP对全基因组结合位点的定位发现，CTCF可与数万个基因组位点结合。在不同的细胞类型中，大约<strong>三分之一的位点相对保守</strong>。一项对五种哺乳动物肝脏中CTCF结合谱的物种间比较发现，物种和组织之间大约有5000个超<strong>保守位点</strong>。这些似乎是<strong>高亲和力的结合位点</strong>，提示亲和力的差异可能与的保守强度有关。逆转录因子的激活产生了物种特异性的CTCF结合位点的扩展，这种形式的基因组进化在哺乳动物中仍然高度活跃。基于一致motif评分对CTCF结合位点进行分类得出了类似的结论:<strong>高占用位点似乎在所有细胞类型中都是保守的，而低占用位点则更受组织限制</strong>。</p>
+<p>CTCF一致结合序列包含CpG，因此可能受到DNA甲基化的影响。CTCF能够在<strong>体外结合甲基化DNA序列</strong>，但<strong>优先结合未甲基化的序列</strong>，在H19-Igf2位点也可以看到。事实上，DNA甲基化似乎在CTCF的一些组织特异性结合事件中发挥作用。此外，<strong>CTCF</strong>可以通过与两种与DNA甲基化相关的酶:多聚(adp -核糖)聚合酶1 (<strong>PARP1</strong>)和无处不在表达的DNA(胞嘧啶-5)甲基转移酶1 (<strong>DNMT1</strong>)形成<strong>复合物来影响DNA甲基化</strong>。<strong>CTCF激活PARP1, PARP1在DNMT1上添加adp -核糖基团使DNMT1失活，从而维持无甲基CpGs的存在</strong>。</p>
+<p><strong>部分CTCF结合位点</strong>在<strong>活性染色质</strong>(<strong>高H2K5Ac</strong>)和<strong>非活性</strong>染色质结构域(<strong>高H3K27me3</strong>)之<strong>间</strong>的过渡<strong>富集</strong>。对于逆转录转座的CTCF结合位点似乎尤其如此。CTCF位点经常位于所谓的<strong>膜相关域</strong>(lad)旁边。lad是与<strong>覆盖核膜内侧的层状蛋白网络相关的染色体区域</strong>;这些染色体区域往往是<strong>转录不活跃</strong>的。它的存在提示<strong>CTCF有助于染色质的三维结构的组织</strong>。在果蝇中，CTCF的抑制导致非活性域内H3K27me3水平的降低，表明CTCF在边界上的结合是<strong>维持抑制</strong>所必需的。CTCF的关联伴随着细胞分化过程中<strong>活性域和非活性域的重置</strong>，进一步表明它的功能是<strong>分离不同的染色质状态</strong>。一些lad在细胞分化过程中也会发生动态变化[35]，但CTCF是否与这些差异lad的边界结合目前尚不清楚。</p>
+<p>尽管CTCF结合常出现在TSSs远端，但它确实与<strong>基因密度有很强的相关性</strong>(图2a,b)。事实上，CTCF在转录调控中<strong>直接作用的证据来自于早期对单个基因的研究</strong>。在全基因组范围内，部分CTCF位点与<strong>启动子特异性H3K4me3标记共定位</strong>，另一部分与<strong>增强子标记H3K4me1重合</strong>。启动子上的CTCF结合事件在组织中趋于<strong>保守</strong>，而CTCF与增强子的结合则更受<strong>组织限制</strong>。</p>
+<p><img src="/GeekFocus/2022-02-15-CTCF/2.png" srcset="/GeekFocus/img/loading.gif" lazyload><br><img src="/GeekFocus/img/2022-02-15-CTCF/2.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p>Figure2. CTCF在染色质生物学中的广泛作用。(a) CTCF结合位点的全基因组功能分类，采用Chen et al.[36]。(b) (i) CTCF结合位点位于<strong>分离活性域和非活性域的边界</strong>上。CTCF结合到(ii)<strong>增强子</strong>样序列和(iv)基因<strong>启动子</strong>上可以促进这些序列之间的环环相扣。(iii) CTCF结合在<strong>增强子和基因启动子之间</strong>，可以<strong>阻断</strong>增强子与其目标启动子之间的相互作用。</p>
+<ol start="4">
+<li>CTCF和内聚蛋白共享DNA结合位点</li>
+<li>5.ctcf和其他绑定伙伴</li>
+<li>CTCF在单个基因位点的功能</li>
+<li>CTCF介导的全基因组染色质环</li>
+</ol>
+<p>CTCF的基因组结合位点(通过全基因组<strong>ChIP</strong>)与<strong>Hi-C</strong>生成的<strong>genome-wide DNA contact map</strong>的计算交叉表明，CTCF参与染色体之间和基因组内的染色质相互作用。染色质相互作用分析与配对末端标记测序<strong>Chromatin interaction analysis with paired-end tag sequencing (ChIA-PET)</strong> 结合了ChIP和3C方法，用于研究由<strong>感兴趣的蛋白质介导的全基因组DNA相互作用</strong>。当靶向CTCF时，ChIA-PET揭示了蛋白介导的大约<strong>1500个染色体内</strong>和<strong>300个染色体间</strong>的相互作用。随后，根据<strong>组蛋白标记</strong>的分布，对<strong>染色体内环</strong>所包围的<strong>区域(10-200 kb)进行聚类</strong>。这表明CTCF环可以包含从环外非活性染色质分离出来的活性染色质，反之亦然。CTCF还可以同时<strong>捕获染色质环中的增强子和启动子</strong>。在大约<strong>40000个CTCF结合位点</strong>中，只有<strong>一小部分</strong>参与了大约1500个CTCF介导的<strong>环</strong>。这意味着不是所有CTCF介导的相互作用都被识别出来了，或者<strong>大多数CTCF位点没有参与环的形成</strong>。</p>
+<p>后者很可能是正确的，因为5C(<strong>chromosome conformation capture carbon copy</strong>染色体构象捕获碳复制)技术表明，在1%的基因组中，大多数CTCF位点不参与染色质环，无论它们是否被内聚蛋白共同占据。<strong>CTCF结合序列常被基因启动子跳过，与增强子或更远的CTCF位点进行接触</strong>。</p>
+<p>最近大量的全基因组DNA相互作用数据集有助于<strong>评估CTCF对染色体拓扑的影响</strong>。染色体上靠近<strong>CTCF结合位点的序列</strong>显示在它们的DNA接触中存在偏倚:它们与<strong>CTCF位点同侧</strong>的其他<strong>序列的相互作用</strong>大于与<strong>CTCF位点跨侧</strong>的序列的相互作用(图3a;)。同样的结果也出现在果蝇中另一种不同的绝缘体蛋白上:它与一个位点的结合阻止了侧翼序列在这个位点上相互接触。有趣的是，这可能为绝缘体的功能提供了一种解释:它们可以阻止DNA在绝缘序列上的空间接触。在一个特别详细的全基因组DNA接触研究中，<strong>拓扑域</strong>被定义;它们是<strong>平均大小为1mb的染色体区域</strong>，其中<strong>序列优先相互作用</strong>。在组织之间，甚至在物种之间，拓扑结构域具有很强的<strong>保持性</strong>，这表明这些结构域对<strong>细胞的特异性身份没有贡献</strong>。有趣的是，CTCF结合位点在这些<strong>区域边界周围的20kb窗口中富集</strong>(图3b)，再次强调了其作为<strong>染色质组织者</strong>的作用。其中一项研究表明，边界的破坏会导致拓扑域的混合，并导致相关基因的表达失调[79]。不同于拓扑域本身，域内的接触在分化过程中是变化的。在这里，CTCF似乎发挥了作用，可能适应基因表达的发育变化。</p>
+<p><img src="/GeekFocus/2022-02-15-CTCF/3.png" srcset="/GeekFocus/img/loading.gif" lazyload><br><img src="/GeekFocus/img/2022-02-15-CTCF/3.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p>Fig 3. CTCF通过阻碍DNA在其结合位点上的接触而起到绝缘体的作用。(a) CTCF<strong>阻碍其结合位点在10kb以内的序列跨越</strong>。<strong>线的厚度减小表明交互作用的概率减小</strong>。(b) CTCF结合位点常出现在拓扑域的边界处。(i) ESCs和皮质的Hi-c数据，用小鼠第12号染色体序列之间的颜色编码接触频率。<strong>三角形</strong>显示和突出<strong>拓扑域</strong>，是<strong>染色体序列优先相互作用的区域</strong>。(ii)层关联域(LAD)数据，LAD边界与拓扑域边界重合。(iii) CTCF ChIP-seq profiles，显示在边界的CTCF结合位点簇。请注意，这种CTCF集群在其他地方也存在，特别是在非lad地区。显示区域:chr12: 112.3-119.3 Mb (mm9)。</p>
+<ol start="8">
+<li>结论</li>
+</ol>
+<p>尽管CTCF一直是研究的热点，但它仍然是一种<strong>神秘的转录因子</strong>。它与基因组中成千上万个位点结合，与大量其他转录因子相互作用。它常被发现参与染色质<strong>环</strong>，有时有，有时没有<strong>内聚蛋白</strong>的参与。它可以<strong>与其他CTCF结合位点</strong>形<strong>成</strong>染色质<strong>环</strong>，也可以与<strong>增强子</strong>和<strong>启动子</strong>序列形<strong>成</strong>染色质<strong>环</strong>。CTCF不仅与基因内外的序列结合，也与<strong>基因体内</strong>的<strong>序列结合</strong>，在基因体内它似乎能够<strong>暂停滑动聚合酶分子</strong>。最后，CTCF结合位点仍然作为<strong>反转录转座序列</strong>活跃地跳跃，使CTCF结合景观在不同哺乳动物物种之间具有多样性。</p>
+<p>可以解释CTCF与染色质关联的许多，<strong>有时是相反的功能</strong>后果的统一主题可能是其<strong>成环能力</strong>。根据环中包含的序列和环外的序列，由CTCF形成的染色质可能会<strong>促进或阻碍增强子和靶基因之间的三维接触</strong>，从而产生不同的转录结果。许多问题仍然存在:为什么一些CTCF位点形成染色质环而另一些则没有?这在多大程度上依赖于相关的蛋白质因子?当蛋白质与染色质结合时，它是如何设法与这么多其他转录因子相互作用的?一种可能是CTCF作为染色质扫描转录因子的路障，当遇到结合蛋白时，这些转录因子以某种方式被困住。ctcf介导的染色体间接触有何相关性?CTCF是否通过阻止3D DNA接触来阻断增强子-启动子通信?或者绝缘是否涉及绝缘体序列与增强剂和启动剂的物理相互作用?这些问题的答案需要能够预测给定的CTCF结合事件是否在功能上不相关，是否会引起转录激活或抑制，是否会干扰转录激活或会产生染色质边界。</p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Biology/" class="category-chain-item">Biology</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/paper/">#paper</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CTCF</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/02/15/2022-02-15-CTCF/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 15, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/02/16/2022-02-16-chromosome-structure-Micro-C/" title="染色质三维结构图谱 Micro-C">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">染色质三维结构图谱 Micro-C</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2021/12/20/2021-12-20-GO_KEGG_post/" title="【GO】【KEGG】">
+                        <span class="hidden-mobile">【GO】【KEGG】</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>
