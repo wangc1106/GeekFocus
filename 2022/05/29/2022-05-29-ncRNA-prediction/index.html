@@ -1,73 +1,821 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="ncRNA prediction">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ncRNA prediction">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-ncRNA-prediction/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="ncRNA prediction">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-29T08:07:34.366Z">
+<meta property="article:modified_time" content="2022-06-06T01:26:09.144Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="annotation">
+<meta property="article:tag" content="ncRNA">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>ncRNA prediction - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ncRNA prediction"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-29 16:07" pubdate>
+          May 29, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          16k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          131 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ncRNA prediction</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 6, 2022 am
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>ncRNA prediction</p>
+<span id="more"></span>
+
+<p><a target="_blank" rel="noopener" href="http://www.eilersgenomics.com/annotation/rfam_infernal/">http://www.eilersgenomics.com/annotation/rfam_infernal/</a></p>
+<h1 id="tRNAscanSE-2-0-9"><a href="#tRNAscanSE-2-0-9" class="headerlink" title="tRNAscanSE 2.0.9"></a>tRNAscanSE 2.0.9</h1><p><a target="_blank" rel="noopener" href="http://trna.ucsc.edu/tRNAscan-SE/">http://trna.ucsc.edu/tRNAscan-SE/</a></p>
+<h2 id="1-tRNAscan-SE-简介"><a href="#1-tRNAscan-SE-简介" class="headerlink" title="1. tRNAscan-SE 简介"></a>1. tRNAscan-SE 简介</h2><p>tRNAscan-SE 能在基因组水平进行 tRNA 扫描。该软件是一个 perl 脚本，整合 tRNAscan、 EufindRNA 和 Cove 这 3 个独立的 tRNA 检测软件。tRNAscan-SE 首先调用 tRNAscan 和 EufindRNA 鉴定基因组序列中的 tRNA 区域，然后调用 Cove 验证。既保证前者的 sensitivities， 又保证后者较低的假阳性概率，同时提高搜索速度。</p>
+<h2 id="2-tRNAscan-SE-本地安装"><a href="#2-tRNAscan-SE-本地安装" class="headerlink" title="2. tRNAscan-SE 本地安装"></a>2. tRNAscan-SE 本地安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh">./configure --prefix=<span class="hljs-built_in">local</span> &amp;&amp;  make &amp;&amp; make insatll<br><span class="hljs-built_in">echo</span>  <span class="hljs-variable">$PERL5LIB</span><br>-bash: /home/user/perl5/lib/perl5<br><span class="hljs-built_in">which</span> perl<br>/usr/bin/perl<br>no conda . fat or loginal. root perl, <span class="hljs-built_in">local</span> lib<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-使用与参数"><a href="#3-使用与参数" class="headerlink" title="3. 使用与参数"></a>3. 使用与参数</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">tRNAscan-SE -o tRNA.out -f rRNA.ss -m tRNA.stats genome.fasta<br><span class="hljs-comment">#-E         : search for eukaryotic tRNAs (default)</span><br><span class="hljs-comment">#  -f &lt;file&gt;  : save tRNA secondary structures to &lt;file&gt;将 tRNA 的二级结构结果保存到文件</span><br><span class="hljs-comment">#  -m &lt;file&gt;  : save statistics summary for run in &lt;file&gt;将统计结果保存到文件</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">-- default: use Infernal &amp; tRNA covariance models with eukaryotic sequences <br>             (use -B, -A, -M, -O or -G to scan other types of sequences)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># types of sequences</span><br> -B         : search <span class="hljs-keyword">for</span> bacterial tRNAs<br> -A         : search <span class="hljs-keyword">for</span> archaeal tRNAs. 古细菌。该参数选择古细菌特异性的协方差模型，同时稍微放宽 EufindtRNA 的 cutoffs<br> -M &lt;model&gt; : search <span class="hljs-keyword">for</span> mitochondrial tRNAs<br>                options: mammal, vert<br> -O         : search <span class="hljs-keyword">for</span> other organellar tRNAs. 线粒体和叶绿体。该参数仅使用 Cove 进行分析，搜索速度会很慢，同时不能给出 pseudogenes 检测。<br> -G         : use general tRNA model (cytoslic tRNAs from all 3 domains included)古细菌，细菌和真核生物的混合序列。使用 general tRNA 协方差模型。<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">-L         : search using the legacy method (tRNAscan, EufindtRNA, and COVE)<br>               use with -E, -B, -A, -O, or -G<br>-I         : search using Infernal (default)<br>               use with -E, -B, -A, -O, or -G<br>-o &lt;file&gt;  : save final results <span class="hljs-keyword">in</span> &lt;file&gt;结果文件<br>-f &lt;file&gt;  : save tRNA secondary structures to &lt;file&gt;将 tRNA 的二级结构结果保存到文件<br>-m &lt;file&gt;  : save statistics summary <span class="hljs-keyword">for</span> run <span class="hljs-keyword">in</span> &lt;file&gt;将统计结果保存到文件<br>             (speed, <span class="hljs-comment"># tRNAs found in each part of search, etc)</span><br>-H         : show both primary and secondary structure components to<br>             covariance model bit scores<br>-q         : quiet mode (credits &amp; run option selections suppressed)<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-结果说明"><a href="#4-结果说明" class="headerlink" title="4. 结果说明"></a>4. 结果说明</h2><p>真核生物tRNA 由 RNA 聚合酶III 在核内转录生成 pre-tRNA, 再进行加工生成有功能的 tRNA 分子（特别是一些 tRNA 序列还含有内含子）。若 tRNA 存在内含子，则结果文件中第 7 8 列会给出内含子区间，否则其值为 0 。<br>tRNAscan-SE 的结果中, 如果 begin 比 end 的值大，则表示 tRNA 在负义链。</p>
+<p>有些结果中第 5 列为 pseudogene， 这表示其一级或二级结构比较差。</p>
+<p>最后一列是 Cove Score，该分值最低阈值为 20 。该值是一个 log ratio值。ratio 是符合 tRNA 协方差模型概率与随机序列模型概率的比值。</p>
+<p>最后最好是将表格格式结果转换为 GFF3 结果，以利于在基因组上的可视化。</p>
+<h2 id="5-过滤"><a href="#5-过滤" class="headerlink" title="5. 过滤"></a>5. 过滤</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sh">Usage: EukHighConfidenceFilter [options]<br>Options<br>--result -i &lt;file&gt;         tRNAscan-SE output file used as input<br>--ss -s &lt;file&gt;             tRNAscan-SE secondary structure file used as input<br>--output -o &lt;file path&gt;    Directory <span class="hljs-built_in">where</span> output files will be written<br>--prefix -p &lt;name&gt;         Prefix <span class="hljs-keyword">for</span> output file name<br>--remove -r                Remove filtered tRNA hits (default: filtered tRNA hits are only tagged)<br>--cmscore1 -c1 &lt;num&gt;       Domain-specific model score cutoff <span class="hljs-keyword">for</span> secondary filtering (default = 50; -1 <span class="hljs-keyword">if</span> not used <span class="hljs-keyword">for</span> filtering)<br>--ssscore1 -m1 &lt;num&gt;       Secondary structure score cutoff <span class="hljs-keyword">for</span> secondary filtering (default = 10; -1 <span class="hljs-keyword">if</span> not used <span class="hljs-keyword">for</span> filtering)<br>--isoscore1 -e1 &lt;num&gt;      Isotype-specific model score cutoff <span class="hljs-keyword">for</span> secondary filtering (default = 70; -1 <span class="hljs-keyword">if</span> not used <span class="hljs-keyword">for</span> filtering)<br>--isoscore2 -e2 &lt;num&gt;      Isotype-specific model starting score cutoff <span class="hljs-keyword">for</span> tertiary filtering (default = 70; -1 <span class="hljs-keyword">if</span> not used <span class="hljs-keyword">for</span> filtering)<br>--isomaxscore2 -x &lt;num&gt;    Maximum isotype-specific model score cutoff <span class="hljs-keyword">for</span> tertiary filtering (default = 95)<br>--<span class="hljs-built_in">help</span> -h                  Print this <span class="hljs-built_in">help</span><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="error"><a href="#error" class="headerlink" title="error"></a>error</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">FATAL: Unable to find ~/software/opt/biosoft/tRNAscan-SE/bin/cmsearch executable<br><span class="hljs-comment">#https://bioinformatics.stackexchange.com/questions/4637/trnascan-se-error-fatal-unable-to-find-usr-local-bin-cmsearch-executable</span><br><br>tRNAscan-SE 2.0 requires separate installation of Infernal 1.1.2. The <span class="hljs-built_in">source</span> code and prebuilt binaries can be obtained at http://eddylab.org/infernal/.<br><br>The installation directory of Infernal should be the same as the one <span class="hljs-built_in">where</span> tRNAscan-SE 2.0 is installed.<br><br>When install infernal, run the configure <span class="hljs-built_in">command</span> with the option --prefix &lt;your tRNAscan-SE-2.0 install path&gt;. If you didn<span class="hljs-string">&#x27;t add option --prefix when installing tRNAscan-SE-2.0, then you should install infernal without option --prefix.</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="error2-still"><a href="#error2-still" class="headerlink" title="error2 still"></a>error2 still</h2><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs subunit"><span class="hljs-keyword">Error: </span>This filter requires isotype-specific model scan result in the tRNAscan-SE v2 output file.<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="Infernal"><a href="#Infernal" class="headerlink" title="Infernal"></a>Infernal</h1><p><a target="_blank" rel="noopener" href="http://eddylab.org/infernal/">http://eddylab.org/infernal/</a></p>
+<p>User-guide: <a target="_blank" rel="noopener" href="http://eddylab.org/infernal/Userguide.pdf">http://eddylab.org/infernal/Userguide.pdf</a></p>
+<h2 id="1-安装在tRNAscanSE文件夹内"><a href="#1-安装在tRNAscanSE文件夹内" class="headerlink" title="1. 安装在tRNAscanSE文件夹内"></a>1. 安装在tRNAscanSE文件夹内</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> tRNAscanSE<br><span class="hljs-built_in">cd</span> infernal<br>./configure --prefix=/path/tRNAscan-SE<br>make<br>make install<br></code></pre></td></tr></table></figure>
+
+<p>内部再安装</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd easel/<br>.<span class="hljs-regexp">/configure --prefix=/</span>path<span class="hljs-regexp">/tRNAscan-SE/</span>bin<br>make<br>make install<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-数据库下载"><a href="#2-数据库下载" class="headerlink" title="2. 数据库下载"></a>2. 数据库下载</h2><p>Rfam数据库<a target="_blank" rel="noopener" href="https://rfam.xfam.org/">https://rfam.xfam.org</a></p>
+<p>The Rfam database is a collection of RNA families, each represented by <strong>multiple sequence alignments,consensus secondary structures and covariance models</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">mkdir</span> 00.rd6.ncRNA<br><span class="hljs-built_in">cd</span> 00.rd6.ncRNA/<br><span class="hljs-built_in">mkdir</span> Rfam<br><br><span class="hljs-built_in">mkdir</span> Rfam &amp;&amp; <span class="hljs-built_in">cd</span> Rfam  <br>http://ftp.ebi.ac.uk/pub/databases/Rfam/14.8/<br><br>wget ftp://ftp.ebi.ac.uk/pub/databases/Rfam/14.8/Rfam.cm.gz<br>gunzip Rfam.cm.gz<br>wget ftp://ftp.ebi.ac.uk/pub/databases/Rfam/14.8/Rfam.clanin<br><span class="hljs-comment"># 使用 Infernal的程序cmpress索引Rfam.cm # 大约需要一分钟</span><br>tRNAscan-SE/bin/cmpress Rfam.cm<br><br><span class="hljs-comment">#my</span><br>Working...    <span class="hljs-keyword">done</span>.<br>Pressed and indexed 4094 CMs and p7 HMM filters (4094 names and 4094 accessions).<br>Covariance models and p7 filters pressed into binary file:  Rfam.cm.i1m<br>SSI index <span class="hljs-keyword">for</span> binary covariance model file:                 Rfam.cm.i1i<br>Optimized p7 filter profiles (MSV part)  pressed into:      Rfam.cm.i1f<br>Optimized p7 filter profiles (remainder) pressed into:      Rfam.cm.i1p<br><br><span class="hljs-comment"># 输出为</span><br>Working...    <span class="hljs-keyword">done</span>.<br>Pressed and indexed 3016 CMs and p7 HMM filters (3016 names and 3016 accessions).<br>Covariance models and p7 filters pressed into binary file:  Rfam14.1.cm.i1m<br>SSI index <span class="hljs-keyword">for</span> binary covariance model file:                 Rfam14.1.cm.i1i<br>Optimized p7 filter profiles (MSV part)  pressed into:      Rfam14.1.cm.i1f<br>Optimized p7 filter profiles (remainder) pressed into:      Rfam14.1.cm.i1p<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-确定待查询的核苷酸序列或基因组的大小，作为后续命令的参数"><a href="#3-确定待查询的核苷酸序列或基因组的大小，作为后续命令的参数" class="headerlink" title="3. 确定待查询的核苷酸序列或基因组的大小，作为后续命令的参数"></a>3. 确定待查询的核苷酸序列或基因组的大小，作为后续命令的参数</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#esl-seqstat my-genome.fa</span><br>tRNAscan-SE/bin/bin/esl-seqstat my-genome.fa<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs sh">Format:              FASTA<br>Alphabet <span class="hljs-built_in">type</span>:       DNA<br>Number of sequences: 7<br>Total <span class="hljs-comment"># residues:    1242924374</span><br>Smallest:            159833148<br>Largest:             221855282<br>Average length:      177560624.0<br>Z=1242924374*2*4094/1000000=10177064<br><br>Format:              FASTA<br>Alphabet <span class="hljs-built_in">type</span>:       DNA<br>Number of sequences: 7<br>Total <span class="hljs-comment"># residues:    1218819104</span><br>Smallest:            156984786<br>Largest:             222281709<br>Average length:      174117008.0<br>Z=1218819104*2*4094/1000000=9979690<br></code></pre></td></tr></table></figure>
+
+<p>其输出结果中有一行，Total # of residues: 218502668是需要的。考虑到基因组为双链和下一步用到的参数的单位为Million。<br>计算公式为：Z &#x3D; total * 2 * CMmumber&#x2F;106<br>因此还要计算CM database中的模型的数量（Z&#x3D;2636016）<br>在Rfam14.0版本中，使用</p>
+<h2 id="4-Some-user-guide"><a href="#4-Some-user-guide" class="headerlink" title="4. Some user guide"></a>4. Some user guide</h2><p><a target="_blank" rel="noopener" href="http://eddylab.org/infernal/Userguide.pdf">http://eddylab.org/infernal/Userguide.pdf</a></p>
+<p>Searching the Rfam CM database with a query sequence**</p>
+<p>The Rfam database <a target="_blank" rel="noopener" href="http://rfam.xfam.org/">http://rfam.xfam.org/</a> is <font color="blue">a collection of RNA families</font>, each represented by a CM and multiple sequence alignment used to build that CM. As of December 2020, the current release is 14.3, which includes 3446 families[<font color="blue">v14.8 4094</font>]. The Rfam website allows <font color="blue">web-based searches using <strong>cmscan</strong> of the <strong>Rfam CM database</strong> against <strong>query sequences</strong> that the user can upload</font>. Alternatively, you can perform the same searches by running cmscan locally, as shown in this example. <font color="blue">By searching all of Rfam with your sequence dataset</font>, you will <font color="red"><strong>annotate most known types of structural RNAs with a single command</strong></font>.</p>
+<p>To complete this step of the tutorial you’ll need to download the Rfam 14.3 CM file from here:<a href="ftp://ftp.ebi.ac.uk/pub/databases/Rfam/14.3/Rfam.cm.gz">ftp://ftp.ebi.ac.uk/pub/databases/Rfam/14.3/Rfam.cm.gz</a> and gunzipping it, like this:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">wget ftp://ftp.ebi.ac.uk/pub/databases/Rfam/14.3/Rfam.cm.gz<br>gunzip Rfam.cm.gz<br>cmpress Rfam.cm<br></code></pre></td></tr></table></figure>
+
+<p>The next step is to run cmscan. In order to reproduce how Rfam searches are performed (Nawrocki et al., 2015) several command line options are required. Each of these options is explained below. The full command is :</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">cmscan --rfam --cut_ga --nohmmonly --tblout mrum-genome.tblout --<span class="hljs-built_in">fmt</span> 2 \<br>--clanin tutorial/Rfam.14.3.clanin Rfam.cm tutorial/mrum-genome.fa &gt; mrum-genome.cmscan<br></code></pre></td></tr></table></figure>
+
+<p>This command will take at least several minutes and possibly up to about 30 minutes depending on the number of cores and speed of your computer. 对500M大小的输入序列，48线程，要7小时</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">--rfam Specifies that the filter pipeline run <span class="hljs-keyword">in</span> fast mode, with the same strict filters that are used <span class="hljs-keyword">for</span> Rfam searches and <span class="hljs-keyword">for</span> other sequence databases larger than 20 Gb (see section 4).<br><br>--cutga SpecifiesthatthespecialRfam*GA*(gathering)thresholdsbeusedtodeterminewhichhitsarereported. These thresholds are stored <span class="hljs-keyword">in</span> the Rfam.cm file. Each model has its own GA bit score threshold, <span class="hljs-built_in">which</span> was determined by Rfam curators as the bit score at and above <span class="hljs-built_in">which</span> all hits are believed to be <span class="hljs-literal">true</span> homologs to the model. These determinations were made based on observed hit results against the large Rfamseq database used by Rfam (Nawrocki et al., 2015).<br><br>--nohmmonly All models, even those with zero basepairs, are run <span class="hljs-keyword">in</span> CM mode (not HMM mode). This ensures all GA cutoffs, <span class="hljs-built_in">which</span> were determined <span class="hljs-keyword">in</span> CM mode <span class="hljs-keyword">for</span> each model, are valid.<br><br>--tblout Specifies that a tabular output file should be created, see section 6.<br><br>--<span class="hljs-built_in">fmt</span> 2 The tabular output file will be <span class="hljs-keyword">in</span> format 2, <span class="hljs-built_in">which</span> includes annotation of overlapping hits. See page 61 <span class="hljs-keyword">for</span> a complete description of this format.<br><br>--clanin Clan information should be <span class="hljs-built_in">read</span> from the file tutorial/Rfam.14.3.claninfo. This file lists <span class="hljs-built_in">which</span> models belong to the same clan. Clans are <span class="hljs-built_in">groups</span> of models that are homologous and therefore it is expected that some hits to these models will overlap. For example, the LSU rRNA archaea and LSU rRNA bacteria models are both <span class="hljs-keyword">in</span> the same clan.<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">-g Turn on the glocal alignment algorithm, global with respect to the query model and <span class="hljs-built_in">local</span> with respect to the target database. By default, the <span class="hljs-built_in">local</span> alignment algorithm is used <span class="hljs-built_in">which</span> is <span class="hljs-built_in">local</span> with respect to both the target sequence and the model. In <span class="hljs-built_in">local</span> mode, the alignment to span two or more subsequences <span class="hljs-keyword">if</span> necessary (e.g. <span class="hljs-keyword">if</span> the structures of the query model and target sequence are only partially shared), allowing certain large insertions and deletions <span class="hljs-keyword">in</span> the structure to be penalized differently than normal indels. Local mode performs better on empirical benchmarks and is significantly more sensitive <span class="hljs-keyword">for</span> remote homology detection. Empirically, glocal searches <span class="hljs-built_in">return</span> many fewer hits than <span class="hljs-built_in">local</span> searches, so glocal may be desired <span class="hljs-keyword">for</span> some applications.<br>-Z &lt;x&gt; Calculate E-values as <span class="hljs-keyword">if</span> the search space size was &lt;x&gt; megabases (Mb). Without the use of this option, the search space size changes <span class="hljs-keyword">for</span> each query sequence, it is defined as the length of the current query sequence <span class="hljs-built_in">times</span> 2 (because both strands of the sequence will be searched) <span class="hljs-built_in">times</span> the number of CMs <span class="hljs-keyword">in</span> &lt;cmdb&gt;.<br></code></pre></td></tr></table></figure>
+
+<p>When the cmscan command finishes running, the file mrum-genome.cmscan will contain the standard output of the program. This file will be similar to what we saw in the earlier example of cmscan. The file mrum-genome.tblout has also been created, which is a tabular representation of all hits, one line per hit. Take a look at this file. The first two lines are comment lines (prefixed with # characters) with the labels of each of the 27 columns of data in the file. Each subsequent line has 27 space delimited tokens. The specific meaning of these tokens is described in detail in section 6. Below I’m including the first 24 lines of the file, with columns 3-5, 7-9 and 13-16 removed (replaced with …) so that the text will fit on this page:</p>
+<p>This tabular format includes the target model name, sequence name (in column 3, which is omitted above to save space), clan name, sequence coordinates, bit score, E-value and more. Because the –fmt 2 option was used, this file includes information on which hits overlap with other hits, starting at the column labelled “olp” and ending with “wfrct2”. Hits with the “*” character in the “olp” column do not overlap with any other hits. Those with “ˆ” do overlap with at least one other hit, but none of those overlapping hits have a better score (that occurs higher in the list). Those with “&#x3D;” also overlap with at least one other hit that does have a better score, the index of which is given in the “anyidx” column. For more detailed explanation of these columns, see page 61.</p>
+<p>The top two hits are both to the LSU rRNA archaea model. These are the two copies of LSU rRNA in the <em>Methanobrevibacter ruminantium</em> genome. Hits number 3 and 4 are to the LSU rRNA bacteria model and over- lap with hits 1 and 2 nearly completely (hit 1 is from sequence positions 762872 to 765862 and hit 3 is from sequence positions 762874 to 765862). This overlap is not surprising because the bacterial and archaeal LSU rRNA models are very similar, and so are assigning high scores to the same subsequences. Further, hit 5 is to LSU rRNA eukarya and also overlaps hits 1 and 3. Because these three LSU models are all expected to produce overlapping hits due to their homology, Rfam has grouped them into the same <em>clan</em>, note the “CL00112” value in the “clan name” column for all three hits. This clan information was provided in the rfam.14.3.claninfo input file we provided to cmscan by using the –clanin option.</p>
+<p>The “olp” column indicates that hit 1 is the highest scoring of the three overlapping hits because it contains the “ˆ” character. Hits 3 and 5 both have “&#x3D;” in the “olp” column indicating that there is another hit to another model which overlaps these hits and has a better score.</p>
+<p>If you were using these results to produce annotations for the <em>Methanobrevibacter ruminantium</em> genome, you may want to ignore any hits that have higher scoring overlaps. To do this you can just remove any hits with “&#x3D;” in the “olp” column. Alternatively, you can have these hits not printed to the tabular output file by additionally providing the –oskip option to cmscan. You can also modify the overlap annotation behavior with –oclan option which restricts the annotation of overlaps to hits for models within the same clan. Overlapping hits from models that are not in the same clan will not be marked as overlaps, instead they will marked as “*” in the “olp” field.</p>
+<p>For more information on using Infernal for genome annotation see a similar example in the Rfam documentation (<a target="_blank" rel="noopener" href="https://rfam.readthedocs.io/en/latest/genome-annotation.html">https://rfam.readthedocs.io/en/latest/genome-annotation.html</a>)</p>
+<h2 id="5-Parameter-amp-Running"><a href="#5-Parameter-amp-Running" class="headerlink" title="5. Parameter &amp; Running"></a>5. Parameter &amp; Running</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># Rfam14.1.clanin 为下载的claninfo文件，需提供所在路径</span><br><span class="hljs-comment"># Rfam.cm 下载的cm文件</span><br><span class="hljs-comment">#nep_genome.fa 待查询序列</span><br><span class="hljs-comment"># nep.cmscan 输出结果</span><br><span class="hljs-comment"># nep.tblout 表格形式输出结果</span><br><span class="hljs-comment"># 对500M大小的输入序列，48线程，需要7个小时，最好放入后台</span><br>cmscan -Z 2636016 --cut_ga --rfam --nohmmonly --tblout mep_genome.tblout --<span class="hljs-built_in">fmt</span> 2 --cpu 24 --clanin Rfam14.1.clanin Rfam.cm nep_genome.fa &gt; nep.cmscan<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#official</span><br>cmscan --rfam --cut_ga --nohmmonly --tblout mrum-genome.tblout --<span class="hljs-built_in">fmt</span> 2 \<br>--clanin tutorial/Rfam.14.3.clanin Rfam.cm tutorial/mrum-genome.fa &gt; mrum-genome.cmscan<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-输出结果"><a href="#6-输出结果" class="headerlink" title="6. 输出结果"></a>6. 输出结果</h2><p>nep.tblout</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs tap"><span class="hljs-comment">#idx target name          accession query name           accession clan name mdl mdl from   mdl to seq from   seq to strand trunc pass   gc  bias  score   E-value inc olp anyidx afrct1 afrct2 winidx wfrct1 wfrct2 description of target</span><br><span class="hljs-comment">#--- -------------------- --------- -------------------- --------- --------- --- -------- -------- -------- -------- ------ ----- ---- ---- ----- ------ --------- --- --- ------ ------ ------ ------ ------ ------ ---------------------</span><br>1    mir-7                RF00053   contig_1000          -         -          cm       <span class="hljs-number"> 1 </span>     <span class="hljs-number"> 88 </span>  <span class="hljs-number"> 51272 </span>  <span class="hljs-number"> 51359 </span>     +    no   <span class="hljs-number"> 1 </span>0.38   0.0   58.2   1.9e-06  !   *       -      -      -      -      -      - mir-7 microRNA precursor<br>2    MIR1122              RF00906   contig_1000          -         -          cm       <span class="hljs-number"> 1 </span>    <span class="hljs-number"> 135 </span> <span class="hljs-number"> 137126 </span> <span class="hljs-number"> 137273 </span>     +    no   <span class="hljs-number"> 1 </span>0.20  26.4   37.6       4.1  ?   *       -      -      -      -      -      - microRNA MIR1122<br>1    tRNA                 RF00005   contig_10006         -         CL00001    cm       <span class="hljs-number"> 1 </span>     <span class="hljs-number"> 71 </span>    <span class="hljs-number"> 616 </span>    <span class="hljs-number"> 707 </span>     +    no   <span class="hljs-number"> 1 </span>0.53   0.0   49.7   0.00039  !   *       -      -      -      -      -      - tRNA<br>1    sno_ZL1              RF02723   contig_10010         -         -          cm      <span class="hljs-number"> 36 </span>    <span class="hljs-number"> 107 </span> <span class="hljs-number"> 101457 </span> <span class="hljs-number"> 101528 </span>     +    no   <span class="hljs-number"> 1 </span>0.28   0.1   31.7       3.2  ?   *       -      -      -      -      -      - Small nucleolar RNA ZL1<br>1    Histone3             RF00032   contig_10016         -         -          cm       <span class="hljs-number"> 1 </span>     <span class="hljs-number"> 46 </span> <span class="hljs-number"> 104440 </span> <span class="hljs-number"> 104394 </span>     -    no   <span class="hljs-number"> 1 </span>0.30   0.0   33.2     0.044  ?   *       -      -      -      -      -      - Histone 3&#x27; UTR stem-loop<br>1    LSU_rRNA_bacteria    RF02541   contig_10019         -         CL00112    cm       <span class="hljs-number"> 1 </span>   <span class="hljs-number"> 2925 </span>  <span class="hljs-number"> 51575 </span>  <span class="hljs-number"> 54339 </span>     +    no   <span class="hljs-number"> 1 </span>0.44  53.8 2654.9        <span class="hljs-number"> 0 </span> !   ^       -      -      -      -      -      - Bacterial large subunit ribosomal RNA<br>2    LSU_rRNA_archaea     RF02540   contig_10019         -         CL00112    cm       <span class="hljs-number"> 1 </span>   <span class="hljs-number"> 2990 </span>  <span class="hljs-number"> 51574 </span>  <span class="hljs-number"> 54338 </span>     +    no   <span class="hljs-number"> 1 </span>0.44  54.3 1799.6        <span class="hljs-number"> 0 </span> !   =      <span class="hljs-number"> 1 </span> 1.000  1.000      &quot;      &quot;      &quot; Archaeal large subunit ribosomal RNA<br><span class="hljs-comment">## 每一行有27列，比较关键的是`target name`, `accession`, `query name`, `seq from`, `seq to`, `strand`, `E-value`, `score`。</span><br>`olp`列表示查询序列的重叠信息，`*`表示同一条链上，不存在与此查询序列重叠的序列也在Rfam数据库有匹配，这是需要保留的查询序列。`^`表示同一条链上，不存在比此查询序列与Rfam数据库匹配更好的序列，也需要保留。`=`表示同一条链上，存在比此查询序列与Rfam数据库匹配更好的序列，应忽略。<br><span class="hljs-comment">## 可通过下面的命令获取最终结果。</span><br>​```bash<br>grep -v &#x27;=&#x27; nep.tblout &gt;nep .deoverlapped.tblout<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-结果解析"><a href="#7-结果解析" class="headerlink" title="7. 结果解析"></a>7. 结果解析</h2><p>得到tblout.final，</p>
+<h3 id="1-转换下结果格式"><a href="#1-转换下结果格式" class="headerlink" title="1. 转换下结果格式"></a>1. 转换下结果格式</h3><p>得到tblout.final，转换下结果格式，提取必须得列和非重叠区域或重叠区域中得分高的区域。<br>&#x3D;表示同一条链上，存在比此查询序列与Rfam数据库匹配更好的序列，应忽略。<br>去掉#开头的注释行 提取所需要的列。初始将分隔符设定为制表符。<br>如果是第一行，打印行名称 第3行开始，如果20列不是等号，且不以井号开始，打印2,3,4等列输出</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs swift">awk &#x27;<span class="hljs-type">BEGIN</span>&#123;<span class="hljs-type">OFS</span><span class="hljs-operator">=</span><span class="hljs-string">&quot;<span class="hljs-subst">\t</span>&quot;</span>;&#125;&#123;<span class="hljs-keyword">if</span>(<span class="hljs-type">FNR</span><span class="hljs-operator">==</span><span class="hljs-number">1</span>) print <span class="hljs-string">&quot;target_name<span class="hljs-subst">\t</span>accession<span class="hljs-subst">\t</span>query_name<span class="hljs-subst">\t</span>query_start<span class="hljs-subst">\t</span>query_end<span class="hljs-subst">\t</span>strand<span class="hljs-subst">\t</span>score<span class="hljs-subst">\t</span>Evalue&quot;</span>; <span class="hljs-keyword">if</span>(<span class="hljs-type">FNR</span><span class="hljs-operator">&gt;</span><span class="hljs-number">2</span> <span class="hljs-operator">&amp;&amp;</span> <span class="hljs-variable">$20</span><span class="hljs-operator">!=</span><span class="hljs-string">&quot;=&quot;</span> <span class="hljs-operator">&amp;&amp;</span> <span class="hljs-variable">$0</span><span class="hljs-operator">!~/^</span>#<span class="hljs-operator">/</span>) print <span class="hljs-variable">$2</span>,<span class="hljs-variable">$3</span>,<span class="hljs-variable">$4</span>,<span class="hljs-variable">$10</span>,<span class="hljs-variable">$11</span>,<span class="hljs-variable">$12</span>,<span class="hljs-variable">$17</span>,<span class="hljs-variable">$18</span>; &#125;&#x27; nep.tblout <span class="hljs-operator">&gt;</span>nep_genome.tblout.final.xls<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-下载Rfam注释"><a href="#2-下载Rfam注释" class="headerlink" title="2. 下载Rfam注释"></a>2. 下载Rfam注释</h3><p><em>首先下载Rfam家族的注释，点击Rfam网址，选择所有复选框，提交，把得到的表格拷贝下来，整理成TAB键分割的格式。将第三列的第二个分号信息提取出来，这就是各ncRNA class</em></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">cat</span> rfamannotation.txt | awk &#x27;BEGIN &#123;FS=OFS=<span class="hljs-string">&quot;\t&quot;</span>&#125;&#123;split($<span class="hljs-number">3</span>,x,<span class="hljs-string">&quot;;&quot;</span>);class=x[<span class="hljs-number">2</span>];print $<span class="hljs-number">1</span>,$<span class="hljs-number">2</span>,$<span class="hljs-number">3</span>,class&#125;&#x27; &gt; rfam_anno_class.txt<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-统计ncRNA数量"><a href="#3-统计ncRNA数量" class="headerlink" title="3. 统计ncRNA数量"></a>3. 统计ncRNA数量</h3><p><em>先读文件1，将列2和列4也就是名称和class按关系存入字典a。再读文件2，每一行，用自己的列1也就是名称去查询字典，得到class，存入type变量，并计数</em></p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stata">awk &#x27;BEGIN&#123;OFS=FS=<span class="hljs-string">&quot;\t&quot;</span>&#125;ARGIND==1&#123;a[<span class="hljs-variable">$2</span>]=<span class="hljs-variable">$4</span>;&#125;ARGIND==2&#123;<span class="hljs-keyword">type</span>=a[<span class="hljs-variable">$1</span>]; <span class="hljs-keyword">if</span>(<span class="hljs-keyword">type</span>==<span class="hljs-string">&quot;&quot;</span>) <span class="hljs-keyword">type</span>=<span class="hljs-string">&quot;Others&quot;</span>; <span class="hljs-keyword">count</span>[<span class="hljs-keyword">type</span>]+=1;&#125;END&#123;<span class="hljs-keyword">for</span>(<span class="hljs-keyword">type</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">count</span>) <span class="hljs-keyword">print</span> <span class="hljs-keyword">type</span>, <span class="hljs-keyword">count</span>[<span class="hljs-keyword">type</span>];&#125;&#x27; rfam_anno_class.txt nep_genome.tblout.final.xls<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-统计各类型RNA的总长度"><a href="#4-统计各类型RNA的总长度" class="headerlink" title="4. 统计各类型RNA的总长度"></a>4. 统计各类型RNA的总长度</h3><figure class="highlight wasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs wasm">awk &#x27;BEGIN&#123;OFS=FS=<span class="hljs-string">&quot;\t&quot;</span>&#125;ARGIND==<span class="hljs-number">1</span>&#123;a[<span class="hljs-variable">$2</span>]=<span class="hljs-variable">$4</span>;&#125;ARGIND==<span class="hljs-number">2</span>&#123;<span class="hljs-keyword">type</span>=a[<span class="hljs-variable">$1</span>]; <span class="hljs-keyword">if</span><span class="hljs-punctuation">(</span><span class="hljs-keyword">type</span>==<span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-keyword">type</span>=<span class="hljs-string">&quot;Others&quot;</span>; <span class="hljs-keyword">if</span><span class="hljs-punctuation">(</span><span class="hljs-variable">$6</span>==<span class="hljs-string">&quot;-&quot;</span><span class="hljs-punctuation">)</span>len[<span class="hljs-keyword">type</span>]+=<span class="hljs-variable">$4</span>-<span class="hljs-variable">$5</span><span class="hljs-number">+1</span>;<span class="hljs-keyword">if</span><span class="hljs-punctuation">(</span><span class="hljs-variable">$6</span>==<span class="hljs-string">&quot;+&quot;</span><span class="hljs-punctuation">)</span>len[<span class="hljs-keyword">type</span>]+=<span class="hljs-variable">$5</span>-<span class="hljs-variable">$4</span><span class="hljs-number">+1</span>&#125;END&#123;for<span class="hljs-punctuation">(</span><span class="hljs-keyword">type</span> in len<span class="hljs-punctuation">)</span> print <span class="hljs-keyword">type</span>, len[<span class="hljs-keyword">type</span>];&#125;&#x27; rfam_anno_class.txt nep_genome.tblout.final.xls<br></code></pre></td></tr></table></figure>
+
+
+
+<p>Ref: <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c072acba6bd6">https://www.jianshu.com/p/c072acba6bd6</a></p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/annotation/">#annotation</a>
+      
+        <a href="/GeekFocus/tags/ncRNA/">#ncRNA</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ncRNA prediction</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/05/29/2022-05-29-ncRNA-prediction/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>May 29, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/05/29/2022-05-29-BioDatabase/" title="Database">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Database</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/05/25/2022-05-25-LTR/" title="LTR-RT/LTR REs">
+                        <span class="hidden-mobile">LTR-RT/LTR REs</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>

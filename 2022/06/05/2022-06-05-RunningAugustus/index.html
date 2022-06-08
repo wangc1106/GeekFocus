@@ -1,73 +1,1251 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="AUGUSTUS Guidline">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AUGUSTUS">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/06/05/2022-06-05-RunningAugustus/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="AUGUSTUS Guidline">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-05T13:22:46.000Z">
+<meta property="article:modified_time" content="2022-06-05T15:20:40.126Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="annotation">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>AUGUSTUS - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AUGUSTUS"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-05 21:22" pubdate>
+          June 5, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          32k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          270 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">AUGUSTUS</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>AUGUSTUS Guidline</p>
+<span id="more"></span>
+
+<h2 id="RUNNING-AUGUSTUS"><a href="#RUNNING-AUGUSTUS" class="headerlink" title="RUNNING AUGUSTUS"></a>RUNNING AUGUSTUS</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#basic-usage">BASIC USAGE</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#sampling-alternative-transcripts-and-posterior-probabilities">SAMPLING: ALTERNATIVE TRANSCRIPTS AND POSTERIOR PROBABILITIES</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#using-hints">USING HINTS</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#predictions-using-cdna">PREDICTIONS USING CDNA</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#ppx">AUGUSTUS-PPX: PREDICTIONS USING PROTEIN PROFILES</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#retraining-augustus">RETRAINING AUGUSTUS</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#mea-using-the-maximum-expected-accuracy-approach">MEA: USING THE MAXIMUM EXPECTED ACCURACY APPROACH</a></li>
+</ol>
+<h1 id="BASIC-USAGE"><a href="#BASIC-USAGE" class="headerlink" title="BASIC USAGE"></a>BASIC USAGE</h1><p>AUGUSTUS has 2 mandatory arguments. The <font color="blue">query file and the species</font>. The query file contains the DNA input sequence and must be in uncompressed (multiple) fasta format, e.g. the file may look like this:</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gcode">&gt;<span class="hljs-symbol">name_of_sequence_1</span><br>agtgctgcatgctagctagct<br>&gt;<span class="hljs-symbol">name_of_sequence_2</span><br>gtgct<span class="hljs-symbol">ngcatgctagctagctggtgtnntgaaaaatt</span><br></code></pre></td></tr></table></figure>
+
+<p>Every letter other than a,c,g,t,A,C,G and T is interpreted as an unknown base. Digits and white spaces are ignored. The number of characters per line is not restricted.</p>
+<p>To execute augustus, run the following command with the appropriate <a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#important-parameters">parameters</a>.</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams">augustus [<span class="hljs-keyword">parameters</span>] --species=SPECIES <span class="hljs-comment">queryfilename</span><br></code></pre></td></tr></table></figure>
+
+<p>If you want to output to be redirected to a file (see also outfile parameter), you can use pipe operators, for example:</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams">augustus [<span class="hljs-keyword">parameters</span>] --species=SPECIES <span class="hljs-comment">queryfilename &gt; output.gff</span><br></code></pre></td></tr></table></figure>
+
+<p>SPECIES is one of the following identifiers. The directory names under config&#x2F;species constitutes the complete list. The identifiers in parentheses denote older versions for that species. ‘queryfilename’ is the filename (including relative path) to the file containing the query sequence(s) in fasta format.</p>
+<table>
+<thead>
+<tr>
+<th>identifier</th>
+<th>species</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>human</td>
+<td>Homo sapiens</td>
+</tr>
+<tr>
+<td>fly</td>
+<td>Drosophila melanogaster</td>
+</tr>
+<tr>
+<td>arabidopsis</td>
+<td>Arabidopsis thaliana</td>
+</tr>
+<tr>
+<td>brugia</td>
+<td>Brugia malayi</td>
+</tr>
+<tr>
+<td>aedes</td>
+<td>Aedes aegypti</td>
+</tr>
+<tr>
+<td>tribolium</td>
+<td>Tribolium castaneum</td>
+</tr>
+<tr>
+<td>schistosoma</td>
+<td>Schistosoma mansoni</td>
+</tr>
+<tr>
+<td>tetrahymena</td>
+<td>Tetrahymena thermophila</td>
+</tr>
+<tr>
+<td>galdieria</td>
+<td>Galdieria sulphuraria</td>
+</tr>
+<tr>
+<td>maize</td>
+<td>Zea mays</td>
+</tr>
+<tr>
+<td>toxoplasma</td>
+<td>Toxoplasma gondii</td>
+</tr>
+<tr>
+<td>caenorhabditis</td>
+<td>Caenorhabditis elegans</td>
+</tr>
+<tr>
+<td>(elegans)</td>
+<td>Caenorhabditis elegans</td>
+</tr>
+<tr>
+<td>aspergillus_fumigatus</td>
+<td>Aspergillus fumigatus</td>
+</tr>
+<tr>
+<td>aspergillus_nidulans</td>
+<td>Aspergillus nidulans</td>
+</tr>
+<tr>
+<td>(anidulans)</td>
+<td>Aspergillus nidulans</td>
+</tr>
+<tr>
+<td>aspergillus_oryzae</td>
+<td>Aspergillus oryzae</td>
+</tr>
+<tr>
+<td>aspergillus_terreus</td>
+<td>Aspergillus terreus</td>
+</tr>
+<tr>
+<td>botrytis_cinerea</td>
+<td>Botrytis cinerea</td>
+</tr>
+<tr>
+<td>candida_albicans</td>
+<td>Candida albicans</td>
+</tr>
+<tr>
+<td>candida_guilliermondii</td>
+<td>Candida guilliermondii</td>
+</tr>
+<tr>
+<td>candida_tropicalis</td>
+<td>Candida tropicalis</td>
+</tr>
+<tr>
+<td>chaetomium_globosum</td>
+<td>Chaetomium globosum</td>
+</tr>
+<tr>
+<td>coccidioides_immitis</td>
+<td>Coccidioides immitis</td>
+</tr>
+<tr>
+<td>coprinus</td>
+<td>Coprinus cinereus</td>
+</tr>
+<tr>
+<td>coprinus_cinereus</td>
+<td>Coprinus cinereus</td>
+</tr>
+<tr>
+<td>coyote_tobacco</td>
+<td>Nicotiana attenuata</td>
+</tr>
+<tr>
+<td>cryptococcus_neoformans_gattii</td>
+<td>Cryptococcus neoformans gattii</td>
+</tr>
+<tr>
+<td>cryptococcus_neoformans_neoformans_B</td>
+<td>Cryptococcus neoformans neoformans</td>
+</tr>
+<tr>
+<td>cryptococcus_neoformans_neoformans_JEC21</td>
+<td>Cryptococcus neoformans neoformans</td>
+</tr>
+<tr>
+<td>(cryptococcus)</td>
+<td>Cryptococcus neoformans</td>
+</tr>
+<tr>
+<td>debaryomyces_hansenii</td>
+<td>Debaryomyces hansenii</td>
+</tr>
+<tr>
+<td>encephalitozoon_cuniculi_GB</td>
+<td>Encephalitozoon cuniculi</td>
+</tr>
+<tr>
+<td>eremothecium_gossypii</td>
+<td>Eremothecium gossypii</td>
+</tr>
+<tr>
+<td>fusarium_graminearum</td>
+<td>Fusarium graminearum</td>
+</tr>
+<tr>
+<td>(fusarium)</td>
+<td>Fusarium graminearum</td>
+</tr>
+<tr>
+<td>histoplasma_capsulatum</td>
+<td>Histoplasma capsulatum</td>
+</tr>
+<tr>
+<td>(histoplasma)</td>
+<td>Histoplasma capsulatum</td>
+</tr>
+<tr>
+<td>kluyveromyces_lactis</td>
+<td>Kluyveromyces lactis</td>
+</tr>
+<tr>
+<td>laccaria_bicolor</td>
+<td>Laccaria bicolor</td>
+</tr>
+<tr>
+<td>lamprey</td>
+<td>Petromyzon marinus</td>
+</tr>
+<tr>
+<td>leishmania_tarentolae</td>
+<td>Leishmania tarentolae</td>
+</tr>
+<tr>
+<td>lodderomyces_elongisporus</td>
+<td>Lodderomyces elongisporus</td>
+</tr>
+<tr>
+<td>magnaporthe_grisea</td>
+<td>Magnaporthe grisea</td>
+</tr>
+<tr>
+<td>neurospora_crassa</td>
+<td>Neurospora crassa</td>
+</tr>
+<tr>
+<td>(neurospora)</td>
+<td>Neurospora crassa</td>
+</tr>
+<tr>
+<td>phanerochaete_chrysosporium</td>
+<td>Phanerochaete chrysosporium</td>
+</tr>
+<tr>
+<td>(pchrysosporium)</td>
+<td>Phanerochaete chrysosporium</td>
+</tr>
+<tr>
+<td>pichia_stipitis</td>
+<td>Pichia stipitis</td>
+</tr>
+<tr>
+<td>rhizopus_oryzae</td>
+<td>Rhizopus oryzae</td>
+</tr>
+<tr>
+<td>saccharomyces_cerevisiae_S288C</td>
+<td>Saccharomyces cerevisiae</td>
+</tr>
+<tr>
+<td>saccharomyces_cerevisiae_rm11-1a_1</td>
+<td>Saccharomyces cerevisiae</td>
+</tr>
+<tr>
+<td>(saccharomyces)</td>
+<td>Saccharomyces cerevisiae</td>
+</tr>
+<tr>
+<td>schizosaccharomyces_pombe</td>
+<td>Schizosaccharomyces pombe</td>
+</tr>
+<tr>
+<td>thermoanaerobacter_tengcongensis</td>
+<td>Thermoanaerobacter tengcongensis</td>
+</tr>
+<tr>
+<td>trichinella</td>
+<td>Trichinella spiralis</td>
+</tr>
+<tr>
+<td>ustilago_maydis</td>
+<td>Ustilago maydis</td>
+</tr>
+<tr>
+<td>(ustilago)</td>
+<td>Ustilago maydis</td>
+</tr>
+<tr>
+<td>yarrowia_lipolytica</td>
+<td>Yarrowia lipolytica</td>
+</tr>
+<tr>
+<td>nasonia</td>
+<td>Nasonia vitripennis</td>
+</tr>
+<tr>
+<td>tomato</td>
+<td>Solanum lycopersicum</td>
+</tr>
+<tr>
+<td>chlamydomonas</td>
+<td>Chlamydomonas reinhardtii</td>
+</tr>
+<tr>
+<td>amphimedon</td>
+<td>Amphimedon queenslandica</td>
+</tr>
+<tr>
+<td>pneumocystis</td>
+<td>Pneumocystis jirovecii</td>
+</tr>
+<tr>
+<td>wheat</td>
+<td>Triticum aestivum</td>
+</tr>
+<tr>
+<td>chicken</td>
+<td>Gallus gallus</td>
+</tr>
+<tr>
+<td>zebrafish</td>
+<td>Danio rerio</td>
+</tr>
+<tr>
+<td>E_coli_K12</td>
+<td>Escherichia coli</td>
+</tr>
+<tr>
+<td>s_aureus</td>
+<td>Staphylococcus aureus</td>
+</tr>
+<tr>
+<td>volvox</td>
+<td>Volvox carteri</td>
+</tr>
+</tbody></table>
+<h2 id="Important-Parameters"><a href="#Important-Parameters" class="headerlink" title="Important Parameters"></a>Important Parameters</h2><ul>
+<li><font color="red">–strand&#x3D;both</font>, –strand&#x3D;forward or –strand&#x3D;backward report <font color="blue">predicted genes on both strands</font>, just the forward or just the backward strand. <font color="blue">default is ‘both’</font></li>
+<li><font color="red">–genemodel</font>&#x3D;partial, –genemodel&#x3D;intronless, –genemodel&#x3D;complete, –genemodel&#x3D;atleastone or –genemodel&#x3D;exactlyone <ul>
+<li>partial : <font color="blue">allow prediction of incomplete genes at the sequence boundaries <strong>(default)</strong> </font></li>
+<li>intronless : <font color="blue">only predict single-exon genes</font> like in prokaryotes and some eukaryotes </li>
+<li>complete : <font color="blue"><strong>only predict complete</strong> genes </font></li>
+<li>atleastone : predict <font color="blue"><strong>at least one</strong> complete gene </font></li>
+<li>exactlyone : predict <font color="blue"><strong>exactly one</strong> complete gene</font></li>
+</ul>
+</li>
+<li>–singlestrand&#x3D;true <font color="blue">predict genes independently on each strand</font>, <font color="blue">allow overlapping genes on opposite strands</font> This option is <font color="blue"><strong>turned off by default</strong></font>.</li>
+<li>–hintsfile&#x3D;hintsfilename When this option is used the prediction considering hints (extrinsic information) is turned on. hintsfile name contains the hints in gff format.</li>
+<li>–extrinsicCfgFile&#x3D;cfgfilename Optional. This file contains the list of used sources for the hints and their boni and mali. If not specified the file “extrinsic.cfg” in the config directory $AUGUSTUS_CONFIG_PATH is used.</li>
+<li>–maxDNAPieceSize&#x3D;n This value specifies the maximal length of the pieces that the sequence is cut into for the core algorithm (Viterbi) to be run. Default is –maxDNAPieceSize&#x3D;200000. AUGUSTUS tries to place the boundaries of these pieces in the intergenic region, which is inferred by a preliminary prediction. GC-content dependent parameters are chosen for each piece of DNA if &#x2F;Constant&#x2F;decomp_num_steps &gt; 1 for that species. This is why this value should not be set very large, even if you have plenty of memory.</li>
+<li>–protein&#x3D;on&#x2F;off</li>
+<li>–codingseq&#x3D;on&#x2F;off</li>
+<li>–introns&#x3D;on&#x2F;off</li>
+<li>–start&#x3D;on&#x2F;off</li>
+<li>–stop&#x3D;on&#x2F;off</li>
+<li>–cds&#x3D;on&#x2F;off</li>
+<li>–exonnames&#x3D;on&#x2F;off<br>Output options. Output predicted amino acid sequences or coding sequences. Or toggle the display of the GFF features&#x2F;lines of type intron, start codon, stop codon, CDS or ‘initial’, ‘internal’, ‘terminal’ and ‘single’ exon type names. <font color="blue">The CDS excludes the stop codon</font> (unless <font color="red">stopCodonExcludedFromCDS&#x3D;false</font>) <font color="blue">whereas the terminal and single exon include the stop codon</font>.</li>
+<li>–AUGUSTUS_CONFIG_PATH&#x3D;path path to config directory (if not specified as environment variable)</li>
+<li><font color="red">【–alternatives-from-evidence】&#x3D;true&#x2F;false</font> report alternative transcripts when they are suggested by hints</li>
+<li>–alternatives-from-sampling&#x3D;true&#x2F;false report alternative transcripts generated through probabilistic sampling</li>
+<li>–sample&#x3D;n</li>
+<li>–minexonintronprob&#x3D;p</li>
+<li>–minmeanexonintronprob&#x3D;p</li>
+<li>–maxtracks&#x3D;n For a description of these parameters see section 4 below.</li>
+<li>–proteinprofile&#x3D;filename Read a protein profile from file filename. See <a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#ppx">section on PPX</a> below.</li>
+<li>–predictionStart&#x3D;A, –predictionEnd&#x3D;B A and B define the range of the sequence for which predictions should be found. Quicker if you need predictions only for a small part.</li>
+<li>–gff3&#x3D;on&#x2F;off output in gff3 format</li>
+<li>–UTR&#x3D;on&#x2F;off predict the untranslated regions in addition to the coding sequence. <font color="blue">This currently works only for human, galdieria, toxoplasma and caenorhabditis.</font></li>
+<li>–outfile&#x3D;filename print output to filename instead to standard output. This is useful for computing environments, e.g. parasol jobs, which do not allow shell redirection.</li>
+<li><font color="red">【–noInFrameStop&#x3D;true&#x2F;false】 </font>Don’t report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur. Default: false</li>
+<li>–noprediction&#x3D;true&#x2F;false If true and input is in genbank format, no prediction is made. Useful for getting the annotated protein sequences.</li>
+<li>–contentmodels&#x3D;on&#x2F;off If ‘off’ the content models are disabled (all emissions uniformly 1&#x2F;4). The content models are; coding region Markov chain (emiprobs), initial k-mers in coding region (Pls), intron and intergenic regin Markov chain. This option is intended for special applications that require judging gene structures from the signal models only, e.g. for predicting the effect of SNPs or mutations on splicing. For all typical gene predictions, this should be true. Default: on</li>
+</ul>
+<p>For example you may type</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">augustus <span class="hljs-attribute">--species</span>=human <span class="hljs-attribute">--UTR</span>=on <span class="hljs-built_in">..</span>/examples/example.fa<br></code></pre></td></tr></table></figure>
+
+<p>The output format is gtf similar to General Feature Format (gff), see <a target="_blank" rel="noopener" href="http://www.sanger.ac.uk/Software/formats/GFF/">http://www.sanger.ac.uk/Software/formats/GFF/</a>. It contains one line per predicted exon. Example:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">HS04636</span>   AUGUSTUS   initial    <span class="hljs-number">966</span>     <span class="hljs-number">1017</span>    .       +       <span class="hljs-number">0</span>       transcript_id <span class="hljs-string">&quot;g1.1&quot;</span>; gene_id <span class="hljs-string">&quot;g1&quot;</span>;<br><span class="hljs-attribute">HS04636</span>   AUGUSTUS   internal   <span class="hljs-number">1818</span>    <span class="hljs-number">1934</span>    .       +       <span class="hljs-number">2</span>       transcript_id <span class="hljs-string">&quot;g1.1&quot;</span>; gene_id <span class="hljs-string">&quot;g1&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>The columns (fields) contain:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">seqname   source     feature    <span class="hljs-keyword">start</span>   <span class="hljs-keyword">end</span>   score   strand   frame    transcript <span class="hljs-keyword">and</span> gene <span class="hljs-type">name</span><br></code></pre></td></tr></table></figure>
+
+<p>AUGUSTUS also accepts files in annotated <strong>GENBANK format as input</strong>. This is needed for training. Also when predicting on a genbank file AUGUSTUS compares its prediction to the annotation and prints out a statistic. Example genbank file format accepted by AUGUSTUS:</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs dns">LOCUS       HS04636   <span class="hljs-number">9453</span> bp  DNA<br>FEATURES             Location/Qualifiers<br>     source          <span class="hljs-number">1</span>..<span class="hljs-number">9453</span><br>     <span class="hljs-keyword">CDS</span>             join(<span class="hljs-number">966</span>..<span class="hljs-number">1017,1818</span>..<span class="hljs-number">1934,2055</span>..<span class="hljs-number">2198,2852</span>..<span class="hljs-number">2995,3426</span>..<span class="hljs-number">3607</span>,<br>                     <span class="hljs-number">4340</span>..<span class="hljs-number">4423,4543</span>..<span class="hljs-number">4789,5072</span>..<span class="hljs-number">5358,5860</span>..<span class="hljs-number">6007,6494</span>..<span class="hljs-number">6903</span>)<br>BASE COUNT     <span class="hljs-number">2937</span> a   <span class="hljs-number">1716</span> c  <span class="hljs-number">1710</span> g   <span class="hljs-number">3090</span> t<br>ORIGIN<br>        <span class="hljs-number">1</span> gagctcacat taactattta cagggtaact gcttaggacc agtattatga ggagaattta<br>       <span class="hljs-number">61</span> cctttcccgc ctctctttcc aagaaacaag gagggggtga aggtacggag aacagtattt<br>      <span class="hljs-number">121</span> cttctgttga aagcaactta gctacaaaga taaattacag ctatgtacac tgaaggtagc<br>      ...<br>     <span class="hljs-number">9421</span> aaaaaaaaaa aaaaatcgat gtcgactcga gtc	<br>//<br></code></pre></td></tr></table></figure>
+
+<p>Another example that is important for training the UTR models. The following genbank file will be interpreted as having three genes. One gene (‘A’) with both 5’ and 3’ UTR and two single UTRs without matching coding sequence. Gene ‘B’ consists just of the 5’UTR, gene ‘C’ just of the 3’ UTR.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash">LOCUS       example2   9453 bp  DNA<br>FEATURES             Location/Qualifiers<br>     <span class="hljs-built_in">source</span>          1..9453<br>     mRNA            <span class="hljs-built_in">join</span>(100..200,900..1017,1818..2000,2100..2200)<br>                     /gene=<span class="hljs-string">&quot;A&quot;</span><br>     CDS             <span class="hljs-built_in">join</span>(966..1017,1818..1934)<br>                     /gene=<span class="hljs-string">&quot;A&quot;</span><br>     mRNA            <span class="hljs-built_in">join</span>(3100..3200,3500..&gt;3600)<br>                     /gene=<span class="hljs-string">&quot;B&quot;</span><br>     mRNA            <span class="hljs-built_in">join</span>(&lt;4100..4200,4500..4600)<br>                     /gene=<span class="hljs-string">&quot;C&quot;</span><br><br>BASE COUNT     2937 a   1716 c  1710 g   3090 t<br>ORIGIN<br>        1 gagctcacat taactattta cagggtaact gcttaggacc agtattatga ggagaattta<br>       61 cctttcccgc ctctctttcc aagaaacaag gagggggtga aggtacggag aacagtattt<br>      121 cttctgttga aagcaactta gctacaaaga taaattacag ctatgtacac tgaaggtagc<br>      ...<br>     9421 aaaaaaaaaa aaaaatcgat gtcgactcga gtc	<br>//<br></code></pre></td></tr></table></figure>
+
+<h1 id="SAMPLING-ALTERNATIVE-TRANSCRIPTS-AND-POSTERIOR-PROBABILITIES"><a href="#SAMPLING-ALTERNATIVE-TRANSCRIPTS-AND-POSTERIOR-PROBABILITIES" class="headerlink" title="SAMPLING: ALTERNATIVE TRANSCRIPTS AND POSTERIOR PROBABILITIES"></a>SAMPLING: ALTERNATIVE TRANSCRIPTS AND POSTERIOR PROBABILITIES</h1><p>Note that for the prediction of alternative splicing there is another method described in 5. below.</p>
+<h2 id="Alternative-transcripts-from-sampling"><a href="#Alternative-transcripts-from-sampling" class="headerlink" title="Alternative transcripts (from sampling)"></a>Alternative transcripts (from sampling)</h2><p>When you say on the command line</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">--alternatives-from-sampling</span>=<span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<p>or edit the appropriate line in the configuration file for your species to <font color="blue">alternatives true then AUGUSTUS may report multiple transcripts per gene</font>. A gene is then defined as a set of transcripts, whose coding sequences (indirectly) overlap. The number of alternatives AUGUSTUS reports for a gene depends on which ones are likely alternatives. If just one transcript is likely in that region then also just one transcript is reported. The behavior of AUGUSTUS can be adjusted with the parameters</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">--minexonintronprob</span>=p<br><span class="hljs-attr">--minmeanexonintronprob</span>=p<br><span class="hljs-attr">--maxtracks</span>=n (default -<span class="hljs-number">1</span>, <span class="hljs-literal">no</span> limit)<br></code></pre></td></tr></table></figure>
+
+<p>The posterior probability of every exon and every intron in a transcript must be at least ‘minexonintronprob’, otherwise the transcript is not reported. minexonintronprob&#x3D;0.1 is a reasonable value. In addition the geometric mean of the probabilities of all exons and introns must be at least ‘minmeanexonintronprob’. minmeanexonintronprob&#x3D;0.4 is a reasonable value. The maximum number of tracks when displayed in a genome browser is ‘maxtracks’ (unless maxtracks&#x3D;-1, then it is unbounded). In cases where all transcripts of a gene overlap at some position this is also the maximal number of transcripts for that gene. I recommend increasing the parameter ‘maxtracks’ for improving sensitivity and setting ‘maxtracks’ to 1 and increasing minmeanexonintronprob and&#x2F;or minexonintronprob in order to improve specificity.</p>
+<h2 id="Posterior-probabilities"><a href="#Posterior-probabilities" class="headerlink" title="Posterior probabilities"></a>Posterior probabilities</h2><p>AUGUSTUS reports the posterior probabilities of exons, introns, transcripts and genes. The <font color="blue">posterior probability of an exon is the conditional probability that the random gene structure has some exon with these coordinates on this strand given the input sequence</font>. It not only depends on the sequence in the range of the exon itself like an exon score but is influenced for example by the possibilities of compatible neighboring exons. The intron score is similar. The reported probability of a transcript is the probability that a splice variant is exactly like in the given transcript. The reported probability of a gene is the probability that SOME coding sequence is in the reported range on the reported strand, regardless of the exact transcript.</p>
+<p>The posterior probabilities are estimated using a sampling algorithm. The parameter –sample&#x3D;&#x3D;n adjusts the number of sampling iterations. The higher ‘n’ is the more accurate is the estimation but it usually isn’t important that the posterior probability is very accurate. Every 30 sample iterations take about the same time as one run without sampling, e.g. –sample&#x3D;60 takes about 3 times as much time as –sample&#x3D;0 (which was standard up to version 1.6). The <font color="blue">default is</font></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">--sample</span>=<span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+
+<p>If you do not need the posterior probabilities or alternative transcripts, say</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">--sample</span>=<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p>There are 3 common scenarios for above parameters, depending on what you want:</p>
+<ol>
+<li><font color="blue">Just output the <strong>most likely gene structure</strong> as in previous versions. No posterior probabilities, no alternatives:</font></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">--sample=0 --alternatives=<span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><font color="blue">Output the <strong>most likely gene structure</strong> and report posterior probabilities:</font></li>
+</ol>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-attribute">--sample</span>=100 <span class="hljs-attribute">--alternatives</span>=<span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><font color="blue">Output <strong>alternative transcripts</strong> and report posterior probabilities:</font></li>
+</ol>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-attribute">--sample</span>=100 <span class="hljs-attribute">--alternatives</span>=<span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<p>Be aware that sampling is pseudorandom and that the results may vary from machine to machine.</p>
+<h2 id="Heating"><a href="#Heating" class="headerlink" title="Heating?"></a>Heating?</h2><p>The probabilistic model of AUGUSTUS can be seen as a rough approximation to reality. A consequence is that the posterior probabilities for the strong exons (e.g. the ones called by the Viterbi algorithm) tend to be larger than the actually measured precision (specificity) values. For example, in human, only 94.5% of the exons with predicted posterior probability &gt;&#x3D; 98% (under the default –sample&#x3D;100) are actually correct. See docs&#x2F;CDS.sp.{pdf,README} for more data and an explanation. If the aim of the sampling is to produce a diverse, sensitive (including) set of gene structures, you can use this parameter</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">--temperature</span>=t<br></code></pre></td></tr></table></figure>
+
+<p>where t is one of 0,1,2,3,4,5,6,7. All probabilities of the model are then taken to the power of (8-t)&#x2F;8, i.e. <font color="blue">t&#x3D;0 (the default) does nothing</font>. The larger t the more alternatives are sampled. <font color="blue">t&#x3D;3 is a good compromise between getting a high sensitivity but not getting too many exons sampled in total</font>. For t&#x3D;3, 96.1% of human exons with posterior probability &gt;&#x3D; 98% are correct.</p>
+<h1 id="USING-HINTS"><a href="#USING-HINTS" class="headerlink" title="USING HINTS"></a>USING HINTS</h1><p>AUGUSTUS can take hints on the gene structure. Previously, this was also called AUGUSTUS+. It currently accepts 16 types of hints:<br>start, stop, tss, tts, ass, dss, exonpart, exon, intronpart, intron, CDSpart, CDS, UTRpart, UTR, irpart, nonexonpart. The hints must be stored in a file in gff format containing one hint per line. Below is an example of a hintsfile:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">HS04636</span>	mario   exonpart   <span class="hljs-number">500</span>   <span class="hljs-number">506</span>	     .	-	.	source=M<br><span class="hljs-attribute">HS04636</span>	mario   exon       <span class="hljs-number">966</span>  <span class="hljs-number">1017</span>	     .	+	<span class="hljs-number">0</span>	source=P<br><span class="hljs-attribute">HS04636</span>	AGRIPPA start      <span class="hljs-number">966</span>   <span class="hljs-number">968</span>  <span class="hljs-number">6</span>.<span class="hljs-number">3</span>e-<span class="hljs-number">239</span>	+	<span class="hljs-number">0</span>	group=gb|AAA35803.<span class="hljs-number">1</span>;source=P<br><span class="hljs-attribute">HS04636</span>	AGRIPPA dss       <span class="hljs-number">2199</span>  <span class="hljs-number">2199</span>  <span class="hljs-number">1</span>.<span class="hljs-number">3</span>e-<span class="hljs-number">216</span>	+	.	group=gb|AAA35803.<span class="hljs-number">1</span>;source=P<br><span class="hljs-attribute">HS04636</span>	mario   stop      <span class="hljs-number">7631</span>  <span class="hljs-number">7633</span>	     .	+	<span class="hljs-number">0</span>	source=M<br><span class="hljs-attribute">HS08198</span>	AGRIPPA intron    <span class="hljs-number">2000</span>  <span class="hljs-number">2000</span>	     <span class="hljs-number">0</span>	+	.	group=ref|NP_000597.<span class="hljs-number">1</span>;source=E<br><span class="hljs-attribute">HS08198</span>	AGRIPPA ass        <span class="hljs-number">757</span>   <span class="hljs-number">757</span>   <span class="hljs-number">1</span>.<span class="hljs-number">4</span>e-<span class="hljs-number">52</span>	+	.	group=ref|NP_000597.<span class="hljs-number">1</span>;source=E<br></code></pre></td></tr></table></figure>
+
+<p>The fields must be separated by a tabulator. In the first column (field) the sequence name is given. In this case the hints are together about two sequences. The second field is the name of the program that produced the hint. It is ignored here. The third column specifies the type of the hint. The 4th and 5th column specify the begin and end position of the hint. Positions start at 1. The 6th colum gives a score. The 7th the strand. The 8th the reading frame as defined in the GFF standard. The 9th column contains arbitrary extra information but it must contain a string ‘source&#x3D;X’ where X is the source identifier of the hint. Which values for X are possible is specified in the file augustus&#x2F;config&#x2F;extrinsic.cfg, e.g. X&#x3D;M, E, or P.</p>
+<p>AUGUSTUS can follow a hint, i.e. predict a gene structure that is compatible with it, or AUGUSTUS can ignore a hint, i.e. predict a gene structure that is not compatible with it. The probability that AUGUSTUS ignores a hint is the smaller the more reliable the hints of this type are.</p>
+<p>Below in an example to run AUGUSTUS using the –hintsfile option:</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">augustus --species=human --hintsfile=..<span class="hljs-regexp">/examples/</span>hints.gff --extrinsicCfgFile=..<span class="hljs-regexp">/config/</span>extrinsic<span class="hljs-regexp">/extrinsic.MPE.cfg ../</span>examples/example.fa<br></code></pre></td></tr></table></figure>
+
+<p>As an alternative to giving the option –extrinsicCfgFile you can replace augustus&#x2F;config&#x2F;extrinsic.cfg with the appropriate file, as this file is read by default when the option –extrinsicCfgFile is not given.</p>
+<p>The preferable way to use repeat information is via softmasking in which the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input. Running augustus could look like this:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">augustus <span class="hljs-attribute">--species</span>=human <span class="hljs-attribute">--softmasking</span>=1<br></code></pre></td></tr></table></figure>
+
+<p>will interpret masked regions as evidence against exons (nonexonparts hints with a default bonus of 1.15). This is slightly more accurate than hard masking (with N’s), which looses information. On human augustus is also more than twice as fast with softmasking&#x3D;1 than on hard masked sequence.</p>
+<h2 id="Explanation-of-the-file-format-of-the-extrinsic-cfg-file"><a href="#Explanation-of-the-file-format-of-the-extrinsic-cfg-file" class="headerlink" title="Explanation of the file format of the extrinsic.cfg file."></a>Explanation of the file format of the extrinsic.cfg file.</h2><p>The gff&#x2F;gtf file containint the hints must contain somewhere in the last column an entry source&#x3D;?, where ? is one of the source characters listed in the line after [SOURCES] above. You can use different sources when you have hints of different reliability of the same type, e.g. exon hints from ESTs and exon hints from evolutionary conservation information.</p>
+<p>In the [GENERAL] section the entries second column specify a bonus for obeying a hint and the entry in the third column specify a malus (penalty) for predicting a feature that is not supported by any hint. The bonus and the malus is a factor that is multiplied to the posterior probability of gene structures. Example:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">CDS</span>     <span class="hljs-number">1000</span>  <span class="hljs-number">0</span>.<span class="hljs-number">7</span>  ....<br></code></pre></td></tr></table></figure>
+
+<p>means that, when AUGUSTUS is searching for the most likely gene structure, every gene structure that has a CDS exactly as given in a hint gets a bonus factor of 1000. Also, for every CDS that is not supported the probability of the gene structure gets a malus of 0.7. Increase the bonus to make AUGUSTUS obey more hints, decrease the malus to make AUGUSTUS predict few features that are not supported by hints. The malus helps increasing specificity, e.g. when the exons predicted by AUGUSTUS are suspicious because there is no evidence from ESTs, mRNAs, protein databases, sequence conservation, transMapped expressed sequences. Setting the malus to 1.0 disables those penalties. Setting the bonus to 1.0 disables the boni.</p>
+<ul>
+<li>start: translation start (start codon), specifies an interval that contains the start codon. The interval can be larger than 3bp, in which case every ATG in the interval gets a bonus. The highest bonus is given to ATGs in the middle of the interval, the bonus fades off towards the ends.</li>
+<li>stop: translation end (stop codon), see ‘start’</li>
+<li>tss: transcription start site, see ‘start’</li>
+<li>tts: transcription termination site, see ‘start’</li>
+<li>ass: acceptor (3’) splice site, the last intron position, for only approximately known ass an interval can be specified</li>
+<li>dss: donor (5’) splice site, the first intron position, for only approximately known dss an interval can be specified</li>
+<li>exonpart: part of an exon in the biological sense. The bonus applies only to exons that contain the interval from the hint. Just overlapping means no bonus at all. The malus applies to every base of an exon. Therefore the malus for an exon is exponential in the length of an exon: malus&#x3D;exonpartmalus^length. Therefore the malus should be close to 1, e.g. 0.99.</li>
+<li>exon: exon in the biological sense. Only exons that exactly match the hint get a bonus. Exception: The exons that contain the start codon and stop codon. This malus applies to a complete exon independent of its length.</li>
+<li>intronpart: introns both between coding and non-coding exons. The bonus applies to every intronic base in the interval of the hint.</li>
+<li>intron: An intron gets the bonus if and only if it is exactly as in the hint.</li>
+<li>CDSpart: part of the coding part of an exon. (CDS &#x3D; coding sequence)</li>
+<li>CDS: coding part of an exon with exact boundaries. For internal exons of a multi exon gene this is identical to the biological boundaries of the exon. For the first and the last coding exon the boundaries are the boundaries of the coding sequence (start, stop).</li>
+<li>UTR: exact boundaries of a UTR exon or the untranslated part of a partially coding exon.</li>
+<li>UTRpart: The hint interval must be included in the UTR part of an exon.</li>
+<li>irpart: The bonus applies to every base of the intergenic region. If UTR prediction is turned on (–UTR&#x3D;on) then UTR is considered genic. If you choose against the usual meaning the bonus of irparts to be much smaller than 1 in the configuration file you can force AUGUSTUS to not predict an intergenic region in the specified interval. This is useful if you want to tell AUGUSTUS that two distant exons belong to the same gene, when AUGUSTUS tends to split that gene into smaller genes.</li>
+<li>nonexonpart: intergenic region or intron. The bonus applies to very non-exon base that overlaps with the interval from the hint. It is geometric in the length of that overlap, so choose it close to 1.0. This is useful as a weak kind of masking, e.g. when it is unlikely that a retroposed gene contains a coding region but you do not want to completely forbid exons.</li>
+<li>genicpart: everything that is not intergenic region, i.e. intron or exon or UTR if applicable. The bonus applies to every genic base that overlaps with the interval from the hint. This can be used in particular to make Augustus predict one gene between positions a and b if a and b are experimentally confirmed to be part of the same gene, e.g. through ESTs from the same clone. alias: nonirpart</li>
+</ul>
+<p>Any hints of types dss, intron, exon, CDS, UTR that (implicitly) suggest a donor splice site allow AUGUSTUS to predict a donor splice site that has a GC instead of the much more common GT. AUGUSTUS does not predict a GC donor splice site unless there is a hint for one.</p>
+<p>Starting in column number 4 you can tell AUGUSTUS how to modify the bonus depending on the source of the hint and the score of the hint. The score of the hints is specified in the 6th column of the hint gff&#x2F;gtf. If the score is used at all, the score is not used directly through some conversion formula but by distinguishing different classes of scores, e.g. low score, medium score, high score. The format is the following: First, you specify the source character, then the number of classes (say n), then you specify the score boundaries that separate the classes (n-1 thresholds) and then you specify for each score class the multiplicative modifier to the bonus (n factors).</p>
+<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">M</span> <span class="hljs-number">1</span> <span class="hljs-number">1</span>e+<span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+
+<p>means for the manual hint there is only one score class, the bonus for this type of hint is multiplied by 10^100. This practically forces AUGUSTUS to obey all manual hints.</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">T</span>    <span class="hljs-number">2</span>       <span class="hljs-number">1</span>.<span class="hljs-number">5</span> <span class="hljs-number">1</span> <span class="hljs-number">5</span>e29<br></code></pre></td></tr></table></figure>
+
+<p>For the transMap hints distinguish 2 classes. Those with a score below 1.5 and with a score above 1.5. The bonus if the lower score hints is unchanged and the bonus of the higher score hints is multiplied by 5x10^29.</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">D</span>    <span class="hljs-number">8</span>     <span class="hljs-number">1</span>.<span class="hljs-number">5</span>  <span class="hljs-number">2</span>.<span class="hljs-number">5</span>  <span class="hljs-number">3</span>.<span class="hljs-number">5</span>  <span class="hljs-number">4</span>.<span class="hljs-number">5</span>  <span class="hljs-number">5</span>.<span class="hljs-number">5</span>  <span class="hljs-number">6</span>.<span class="hljs-number">5</span>  <span class="hljs-number">7</span>.<span class="hljs-number">5</span>  <span class="hljs-number">0</span>.<span class="hljs-number">58</span>  <span class="hljs-number">0</span>.<span class="hljs-number">4</span>  <span class="hljs-number">0</span>.<span class="hljs-number">2</span>  <span class="hljs-number">2</span>.<span class="hljs-number">9</span>  <span class="hljs-number">0</span>.<span class="hljs-number">87</span>  <span class="hljs-number">0</span>.<span class="hljs-number">44</span> <span class="hljs-number">0</span>.<span class="hljs-number">31</span>  <span class="hljs-number">7</span>.<span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<p>Use 8 score classes for the DIALIGN hints. DIALIGN hints give a score, a strand and reading frame information for CDSpart hints. The strand and reading frame are often correct but not often enough to rely on them. To account for that I generated hints for all 6 combinations of a strand and reading frame and then used 2x2x2&#x3D;8 different score classes: {low score, high score} x {DIALIGN strand, opposite strand} x {DIALIGN reading frame, other reading frame} This example shows that scores don’t have to be monotonous. A higher score does not have to mean a higher bonus. They are merely a way of classifying the hints into categories as you wish. In particular, you could get the effect of having different sources by having just hints of one source and then distinguishing more scores classes.</p>
+<h2 id="Alternative-Transcripts-x2F-Alternative-Splicing-evidence-based"><a href="#Alternative-Transcripts-x2F-Alternative-Splicing-evidence-based" class="headerlink" title="Alternative Transcripts &#x2F; Alternative Splicing (evidence based)"></a>Alternative Transcripts &#x2F; Alternative Splicing (evidence based)</h2><p>AUGUSTUS can predict alternative splicing or - more general - alternative transcripts that are suggested by evidence given in hints. The method is very general. But to give an example: If two EST alignments to the same genomic area cannot be explained by a single transcript then AUGUSTUS can predict a gene with two different splice forms, one splice form compatible with each of the EST alignments.</p>
+<h3 id="Grouping-hints"><a href="#Grouping-hints" class="headerlink" title="Grouping hints"></a>Grouping hints</h3><p>Each hint can be given a group name, by specifying ‘group&#x3D;goupname;’ or ‘grp&#x3D;goupname;’ in the last column for the hint in the gff file. This should be used to group all the hints coming from the alignment of the same sequence to the genome. For example, if an EST with the name est_xyz aligns to the genome with one gap suggesting an intron then the hints resulting from that alignment could look like this</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">HS04636	blat2hints	exonpart   500	599	.	+	.	<span class="hljs-attribute">group</span>=est_xyz; <span class="hljs-attribute">source</span>=E<br>HS04636	blat2hints	intron     600	700	.	+	.	<span class="hljs-attribute">group</span>=est_xyz; <span class="hljs-attribute">source</span>=E<br>HS04636	blat2hints	exonpart   701	900	.	+	.	<span class="hljs-attribute">group</span>=est_xyz; <span class="hljs-attribute">source</span>=E<br></code></pre></td></tr></table></figure>
+
+<p>Grouping tells AUGUSTUS that hints belong together. Ideally, all hints of a group are obeyed by a predicted transcript or the whole group of hints is ignored when making the prediction.</p>
+<h3 id="Prioritizing-groups"><a href="#Prioritizing-groups" class="headerlink" title="Prioritizing groups:"></a>Prioritizing groups:</h3><p>Hints or hint groups can be given a priority by specifying ‘priority&#x3D;n;’ or ‘pri&#x3D;n’ in the last column for the hint in the gff file. For example</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">HS04636	blat2hints	exonpart   500	599	.	+	.	<span class="hljs-attribute">priority</span>=2; <span class="hljs-attribute">source</span>=E<br>HS04636	blat2hints	intron     550	650	.	+	.	<span class="hljs-attribute">priority</span>=5; <span class="hljs-attribute">source</span>=mRNA<br></code></pre></td></tr></table></figure>
+
+<p>When two hints or hint groups contradict each other then the hints with the lower priority number are ignored. This is especially useful if for a genome several sources of hints are available, where one source should be trusted when in doubt. For example, the rhesus macaque currently has few native ESTs but human ESTs often also align to rhesus. Giving the hints from native ESTs a higher priority means that AUGUSTUS uses only them for genes with support by native ESTs and uses the alien EST alignments when native ESTs alignments are not available for a gene. When the priority is not specified, it is internally set to -1.</p>
+<p>When AUGUSTUS is run with –alternatives-from-evidence&#x3D;false then all hints are given to AUGUSTUS at the same time no whether they can be explained with a single transcript per gene. AUGUSTUS will then choose the most likely transcript variant.</p>
+<p>When AUGUSTUS is run with –alternatives-from-evidence&#x3D;true then AUGUSTUS will predict alternative transcripts based on the alternatives the hints suggest. This can be any form of alternative splicing, including nested genes contained in introns of other genes, overlapping genes, alternative translation starts and variation in UTR.</p>
+<h1 id="PREDICTIONS-USING-CDNA"><a href="#PREDICTIONS-USING-CDNA" class="headerlink" title="PREDICTIONS USING CDNA"></a>PREDICTIONS USING CDNA</h1><p>Improving the predictions by integrating ESTs or mRNA data is fairly simple. Let cdna.fa be a fasta file with ESTs and&#x2F;or mRNAs. Here is the list of commands that will do the trick:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">blat -minIdentity=<span class="hljs-number">92</span> genome<span class="hljs-selector-class">.fa</span> cdna<span class="hljs-selector-class">.fa</span> cdna<span class="hljs-selector-class">.psl</span><br>blat2hints<span class="hljs-selector-class">.pl</span> <span class="hljs-attr">--in</span>=cdna<span class="hljs-selector-class">.psl</span> <span class="hljs-attr">--out</span>=hints<span class="hljs-selector-class">.E</span><span class="hljs-selector-class">.gff</span><br>augustus <span class="hljs-attr">--species</span>=human <span class="hljs-attr">--hintsfile</span>=hints<span class="hljs-selector-class">.E</span><span class="hljs-selector-class">.gff</span> <span class="hljs-attr">--extrinsicCfgFile</span>=extrinsic<span class="hljs-selector-class">.ME</span><span class="hljs-selector-class">.cfg</span> genome.fa<br></code></pre></td></tr></table></figure>
+
+<h2 id="Explanation-and-possible-improvements"><a href="#Explanation-and-possible-improvements" class="headerlink" title="Explanation and possible improvements"></a>Explanation and possible improvements</h2><p>BLAT is a fast spliced alignment program from Jim Kent. blat2hints.pl is a script from the AUGUSTUS scripts directory. The file extrinsic.ME.cfg states the parameters for the inclusion of the hints. You can manually adjust the few parameters for your genome. I recommend adjusting the bonuses and maluses in extrinsic.ME.cfg after a visual inspection of the predictions. For example, if it looks as if AUGUSTUS is trying to fit too many spurious EST alignments then reduce the bonuses. From experience, some ESTs often align to very many places in the genome. Most of those matches do not correspond to real protein coding gene structures. It is therefore better to add another step after the BLAT run. The command</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">pslCDnaFilter <span class="hljs-attribute">-maxAligns</span>=1 cdna.psl cdna.f.psl<br></code></pre></td></tr></table></figure>
+
+<p>will filter the cDNA alignments and report only the highest-scoring spliced alignment(s) for each cDNA. Then use the filtered file cdna.f.psl to create hints. The program pslCDnaFilter is part of the Kent source tree (but not in the BLAT distribution).</p>
+<p>For RNA-Seq integration please refer to the documentation in doc&#x2F;readme.rnaseq.html.</p>
+<h1 id="AUGUSTUS-PPX-PREDICTIONS-USING-PROTEIN-PROFILES"><a href="#AUGUSTUS-PPX-PREDICTIONS-USING-PROTEIN-PROFILES" class="headerlink" title="AUGUSTUS-PPX: PREDICTIONS USING PROTEIN PROFILES"></a>AUGUSTUS-PPX: PREDICTIONS USING PROTEIN PROFILES</h1><p>AUGUSTUS can make its prediction based on a protein profile that can be generated from a Multiple Sequence Alignment. The protein profile is passed to AUGUSTUS by specifying the parameter –proteinprofile as in the following example:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">msa2prfl<span class="hljs-selector-class">.pl</span> fam<span class="hljs-selector-class">.aln</span> &gt; fam<span class="hljs-selector-class">.prfl</span> <br>augustus <span class="hljs-attr">--proteinprofile</span> fam<span class="hljs-selector-class">.prfl</span> genome.fa<br></code></pre></td></tr></table></figure>
+
+<p>The profile consists of a set of position-specific frequency matrices that model conserved regions in a MSA, without deletions or insertions. When equipped with a profile, AUGUSTUS will make extra effort to predict genes that are similar to the profile, for example members of a specific protein family of interest. Prediction accuracy for these genes is generally enhanced by the extra information from the protein model, while other genes are predicted identically to the ab-initio version.</p>
+<h2 id="Creating-protein-profiles-from-Multiple-Sequence-Alignments"><a href="#Creating-protein-profiles-from-Multiple-Sequence-Alignments" class="headerlink" title="Creating protein profiles from Multiple Sequence Alignments"></a>Creating protein profiles from Multiple Sequence Alignments</h2><p>The script msa2prfl.pl converts a Multiple Sequence Alignment given in FASTA or CLUSTAL format to a protein profile, by computing frequencies from all blocks of at least 6 gapless columns in the alignment. Minimal block width can be changed with the parameter –width. The script blocks2prfl.pl converts a flat file from the BLOCKS database to a protein profile</p>
+<h2 id="Preparing-Core-Alignments"><a href="#Preparing-Core-Alignments" class="headerlink" title="Preparing Core Alignments"></a>Preparing Core Alignments</h2><p>Large alignments may not be represented by a block profile, if they do not have sufficiently many gapless columns. It is then recommended to cluster the sequences according to similarity, or to discard sequences from the alignment that do not cover most of the blocks. The program prepareAlign can do that with an MSA in FASTA format. Usage:</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs lua">prepareAlign &lt; <span class="hljs-built_in">input</span>.fa &gt; <span class="hljs-built_in">output</span>.fa<br></code></pre></td></tr></table></figure>
+
+<p>The environment variables PA_FULL_COL_WEIGHT, PA_SKIP_COL_WEIGHT, PA_MINSIZE, PA_MIN_COL_COUNT control the behaviour of the program. See the source file for details.</p>
+<h2 id="Format-of-the-protein-profile-inputfile"><a href="#Format-of-the-protein-profile-inputfile" class="headerlink" title="Format of the protein profile inputfile"></a>Format of the protein profile inputfile</h2><p>A section “[name]”, followed by the name of the family. Alternating sections “[dist]”, and “[block]”; each “[dist]” section contains a line with minimum and maximum distance between blocks. can be specified as “*” to indicate unbounded distance.</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs processing">[<span class="hljs-built_in">dist</span>]<br>&lt;<span class="hljs-built_in">min</span>&gt; &lt;<span class="hljs-built_in">max</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>Each “[block]” section contains a frequency matrix, one line in the section corresponding to a column in the alignment. Each line contains 21 tab-separated values, the first is the column index in the block (0,1,2,…), the other 20 values are the frequencies (adding up to 1), given in the order G,D,E,R,K,N,Q,S,T,A,V,L,I,F,Y,W,H,M,C,P</p>
+<p>Example protein profiles are in the directory examples&#x2F;profile&#x2F;</p>
+<h2 id="Running-AUGUSTUS-PPX"><a href="#Running-AUGUSTUS-PPX" class="headerlink" title="Running AUGUSTUS-PPX"></a>Running AUGUSTUS-PPX</h2><p>The running time of AUGUSTUS-PPX is proportional to the size of the profile; as a rule of thumb, the factor compared to AUGUSTUS is approximately the number of blocks in the profile. For large profiles, it is recommended to restrict the prediction with –predictionStart and –predictionEnd. On standard intel machines, running times of about one hour for a large profile on a region of 1 Mbps size, were observed. To determine regions where a profile is relevant, run a fastBlockSearch (see below). Important parameters for running AUGUSTUS-PPX are:</p>
+<ul>
+<li>&#x2F;ProteinModel&#x2F;allow_truncated: Enables having profile hits in right-truncated genes (default: yes)</li>
+<li>&#x2F;ProteinModel&#x2F;block_threshold_spec: Control the specificity (default: spec&#x3D;4.0)</li>
+<li>&#x2F;ProteinModel&#x2F;block_threshold_sens: Control the sensitivity when determining block hits (default: sens&#x3D;0.4)</li>
+</ul>
+<p>Increasing …_sens and decreasing …_spec will both result in more block hits found (and possibly more genes with profile hits), at the expense of more false positive hits. When the requirements cannot be both met, a block is discarded from the profile used for the prediction. Specificity and Sensitivity are given in units of standard deviation from the expected block score (Percentages can be calculated by applying the Gaussian distribution function; e.g., the default value of 2.5 corresponds to an estimated specificity of 99.3%: 7 FP hits in 1000bps). Note that filtering block hits is mainly a performance issue, and it is very unlikely that a false positive block hit affects the prediction if its score is low. To prevent blocks from being discarded from the profile, decrease either of the parameters.</p>
+<ul>
+<li>&#x2F;ProteinModel&#x2F;blockpart_threshold_spec: specificity for block prefixes or suffixes (4.5)</li>
+<li>&#x2F;ProteinModel&#x2F;blockpart_threshold_sens: sensitivity for block prefixes or suffixes (2.0)</li>
+</ul>
+<p>The same for the case that a block is disconnected by an intron.</p>
+<ul>
+<li>&#x2F;ProteinModel&#x2F;weight:influence of the protein model to the combined score, can be weighted (default: 1, equal contribution) A higher value will result in more gene structures closer the protein model if there are.</li>
+</ul>
+<h2 id="Output-of-AUGUSTUS-PPX"><a href="#Output-of-AUGUSTUS-PPX" class="headerlink" title="Output of AUGUSTUS-PPX"></a>Output of AUGUSTUS-PPX</h2><p>If a gene is a profile hit, the following lines are added to the gff output:</p>
+<ul>
+<li>a protein_match feature for every block mapped to the DNA (or block part, if the block was disconnected by an intron). If –gff3&#x3D;on is specified, then target block and protein location are given in the attributes column:</li>
+</ul>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">chr1</span>    AUGUSTUS        protein_match   <span class="hljs-number">161494506</span>       <span class="hljs-number">161494595</span>       <span class="hljs-number">7</span>.<span class="hljs-number">54</span>    +       <span class="hljs-number">0</span>       ID=pp.g2.t1.PF00012.<span class="hljs-number">13</span>_A;Target=PF00012.<span class="hljs-number">13</span>_A <span class="hljs-number">1</span> <span class="hljs-number">30</span>;Target_start=<span class="hljs-number">19</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>a interblock_region feature for every exon part in the gene that is not mapped to a block</li>
+</ul>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">chr1</span>    AUGUSTUS        interblock_region       <span class="hljs-number">161494449</span>       <span class="hljs-number">161494505</span>       .       +       <span class="hljs-number">0</span>       ID=pp.g2.t1.iBR0<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>each translated protein sequence of a block match, as a comment (if –protein&#x3D;on is specified)</li>
+</ul>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs fortran"># <span class="hljs-keyword">sequence</span> of <span class="hljs-keyword">block</span> PF00012<span class="hljs-number">.13_A</span>   <span class="hljs-number">19</span> [VGVFQQGRVEILANDQGNRTTPSYVAFTDT] <span class="hljs-number">49</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Fast-block-search-to-determine-regions-for-the-gene-prediction"><a href="#Fast-block-search-to-determine-regions-for-the-gene-prediction" class="headerlink" title="Fast block search to determine regions for the gene prediction"></a>Fast block search to determine regions for the gene prediction</h2><p>If a protein profile and a genome are given, a preliminary search can be performed with the program fastBlockSearch. It will output the locations of profile hits. An AUGUSTUS-PPX run can then be restricted to regions containing these locations. It should be run with the same parameters as the AUGUSTUS-PPX run. In addition, a threshold can be specified with the parameter –cutoff that controls the number of profile hits shown.</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">fastBlockSearch</span> --cutoff=<span class="hljs-number">0</span>.<span class="hljs-number">5</span> genome.fa fam.prfl<br></code></pre></td></tr></table></figure>
+
+<p>The profile hits found by the fastBlockSearch may not contain always all blocks. In this case, it may improve the prediction to modify the profile with the following command</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">del_from_prfl</span>.pl fam.prfl <span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+
+<p>where 2,3,5 is to be replaced with the list of blocks to be deleted from the profile.</p>
+<h1 id="RETRAINING-AUGUSTUS"><a href="#RETRAINING-AUGUSTUS" class="headerlink" title="RETRAINING AUGUSTUS"></a>RETRAINING AUGUSTUS</h1><p>Please see the file README.autoAug for documentation for the automatic training script autoAug.pl. See also the file retraining.html. Here is some background:</p>
+<p>AUGUSTUS uses parameters which are species specific like the Markov chain transition probability of coding and non-coding regions. These parameters can be trained on training sets of annotated genes in genbank format. They are stored in the config directory in 3 files containing the parameters for the exon-related, intron-related and intergenic-region-related parameters, e.g. human_exon_probs.pbl, human_intron_probs.pbl, human_igenic_probs.pbl. For each species there are also parameters like the order of the markov chain or the size of the window used for the splice site models. Let’s call these meta parameters. These meta parameters are stored in a separate file, e.g. human_parameters.cfg. Which meta parameters work best depends on the species and on the training set, in particular on the size of the training set. Using the meta parameters of another species or for another training set is likely to result in poor prediction performance. The meta parameters are not documented sufficiently. However, when optimizing the meta parameters for a new species it helps to know their meaning. Please contact me in case you want me to do the training. The program ‘etraining’ reads the meta parameters from the .cfg file and a genbank file with annotated genes and writes the other species specific parameters into the 3 .pbl files.</p>
+<p>usage:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">etraining <span class="hljs-attribute">--species</span>=SPECIES trainfilename<br></code></pre></td></tr></table></figure>
+
+<p>‘trainfilename’ is the filename (including relative path) to the file in genbank format containing the training sequences. These can be multi-gene sequences and genes on the reverse strand. However, the genes must not overlap.</p>
+<h1 id="MEA-USING-THE-MAXIMUM-EXPECTED-ACCURACY-APPROACH"><a href="#MEA-USING-THE-MAXIMUM-EXPECTED-ACCURACY-APPROACH" class="headerlink" title="MEA: USING THE MAXIMUM EXPECTED ACCURACY APPROACH"></a>MEA: USING THE MAXIMUM EXPECTED ACCURACY APPROACH</h1><p>MEA is an alternative decoding approach and is described in the Poster found in <a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/MEAposter.pdf">MEAposter.pdf</a>. For predictions using MEA the corresponding AUGUSTUS parameter has to be turned on: –mea&#x3D;1</p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/annotation/">#annotation</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>AUGUSTUS</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/06/05/2022-06-05-RunningAugustus/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>June 5, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/06/07/2022-06-07-Linux/" title="Linux Note">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux Note</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/06/05/2022-06-05-FuncAnno-InterPro/" title="【FuncAnno】【InterProScan】">
+                        <span class="hidden-mobile">【FuncAnno】【InterProScan】</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>

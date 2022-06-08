@@ -1,73 +1,1097 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="organelle assembly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Organelle assembly">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/03/18/2022-03-18-mito-chro/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="organelle assembly">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-mito-chro/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-mito-chro/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-mito-chro/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-mito-chro/2.png">
+<meta property="article:published_time" content="2022-03-18T05:35:37.608Z">
+<meta property="article:modified_time" content="2022-06-08T06:22:33.739Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="assembly">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-mito-chro/1.png">
+  
+  
+  
+  <title>Organelle assembly - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Organelle assembly"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-18 13:35" pubdate>
+          March 18, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.9k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          83 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Organelle assembly</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 8, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>organelle assembly</p>
+<span id="more"></span>
+
+<h1 id="Mitochondrial-Genome-Assembly"><a href="#Mitochondrial-Genome-Assembly" class="headerlink" title="Mitochondrial Genome Assembly"></a><strong>Mitochondrial Genome Assembly</strong></h1><h2 id="植物线粒体基因组-特点，成因和后果"><a href="#植物线粒体基因组-特点，成因和后果" class="headerlink" title="植物线粒体基因组 特点，成因和后果"></a><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/65471820#:~:text=%E6%A4%8D%E7%89%A9%E7%BA%BF%E7%B2%92%E4%BD%93%E5%9F%BA%E5%9B%A0%E7%BB%84%E7%9A%84%E4%B8%BB%E8%A6%81%E7%89%B9%E7%82%B9%E6%98%AF%EF%BC%9A%20%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%A4%A7%E5%B0%8F%E5%92%8C%E7%BB%93%E6%9E%84%E5%8F%98%E5%BC%82%E5%B7%A8%E5%A4%A7%EF%BC%8C%E5%9F%BA%E5%9B%A0%E5%8D%B4%E6%9E%81%E5%BA%A6%E4%BF%9D%E5%AE%88%EF%BC%9B%E5%9F%BA%E5%9B%A0%E5%88%86%E5%B8%83%E9%9D%9E%E5%B8%B8%E7%A8%80%E7%96%8F%EF%BC%8C%E5%90%AB%E6%9C%89%E5%A4%A7%E9%87%8F%E9%9D%9E%E7%BC%96%E7%A0%81%E5%BA%8F%E5%88%97%EF%BC%9B%E5%AD%98%E5%9C%A8%E5%A4%A7%E9%87%8F%E7%9A%84RNA%E7%BC%96%E8%BE%91%E3%80%82,%E5%A4%A7%E9%83%A8%E5%88%86%E5%8A%A8%E7%89%A9%E7%9A%84%E7%8E%AF%E7%8A%B6%E7%BA%BF%E7%B2%92%E4%BD%93%E5%9F%BA%E5%9B%A0%E7%BB%84%E7%9A%84%E5%A4%A7%E5%B0%8F%E7%BA%A615-17kb%EF%BC%8C%E4%B8%94%E7%BB%93%E6%9E%84%E7%9B%B8%E5%AF%B9%E4%BF%9D%E5%AE%88%EF%BC%8C%E5%9F%BA%E5%9B%A0%E6%8E%92%E5%88%97%E7%B4%A7%E5%87%91%EF%BC%8C%E8%BF%99%E4%BA%9B%E7%89%B9%E7%82%B9%E9%83%BD%E8%B7%9F%E6%A4%8D%E7%89%A9%E5%8F%B6%E7%BB%BF%E4%BD%93%E5%9F%BA%E5%9B%A0%E7%BB%84%E7%9B%B8%E4%BB%BF%EF%BC%8C%E6%A4%8D%E7%89%A9%E7%9A%84%E5%8F%B6%E7%BB%BF%E4%BD%93%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%A4%A7%E5%B0%8F%E5%9C%A8100-200kb%E4%B9%8B%E9%97%B4%E3%80%82%20%E7%84%B6%E8%80%8C%E6%A4%8D%E7%89%A9%E7%BA%BF%E7%B2%92%E4%BD%93%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8D%B4%E8%B7%9F%E5%89%8D%E4%B8%A4%E8%80%85%E6%9C%89%E7%9D%80%E8%BF%A5%E7%84%B6%E4%B8%8D%E5%90%8C%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%8C%E5%85%B6%E5%A4%A7%E5%B0%8F%E4%B8%80%E8%88%AC%E5%9C%A8200-750kb%E4%B9%8B%E9%97%B4%E3%80%82">植物线粒体基因组 特点，成因和后果</a></h2><p>植物线粒体基因组主要特点是：<strong>基因组大小和结构变异巨大，基因却极度保守；基因分布非常稀疏，含有大量非编码序列；存在大量的RNA编辑。</strong></p>
+<ul>
+<li><p>大部分<strong>动物环状线粒体基因组</strong>大小约<strong>15-17kb</strong>，且<strong>结构相对保守</strong>，<strong>基因排列紧凑</strong></p>
+</li>
+<li><p>动物线粒体跟<strong>植物叶绿体基因组相仿</strong>，<strong>植物叶绿体基因组</strong>大小在<strong>100-200kb之间</strong></p>
+</li>
+<li><p><strong>植物线粒体基因组</strong>却跟前两者迥然不同，大小在<strong>200-750kb</strong>之间。<strong>黄瓜</strong>线粒体基因组达<strong>1556kb</strong>。<strong>近缘</strong>物种间<strong>也差异巨大</strong>。如蝇子草属（<em>Silene</em>）中，夜花蝇子草（<em>S. noctiflora</em>）线粒体基因组<strong>6.728kb</strong>，而叉枝条蝇子草（<em>S. latifolia</em>）线粒体基因组<strong>253kb</strong>，<strong>同属</strong>植物差异30倍。即使<strong>同一物种</strong>，差异也显著。如白玉草（<em>S. vulgaris</em>），任何<strong>不同种群</strong>两两之间只有约一半的线粒体基因组序列相同。</p>
+</li>
+<li><p>植物线粒体<strong>基因组庞大</strong>，但<strong>编码基因却不多</strong>，排列稀疏。<strong>植物叶绿体基因组</strong>上约<strong>100个基因</strong>，但比叶绿体基因组大的<strong>拟南芥线粒体基因组</strong>，却只有约<strong>50多个基因</strong>，而人线粒体基因组37个基因。拟南芥<strong>线粒体基因数量</strong>不到人的<strong>两倍</strong>，其<strong>基因组大小</strong>却是<strong>22倍</strong>。植物线粒体基因组大部分是<strong>非编码序列</strong>，这些序列占到<strong>60%以上</strong>。这些非编码序列由<strong>重复片段、叶绿体基因组和和基因组转移而来</strong>的序列，甚至是<strong>基因水平转移</strong>获得的其它物种序列。如最<strong>古老的被子植物互叶梅</strong>（<em>Amborella trichopoda</em>）的线粒体基因组中，就有<strong>大量来自苔藓、绿藻和其它被子植物的序列片段</strong>（Rice, 2013）。</p>
+</li>
+<li><p>植物线粒体基因组<strong>结构变异巨大</strong>，线粒体<strong>基因</strong>却<strong>极度保守</strong>，在<strong>植物三套基因组中最保守演化速率最慢</strong>。黄瓜如此庞大线粒体基因组只比拟南芥多四个基因。由于植物线粒体基因<strong>非常保守，区分度不足</strong>，一般<strong>不选作系统学研究</strong>的<strong>分子标记</strong>。跟动物正好相反，<strong>动物的线粒体基因演化速率较快</strong>，所以在动物系统学研究中，是<strong>最常用的分子标记</strong>。</p>
+</li>
+<li><p><strong>是什么导致植物线粒体基因组如此庞大，如此多非编码序列？线粒体基因组基因保守原因是？目前理论是发生在线粒体非编码区和编码区的两套不同DNA修复机制。</strong></p>
+</li>
+<li><p>植物线粒体<strong>编码区</strong>进行的是<strong>碱基剪切修复</strong>（Base excision repair）和<strong>基因转换</strong>（gene conversion）介导的<strong>精确</strong>修复，而在非编码区进行的是<strong>非同源性末端连接</strong>（non-homologous end joining）和<strong>断裂诱导复制</strong>（Break-induced replication）介导的<strong>非精确</strong>修复（Christensen, 2013）</p>
+</li>
+</ul>
+<p><img src="/GeekFocus/2022-03-18-mito-chro/1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"><br><img src="/GeekFocus/img/2022-03-18-mito-chro/1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li>编码区精确修复导致线粒体基因变异稀少，演化速率非常慢。非编码区非精确修复，修复过程带来很多外来序列，使得非编码区非常包容，不断吸收积累非编码序列</li>
+<li>后果。植物线粒体基因组中大量非编码序列，其中很多重复片段，导致植物线粒体基因组 易重组。叶绿体基因组在细胞内常以完整环状存在，植物线粒体会重组形成线状结构，甚至很多大小不一的环。黄瓜有1.6M+84k+45k线粒体基因组(大小环)。完整测出的mito 远小于chro</li>
+</ul>
+<h2 id="植物线粒体基因组测序"><a href="#植物线粒体基因组测序" class="headerlink" title="植物线粒体基因组测序"></a>植物线粒体基因组测序</h2><p><a target="_blank" rel="noopener" href="http://www.genepioneer.com/display.php?id=353">http://www.genepioneer.com/display.php?id=353</a></p>
+<ul>
+<li><p>动物线粒体基因组较小，通常在10-39kb，而植物线粒体基因组大小在200-750kb。植物线粒体基因组主要特点是：基因组大小和结构变异巨大；基因却极度保守；基因分布非常稀疏；含有大量非编码序列；存在大量的RNA编辑</p>
+</li>
+<li><p>公司套路：二代+三代植物线粒体基因组测序</p>
+<ul>
+<li><strong>基因组注释</strong>进行<strong>基因序列组成分析</strong>来研究<strong>物种功能特征</strong></li>
+<li><strong>比较基因组学</strong>研究物<strong>种间基因组结构变化</strong>探讨物<strong>种的环境适应性特征</strong></li>
+<li><strong>群体基因组研究</strong>内容更广：<strong>物种起源、亲缘分类、系统发育、谱系地理</strong>等</li>
+</ul>
+</li>
+<li><p>公司常规分析</p>
+<ul>
+<li>线粒体基因组结构注释</li>
+<li>线粒体基因组图谱</li>
+<li>RSCU分析</li>
+<li>散在重复序列分析</li>
+<li>碱基偏移分析</li>
+</ul>
+</li>
+<li><p>公司高级分析</p>
+<ul>
+<li>KaKs分析</li>
+<li>线粒体结构比较分析</li>
+<li>进化树分析</li>
+<li>序列同源及共线性分析</li>
+<li>基因水平转移分析</li>
+</ul>
+</li>
+<li><p>案例1</p>
+<ul>
+<li><a href="doi.org/10.1186/s12862-020-1582-1">紫衫线粒体基因组</a>：8个蛋白基因转移到核基因组。对紫衫线粒体基因组测序，得到全长<font color="blue"><strong>468,924bp</strong></font>线粒体基因组序列与<strong>其它4个裸子植物谱系</strong>的<strong>线粒体基因组</strong>比较。结果表明裸子植物线粒体基因组在<strong>大小、结构、基因和内含子含量、外源序列、突变率</strong>等方面与<strong>被子植物</strong>线粒体基因组<strong>存在差异</strong>。</li>
+<li><a href="DOI%EF%BC%9A10.7717/peerj.3148">红柳线粒体全基因组序列的组装与比较分析</a> : 组装得到全长<font color="blue"><strong>644,437bp</strong></font>完整的红柳线粒体 (mt) 序列。编码<font color="blue"><strong>58个独特基因</strong></font>（32个蛋白编码基因、23个tRNA基因和3个rRNA基因）。通过对35种杨树的23个蛋白编码基因<strong>系统发育分析</strong>，证明<strong>红柳是杨树的姊妹</strong>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="software-2019review-DOI-10-16288-x2F-j-yczz-19-227"><a href="#software-2019review-DOI-10-16288-x2F-j-yczz-19-227" class="headerlink" title="[software-2019review](DOI: 10.16288&#x2F;j.yczz.19-227)"></a>[software-2019review](DOI: 10.16288&#x2F;j.yczz.19-227)</h2><ul>
+<li>特殊且容易获取的遗传标记，高突变速率(not plant)、无基因重组、高拷贝数和母系遗传等</li>
+<li>进化生物学、群体遗传学等揭示物种的起源和扩散历史发挥作用。核基因和线粒体表现不一致的谱系关系，特别是具有复杂的群体历史的类群(如<strong>基因交流</strong>、<strong>遗传漂变</strong>、<strong>偏向性迁徙</strong>和<strong>祖先谱系分拣</strong>等)。</li>
+<li>有参：近缘物种的线粒体基因组或部分片段作为参考序列，从研究类群全基因组数据中捕获线粒体reads。(1)基于线粒体<strong>整个</strong>基因组的拼装策略；(2)基于线粒体<strong>片段</strong>的拼装策略。使用比对工具(如BWA)将总reads映射(mapping)到线粒体参考序列，根据<strong>序列的相似性捕获</strong>线粒体reads，然后使用不同序列延长策略对捕获的线粒体reads序列延伸，直到延长到完整的线粒体基因组长度。<strong>MIA</strong>用现代人线粒体基因组作参考研究尼安德特人。</li>
+<li>denovo：线粒体contig分拣</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>软件名称</th>
+<th>是否需要参考序列&#x2F; 参考序列类型</th>
+<th>适用 物种</th>
+<th>输入文件格式、 类型</th>
+<th>变异 注释</th>
+<th>结构可 视化</th>
+<th>运行 环境</th>
+<th>编程 语言</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MIA</td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>Fastq、SE reads和 PE reads</td>
+<td>×</td>
+<td>×</td>
+<td>CUI</td>
+<td>C&#x2F;C++</td>
+</tr>
+<tr>
+<td>MitoBamAnnotator</td>
+<td>是&#x2F; rCRS</td>
+<td>人</td>
+<td>Bam</td>
+<td>√</td>
+<td>√</td>
+<td>Web</td>
+<td>Java</td>
+</tr>
+<tr>
+<td>MitoSeek</td>
+<td>是&#x2F;rCRS和hg19</td>
+<td>人</td>
+<td>Bam</td>
+<td>√</td>
+<td>×</td>
+<td>GUI</td>
+<td>Perl</td>
+</tr>
+<tr>
+<td>mtDNA- profiler</td>
+<td>是&#x2F;rCRS</td>
+<td>人</td>
+<td>Fasta</td>
+<td>×</td>
+<td>√</td>
+<td>Web</td>
+<td>Java</td>
+</tr>
+<tr>
+<td>MITObim</td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>Bam</td>
+<td>×</td>
+<td>×</td>
+<td>CUI</td>
+<td>Perl</td>
+</tr>
+<tr>
+<td>Mit-o-matic</td>
+<td>是&#x2F;rCRS</td>
+<td>人</td>
+<td>Fastq、SE reads和 PE reads</td>
+<td>√</td>
+<td>√</td>
+<td>Web&#x2F;GUI</td>
+<td>Java</td>
+</tr>
+<tr>
+<td>MToolBox</td>
+<td>是&#x2F;rCRS和RSRS</td>
+<td>人</td>
+<td>Fastq&#x2F;Bam&#x2F;Sam、 SE reads和PE reads</td>
+<td>√</td>
+<td>×</td>
+<td>Web&#x2F;CUI</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>ARC</td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>Fastq、SE reads和 PE reads</td>
+<td>×</td>
+<td>×</td>
+<td>Web&#x2F;CUI</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Phy-Mer</td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>Fasta&#x2F;fastq&#x2F;Bam、 SE reads和PE reads</td>
+<td>×</td>
+<td>√</td>
+<td>CUI</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>mtDNA- Server</td>
+<td>是&#x2F;rCRS和RSRS</td>
+<td>人</td>
+<td>Fastq&#x2F;Bam&#x2F;VCF、 SE reads和PE reads</td>
+<td>√</td>
+<td>√</td>
+<td>Web</td>
+<td>Java</td>
+</tr>
+<tr>
+<td>IOGA</td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>Fastq、SE reads和 PE reads</td>
+<td>×</td>
+<td>×</td>
+<td>CUI</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>NOVOPlasty</td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>Fastq&#x2F;fasta、SE reads 和PE reads</td>
+<td>×</td>
+<td>×</td>
+<td>Web&#x2F;CUI</td>
+<td>Perl</td>
+</tr>
+<tr>
+<td>Norgal</td>
+<td>否</td>
+<td>任意 物种</td>
+<td>Fastq、SE reads和 PE reads</td>
+<td>×</td>
+<td>×</td>
+<td>CUI</td>
+<td>Python&#x2F; Java</td>
+</tr>
+<tr>
+<td>Organelle- PBA</td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>PacBio reads</td>
+<td>×</td>
+<td>×</td>
+<td>CUI</td>
+<td>Perl</td>
+</tr>
+<tr>
+<td>MitoSuite</td>
+<td>是&#x2F;rCRS, RSRS, hg19, GRCh37和38</td>
+<td>人</td>
+<td>Bam&#x2F;Sam</td>
+<td>√</td>
+<td>√</td>
+<td>GUI</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>ORG.Asm</td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>Fastq、SE reads和 PE reads</td>
+<td>×</td>
+<td>×</td>
+<td>CUI</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>MitoZ</td>
+<td>否</td>
+<td>任意 物种</td>
+<td>Fastq、SE reads和 PE reads</td>
+<td>√</td>
+<td>√</td>
+<td>CUI</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><strong>GetOrganelle</strong></td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>Fastq、SE reads和 PE reads</td>
+<td>×</td>
+<td>×</td>
+<td><strong>CUI</strong></td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Trimitomics</td>
+<td>是&#x2F;自定义参考序列</td>
+<td>任意 物种</td>
+<td>RNA-seq reads、 PE reads</td>
+<td>×</td>
+<td>×</td>
+<td>Unknown</td>
+<td>Unknown</td>
+</tr>
+</tbody></table>
+<h2 id="软件GetOrganelle"><a href="#软件GetOrganelle" class="headerlink" title="软件GetOrganelle"></a>软件GetOrganelle</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/428949195">https://zhuanlan.zhihu.com/p/428949195</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelle">https://github.com/Kinggerm/GetOrganelle</a></p>
+<p>GetOrganelle是中科院昆植所金建军和郁文彬老师共同开发的<strong>质体组装软件</strong>，<strong>2020-Genome Biology</strong>。</p>
+<h3 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h3><p>1）通过“种子”序列获得部分目标相关reads；</p>
+<p>2）延伸reads获得所有目标相关reads；</p>
+<p>3）对reads进行从头组装得到组装图形；</p>
+<p>4）过滤组装图形；</p>
+<p>5）识别细胞器组分并自动导出所有可能的细胞器基因组结构。</p>
+<p><img src="/GeekFocus/2022-03-18-mito-chro/2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"><br><img src="/GeekFocus/img/2022-03-18-mito-chro/2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">conda create -n getorganelle<br>conda activate getorganelle<br>conda install getorganelle<br></code></pre></td></tr></table></figure>
+
+<p><strong>下载参考序列库</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh">get_organelle_config.py --add embplant_pt,embplant_mt<br><span class="hljs-comment">#embplant_pt(高等植物叶绿体)</span><br><span class="hljs-comment">#embplant_mt(高等植物线粒体)</span><br><span class="hljs-comment">#embplant_nr(高等植物核糖体 RNA)</span><br><span class="hljs-comment">#animal_mt (动物线粒体)</span><br><span class="hljs-comment">#fungus_mt (真菌线粒体)</span><br></code></pre></td></tr></table></figure>
+
+<p>If connection keeps failing, please manually download the latest database from <a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelleDB">GetOrganelleDB</a> and <a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelle/wiki/Initialization#option-2-initialization-from-local-files">initialization from local files</a>.</p>
+<p>The database will be located at <code>~/.GetOrganelle</code> by default, which can be changed via the command line parameter <code>--config-dir</code>, or via the shell environment variable <code>GETORG_PATH</code> (see more <a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelle/wiki/Initialization">here</a>).</p>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh">-1 双端测序的R1<br>-2 双端测序的R2<br>-o 结果文件，结果输出保存的目录(文件夹)名称<br>-F 数据库，设定要组装的基因组类型<br>-s 参考序列<br>-t 线程数<br>-R 最大的一个扩充循环的数，一般默认15，提取基因 reads 的轮次(轮次越多,耗时越长)<br>-k kmer的一个参数，调用SPAdes进行denovo组装的k-mer,数值必须是奇数, 最大值是127<br>-w 提取叶绿体基因reads 时使用的长度比例或实际长度<br><span class="hljs-comment">#word-size：提取叶绿体基因reads 时，可以使用reads 长度的比例(ratio)，也可以设置实际长度的word-size。例如：如果使用ratio=0.6, 即 reads长度是150bp时，设置的word-size = 90bp，等同于设置 “-w 90”。</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p><strong>Starting from reads</strong></p>
+<p>The <font color="green"><strong>green workflow</strong></font> in the flowchart  shows the processes of <code>get_organelle_from_reads.py</code>.</p>
+<ul>
+<li><p><strong>Input data</strong></p>
+<p>Currently, <code>get_organelle_from_reads.py</code> was written for <strong>illumina pair-end&#x2F;single-end data</strong> (fastq or fastq.gz). We recommend using <strong>adapter-trimmed</strong> raw reads without quality control. Usually, <strong>&gt;1G</strong> per end is enough for <strong>plastome</strong> for most normal angiosperm samples, and <strong>&gt;5G</strong> per end is enough for <strong>mitochondria</strong> genome assembly. Since v1.6.2, <code>get_organelle_from_reads.py</code> will <strong>automatically estimate the read data it needs</strong>, without user assignment nor data reducing (see flags <code>--reduce-reads-for-coverage</code> and <code>--max-reads</code>).</p>
+</li>
+<li><p><strong>Main Options</strong></p>
+<ul>
+<li><code>-w</code> The value word size, like the kmer in assembly, is crucial to the <strong>feasibility and efficiency</strong> of this process. The <strong>best word size changes upon data and will be affected</strong> by read length, read quality, base coverage, organ DNA percent and other factors. By default, GetOrganelle would <strong>automatically estimate a proper word siz</strong>e based on the data characters. Although the automatically-estimated word size value does not ensure the best performance nor the best result, <font color="green">you do not need to adjust this value</font> (<code>-w</code>) if a complete&#x2F;circular organelle genome assembly is produced, because the circular result generated by GetOrganelle is highly consistent under different options and seeds. The automatically estimated word size may be screwy in some animal mitogenome data due to inaccurate coverage estimation, for which you fine-tune it instead.</li>
+<li><code>-k</code> The best kmer(s) depend on a wide variety of factors too. Although more kmer values add the time consuming, you are recommended to use a wide range of kmers to benefit from the power of SPAdes. Empirically, you should include <strong>at least</strong> including <strong>one small</strong> kmer (e.g. <code>21</code>) and <strong>one large</strong> kmer (<code>105</code>) for a successful organelle genome assembly.</li>
+<li><code>-s</code> GetOrganelle takes the seed (fasta format; if this was not provided, the default is <code>GetOrganelleLib/SeedDatabase/*.fasta</code>) as probe, the script would recruit target reads in successive rounds (extending process). <strong>The default seed works for most samples</strong>, but using a complete organelle genome sequence of a <strong>related species as the seed would help the assembly</strong> in many cases (e.g. degraded DNA samples, fastly-evolving in animal&#x2F;fungal samples; see more <a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelle/wiki/FAQ#how-to-assemble-a-target-organelle-genome-using-my-own-reference">here</a>).</li>
+</ul>
+</li>
+<li><p><strong>Key Results</strong></p>
+<p>The key output files include</p>
+<ul>
+<li><code>*.path_sequence.fasta</code>, each fasta file represents one type of genome structure</li>
+<li><code>*.selected_graph.gfa</code>, the <a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelle/wiki/Terminology">organelle-only assembly graph</a></li>
+<li><code>get_org.log.txt</code>, the log file</li>
+<li><code>extended_K*.assembly_graph.fastg</code>, the raw assembly graph</li>
+<li><code>extended_K*.assembly_graph.fastg.extend_embplant_pt-embplant_mt.fastg</code>, a simplified assembly graph</li>
+<li><code>extended_K*.assembly_graph.fastg.extend_embplant_pt-embplant_mt.csv</code>, a tab-format contig label file for bandage visualization</li>
+</ul>
+<p>You may delete the files other than above if the resulting genome is complete (indicated in the log file and the name of the <code>*.fasta</code>). You are expected to obtain the complete organelle genome assembly for most animal&#x2F;fungal mitogenomes and plant chloroplast genomes (see <a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelle/wiki/FAQ#why-does-getorganelle-generate-a-circular-genome-for-embplant_nrfungus_nr">here for nuclear ribosomal DNAs</a>) with the recommended recipes.</p>
+<p>If GetOrganelle <strong>failed</strong> to <strong>generate the complete circular genome</strong> (produce <code>*scaffolds*path_sequence.fasta</code>), please follow <a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelle/wiki/FAQ#what-should-i-do-with-incomplete-resultbroken-assembly-graph">here</a> to <strong>adjust your parameters for a second run</strong>. You could also use the incomplete sequence to conduct downstream analysis.</p>
+</li>
+</ul>
+<p>#植物2G左右数据，<strong>组装叶绿体基因组</strong>用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">get_organelle_from_reads.py -1 forward.fq -2 reverse.fq -o plastome_output -R 15 -k 21,45,65,85,105 -F embplant_pt<br></code></pre></td></tr></table></figure>
+
+<p>#更快的方法</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">get_organelle_from_reads.py -1 forward.fq -2 reverse.fq -o plastome_output --fast -k 21,65,105 -w 0.68 -F embplant_pt<br></code></pre></td></tr></table></figure>
+
+<p>#组装<strong>植物线粒体基因组</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">get_organelle_from_reads.py -1 forward.fq -2 reverse.fq -o mitochondria_output -R 50 -k 21,45,65,85,105 -P 1000000 -F embplant_mt<br><span class="hljs-comment"># -P pre grouping value. default 20 0000</span><br><span class="hljs-comment"># 1. please use the 【FASTG file as the final output】 for downstream manual processing. until further updates, the FASTA output of plant mitochondria genome of numerous repeats may be error-prone</span><br><span class="hljs-comment"># 2. embplant_mt mode was not tested in the GetOrganelle paper due to the complexity of plant mitogenomes and the defects of short reads</span><br></code></pre></td></tr></table></figure>
+
+<p>#组装<strong>植物核核糖体DNA</strong>片段</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">get_organelle_from_reads.py -1 forward.fq -2 reverse.fq -o nr_output -R 10 -k 35,85,115 -F embplant_nr<br></code></pre></td></tr></table></figure>
+
+<p>#组装真菌线粒体</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">get_organelle_from_reads.py -1 forward.fq -2 reverse.fq -R 10 -k 21,45,65,85,105 -F fungus_mt -o fungus_mt_out<br></code></pre></td></tr></table></figure>
+
+<p>#组装动物线粒体</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">get_organelle_from_reads.py -1 forward.fq -2 reverse.fq -R 10 -k 21,45,65,85,105 -F animal_mt -o animal_mt_out<br></code></pre></td></tr></table></figure>
+
+<p>得到的文件有complete代表拼接成环。</p>
+<p><strong>GetOrganelle –assembly 开始</strong></p>
+<p>The <font color="blue"><strong>blue workflow</strong></font> in the chat shows the processes of <code>get_organelle_from_assembly.py</code>.</p>
+<ul>
+<li><p><strong>Input data &amp; Main Options</strong></p>
+<ul>
+<li><code>-g</code> The input must be a FASTG or GFA formatted assembly graph file.</li>
+<li>If you input an assembly graph assembled from total DNA sequencing using third-party a de novo assembler (e.g. Velvet), the assembly graph may includes a great amount of non-target contigs. You may want to use <code>--min-depth</code> and <code>--max-depth</code> to greatly reduce the computational burden for target extraction.</li>
+<li>If you input an <a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelle/wiki/Terminology">organelle-equivalent assembly graph</a> (e.g. manually curated and exported using Bandage), you may use <code>--no-slim</code>.</li>
+</ul>
+</li>
+<li><p><strong>Key Results</strong></p>
+<p>The key output files include</p>
+<ul>
+<li><code>*.path_sequence.fasta</code>, one fasta file represents one type of genome structure</li>
+<li><code>*.selected_graph.gfa</code>, the <a target="_blank" rel="noopener" href="https://github.com/Kinggerm/GetOrganelle/wiki/Terminology">organelle-only assembly graph</a></li>
+<li><code>get_org.log.txt</code>, the log file</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">get_organelle_from_assembly.py -g assembly_graph.fastg -F embplant_pt -o output-plastome<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh">-g      SPAdes组装得到的FASTG的assembly graph<br>-F      设定要组装的基因组类型<br>-o      结果输出保存的目录(文件夹)名称<br>--min-depth  剔除graph中depth低于阈值的contigs<br>--max-depth    剔除graph中depth高于阈值的contigs<br>--min-depth 10 和“--max-depth10000”这两条命令是备选的，具体的depth需要可以自行设定。<br></code></pre></td></tr></table></figure>
+
+<p><strong>GetOrganelle –graph.gfa开始</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">gfa_to_fastg.py graph.gfa<br>get_organelle_from_assembly.py -g graph.gfa.fastg -F embplant_pt -o output-plastome --no-slim<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">-g     Bandage梳理后转换为fastg的graph*<br>-F     设定要组装的基因组类群:embplant_pt(叶绿体),embplant_mt(线粒体)和embplant_nr(核糖体 RNA)<br>-o     结果输出保存的目录(文件夹)名称<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>*，使用Bandage编辑后，可以“merge all possible nodes”，然后再输出的文件格式gfa图形文件，gfa文件可以用gfa_to_fastg.py做一下转换。虽然gfa也是图形文件，但是图形内容与fastg有差异些复杂图形会输出失败。</p>
+</blockquote>
+<h1 id="Chloroplast-Genome-Assembly"><a href="#Chloroplast-Genome-Assembly" class="headerlink" title="Chloroplast Genome Assembly**"></a>Chloroplast Genome Assembly**</h1>
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/assembly/">#assembly</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Organelle assembly</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/03/18/2022-03-18-mito-chro/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 18, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/18/2022-03-18-annotation/" title="Assembly Gene Annotation">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Assembly Gene Annotation</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/18/2022-03-18-purgedups/" title="【hifi mapping】【purge_dups】">
+                        <span class="hidden-mobile">【hifi mapping】【purge_dups】</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>
