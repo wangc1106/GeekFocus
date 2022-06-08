@@ -1,73 +1,1057 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="HiC-Pro将fq文件处理成互作allValidPairs，再转化成可视化hic文件(for juicer)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HiFi-5-[HiC-Pro]-[MCscan]-[ALLHiC]">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/03/09/2022-03-09-HiFi-5-HiC-Pro/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="HiC-Pro将fq文件处理成互作allValidPairs，再转化成可视化hic文件(for juicer)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/6.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/7.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/8.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/4.png">
+<meta property="article:published_time" content="2022-03-09T07:39:23.398Z">
+<meta property="article:modified_time" content="2022-06-06T01:32:14.552Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="assembly">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/5.png">
+  
+  
+  
+  <title>HiFi-5-[HiC-Pro]-[MCscan]-[ALLHiC] - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="HiFi-5-[HiC-Pro]-[MCscan]-[ALLHiC]"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-09 15:39" pubdate>
+          March 9, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          24k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          203 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">HiFi-5-[HiC-Pro]-[MCscan]-[ALLHiC]</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 6, 2022 am
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>HiC-Pro将fq文件处理成互作allValidPairs，再转化成可视化hic文件(for juicer)</p>
+<span id="more"></span>
+
+<h1 id="HiC简介"><a href="#HiC简介" class="headerlink" title="HiC简介"></a>HiC简介</h1><ul>
+<li><p><strong>1.1 Hi-C技术</strong>高通量染色体构象捕获技术(<code>High-throughput chromosome conformation capture</code>)研究全基因组三维构象及分析染色质片段相互作用的实验技术</p>
+</li>
+<li><p><strong>1.2 Hi-C目的</strong>了解核内染色质的三维构象、获得细胞核内空间位置非常接近或存在相互作用的染色质测序片段更好地研究染色质内或染色质间的互作、基因调控元件在全基因组范围内调控的情况</p>
+</li>
+<li><p><strong>1.3 Hi-C应用方向</strong>辅助基因组组装、揭示空间调控、揭示物种进化、疾病研究、三维结构差异分析、还原染色体三维结构、构建染色体跨度单体型</p>
+</li>
+<li><p><strong>1.4 互作本质</strong>统计学上基因组两点之间发生空间接触的概率</p>
+</li>
+<li><p><strong>1.5 Hi-C实验原理</strong></p>
+</li>
+<li><p><strong>1.6 二代文库构建及测序</strong></p>
+</li>
+<li><p><strong>1.7 Hi-C实际文库类型</strong>将HIC数据进行比对是会出现不同的比对情况，需要的是<font color="blue">双端唯一匹配</font>。对单端匹配、多处比对、未比对的reads进行过滤。</p>
+<p><img src="/GeekFocus/./5.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="HiC-Pro的使用"></p>
+<p>Hi-C文库构建产生多种分子类型，包括 re-ligation、Dangling ends、self circle 、dump reads 及valid pairs reads等类型。 在 Hi-C 分析中，<font color="red">仅valid pair可以反映基因组上位点与位点间的互作</font>。因此，<font color="blue">非重复的valid pair</font>所占比例是评估Hi-C文库质量重要指标</p>
+<p><img src="/GeekFocus/./6.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="三维基因组技术（三）：Hi-C 数据比对及HiC-Pro的使用"></p>
+</li>
+<li><p><strong>互作矩阵的生成</strong>由于计算资源，数据量等因素，<font color="blue">需要确定一个互作单位：bin</font>。将基因组按照一定大小分成bin。<font color="red">将过滤后的有效序列分配到这些bin中</font></p>
+<p><img src="/GeekFocus/./7.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="三维基因组技术（三）：Hi-C 数据比对及HiC-Pro的使用"></p>
+</li>
+<li><p><strong>互作矩阵的矫正</strong>Hi-C数据中由于<font color="blue">内切酶偏好性、基因组本身质量、基因组序列特异性</font> 导致其在基因组不同位置间存在偏差。因此，<font color="red">对互作矩阵校正，使其数据在基因组上每个位点的覆盖度一致</font>。常用矫正方式有<font color="red"><strong>迭代矫正、归一化</strong></font>等</p>
+<p><img src="/GeekFocus/./8.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="三维基因组技术（三）：Hi-C 数据比对及HiC-Pro的使用"></p>
+</li>
+</ul>
+<h2 id="HiC常规软件"><a href="#HiC常规软件" class="headerlink" title="HiC常规软件"></a>HiC常规软件</h2><table>
+<thead>
+<tr>
+<th align="left">软件名</th>
+<th align="left">hiclib</th>
+<th align="left">HiC-Pro</th>
+<th align="left">HICUP</th>
+<th align="left">Juice</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">比对软件</td>
+<td align="left">Bowtie2</td>
+<td align="left">Bowtie2</td>
+<td align="left">Bowtie2</td>
+<td align="left">BWA-mem</td>
+</tr>
+<tr>
+<td align="left">比对策略</td>
+<td align="left">迭代比对</td>
+<td align="left">全局、局部比对</td>
+<td align="left">先截短后比对</td>
+<td align="left">Pair-end，嵌合reads过滤</td>
+</tr>
+<tr>
+<td align="left">嵌合reads处理</td>
+<td align="left">√</td>
+<td align="left">√</td>
+<td align="left">√</td>
+<td align="left">√</td>
+</tr>
+<tr>
+<td align="left">构建矩阵</td>
+<td align="left">√</td>
+<td align="left">√</td>
+<td align="left">×</td>
+<td align="left">√</td>
+</tr>
+<tr>
+<td align="left">标准化</td>
+<td align="left">ICE</td>
+<td align="left">ICE</td>
+<td align="left">×</td>
+<td align="left">KR</td>
+</tr>
+<tr>
+<td align="left">结果文件</td>
+<td align="left">hdf5、hm、bychr(HDF5)</td>
+<td align="left">SAM、validpair</td>
+<td align="left">SAM</td>
+<td align="left">SAM、MND、.hic</td>
+</tr>
+<tr>
+<td align="left">特点</td>
+<td align="left">比对结果可靠，存储消耗小</td>
+<td align="left">简单易用，输出结果可读</td>
+<td align="left">过滤非常严格</td>
+<td align="left">后续分析接口多，juicebox可视化</td>
+</tr>
+</tbody></table>
+<h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><p>HiFi助力同源四倍体紫花苜蓿基因组组装，NC</p>
+<blockquote>
+<p>Allele-aware chromosome-level genome assembly and efficient transgene-free genome editing for the autotetraploid cultivated alfalfa</p>
+</blockquote>
+<p>（1）使用Canu默认参数，利用CCS clean reads组装contigs。组装得到的Contig N50值为459kb，总长度为3.15GB。</p>
+<blockquote>
+<p>We assembled contigs from CCS clean reads using Canu, with default parameters. The N50 values of the contig sets were 459 kb, with total lengths 3154 Mb.</p>
+</blockquote>
+<p>（2）使用HiC-Pro将Hi-C reads与contigs 进行比对，产生比对BAM文件。</p>
+<blockquote>
+<p>Hi-C reads were aligned to contigs using <a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/26619908/">HiC-Pro(2015)</a>, yielding an alignment BAM file.</p>
+</blockquote>
+<p>（3）使用注释的蒺藜苜蓿蛋白作为参考，完全基于同源的策略注释contigs。对138,729个同源基因进行了结构注释。用MCscan用于鉴定contigs和参考基因组之间的共线性。显示紫花苜蓿和蒺藜苜蓿之间的高共线性。【下载父母本petunia ref】</p>
+<blockquote>
+<p>Contigs were annotated with a <font color="red"><strong>solely homology-based strategy</strong></font>, using annotated Medicago truncatula proteins as references. 138,729 homologous genes were structurally annotated. <font color="red"><strong>MCscan</strong> in <strong>Jcvi</strong></font> (<a target="_blank" rel="noopener" href="https://zenodo.org/record/31631#.XpkUyTOeask">https://zenodo.org/record/31631#.XpkUyTOeask</a>) was used to identify <font color="red"><strong>synteny blocks</strong></font> between <strong>contigs and the reference</strong> genome. <font color="red"><strong>Contigs syntenic</strong> to M. truncatula were <strong>stacked and aligned</strong> to M. truncatula chromosomes</font>. The syntenic contigs are summarized in Supplementary Table 4.</p>
+</blockquote>
+<p><img src="/GeekFocus/./1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="STable4"></p>
+<p>（4）使用内部脚本处理BAM文件，去除等位基因contigs之间的links。使用ALLHiC软件，<font color="red">提取、聚类和重排Contigs</font> (Contigs syntenic与蒺藜苜蓿染色体一致)，得到原始的scaffolds。</p>
+<blockquote>
+<p>An <strong>in-house script</strong> was used to <font color="red">prune the BAM</font> file and <font color="red">discard links between allelic contigs</font>. Contigs syntenic to one chromosome of M. truncatula, e.g., chr1, were extracted, sub-clustered and reordered using <font color="red">ALLHiC</font>, yielding a raw scaffold set.</p>
+</blockquote>
+<p>（5）<a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/27467250/">Juicebox</a>用于以图形和交互方式微调组装的scaffolds。剪裁了40个总长度达1800Mb的scaffolds 。</p>
+<blockquote>
+<p>Juicebox45 was used for fine-tuning assembled scaffolds in a graphic and inter-active fashion. Forty scaffolds with a total length of 1800 Mb were cropped (Supplementary Table 5).</p>
+</blockquote>
+<p><img src="/GeekFocus/./2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="STable5"></p>
+<p>（6） 基于组装的scaffold，通过Hi-C数据，每个unplaced contig被分配到互作最强的那些contig cluster里。</p>
+<blockquote>
+<p>Based on this scaffold assembly, each unplaced contig was assigned to the contig cluster, to which the contig was most connected by Hi-C data.</p>
+</blockquote>
+<p>（7）使用ALLHiC对那些contig clusters再次进行重排和构建scaffold。</p>
+<blockquote>
+<p>Those contig clusters were reordered and scaffolded using ALLHiC. </p>
+</blockquote>
+<p>（8）使用Juicebox对scaffolds进行微调，并从scaffolds上去除不一致的contigs，产生最终的染色体基因组，其包含32条染色体(8个同源组，每个组中有4个等位基因染色体)，总长度为2738Mb，和419Mb未挂载到染色体水平的序列。</p>
+<blockquote>
+<p>Using Juicebox, scaffolds were fine-tuned and discordant contigs were removed from scaffolds, and the final chromosome assembly was generated, containing 32 chromosomes with a total length of 2738 Mb (Supplementary Table 6).</p>
+</blockquote>
+<p><img src="/GeekFocus/./3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="STable6"></p>
+<h1 id="HiC-Pro-install"><a href="#HiC-Pro-install" class="headerlink" title="HiC-Pro install"></a>HiC-Pro install</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs sh">conda <span class="hljs-built_in">env</span> create -f ./HiC-Pro/environment.yml -p ///software/HiC_Pro_ENV<br><span class="hljs-comment">#【install env in my software dir】</span><br>conda activate <span class="hljs-built_in">env</span><br><br>tar -zxvf HiC-Pro-master.tar.gz<br><span class="hljs-built_in">cd</span> HiC-Pro-master<br><span class="hljs-comment">## Edit config-install.txt file if necessary</span><br>make configure<br>make install<span class="hljs-comment"># failed </span><br><span class="hljs-comment">#(g++ -Wall -O2 -std=c++0x -o build_matrix ~/software/HiC-Pro-3.1.0/scripts/src/build_matrix.cpp; mv build_matrix ~/software/HiC-Pro-3.1.0/scripts)</span><br><span class="hljs-comment">#(g++ -Wall -O2 -std=c++0x -o cutsite_trimming ~/software/HiC-Pro-3.1.0/scripts/src/cutsite_trimming.cpp; mv cutsite_trimming ~/software/HiC-Pro-3.1.0/scripts)</span><br><span class="hljs-comment">#cp -Ri ~/software/HiC-Pro-3.1.0 /usr/local/bin//HiC-Pro_3.1.0</span><br><span class="hljs-comment">#cp: cannot create directory ‘/usr/local/bin//HiC-Pro_3.1.0’: Permission denied</span><br><span class="hljs-comment">#make: *** [Makefile:78: cp] Error 1</span><br><br>but <span class="hljs-keyword">in</span> the bin file,it can be use?<br></code></pre></td></tr></table></figure>
+
+<p>Make configure and make install, whats the function of those two steps?</p>
+<h1 id="HiC-Pro-GitHub"><a href="#HiC-Pro-GitHub" class="headerlink" title="HiC-Pro-GitHub"></a><a target="_blank" rel="noopener" href="https://github.com/nservant/HiC-Pro">HiC-Pro-GitHub</a></h1><p><a target="_blank" rel="noopener" href="https://doi.org/10.1186/s13059-015-0831-x">Genome Biology 2015</a></p>
+<p>HiC-Pro was designed to process Hi-C data, from <font color="red"><strong>raw fastq files</strong></font> (paired-end Illumina data) to <font color="red"><strong>normalized contact maps</strong></font>. It supports the main Hi-C protocols, including digestion protocols as well as protocols that do not require restriction enzymes such as DNase Hi-C. In practice, HiC-Pro was successfully <font color="blue"><strong>applied to many data-sets</strong></font> including dilution Hi-C, in situ Hi-C, DNase Hi-C, Micro-C, capture-C, capture Hi-C or HiChip data.<br>The pipeline is flexible, scalable and optimized. It can operate either on a single laptop or on a computational cluster. HiC-Pro is sequential and each step of the workflow can be run independantly.<br>HiC-Pro includes a fast implementatation of the iterative correction method (see the <a target="_blank" rel="noopener" href="https://github.com/hiclib/iced">iced python package</a> for more information). Finally, HiC-Pro can use phasing data to build <a target="_blank" rel="noopener" href="https://github.com/nservant/HiC-Pro/blob/master/doc/AS.md">allele-specific contact maps</a>.</p>
+<h2 id="HiC-Pro-annotation-files"><a href="#HiC-Pro-annotation-files" class="headerlink" title="HiC-Pro annotation files"></a>HiC-Pro annotation files</h2><p>In order to process the raw data, HiC-Pro requires three annotation files. Note that the pipeline is provided with some Human and Mouse annotation files.<br><strong>Please be sure that the chromosome names are the same than the ones used in your bowtie indexes !</strong></p>
+<ul>
+<li><strong>A BED file</strong> of the <font color="blue"><strong>restriction fragments after digestion</strong></font>. This file <font color="blue">depends</font> both of the <font color="blue"><strong>restriction enzyme</strong></font> and the <font color="blue"><strong>reference genome</strong></font>. See the <a target="_blank" rel="noopener" href="https://github.com/nservant/HiC-Pro/blob/master/doc/FAQ.md">FAQ</a> and the <a target="_blank" rel="noopener" href="https://github.com/nservant/HiC-Pro/blob/master/doc/UTILS.md">HiC-Pro utilities</a> for details about <font color="blue"><strong>how to generate</strong></font> this file. A few annotation files are provided with the HiC-Pro sources as examples. 根据限制性内切酶消化的参考基因组信息 .bed文件。酶切图谱</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#example：/PATH/TO/HiC-Pro_2.11.1/annotation</span><br> <span class="hljs-built_in">head</span> HindIII_resfrag_hg19.bed<br> chr1   0       16007   HIC_chr1_1    0   +<br> chr1   16007   24571   HIC_chr1_2    0   +<br> chr1   24571   27981   HIC_chr1_3    0   +<br> (...)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#GENOME_FRAGMENT = # 储存消化碎片位置信息的bed文件，一般在HiC-Pro的annotation文件夹下</span><br><span class="hljs-comment">#LIGATION_SITE = # 酶切位点重连接后的序列</span><br><span class="hljs-comment">#注：GENOME_FRAGMENT 和 LIGATION_SITE 完全取决于使用了什么酶，一般HiC建库的酶是Hind III，所以要仔细检查数据来源的说明。 </span><br>digest_genome.py -r A^AGCTT -o HindIII_resfrag_hg19.bed hg19_rCRSchrm.fa  <br></code></pre></td></tr></table></figure>
+
+<p>通过软件脚本产生基因组酶切图谱，输入内切酶名称或者酶切位点序列都可以，用法：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">digest_genome.py -r A^AGCTT -o mm9_hindiii.bed mm9.fasta<br>digest_genome.py -r hindiii -o mm9_hindiii.bed mm9.fasta<br></code></pre></td></tr></table></figure>
+
+<p>NcoI、BamHI、EcoRI、HindIII、NdeI、XhoI, 参考：<a target="_blank" rel="noopener" href="https://www.biomart.cn/experiment/430/457/741/43956.htm"><font color="red"><strong>常见限制性内切酶识别序列(酶切位点)</strong></font></a></p>
+<table>
+<thead>
+<tr>
+<th align="left">限制性内切酶</th>
+<th align="left">酶切位点，<code>^</code>为切割位点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">MboI</td>
+<td align="left">^GATC</td>
+</tr>
+<tr>
+<td align="left">DpnII</td>
+<td align="left">^GATC</td>
+</tr>
+<tr>
+<td align="left">BglII</td>
+<td align="left">A^GATCT</td>
+</tr>
+<tr>
+<td align="left">HindIII</td>
+<td align="left">A^AGCTT</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>A table file</strong> of chromosomes’ size. This file can be easily find on the <font color="blue">UCSC genome browser</font>. Of note, pay attention to the contigs or scaffolds, and be aware that HiC-pro will generate a map per chromosomes pair. For model organisms such as Human or Mouse, which are well annotated, we usually recommand to remove all scaffolds. 染色体大小的表格文件。从UCSC下载染色体长度文件，或自己根据fasta序列统计长度</li>
+</ul>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs dns">#example：/PATH/TO/HiC-Pro_2.<span class="hljs-number">11</span>.<span class="hljs-number">1</span>/annotation<br>head chrom_hg19.sizes<br>   chr1    <span class="hljs-number">249250621</span><br>   chr2    <span class="hljs-number">243199373</span><br>   chr3    <span class="hljs-number">198022430</span><br>   chr4    <span class="hljs-number">191154276</span><br>   chr5    <span class="hljs-number">180915260</span><br>   chr6    <span class="hljs-number">171115067</span><br>   chr7    <span class="hljs-number">159138663</span><br>   ...<br></code></pre></td></tr></table></figure>
+
+<p><font color="green"><strong>how?</strong></font> </p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">samtools</span> faidx genome.fa<br>awk ‘&#123;<span class="hljs-attribute">print</span> <span class="hljs-variable">$1</span> <span class="hljs-string">&quot;t&quot;</span> <span class="hljs-variable">$2</span>&#125;‘ genome.fa.fai &gt; genome_sizes.bed<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>The bowtie2 indexes</strong>. See the <a target="_blank" rel="noopener" href="http://bowtie-bio.sourceforge.net/bowtie2/index.shtml">bowtie2 manual page</a> for details about how to create such indexes.</p>
+</li>
+<li><pre><code class="sh">bowtie2-build hg19.fasta hg19
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><br>## how <span class="hljs-keyword">to</span> use<br><br>```sh<br>  HiC-Pro <span class="hljs-comment">--help</span><br>  <span class="hljs-keyword">usage</span> : HiC-Pro -i <span class="hljs-keyword">INPUT</span> -o OUTPUT -c CONFIG [-s ANALYSIS_STEP] [-p] [-h] [-v]<br>  Use <span class="hljs-keyword">option</span> -h|<span class="hljs-comment">--help for more information</span><br><br>  HiC-Pro <span class="hljs-number">3.1</span><span class="hljs-number">.0</span><br>  <span class="hljs-comment">---------------</span><br>  <span class="hljs-keyword">OPTIONS</span><br><br>   -i|<span class="hljs-comment">--input INPUT : &#x27;input data folder&#x27;; contains a folder per sample with input files</span><br>   -o|<span class="hljs-comment">--output OUTPUT : &#x27;output folder&#x27;</span><br>   -c|<span class="hljs-comment">--conf CONFIG : &#x27;configuration file&#x27; for Hi-C processing</span><br>   [-p|<span class="hljs-comment">--parallel] : if specified run HiC-Pro on a cluster&#x27;?&#x27;</span><br>   [-s|<span class="hljs-comment">--step ANALYSIS_STEP] : run only a subset of the HiC-Pro workflow; &#x27;if not specified the complete workflow is run&#x27;</span><br>      <span class="hljs-keyword">mapping</span>: <span class="hljs-keyword">perform</span> reads <span class="hljs-string">&#x27;alignment&#x27;</span> - require fast files<br>      proc_hic: <span class="hljs-keyword">perform</span> Hi-C <span class="hljs-string">&#x27;filtering&#x27;</span> - require BAM files<br>      quality_checks: run Hi-C <span class="hljs-string">&#x27;quality control&#x27;</span> plots<br>      merge_persample: <span class="hljs-string">&#x27;merge&#x27;</span> multiple inputs <span class="hljs-keyword">and</span> remove duplicates <span class="hljs-keyword">if</span> specified - require .validPairs files<br>      build_contact_maps: <span class="hljs-string">&#x27;Build raw inter/intrachromosomal contact maps&#x27;</span> - require .allValidPairs files<br>      ice_norm : run ICE <span class="hljs-string">&#x27;normalization&#x27;</span> <span class="hljs-keyword">on</span> contact maps - require .matrix files<br>   [-h|<span class="hljs-comment">--help]: help</span><br>   [-v|<span class="hljs-comment">--version]: version</span><br></code></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p><font color="blue"><strong>Copy and edit</strong></font> the configuration file <font color="blue"><strong>‘config-hicpro.txt’</strong> </font> in your <font color="blue"><strong>local folder</strong></font>. See the <a target="_blank" rel="noopener" href="https://github.com/nservant/HiC-Pro/blob/master/doc/MANUAL.md">manual</a> for details about the configuration file</p>
+</li>
+<li><p>Put <font color="blue"><strong>all input files in a rawdata folder</strong></font>. The input files have to be organized with <font color="blue"><strong>one folder per sample</strong></font>, such as;</p>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh">+ PATH_TO_MY_DATA<br>  + sample1<br>    ++ file1_R1.fastq.gz<br>    ++ file1_R2.fastq.gz<br>    ++ ...<br>  + sample2<br>    ++ file1_R1.fastq.gz<br>    ++ file1_R2.fastq.gz<br>  *...<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>Run HiC-Pro on your <font color="blue"><strong>laptop</strong></font> in standalone model</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">MY_INSTALL_PATH/bin/HiC-Pro -i <span class="hljs-string">&#x27;FULL&#x27;</span>_PATH_TO_DATA_FOLDER -o FULL_PATH_TO_OUTPUTS -c MY_LOCAL_CONFIG_FILE<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>Run HiC-Pro on a <font color="blue"><strong>cluster</strong></font> (TORQUE&#x2F;SGE&#x2F;SLURM&#x2F;LSF)</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">MY_INSTALL_PATH/bin/HiC-Pro -i FULL_PATH_TO_DATA_FOLDER -o FULL_PATH_TO_OUTPUTS -c MY_LOCAL_CONFIG_FILE -p<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>In the latter <font color="blue">case[cluster]</font>, you will have the following message :</li>
+</ul>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stata">Please <span class="hljs-keyword">run</span> HiC-<span class="hljs-keyword">Pro</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">two</span> steps :<br> 1- The following command will launch the parallel workflow through 12 torque jobs:<br> qsub HiCPro_step1.<span class="hljs-keyword">sh</span><br> 2- The second command will <span class="hljs-keyword">merge</span> all outputs to <span class="hljs-keyword">generate</span> the contact maps:<br> qsub HiCPro_step2.<span class="hljs-keyword">sh</span><br></code></pre></td></tr></table></figure>
+
+<p>Execute the displayed command from the <font color="blue"><strong>output folder</strong></font>:</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">qsub</span> HiCPro_step1.sh<br></code></pre></td></tr></table></figure>
+
+<p>Once executed succesfully (may take several hours), run the step using:</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">qsub</span> HiCPro_step2.sh<br></code></pre></td></tr></table></figure>
+
+<h2 id="config-editing"><a href="#config-editing" class="headerlink" title="config editing"></a>config editing</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#######################################################################</span><br><span class="hljs-comment">## SYSTEM AND SCHEDULER - Start Editing Here !!</span><br><span class="hljs-comment">#######################################################################</span><br>N_CPU = 2<br>LOGFILE = hicpro.log<br>JOB_NAME =<br>JOB_MEM =<br>JOB_WALLTIME =<br>JOB_QUEUE =<br>JOB_MAIL =<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">BOWTIE2_IDX_PATH =<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#######################################################################</span><br><span class="hljs-comment">## Digestion Hi-C</span><br><span class="hljs-comment">#######################################################################</span><br>GENOME_FRAGMENT = HindIII_resfrag_hg19.bed<br>LIGATION_SITE = AAGCTAGCTT<br>MIN_FRAG_SIZE =<br>MAX_FRAG_SIZE =<br>MIN_INSERT_SIZE =<br>MAX_INSERT_SIZE =<br>MIN_MAPQ: 最低的质量分数，用于筛选，表示低于该MAPQ值会被过滤<br>BOWTIE2_IDX_PATH: 基因组bowtie2索引路径，eg:/path/hg19<br>BOWTIE2_GLOBAL_OPTIONS: 默认GLOBAL比对设置<br>BOWTIE2_LOCAL_OPTIONS: 默认LOCAL比对设置<br>REFERENCE_GENOME： Bowtie2索引前缀<br>GENOME_SIZE： 基因组sizes bed文件<br>GENOME_FRAGMENT: 基因组酶切文件,eg. /path/hg19_HindIII.bed<br>LIGATION_SITE: 酶切位点末端补平再次连接后形成的嵌合序列，eg. AAGCTAGCTT<br>MIN_FRAG_SIZE: 最小的理论酶切片段大小,eg. 100<br>MAX_FRAG_SIZE: 最大的理论酶切片段大小,eg. 100000<br>MIN_INSERT_SIZE: 最小的文库片段大小,eg.100<br>MAX_INSERT_SIZE: 最大的文库片段大小,eg.1000<br><span class="hljs-string">&#x27;BIN_SIZE:需要生成的矩阵分辨率（bp)&#x27;</span><br>MATRIX_FORMAT：矩阵的形式，upper表示保留上半部分<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh">BOWTIE2_IDX_PATH = <span class="hljs-comment"># bowtie2索引文件目录，索引文件提前下载或用bowtie2-build生成</span><br>REFERENCE_GENOME = <span class="hljs-comment"># bowtie2索引的文件名</span><br>GENOME_SIZE = <span class="hljs-comment"># 染色体大小文件，可从http://hgdownload.cse.ucsc.edu/goldenPath/ 下载</span><br>GENOME_FRAGMENT = <span class="hljs-comment"># 储存消化碎片位置信息的bed文件，一般在HiC-Pro的annotation文件夹下</span><br>LIGATION_SITE = AAGCTAGCTT<span class="hljs-comment"># 酶切位点重连接后的序列</span><br><span class="hljs-comment"># 注：GENOME_FRAGMENT 和 LIGATION_SITE 完全取决于使用了什么酶，一般来说是Hind III，所以要仔细检查数据来源的说明。 </span><br>PAIR2_EXT = <span class="hljs-comment"># 根据文件名称，分别输入双端数据文件名称，不用输入后缀</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#???GENOME_SIZE = 在建立的索引目录下新建一个txt文件：</span><br><span class="hljs-built_in">cat</span> &gt;chrom_bacteria.sizes  <span class="hljs-comment">#创建一个新的文件cat &gt; filename，文件名我是参考hicpro的配置示例 </span><br>Chromosome 4016942  <span class="hljs-comment">#在文件中写入内容，表明这个参考基因的大小是4016942bp,1bp即为1个碱基对（base pair）</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><p>The test dataset and associated results are available <a target="_blank" rel="noopener" href="https://zerkalo.curie.fr/partage/HiC-Pro/">here</a>. Small fastq files (2M reads) extracted from the Dixon et al. 2012 paper are available for test.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">## Get the data. Will download a test_data folder and a configuration file</span><br> wget https://zerkalo.curie.fr/partage/HiC-Pro/HiCPro_testdata.tar.gz &amp;&amp; tar -zxvf HiCPro_testdata.tar.gz<br><br> <span class="hljs-comment">## Edit the configuration file and set the path to Human bowtie2 indexes</span><br><br> <span class="hljs-comment">## Run HiC-Pro</span><br> time HICPRO_INSTALL_DIR/bin/HiC-Pro -c config_test_latest.txt -i test_data -o hicpro_latest_test<br></code></pre></td></tr></table></figure>
+
+<h1 id="HIC-PRO’S-DOC"><a href="#HIC-PRO’S-DOC" class="headerlink" title="HIC-PRO’S DOC"></a><a target="_blank" rel="noopener" href="http://nservant.github.io/HiC-Pro/">HIC-PRO’S DOC</a></h1><h1 id="分步原理"><a href="#分步原理" class="headerlink" title="分步原理"></a>分步原理</h1><p>ref：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/76533e6d6152">https://www.jianshu.com/p/76533e6d6152</a></p>
+<p><img src="/GeekFocus/./4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li><p><font color="red"><strong>比对、过滤HiC比对结果、检测有效HiC序列、结果合并、构建HiC关联图谱、关联图谱标准化。</strong></font></p>
+</li>
+<li><p>HiC-Pro可输出各个尺度的HiC<font color="red">标准化互作图谱</font>，从每个<font color="red">窗口5Kb到1Mb</font>，窗口越大，生成互作关系越少，计算时间就越少，反之越多。同时HiC-Pro能与下游可视化软件<font color="red"><strong>HiCPlotter</strong></font>等兼容，输出文件可直接用于可视化分析。</p>
+</li>
+<li><p>HiC-Pro<font color="red">自动化比对，标准化和构建相互作用矩阵</font>，在处理多样化的测序数据时，HiC-Pro能够<strong>检测和自动过滤</strong>测序数量差的reads和无效片段。</p>
+</li>
+</ul>
+<h2 id="1-Reads-Mapping"><a href="#1-Reads-Mapping" class="headerlink" title="1.Reads Mapping"></a>1.Reads Mapping</h2><p>将fastq文件用bowtie2 mapping一次，查看log：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> mapping_step1.log<br><span class="hljs-comment">###mapping fastq to reference genome , 将unmapping的read 另存为 unmap.fastq</span><br>/PATH/TO/bowtie2/bowtie2-2.3.3.1/bowtie2 --very-sensitive -L 30 --score-min L,-0.6,-0.2 --end-to-end --reorder --un bowtie_results/bwt2_global/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.unmap.fastq --rg-id BMG --rg SM:SRR400264_00_R2 -p 20 -x /PATH/TO/HiC-Pro_2.11.1/Bowtie2Index/hg19 -U rawdata/dixon_2M/SRR400264_00_R2.fastq.gz 2&gt;&gt; logs/dixon_2M/SRR400264_00_R2_bowtie2.<span class="hljs-built_in">log</span>| /PATH/TO/samtools/samtools-1.6/bin/samtools view -F 4 -bS - &gt; bowtie_results/bwt2_global/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.bam<br><br>/PATH/TO/bowtie2/bowtie2-2.3.3.1/bowtie2 --very-sensitive -L 30 --score-min L,-0.6,-0.2 --end-to-end --reorder --un bowtie_results/bwt2_global/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.unmap.fastq --rg-id BMG --rg SM:SRR400264_00_R1 -p 20 -x /PATH/TO/HiC-Pro_2.11.1/Bowtie2Index/hg19 -U rawdata/dixon_2M/SRR400264_00_R1.fastq.gz 2&gt;&gt; logs/dixon_2M/SRR400264_00_R1_bowtie2.<span class="hljs-built_in">log</span>| /PATH/TO/samtools/samtools-1.6/bin/samtools view -F 4 -bS - &gt; bowtie_results/bwt2_global/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.bam<br></code></pre></td></tr></table></figure>
+
+<p>结果文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">|   |-- bwt2_global<br>|   |   |-- dixon_2M<br>|   |   |   |-- SRR400264_00_R1_hg19.bwt2glob.bam<br>|   |   |   |-- SRR400264_00_R1_hg19.bwt2glob.unmap.fastq<br>|   |   |   |-- SRR400264_00_R2_hg19.bwt2glob.bam<br>|   |   |   |-- SRR400264_00_R2_hg19.bwt2glob.unmap.fastq<br>|   |   `-- dixon_2M_2<br>|   |       |-- SRR400264_01_R1_hg19.bwt2glob.bam<br>|   |       |-- SRR400264_01_R1_hg19.bwt2glob.unmap.fastq<br>|   |       |-- SRR400264_01_R2_hg19.bwt2glob.bam<br>|   |       |-- SRR400264_01_R2_hg19.bwt2glob.unmap.fastq<br></code></pre></td></tr></table></figure>
+
+<p>有mapping和unmapping。因为read是嵌合基因。mapping上的是背景基因组。<font color="blue">unmapping需要下一步处理</font>。</p>
+<h2 id="2-片段分配和过滤"><a href="#2-片段分配和过滤" class="headerlink" title="2. 片段分配和过滤"></a>2. 片段分配和过滤</h2><p>查看log</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> mapping_step2.log<br><span class="hljs-comment">### 酶切</span><br>/PATH/TO/HiC-Pro/HiC-Pro_2.11.1/scripts/cutsite_trimming --fastq bowtie_results/bwt2_global/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.unmap.fastq --cutsite AAGCTAGCTT --out bowtie_results/bwt2_local/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.unmap_trimmed.fastq &gt; logs/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.unmap_readsTrimming.<span class="hljs-built_in">log</span> 2&gt;&amp;1<br>/PATH/TO/HiC-Pro/HiC-Pro_2.11.1/scripts/cutsite_trimming --fastq bowtie_results/bwt2_global/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.unmap.fastq --cutsite AAGCTAGCTT --out bowtie_results/bwt2_local/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.unmap_trimmed.fastq &gt; logs/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.unmap_readsTrimming.<span class="hljs-built_in">log</span> 2&gt;&amp;1<br><span class="hljs-comment">### 再用bowtie2 mapping一次</span><br>/PATH/TO/bowtie2/bowtie2-2.3.3.1/bowtie2 --very-sensitive -L 20 --score-min L,-0.6,-0.2 --end-to-end --reorder --rg-id BML --rg SM:SRR400264_00_R1_hg19.bwt2glob.unmap -p 20 -x /PATH/TO/HiC-Pro/HiC-Pro_2.11.1/Bowtie2Index/hg19 -U bowtie_results/bwt2_local/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.unmap_trimmed.fastq 2&gt;&gt; logs/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.unmap_bowtie2.log | /PATH/TO/samtools/samtools-1.6/bin/samtools view -bS - &gt; bowtie_results/bwt2_local/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.unmap_bwt2loc.bam<br>/PATH/TO/bowtie2/bowtie2-2.3.3.1/bowtie2 --very-sensitive -L 20 --score-min L,-0.6,-0.2 --end-to-end --reorder --rg-id BML --rg SM:SRR400264_00_R2_hg19.bwt2glob.unmap -p 20 -x /PATH/TO/HiC-Pro/HiC-Pro_2.11.1/Bowtie2Index/hg19 -U bowtie_results/bwt2_local/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.unmap_trimmed.fastq 2&gt;&gt; logs/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.unmap_bowtie2.log | /PATH/TO/samtools/samtools-1.6/bin/samtools view -bS - &gt; bowtie_results/bwt2_local/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.unmap_bwt2loc.bam<br></code></pre></td></tr></table></figure>
+
+<p>这一步将unmapping结果，用酶切位点分割，然后将分割结果，再mapping一次。得到结果</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">|   |-- bwt2_local<br>|       |-- dixon_2M<br>|       |   |-- SRR400264_00_R1_hg19.bwt2glob.unmap_bwt2loc.bam<br>|       |   |-- SRR400264_00_R1_hg19.bwt2glob.unmap_trimmed.fastq<br>|       |   |-- SRR400264_00_R2_hg19.bwt2glob.unmap_bwt2loc.bam<br>|       |   |-- SRR400264_00_R2_hg19.bwt2glob.unmap_trimmed.fastq<br>|       |-- dixon_2M_2<br>|           |-- SRR400264_01_R1_hg19.bwt2glob.unmap_bwt2loc.bam<br>|           |-- SRR400264_01_R1_hg19.bwt2glob.unmap_trimmed.fastq<br>|           |-- SRR400264_01_R2_hg19.bwt2glob.unmap_bwt2loc.bam<br>|           |-- SRR400264_01_R2_hg19.bwt2glob.unmap_trimmed.fastq<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-mapping-combine-log"><a href="#3-mapping-combine-log" class="headerlink" title="3. mapping_combine.log"></a>3. mapping_combine.log</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> mapping_combine.log<br><br><span class="hljs-comment">### 将global的bam与local的bam用samtools merge</span><br>/PATH/TO/samtools/samtools-1.6/bin/samtools merge -@ 20 -n -f bowtie_results/bwt2/dixon_2M/SRR400264_00_R1_hg19.bwt2merged.bam bowtie_results/bwt2_global/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.bam bowtie_results/bwt2_local/dixon_2M/SRR400264_00_R1_hg19.bwt2glob.unmap_bwt2loc.bam<br>/PATH/TO/samtools/samtools-1.6/bin/samtools merge -@ 20 -n -f bowtie_results/bwt2/dixon_2M/SRR400264_00_R2_hg19.bwt2merged.bam bowtie_results/bwt2_global/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.bam bowtie_results/bwt2_local/dixon_2M/SRR400264_00_R2_hg19.bwt2glob.unmap_bwt2loc.bam<br><br><span class="hljs-comment">### sort</span><br>/PATH/TO/samtools/samtools-1.6/bin/samtools <span class="hljs-built_in">sort</span> -@ 20 -n -T tmp/SRR400264_00_R2_hg19 -o bowtie_results/bwt2/dixon_2M/SRR400264_00_R2_hg19.bwt2merged.sorted.bam bowtie_results/bwt2/dixon_2M/SRR400264_00_R2_hg19.bwt2merged.bam<br>/PATH/TO/samtools/samtools-1.6/bin/samtools <span class="hljs-built_in">sort</span> -@ 20 -n -T tmp/SRR400264_00_R1_hg19 -o bowtie_results/bwt2/dixon_2M/SRR400264_00_R1_hg19.bwt2merged.sorted.bam bowtie_results/bwt2/dixon_2M/SRR400264_00_R1_hg19.bwt2merged.bam<br><br>[bam_sort_core] merging from 0 files and 20 in-memory blocks...<br>[bam_sort_core] merging from 0 files and 20 in-memory blocks...<br><br><span class="hljs-comment">### 改名</span><br><span class="hljs-built_in">mv</span> bowtie_results/bwt2/dixon_2M/SRR400264_00_R1_hg19.bwt2merged.sorted.bam bowtie_results/bwt2/dixon_2M/SRR400264_00_R1_hg19.bwt2merged.bam<br><span class="hljs-built_in">mv</span> bowtie_results/bwt2/dixon_2M/SRR400264_00_R2_hg19.bwt2merged.sorted.bam bowtie_results/bwt2/dixon_2M/SRR400264_00_R2_hg19.bwt2merged.bam<br></code></pre></td></tr></table></figure>
+
+<h2 id="4、merge"><a href="#4、merge" class="headerlink" title="4、merge"></a>4、merge</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">### 将R1与R2 merge为一个文件。</span><br><span class="hljs-built_in">cat</span> mergeSAM.<span class="hljs-built_in">log</span><br>/PATH/TO/python/python-2.7.10/bin/python /PATH/TO/HiC-Pro/HiC-Pro_2.11.1/scripts/mergeSAM.py -q 0 -t -v -f bowtie_results/bwt2/dixon_2M/SRR400264_00_R1_hg19.bwt2merged.bam -r bowtie_results/bwt2/dixon_2M/SRR400264_00_R2_hg19.bwt2merged.bam -o bowtie_results/bwt2/dixon_2M/SRR400264_00_hg19.bwt2pairs.bam<br><span class="hljs-comment">## mergeBAM.py</span><br><span class="hljs-comment">## forward= bowtie_results/bwt2/dixon_2M/SRR400264_00_R1_hg19.bwt2merged.bam</span><br><span class="hljs-comment">## reverse= bowtie_results/bwt2/dixon_2M/SRR400264_00_R2_hg19.bwt2merged.bam</span><br><span class="hljs-comment">## output= bowtie_results/bwt2/dixon_2M/SRR400264_00_hg19.bwt2pairs.bam</span><br><span class="hljs-comment">## min mapq= 0</span><br><span class="hljs-comment">## report_single= False</span><br><span class="hljs-comment">## report_multi= False</span><br><span class="hljs-comment">## verbose= True</span><br><span class="hljs-comment">## Merging forward and reverse tags ...</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5、利用HiCPro的mapped-2hic-fragments-py程序将比对结果转化为Hi-C片段信息"><a href="#5、利用HiCPro的mapped-2hic-fragments-py程序将比对结果转化为Hi-C片段信息" class="headerlink" title="5、利用HiCPro的mapped_2hic_fragments.py程序将比对结果转化为Hi-C片段信息"></a>5、利用HiCPro的mapped_2hic_fragments.py程序将比对结果转化为Hi-C片段信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> mapped_2hic_fragments.log<br>/PATH/TO/python /PATH/TO/HiC-Pro/HiC-Pro_2.11.1/scripts/mapped_2hic_fragments.py -v -S -t 100 -m 100000 -s 100 -l 600 -a -f /PATH/TO/HiC-Pro_2.11.1/annotation/HindIII_resfrag_hg19.bed -r bowtie_results/bwt2/dixon_2M/SRR400264_00_hg19.bwt2pairs.bam -o hic_results/data/dixon_2M<br><span class="hljs-comment">## overlapMapped2HiCFragments.py</span><br><span class="hljs-comment">## mappedReadsFile= bowtie_results/bwt2/dixon_2M/SRR400264_00_hg19.bwt2pairs.bam</span><br><span class="hljs-comment">## fragmentFile= /PATH/TO/HiC-Pro/HiC-Pro_2.11.1/annotation/HindIII_resfrag_hg19.bed</span><br><span class="hljs-comment">## minInsertSize= 100</span><br><span class="hljs-comment">## maxInsertSize= 600</span><br><span class="hljs-comment">## minFragSize= 100</span><br><span class="hljs-comment">## maxFragSize= 100000</span><br><span class="hljs-comment">## allOuput= True</span><br><span class="hljs-comment">## SAM ouput= True</span><br><span class="hljs-comment">## verbose= True</span><br></code></pre></td></tr></table></figure>
+
+<p>再对输出的valid pairs文件排序：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">LANG=en; <span class="hljs-built_in">sort</span> -T tmp -k2,2V -k3,3n -k5,5V -k6,6n -o hic_results/data/sample/sample_sample_genome_ref.bwt2pairs.validPairs hic_results/data/sample/sample_sample_genome_ref.bwt2pairs.validPairs<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-对所有的valid-pairs进行合并"><a href="#6-对所有的valid-pairs进行合并" class="headerlink" title="6 对所有的valid pairs进行合并"></a>6 对所有的valid pairs进行合并</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart">LANG=en; sort -T tmp -S <span class="hljs-number">50</span>% -k2,<span class="hljs-number">2</span>V -k3,<span class="hljs-number">3</span>n -k5,<span class="hljs-number">5</span>V -k6,<span class="hljs-number">6</span>n -m hic_results/data/dixon_2M_2/SRR400264_01_hg19.bwt2pairs.validPairs | awk -F<span class="hljs-string">&quot;\t&quot;</span> <span class="hljs-string">&#x27;BEGIN&#123;c1=0;c2=0;s1=0;s2=0&#125;(c1!=<span class="hljs-subst">$2</span> || c2!=<span class="hljs-subst">$5</span> || s1!=<span class="hljs-subst">$3</span> || s2!=<span class="hljs-subst">$6</span>)&#123;print;c1=<span class="hljs-subst">$2</span>;c2=<span class="hljs-subst">$5</span>;s1=<span class="hljs-subst">$3</span>;s2=<span class="hljs-subst">$6</span>&#125;&#x27;</span> &gt; hic_results/data/dixon_2M_2/dixon_2M_2.allValidPairs<br></code></pre></td></tr></table></figure>
+
+<p>生成最终文件dixon_2M_2.allValidPairs。</p>
+<p>这个文件还不能可视化，如果要可视化，一般在jucebox里面查看。需要用配套的hicpro2juicebox.sh来转化：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">## e.g.1</span><br>HICPRO_PATH/bin/utils/hicpro2juicebox.sh -i hicpro_res/hic_results/data/dixon_2M/dixon_2M_allValidPairs -g hg19 -j /usr/local/juicebox/juicebox_clt_1.4.jar<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">-j jar<br>/PATH/TO/juicer/juicer/UGER/scripts/juicer_tools.jar<br></code></pre></td></tr></table></figure>
+
+<h1 id="HiC-Pro-输出"><a href="#HiC-Pro-输出" class="headerlink" title="HiC-Pro 输出"></a>HiC-Pro 输出</h1><p>共有<strong>bowtie_results</strong>和<strong>hic_results</strong>两个结果文件夹。</p>
+<p>其中<strong>bowtie_results</strong>下三个文件夹：bwt2、bwt2_global和bwt2_local，分别是序列比对结果、<font color="blue">染色体间</font>关联比对结果和<font color="blue">染色体内</font>部关联比对结果。bwt2文件夹有数据统计结果输出文件，如mpairstat文件。</p>
+<p><strong>hic_results</strong>文件夹下共有data、matrix以及pic三个文件夹。</p>
+<ul>
+<li><p>data文件夹下是比对上的有效序列对，文件末尾为_allValidPairs合并后的pairs数据</p>
+<p><code>DEPairs</code>:Dangling end pairs数据</p>
+<p><code>DumpPairs</code>:实际片段长度和理论片段长度不同的数据</p>
+<p><code>REPairs</code>：酶切片段重新连接的pairs</p>
+<p><code>FiltePairs</code>:MAPQ过低的pairs</p>
+<p><code>SCPairs</code>：片段自连的pairs</p>
+</li>
+<li><p>pic文件夹下是各类结果数据统计；存放统计分析图片</p>
+<p>HiC文库片段分布文件</p>
+<p>双端比对过滤质控图</p>
+<p>有效数据过滤质控图</p>
+<p>配对数据不同类型数据比例展示图</p>
+</li>
+<li><p>matrix文件夹下分为 iced(标准化) 和 raw(原始) 两个文件夹，分别标准化后的关联矩阵和初始的关联矩阵。存放不同分辨率矩阵文件</p>
+</li>
+</ul>
+<p>后续compartment，TAD和loop？</p>
+<h1 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUyMTk4ODM0OQ==&mid=2247483678&idx=1&sn=a1aa97892723f6fb51bd3b01a6441e6c&chksm=f9d3f08ccea4799af0a4401e938307a3f6e860239e905deb6963a82a8fc799a4af504e96bc10&scene=178&cur_album_id=1399424041152528385#rd">微信公众号</a></p>
+<p><a target="_blank" rel="noopener" href="https://weixin.sogou.com/weixin?type=2&query=%E6%9F%93%E8%89%B2%E8%B4%A8%E9%AB%98%E7%BA%A7%E7%BB%93%E6%9E%84%E7%A0%94%E7%A9%B6%E4%B9%8BHi-C%E6%8A%80%E6%9C%AF%EF%BC%88%E4%B8%8B%E7%AF%87%EF%BC%89%E2%80%94%E2%80%94%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AE%9E%E6%88%98&ie=utf8&s_from=input&_sug_=n&_sug_type_=&w=01019900&sut=935&sst0=1646835948011&lkt=2,1646835946980,1646835947908">染色质高级结构研究之Hi-C技术（下篇）——可视化实战</a></p>
+<h1 id="Error-debug"><a href="#Error-debug" class="headerlink" title="Error debug"></a>Error debug</h1><blockquote>
+<p>HIC-PRO DOES NOT GENERATE ANY MAPS<br>HiC-Pro is using the chrom.sizes files to build the map.<br>Be sure that your chromosome names are the same in all annotations files (bowtie2 indexes, restriction fragments, chromosome sizes, etc.)</p>
+</blockquote>
+<blockquote>
+<p>hiclib and mirnylib are not compatible with python 2.5 and 3.x, but work fine with py 2.6, 2.7</p>
+<p>hiclib主要用于数据标准化，hicpro可以，为什么还要安装hiclib? 或者是想比较两者分析的结果？</p>
+<p>HiC-Pro需要python版本&gt;&#x3D;3.7, 安装3.9</p>
+</blockquote>
+<p><strong>Error1</strong>：directly use hicpro on the cluster,  —qual 多一个-无法解决，自己安装<br>&#x2F;software&#x2F;biosoft&#x2F;software&#x2F;bowtie2-2.2.9&#x2F;bowtie2-align-s: <font color="red"><strong>unrecognized option ‘—quals’</strong></font><br>Bowtie 2 version 2.2.9 by Ben Langmead (<a href="mailto:&#x6c;&#x61;&#110;&#x67;&#109;&#x65;&#x61;&#64;&#x63;&#x73;&#x2e;&#x6a;&#104;&#x75;&#x2e;&#101;&#100;&#117;">&#x6c;&#x61;&#110;&#x67;&#109;&#x65;&#x61;&#64;&#x63;&#x73;&#x2e;&#x6a;&#104;&#x75;&#x2e;&#101;&#100;&#117;</a>, <a target="_blank" rel="noopener" href="http://www.cs.jhu.edu/~langmea">www.cs.jhu.edu/~langmea</a>)<br>Usage:<br>  bowtie2 [options]* -x <bt2-idx> {-1 <m1> -2 <m2> | -U <r>} [-S <sam>]</p>
+<p>Encountered internal Bowtie 2 exception (#1)<br>Command: &#x2F;software&#x2F;biosoft&#x2F;software&#x2F;bowtie2-2.2.9&#x2F;bowtie2-align-s –wrapper basic-0 –very-sensitive -L 30 –score-min L,-0.6,-0.2 –end-to-end –reorder –rg-id BMG –rg SM:L3_R1 <font color="red"><strong>—quals</strong></font> -p 10 -x ~&#x2F;02.bwa_mapping&#x2F;primary&#x2F;&#x2F;HiFi.p_ctg –passthrough -U &#x2F;tmp&#x2F;34683.unp<br>(ERR): bowtie2-align exited with value 1</p>
+<p>自己安装时，先创建conda环境，再tar xzvf，然后<font color="red"><strong>编辑config-install.txt的prefix 再make configure &amp;&amp; make install</strong></font><br><strong>Error2</strong>在错误产生output文件夹时再次运行直接报错stat: <font color="red"><strong>Bad file descriptor，先删除output_dir</strong></font><br>设置config-install.txt 的prefix时设置成&#x2F;&#x2F;&#x2F;software&#x2F;HiC-Pro<font color="red"><strong>&#x2F;</strong></font><br>报错：<br><strong>Error3</strong>：install in another dir HiC-Pro， PREFIX &#x3D; <del>&#x2F;software&#x2F;HiC-Pro&#x2F;<br>~&#x2F;software&#x2F;HiC-Pro&#x2F;HiC-Pro-3.1.0&#x2F;bin&#x2F;..&#x2F;scripts&#x2F;&#x2F;Makefile:48: ~&#x2F;software&#x2F;HiC-Pro<font color="red"><strong>&#x2F;&#x2F;</strong></font>config-system.txt: No such file or directory<br>make:  No rule to make target ‘</del>&#x2F;software&#x2F;HiC-Pro<font color="red"><strong>&#x2F;&#x2F;</strong></font>config-system.txt’.  Stop.<br>The config-system.txt file is a file which should be within the installation folder.<br>检查config-system.txt 发现多了&#x2F;&#x2F;<br>设置config-install.txt 的prefix时设置成&#x2F;&#x2F;&#x2F;software&#x2F;HiC-Pro时会<font color="red"><strong>自动产生软件名文件夹</strong></font>，后面<font color="red">多加斜杠&#x2F;直接报错</font></p>
+<p><strong>successfully installed</strong>  </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs sh">(HiC_Pro_ENV) [HiC-Pro-3.1.0]$ vi config-install.txt <br>PREFIX = ////software<br>(HiC_Pro_ENV) [HiC-Pro-3.1.0]$ make configure<br>make -f ./scripts/install/Makefile CONFIG_SYS=./config-install.txt<br>make[1]: Entering directory <span class="hljs-string">&#x27;~/HiC-Pro-3.1.0&#x27;</span><br>./scripts/install/install_dependencies.sh -c ./config-install.txt -p ~/software -o ~/software/HiC-Pro_3.1.0 -q<br>Make sure internet connection works <span class="hljs-keyword">for</span> your shell prompt under current user<span class="hljs-string">&#x27;s privilege ...</span><br><span class="hljs-string">Starting HiC-Pro installation !</span><br><span class="hljs-string">Checking dependencies</span><br><span class="hljs-string">- Python libraries ...OK</span><br><span class="hljs-string">- R installation ...OK</span><br><span class="hljs-string">- Bowtie2 installation ...OK</span><br><span class="hljs-string">- Samtools installation ...OK</span><br><span class="hljs-string">Checking HiC-Pro configuration</span><br><span class="hljs-string">- Configuration for TORQUE/PBS system ...OK</span><br><span class="hljs-string">done !</span><br><span class="hljs-string">make[1]: Leaving directory &#x27;</span>~/HiC-Pro-3.1.0<span class="hljs-string">&#x27;</span><br><span class="hljs-string"></span><br><span class="hljs-string">(/HiC_Pro_ENV) [HiC-Pro-3.1.0]$ make install</span><br><span class="hljs-string">(g++ -Wall -O2 -std=c++0x -o build_matrix ~/HiC-Pro-3.1.0/scripts/src/build_matrix.cpp; mv build_matrix ~/HiC-Pro-3.1.0/scripts)</span><br><span class="hljs-string">(g++ -Wall -O2 -std=c++0x -o cutsite_trimming ~/HiC-Pro-3.1.0/scripts/src/cutsite_trimming.cpp; mv cutsite_trimming ~/HiC-Pro-3.1.0/scripts)</span><br><span class="hljs-string">cp -Ri ~/HiC-Pro-3.1.0 ~/software/HiC-Pro_3.1.0</span><br><span class="hljs-string">HiC-Pro installed in ~/software/HiC-Pro_3.1.0 !</span><br></code></pre></td></tr></table></figure>
+
+<p>Issue from: <a target="_blank" rel="noopener" href="https://github.com/nservant/HiC-Pro/issues/289">https://github.com/nservant/HiC-Pro/issues/289</a></p>
+<blockquote>
+<p>you <font color="green"><strong>do not have the rigths</strong></font> to install HiC-Pro in <font color="green"><strong>&#x2F;usr&#x2F;local&#x2F;bin</strong></font><br>Update the <font color="green"><strong>PREFIX&#x3D; in the config-install.txt</strong></font> file before running the installation</p>
+<p>You <font color="green"><strong>cannot install it in the path where you have downloaded it</strong> </font>!Please <font color="green"><strong>set another prefix</strong></font>.Note that it will <font color="green"><strong>create the HiC-Pro_3.0.0 folder by itself</strong></font></p>
+</blockquote>
+<p><font color="red"><strong>NOTICE</strong></font></p>
+<ul>
+<li>.&#x2F;configure –prefix&#x3D;  &amp;&amp;  make  &amp;&amp;  make install</li>
+<li>Vim config-install.txt PREFIX  &amp;&amp;  make configure  &amp;&amp;  make install</li>
+</ul>
+<hr>
+<p><strong>bowtie_pairing] Error 1</strong><br><a target="_blank" rel="noopener" href="https://github.com/nservant/HiC-Pro/issues/482">https://github.com/nservant/HiC-Pro/issues/482</a></p>
+<p>Thu Sep 23 04:23:58 CST 2021<br>Pairing of R1 and R2 tags …<br>Logs: logs&#x2F;sample1&#x2F;mergeSAM.log<br>make: *** [bowtie_pairing] Error 1</p>
+<p>the mergeSAM.log<br>~&#x2F;miniconda3&#x2F;envs&#x2F;hic-pro_env&#x2F;bin&#x2F;python ~&#x2F;02_software&#x2F;hic-pro&#x2F;HiC-Pro-3.1.0&#x2F;scripts&#x2F;mergeSAM.py -q 10 -t -v -f bowtie_results&#x2F;bwt2&#x2F;sample1&#x2F;XB_R1_merged_canu_asm.fasta.bwt2merged.bam -r bowtie_results&#x2F;bwt2&#x2F;sample1&#x2F;XB_R2_merged_canu_asm.fasta.bwt2merged.bam -o bowtie_results&#x2F;bwt2&#x2F;sample1&#x2F;XB_merged_canu_asm.fasta.bwt2pairs.bam<br>[E::idx_find_and_load] Could not retrieve index file for ‘bowtie_results&#x2F;bwt2&#x2F;sample1&#x2F;XB_R1_merged_canu_asm.fasta.bwt2merged.bam’<br>[E::idx_find_and_load] Could not retrieve index file for ‘bowtie_results&#x2F;bwt2&#x2F;sample1&#x2F;XB_R2_merged_canu_asm.fasta.bwt2merged.bam’</p>
+<p>mapping_combine.log:<br>[bam_sort_core] merging from 6120 files and 36 in-memory blocks…<br>[E::hts_open_format] Failed to open file “tmp&#x2F;XB_R1_merged_canu_asm.fasta.1018.bam” : Too many open files<br>samtools sort: fail to open “tmp&#x2F;XB_R1_merged_canu_asm.fasta.1018.bam”: Too many open files</p>
+<p>yes well done ! So the samtools sort failed.<br>If you look at your command, -@ 36 -m 21M, means that it only has 21Mo to sort the file which is too few.<br>So it has to swap a lot, and generate too many tmp files.<br>This memory parameter is in your configuration file SORT_RAM. By default, it is set to 768M</p>
+<p>Actually, the SORT_RAM parameter is divided by the number of CPUs<br>For instance, using 1000M with 4 CPUs means that samtools sort is run with 250M of RAM.<br>So it makes sense … you have 1000M &#x2F; 36 CPU &#x3D; 27M of RAM.<br>I would suggest to decrease the number of CPU to 8 for instance … this is enough ! or to increase again the SORT_RAM parameter.</p>
+<hr>
+<p>ref</p>
+<p><a target="_blank" rel="noopener" href="https://www.plob.org/article/24873.html">https://www.plob.org/article/24873.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://lxz9.com/2021/08/05/ALLHIC/">https://lxz9.com/2021/08/05/ALLHIC/</a> ALLHiC</p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/assembly/">#assembly</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>HiFi-5-[HiC-Pro]-[MCscan]-[ALLHiC]</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/03/09/2022-03-09-HiFi-5-HiC-Pro/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 9, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/14/2022-03-14-HiFi-6-HiC-assembly/" title="HiFi-6-[HiFi-HiC-assembly-method]">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HiFi-6-[HiFi-HiC-assembly-method]</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/06/2022-03-06-Linux-grid/" title="【Linux集群任务调度系统】【LSF/SGE/Slurm/PBS】【grid】">
+                        <span class="hidden-mobile">【Linux集群任务调度系统】【LSF/SGE/Slurm/PBS】【grid】</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>

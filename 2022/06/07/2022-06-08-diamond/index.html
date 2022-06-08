@@ -1,73 +1,1106 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="Accelerated BLAST compatible local sequence aligner 2021-Sensitive protein alignments at tree-of-life scale using DIAMOND 2015-Fast and sensitive protein alignment using DIAMOND">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Diamond">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/06/07/2022-06-08-DIAMOND/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="Accelerated BLAST compatible local sequence aligner 2021-Sensitive protein alignments at tree-of-life scale using DIAMOND 2015-Fast and sensitive protein alignment using DIAMOND">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-07T12:34:48.888Z">
+<meta property="article:modified_time" content="2022-06-08T01:31:13.595Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="blast">
+<meta property="article:tag" content="diamond">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Diamond - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Diamond"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-07 20:34" pubdate>
+          June 7, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          20k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          166 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Diamond</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 8, 2022 am
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>Accelerated BLAST compatible local sequence aligner</p>
+<p><a target="_blank" rel="noopener" href="https://doi.org/10.1038/s41592-021-01101-x">2021-Sensitive protein alignments at tree-of-life scale using DIAMOND</a></p>
+<p><a target="_blank" rel="noopener" href="https://doi.org/10.1038/nmeth.3176">2015-Fast and sensitive protein alignment using DIAMOND</a></p>
+<span id="more"></span>
+
+<h1 id="Quick-start💎"><a href="#Quick-start💎" class="headerlink" title="Quick start💎"></a>Quick start💎</h1><p><a target="_blank" rel="noopener" href="https://github.com/bbuchfink/diamond">https://github.com/bbuchfink/diamond</a></p>
+<p>DIAMOND is a sequence aligner for <font color="green"><strong>protein and translated DNA searches</strong></font>, designed for high performance analysis of big sequence data. The key features are:</p>
+<ul>
+<li>Pairwise alignment of proteins and translated DNA at <strong>100x-10,000x speed of BLAST</strong>.</li>
+<li>Frameshift alignments for long read analysis.</li>
+<li><strong>Low resource requirements</strong> and suitable for running on standard desktops or laptops.</li>
+<li>Various <strong>output</strong> formats, including BLAST <strong>pairwise</strong>, <strong>tabular</strong> and <strong>XML</strong>, as well as taxonomic classification.</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># downloading the tool</span><br><span class="hljs-comment">#A precompiled binary is available for recent Linux systems and may be downloaded for immediate use</span><br>wget http://github.com/bbuchfink/diamond/releases/download/v2.0.14/diamond-linux64.tar.gz<br>tar xzf diamond-linux64.tar.gz<br><span class="hljs-comment"># creating a diamond-formatted database file</span><br>./diamond makedb --<span class="hljs-keyword">in</span> reference.fasta -d reference<br><span class="hljs-comment">#A binary file **.dmnd will be created</span><br><span class="hljs-comment"># running a search in blastp mode</span><br>./diamond blastp -d reference -q queries.fasta -o matches.tsv<br><span class="hljs-comment"># running a search in blastx mode</span><br>./diamond blastx -d reference -q reads.fasta -o matches.tsv<br><span class="hljs-comment"># downloading and using a BLAST database</span><br>update_blastdb.pl --decompress --blastdb_version 5 swissprot<br>./diamond prepdb -d swissprot<br>./diamond blastp -d swissprot -q queries.fasta -o matches.tsv<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs sh">--<span class="hljs-keyword">in</span><br>--db/-d<br>--query/-q<br>--out/-o <span class="hljs-comment">#output</span><br>-threads/-p<br>--sensitive(default fast)<br>--outfmt/-f<br>	5 XML<br>	6 tab<br>	100 Diamond alignment archive(DAA)<br>	101 SAM<br>-max-target-seqs/--top<br>--<span class="hljs-built_in">id</span> <span class="hljs-comment">#min identity, not recommend </span><br>--evalue/-e<br>--block-size(-b) (default 2.0)<br>--index-chunks(-c) <span class="hljs-comment"># number of chunks for index processing</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">diamond blastp \<br>--db /path/to/protein.dmnd \<br>--query /path/to/genome.faa <br>-e 1e-5 --outfmt 6 --more-sensitive --max-target-seqs 1 --threads 20 --quiet \<br>--out /path/to/anno.txt<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="Attention-please"><a href="#Attention-please" class="headerlink" title="Attention please"></a>Attention please</h1><ul>
+<li><p><font color="green"><strong>Repeat masking is applied to the query and reference sequences by default</strong></font>. To disable it, use <code>--masking 0</code>.</p>
+</li>
+<li><p><strong>DIAMOND is optimized for <font color="green">large input</font> files of &gt;1 million proteins.</strong> Naturally the tool can be used for smaller files as well, but the algorithm will not reach its full efficiency.</p>
+</li>
+<li><p>The program may use quite a lot of <font color="green"><strong>memory</strong></font> and also <font color="green"><strong>temporary disk space</strong></font>. Should the program fail due to running out of either one, you need to set a lower value for the<font color="red"> <a target="_blank" rel="noopener" href="https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#memory--performance-options">block size parameter</a> <code>-b</code>.</font></p>
+</li>
+<li><p>The sensitivity can be adjusted using the options </p>
+<ul>
+<li><code>--fast</code></li>
+<li><code>--mid-sensitive</code></li>
+<li><code>--sensitive</code></li>
+<li><code>--more-sensitive</code></li>
+<li><code>--very-sensitive</code> </li>
+<li><code>--ultra-sensitive</code></li>
+</ul>
+<p>The <strong>default mode is the fastest</strong> and tailored towards finding homologies of <font color="green"><strong>&gt;70% sequence identity</strong></font>, the <code>--sensitive</code> mode is tailored to hits of <font color="green"><strong>&gt;40% identity</strong></font>, while the <code>--very-sensitive</code> and <code>--ultra-sensitive</code> modes provide sensitivity accross the <font color="green"><strong>whole range</strong></font> of pairwise alignments.</p>
+</li>
+</ul>
+<h1 id="Command"><a href="#Command" class="headerlink" title="Command"></a>Command</h1><ul>
+<li><p><strong>makedb</strong></p>
+<p>Create a <strong>DIAMOND formatted reference database</strong> from a FASTA input file.</p>
+</li>
+<li><p><strong>prepdb</strong></p>
+<p><font color="green"><strong>Prepare BLAST database for use with Diamond</strong></font>. This call requires <strong>the path to the BLAST database</strong> (option <code>-d</code>) and will write a number of <strong>small auxiliary files into</strong> the database directory.</p>
+</li>
+<li><p><strong>blastp</strong></p>
+<p>Align protein query sequences against a protein reference database.</p>
+</li>
+<li><p><strong>blastx</strong></p>
+<p>Align translated DNA query sequences against a protein reference database.</p>
+</li>
+<li><p><code>view</code></p>
+<p>Generate formatted output from DAA files.</p>
+</li>
+<li><p><code>version</code></p>
+<p>Print version information.</p>
+</li>
+<li><p><code>dbinfo</code></p>
+<p>Print information about a database file.</p>
+</li>
+<li><p><code>help</code></p>
+<p>Print help message.</p>
+</li>
+<li><p><code>test</code></p>
+<p>Run a series of test cases and verify the output against reference hashes. This command will exit with code <code>0</code> if all tests have passed and <code>1</code> otherwise. Running this command requires write access to the current working directory.</p>
+</li>
+</ul>
+<p>#Command make db</p>
+<ul>
+<li><p><code>--in &lt;file&gt;</code></p>
+<p> <strong>input</strong> protein <strong>reference</strong> database file in FASTA (may be gzip compressed)</p>
+</li>
+<li><p><code>--db/-d &lt;file&gt;</code></p>
+<p><strong>Path</strong> to the output DIAMOND database file.</p>
+</li>
+<li><p><code>--taxonmap &lt;file&gt;</code></p>
+<p>Path to mapping file that maps NCBI protein accession numbers to taxon ids (gzip compressed). This parameter is optional and needs to be supplied in order to <strong>provide taxonomy features</strong>. The file can be downloaded from NCBI:<a href="ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.FULL.gz">ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.FULL.gz</a></p>
+<p>Versions older than v2.0.7 only support the reduced mapping file:<a href="ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz">ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz</a></p>
+<p>A custom file following the same format may be supplied here. Note that the first line of this file is assumed to contain headings and will be ignored.</p>
+</li>
+<li><p><code>--taxonnodes &lt;file&gt;</code></p>
+<p>Path to the <code>nodes.dmp</code> file from the NCBI taxonomy. This parameter is optional and needs to be supplied in order to <strong>provide taxonomy features</strong>. The file is contained within this archive downloadable at NCBI: <a href="ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdmp.zip">ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdmp.zip</a>.</p>
+</li>
+<li><p><code>--taxonnames &lt;file&gt;</code></p>
+<p>Path to the <code>names.dmp</code> file from the NCBI taxonomy. This parameter is optional and needs to be supplied in order to <strong>provide taxonomy features</strong>. The file is contained within this archive downloadable at NCBI: <a href="ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdmp.zip">ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdmp.zip</a>.</p>
+</li>
+</ul>
+<h1 id="General-options"><a href="#General-options" class="headerlink" title="General options"></a>General options</h1><ul>
+<li><p><code>--threads/-p </code></p>
+<p><font color="red"><strong>CPU threads</strong></font></p>
+</li>
+<li><p><code>--quiet</code></p>
+<p>Disable all terminal output.</p>
+</li>
+<li><p><code>--verbose/-v</code></p>
+<p>Enable more verbose terminal output.</p>
+</li>
+<li><p><code>--log</code></p>
+<p>written to a file named <code>diamond.log</code> is the current working directory.</p>
+</li>
+</ul>
+<h1 id="Input-options"><a href="#Input-options" class="headerlink" title="Input options"></a>Input options</h1><ul>
+<li><p><code>--db/-d &lt;file&gt;</code></p>
+<p>Path to the <strong>DIAMOND db</strong> file. </p>
+<p>Since v2.0.10, BLAST db have to be prepared using the <code>prepdb</code>command. </p>
+<p><strong>Note that for <font color="green">self-made</font> BLAST db, makeblastdb should be used with the <font color="green">-parse_seqids</font> option.</strong></p>
+</li>
+<li><p><code>--query/-q &lt;file&gt;</code></p>
+<p>Path to the <strong>query input file</strong> in FASTA or FASTQ format (may be gzip compressed)</p>
+</li>
+<li><p><code>--taxonlist &lt;list&gt;</code></p>
+<p>Comma-separated list of NCBI taxonomic IDs to filter the database by. </p>
+<p>Any taxonomic rank can be used, and <strong>only reference sequences matching one of the specified taxon ids will be searched</strong> against. </p>
+<p>Using this option requires setting the <code>--taxonmap</code> and <code>--taxonnodes</code> parameters for <code>makedb</code>.</p>
+</li>
+<li><p><code>--seqidlist &lt;filename&gt;</code></p>
+<p>Filter the database by a list of accessions provided as a text file. <em>Only supported when using a BLAST database.</em></p>
+</li>
+<li><p><code>--query-gencode </code></p>
+<p>Genetic code used for translation of query in BLASTX mode. A list of possible values can be found at the <a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi">NCBI website</a>. <strong>By default, the Standard Code is used</strong>. Note: changing the genetic code is currently not fully supported for the DAA format.</p>
+</li>
+<li><p><code>--strand &#123;both, plus, minus&#125;</code></p>
+<p>Set strand of query to align for translated searches. <strong>By default both strands</strong> are searched.</p>
+</li>
+<li><p><code>--min-orf/-l #</code></p>
+<p>Ignore translated sequences that do not contain an <strong>open reading frame</strong> of at least this <strong>length</strong>. By <strong>default</strong> this feature is disabled for sequences of length below <strong>30</strong>, set to 20 for sequences of length below 100, and set to 40 otherwise. Setting this option to <code>1</code> will disable this feature.</p>
+</li>
+</ul>
+<h1 id="Sensitivity-modes"><a href="#Sensitivity-modes" class="headerlink" title="Sensitivity modes"></a>Sensitivity modes</h1><p>the default sensitivity mode will run which is designed for finding hits of <strong>&gt;60% identity</strong> and short read alignment. [&gt;70%??]</p>
+<ul>
+<li><p><code>--fast</code></p>
+<p>faster than default, &gt;90% identity. </p>
+</li>
+<li><p><code>--mid-sensitive</code></p>
+<p>between the <strong>default mode</strong> and the <strong>sensitive mode</strong> .  [40-60?]</p>
+</li>
+<li><p><code>--sensitive</code></p>
+<p>full sensitivity for hits of &gt;40% identity.</p>
+</li>
+<li><p><code>--more-sensitive</code></p>
+<p>This mode is equivalent to the <code>--sensitive</code> mode <strong>except for soft-masking of certain motifs being disabled</strong> (same as setting <code>--motif-masking 0</code>).</p>
+</li>
+<li><p><code>--very-sensitive</code></p>
+<p>Enable the very-sensitive mode designed for best sensitivity including the twilight?? zone range of &lt;40% identity.</p>
+</li>
+<li><p><code>--ultra-sensitive</code></p>
+<p>more sensitive than the <code>--very-sensitive</code> mode.</p>
+</li>
+</ul>
+<h1 id="Alignment-options"><a href="#Alignment-options" class="headerlink" title="Alignment options"></a>Alignment options</h1><ul>
+<li><p><code>--iterate</code></p>
+<p>Run <strong>multiple rounds</strong> of searches with <strong>increasing sensitivity</strong>. </p>
+<p>This option may improve performance by a lot if only a single best alignment is required for each query.</p>
+<p>The sensitivity modes of the earlier rounds prior to the target sensitivity are set automatically, but can also be specified using a space-separated list following <code>--iterate sensitive</code> </p>
+</li>
+<li><p><code>--global-ranking/-g #</code></p>
+<p>! Set a hard limit on the number of Smith Waterman extensions that will be computed for each query. Target sequences will be ranked according to their ungapped extension scores at seed hits, and gapped extensions will only be computed for the best N targets for each query. Note that this option increases memory use. </p>
+</li>
+<li><p><code>--frameshift/-F #</code></p>
+<p><strong>Penalty for frameshifts in DNA-vs-protein alignments</strong>. Values around 15 are reasonable for this parameter. Enabling this feature will have the aligner tolerate missing bases in DNA sequences and is most recommended for long, error-prone sequences like MinION reads.<br>In the pairwise output format, frameshifts will be indicated by <code>\</code> and <code>/</code> for a shift by +1 and -1 nucleotide in the direction of translation respectively. Note that this feature is disabled by default.</p>
+</li>
+<li><p><code>--gapopen #</code></p>
+<p>Gap <strong>open</strong> penalty.</p>
+</li>
+<li><p><code>--gapextend #</code></p>
+<p>Gap <strong>extension</strong> penalty.</p>
+</li>
+<li><p><code>--matrix &lt;matrix name&gt;</code></p>
+<p>Scoring matrix.  default  <strong>BLOSUM62</strong>.</p>
+</li>
+<li><p><code>--custom-matrix &lt;file&gt;</code></p>
+<p>Use a custom scoring matrix</p>
+</li>
+<li><p><code>--masking (0,1,seg)</code></p>
+<p><strong>DIAMOND by default applies the tantan repeat masking algorithm</strong> to the query and target sequences as described in (Frith, 2011). This masking procedure increases the specificity of alignments and serves to filter out spurious hits. If this is not desired, repeat masking can be disabled using <code>--masking 0</code>, or the default BLASTP SEG masking can be used instead by setting <code>--masking seg</code> (<em>supported since v2.0.12</em>). Note that when using <code>--comp-based-stats (2,3,4)</code>, tantan masking is disabled by default.</p>
+</li>
+<li><p><code>--comp-based-stats (0,1,2,3,4)</code></p>
+<p>Enable composition based statistics. These algorithms adjust alignment scores based on sequence composition in order to improve search specificity. The following modes are supported:</p>
+<ul>
+<li><code>0</code> Disable composition based statistics.</li>
+<li><code>1</code> Compositional correction as described in (Hauser, 2016). <em>This mode is the default.</em></li>
+<li><code>2</code> Compositional matrix adjust as described in (Yu, 2005), conditioned on sequence properties. An adjusted matrix is used if the compositional angle (Altschul, 2005) between the sequence pairs is less than 50 degrees, otherwise falling back on the (Hauser, 2016) method. This mode also uses a simplified version of the algorithm that runs faster, but produces slightly less accurate scores. <em>Supported since v2.0.6.</em></li>
+<li><code>3</code> Compositional matrix adjust as described in (Yu, 2005), conditioned on sequence properties. An adjusted matrix is used if the compositional angle (Altschul, 2005) between the sequence pairs is less than 50 degrees, otherwise falling back on the (Hauser, 2016) method. <em>Supported since v2.0.6.</em></li>
+<li><code>4</code> Compositional matrix adjust as described in (Yu, 2005), unconditionally. An adjusted matrix is computed for all alignments, which substantially reduces performance, but provides the highest accuracy. <em>Supported since v2.0.6.</em></li>
+</ul>
+<p>The (Yu, 2005) method is the same algorithm also used by NCBI BLAST.</p>
+<p>Modes <code>0</code> and <code>1</code> use tantan repeat masking by default, while modes <code>2</code>, <code>3</code> and <code>4</code> do <em>not</em> use tantan repeat masking by default. These modes will instead apply a more conservative SEG masking to only the target sequences (parameters: window&#x3D;10, locut&#x3D;1.8, hicut&#x3D;2.1). This is the same masking that is also used by BLASTP by default, and these modes will therefore produce scores and alignments that are more similar to those of BLAST.</p>
+<p>Modes 2-4 are not yet supported for translated searches (blastx mode).</p>
+</li>
+<li><p><code>--algo (0,1,ctg)</code></p>
+<p>Algorithm for seed search. <code>0</code> means double-indexed and is the main algorithm of the program, <strong>designed for large input files but less efficient for small query files</strong> .</p>
+<p><code>1</code> means query-indexed and improves performance for <strong>small query files</strong>. This mode will be <strong>automatically triggered based on the input</strong>.</p>
+<p><code>ctg</code> means contiguous-seed mode and further improves performance for <strong>small query files</strong>. This mode needs to be <strong>manually set by the user</strong> (<em>available since v2.0.10</em>).</p>
+<p>The modes <strong>differ slightly</strong> in their sensitivity, so results are not guaranteed to be 100% identical for different settings of this option.</p>
+</li>
+</ul>
+<h1 id="Output-options"><a href="#Output-options" class="headerlink" title="Output options"></a>Output options</h1><ul>
+<li><p><code>--out/-o &lt;file&gt;</code></p>
+<p>Path to the output file. </p>
+</li>
+<li><p><code>--outfmt/-f #</code></p>
+<p>Format of the output file. The following values are accepted:</p>
+<ul>
+<li><p><code>0</code><br>BLAST <strong>pairwise</strong> format.</p>
+</li>
+<li><p><code>5</code><br>BLAST <strong>XML</strong> format.</p>
+</li>
+<li><p><code>6</code><br>BLAST <strong>tabular</strong> format (<strong>default</strong>). This format can be customized, the <code>6</code> may be <strong>followed by a space-separated list of the following keywords,</strong> each specifying a field of the output.</p>
+<ul>
+<li><code>qseqid</code> Query Seq - id</li>
+<li><code>qlen</code> Query sequence length</li>
+<li><code>sseqid</code> Subject Seq - id</li>
+<li><code>sallseqid</code> All subject Seq - id(s), separated by a ’;’</li>
+<li><code>slen</code> Subject sequence length</li>
+<li><code>qstart</code> Start of alignment in query*</li>
+<li><code>qend</code> End of alignment in query*</li>
+<li><code>sstart</code> Start of alignment in subject*</li>
+<li><code>send</code> End of alignment in subject*</li>
+<li><code>qseq</code> Aligned part of query sequence*</li>
+<li><code>qseq_translated</code> Aligned part of query sequence (translated)* <em>Supported since v2.0.7.</em></li>
+<li><code>full_qseq</code> Full query sequence</li>
+<li><code>full_qseq_mate</code> Query sequence of the mate (requires two files for <code>--query</code>) <em>Supported since v2.0.7.</em></li>
+<li><code>sseq</code> Aligned part of subject sequence*</li>
+<li><code>full_sseq</code> Full subject sequence</li>
+<li><code>evalue</code> Expect value</li>
+<li><code>bitscore</code> Bit score</li>
+<li><code>score</code> Raw score</li>
+<li><code>length</code> Alignment length*</li>
+<li><code>pident</code> Percentage of identical matches*</li>
+<li><code>nident</code> Number of identical matches*</li>
+<li><code>mismatch</code> Number of mismatches*</li>
+<li><code>positive</code> Number of positive - scoring matches*</li>
+<li><code>gapopen</code> Number of gap openings*</li>
+<li><code>gaps</code> Total number of gaps*</li>
+<li><code>ppos</code> Percentage of positive - scoring matches*</li>
+<li><code>qframe</code> Query frame</li>
+<li><code>btop</code> Blast traceback operations(BTOP)*</li>
+<li><code>cigar</code> CIGAR string*</li>
+<li><code>staxids</code> Unique Subject Taxonomy ID(s), separated by a ’;’ (in numerical order). This field requires setting the <code>--taxonmap</code> parameter for <code>makedb</code>.</li>
+<li><code>sscinames</code> Unique Subject Scientific Name(s), separated by a ‘;’. This field requires setting the <code>--taxonmap</code>and <code>--taxonnames</code> parameters for <code>makedb</code>.</li>
+<li><code>sskingdoms</code> Unique Subject Super Kingdom(s), separated by a ‘;’. This field requires setting the <code>--taxonmap</code>, <code>--taxonnodes</code> and <code>--taxonnames</code> parameters for <code>makedb</code>.</li>
+<li><code>skingdoms</code> Unique Subject Kingdom(s), separated by a ‘;’. This field requires setting the <code>--taxonmap</code>, <code>--taxonnodes</code> and <code>--taxonnames</code> parameters for <code>makedb</code>.</li>
+<li><code>sphylums</code> Unique Subject Phylums(s), separated by a ‘;’. This field requires setting the <code>--taxonmap</code>, <code>--taxonnodes</code> and <code>--taxonnames</code> parameters for <code>makedb</code>.</li>
+<li><code>stitle</code> Subject Title</li>
+<li><code>salltitles</code> All Subject Title(s), separated by a ’&lt;&gt;’</li>
+<li><code>qcovhsp</code> Query Coverage Per HSP*</li>
+<li><code>scovhsp</code> Subject Coverage Per HSP*</li>
+<li><code>qtitle</code> Query title</li>
+<li><code>qqual</code> Query quality values for the aligned part of the query*</li>
+<li><code>full_qqual</code> Query quality values</li>
+<li><code>qstrand</code> Query strand</li>
+</ul>
+<p>By default, <strong>12 preconfigured fields</strong>: <code>qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore</code>.</p>
+<p><strong>These fields require alignment traceback. If none of these fields are selected, traceback computation will be disabled, which improves performance and reduces use of temporary disk space.</strong></p>
+</li>
+<li><p><code>100</code><br>DIAMOND alignment archive (DAA). The DAA format is a proprietary binary format that can subsequently be used to generate other output formats using the <code>view</code> command. It is also supported by MEGAN and allows a quick import of results. <em>Note that this format does not support streaming output or taxonomy features. It is considered a legacy format at this time.</em></p>
+</li>
+<li><p><code>101</code><br><strong>SAM</strong> format.</p>
+</li>
+<li><p><code>102</code><br><strong>Taxonomic classification</strong>. This format will not print alignments but <strong>only a taxonomic classification for each query</strong> using the LCA algorithm. The output lines consist of 3 tab-delimited fields:</p>
+<ol>
+<li>Query ID</li>
+<li>NCBI taxonomy ID (0 if unclassified)</li>
+<li>E-value of the best alignment with a known taxonomic ID found for the query (0 if unclassified)</li>
+</ol>
+<p>The score range for the LCA algorithm is set by the <code>--top</code> parameter. The default value is 10 which means that all alignments whose score is at most 10% lower than the best score are considered for the LCA computation.</p>
+<p>Using this format requires setting the <code>--taxonmap</code> and <code>--taxonnodes</code> parameters for <code>makedb</code>.</p>
+</li>
+<li><p><code>103</code><br><a target="_blank" rel="noopener" href="https://github.com/lh3/miniasm/blob/master/PAF.md">PAF format</a>. The custom fields in the format are AS (bit score), ZR (raw score) and ZE (e-value).</p>
+</li>
+</ul>
+</li>
+<li><p><code>--salltitles</code></p>
+<p>Include full length subject titles into the <strong>DAA</strong> format. By default, DAA files contain only the shortened sequence id (up to the first blank character).</p>
+</li>
+<li><p><code>--sallseqid</code></p>
+<p>Include all subject ids into the <strong>DAA</strong> file. By default only the first id of each subject is included. As the subject ids are much shorter than the full titles this option will save space compared to the <code>--salltitles</code> option.</p>
+</li>
+<li><p><code>--compress (0,1,zstd)</code></p>
+<p><strong>Enable compression of the output file</strong>. <code>0</code> (default) means no compression, <code>1</code> means gzip compression, <code>zstd</code> means zstd compression (executable is required to have been compiled with zstd support).</p>
+</li>
+<li><p><code>--max-target-seqs/-k #</code></p>
+<p>The <strong>maximum number of target sequences</strong> per query to report alignments for (<strong>default&#x3D;25</strong>). Setting this to <code>-k0</code> will report <strong>all targets</strong> for which alignments were found.</p>
+<p><em>Note that this parameter does not only affect the reporting, but also the algorithm as it is taken into account for heuristics that eliminate hits prior to full gapped extension.</em></p>
+</li>
+<li><p><code>--top #</code></p>
+<p>Report alignments within the given percentage range of the top alignment score for a query (overrides <code>--max-target-seqs</code> option). For example, setting <code>--top 10</code> will report all alignments whose <strong>score is at most 10% lower than the best alignment score</strong> for a query. Using this option will cause targets to be <strong>sorted by bit score instead of e-evalue</strong> in the output.</p>
+<p><em>Note that this parameter does not only affect the reporting, but also the algorithm as it is taken into account for heuristics that eliminate hits prior to full gapped extension.</em></p>
+</li>
+<li><p><code>--max-hsps #</code></p>
+<p><strong>The maximum number of HSPs (High-Scoring Segment Pairs) per target</strong> sequence to report for each query. The <strong>default</strong> policy is to report <strong>only the highest-scoring HSP</strong> for each target, while disregarding alternative, lower-scoring HSPs that are contained in the same target. <strong>This is not to be confused with the –max-target-seqs option.</strong></p>
+<p>This parameter can be increased to report an alternative HSP if its query and subject ranges are not enveloped by a higher scoring HSP and if it meets the e-value threshold. Setting this option to <code>--max-hsps 0</code> will <strong>report all alternative HSPs</strong>.</p>
+<p>A non-default setting will always recompute a full-matrix Smith Waterman alignment with the range of the best HSP masked in the target (<em>since v2.0.12</em>). Therefore using this setting will reduce performance substantially.</p>
+</li>
+<li><p><code>--range-culling</code></p>
+<p>Enable hit culling with respect to the query range. This feature is designed for <strong>long query DNA sequences</strong> that may <strong>span several genes</strong>. In these cases, reporting the overall top N hits can cause hits to a lower-scoring gene to be superseded by a higher-scoring gene. Using this option, hit culling will be performed locally with respect to a hit’s query range, thus reporting the locally top N hits while allowing more hits that span a different region of the query.</p>
+<p>Using this feature along with <code>-k 25</code> (default), a hit will only be deleted if at least 50% of its query range is spanned by at least 25 higher or equal scoring hits.</p>
+<p>Using this feature along with <code>--top 10</code>, a hit will only be deleted if its score is more than 10% lower than that of a higher scoring hit over at least 50% of its query range.</p>
+<p>The overlap percentage is configurable using <code>--range-cover</code>. Note that this feature is currently only available in frameshift alignment mode.</p>
+</li>
+<li><p><font color="red"><strong>–evalue&#x2F;-e #</strong></font></p>
+<p>Maximum expected value to report an alignment (<strong>default&#x3D;0.001</strong>).</p>
+</li>
+<li><p><code>--min-score #</code></p>
+<p><strong>Minimum bit score</strong> to report an alignment. Setting this option will <strong>override</strong> the <code>--evalue</code> parameter.</p>
+</li>
+<li><p><code>--id #</code></p>
+<p>Report <strong>only</strong> alignments above the <strong>given percentage of sequence identity</strong>.</p>
+<p><em>Note that using this option reduces performance.</em></p>
+</li>
+<li><p><code>--query-cover #</code></p>
+<p>Report <strong>only</strong> alignments <strong>above</strong> the given percentage of <strong>query cover</strong>.</p>
+<p><em>Note that using this option reduces performance.</em></p>
+</li>
+<li><p><code>--subject-cover #</code></p>
+<p>Report <strong>only</strong> alignments above the <strong>given percentage of subject cove</strong>r.</p>
+<p><em>Note that using this option reduces performance.</em></p>
+</li>
+<li><p><code>--unal (0,1)</code></p>
+<p>Report unaligned queries (0&#x3D;no, 1&#x3D;yes). By default, <strong>unaligned queries</strong> are reported for the BLAST pairwise, BLAST XML and SAM format.</p>
+</li>
+<li><p><code>--no-self-hits</code></p>
+<p>Suppress reporting of identical self-hits between sequences. The FASTA sequence identifiers as well as the sequences of query and target need to be identical for a hit to be deleted.</p>
+</li>
+</ul>
+<h1 id="Memory-options"><a href="#Memory-options" class="headerlink" title="Memory options"></a>Memory options</h1><ul>
+<li><p><code>--block-size/-b #</code></p>
+<p>Block size in billions of sequence letters to be processed at a time. This is the main parameter for controlling the program’s <strong>memory and disk space usage</strong>. </p>
+<p>The default value is <code>-b2.0</code>. The parameter can be decreased for reducing memory use, as well as increased for better performance ( <strong>&gt;20  not recommended</strong>).</p>
+<p>The very-sensitive and ultra-sensitive modes use <code>-b0.4</code> as a default. Note that these two modes benefit only slightly from increasing this parameter.</p>
+<p>Note that this parameter affects the algorithm and <strong>results will not be completely identical</strong> for <strong>different values of the block size</strong>.</p>
+</li>
+<li><p><code>--tmpdir/-t &lt;directory&gt;</code></p>
+<p>This is <strong>set to the output directory by defau</strong>lt. &gt;100 GB available </p>
+<p><font color="red">If the program is being run in a <strong>cluster environment</strong>, and disk space is mounted over a <strong>network based file system</strong>, it is recommended to <strong>set this parameter to a fast local disk</strong> or to <code>/dev/shm</code> to <strong>avoid any I&#x2F;O bottlenecks</strong>.</font></p>
+</li>
+<li><p><code>--index-chunks/-c #</code></p>
+<p>The number of chunks for processing the seed index. This option can be additionally used to tune the performance. The default value is <code>-c4</code>, while setting this parameter to <code>-c1</code> instead will improve the performance at the cost of increased memory use. Note that the <strong>very-sensitive and ultra-sensitive</strong> modes use <strong>-c1 by default</strong>.</p>
+</li>
+</ul>
+<h1 id="View-options"><a href="#View-options" class="headerlink" title="View options"></a>View options</h1><ul>
+<li><p><code>--daa/-a &lt;file&gt;</code></p>
+<p>Path to input file in DAA format.</p>
+</li>
+<li><p><code>--out/-o &lt;file&gt;</code></p>
+<p><strong>Path to output file.</strong></p>
+</li>
+</ul>
+<p>These aligner parameters apply to the view command as well and work in the same way: <code>--outfmt</code>, <code>--compress</code>, <code>--max-target-seqs</code>, <code>--top</code>. Note that taxonomy features are currently not available for the DAA format.</p>
+<h1 id="Success-symbol"><a href="#Success-symbol" class="headerlink" title="Success symbol"></a>Success symbol</h1><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Total</span> time = <span class="hljs-number">5</span>.<span class="hljs-number">494</span>s<br><span class="hljs-attribute">Reported</span> <span class="hljs-number">74440</span> pairwise alignments, <span class="hljs-number">74440</span> HSPs.<br><span class="hljs-attribute">14323</span> queries aligned.<br></code></pre></td></tr></table></figure>
+
+<h1 id="Output-tsv"><a href="#Output-tsv" class="headerlink" title="Output tsv"></a>Output tsv</h1><p>tabular-separated (TSV) format composed of 12 fields, equal to BLAST  -outfmt 6</p>
+<ol>
+<li><strong>Query accession</strong></li>
+<li><strong>Target accession</strong></li>
+<li><strong>Sequence identity</strong></li>
+<li><strong>Length</strong>: The total length of the local alignment, which <strong>including matching</strong> and <strong>mismatching</strong> positions of query and subject, as well as <strong>gap positions</strong> in the query and subject.</li>
+<li><strong>Mismatches</strong></li>
+<li><strong>Gap openings</strong></li>
+<li><strong>Query start</strong>:  (1-based).</li>
+<li><strong>Query end</strong>: (1-based).</li>
+<li><strong>Target start</strong>:  (1-based).</li>
+<li><strong>Target end</strong>:  (1-based).</li>
+<li><strong>E-value</strong>: The expected value of the hit quantifies the number of alignments of similar or better quality that you expect to find searching this query against a database of random sequences the same size as the actual target database. This number is most useful for measuring the significance of a hit. By <strong>default</strong>, DIAMOND will report all alignments with <strong>e-value &lt; 0.001</strong>, meaning that a hit of this quality will be found by chance on average once per 1,000 queries.</li>
+<li><strong>Bit score</strong>: The bit score is a scoring matrix independent measure of the (local) similarity of the two aligned sequences, with higher numbers meaning more similar. It is <strong>always &gt;&#x3D; 0</strong> for <strong>local Smith Waterman alignments</strong>.</li>
+</ol>
+<p>Other available non-default fields </p>
+<h1 id="Using-blast-database"><a href="#Using-blast-database" class="headerlink" title="Using blast database?"></a>Using blast database?</h1><p><strong>Since version 2.0.8, this binary also includes support for using BLAST databases.</strong></p>
+<p><strong>Support for using BLAST databases in not included by default and needs to be enabled by linking against the libraries from the NCBI toolkit. This can either be done by using shared libraries provided by the operating system, or by using self-compiled libraries. The zstd library is required for compilation (see above).</strong></p>
+<h1 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h1><p><strong>How to run the program on multiple input files?</strong></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">zcat</span> <span class="hljs-regexp">*.fasta.gz</span> | diamond makedb -d diamond_db<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/bbuchfink/diamond/wiki/4.-Support-&amp;-FAQ">https://github.com/bbuchfink/diamond/wiki/4.-Support-&amp;-FAQ</a></p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/blast/">#blast</a>
+      
+        <a href="/GeekFocus/tags/diamond/">#diamond</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Diamond</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/06/07/2022-06-08-DIAMOND/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>June 7, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/06/08/2022-06-08-KAAS/" title="【FuncAnno】【KAAS】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【FuncAnno】【KAAS】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/06/07/2022-06-07-Linux/" title="Linux Note">
+                        <span class="hidden-mobile">Linux Note</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>
