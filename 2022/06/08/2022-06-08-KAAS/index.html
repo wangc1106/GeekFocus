@@ -1,73 +1,920 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="KEGG Automatic Annotation Server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【FuncAnno】【KAAS】">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/06/08/2022-06-08-KAAS/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="KEGG Automatic Annotation Server">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-06-08-KAAS/method2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-06-08-KAAS/method2.png">
+<meta property="article:published_time" content="2022-06-08T01:30:02.593Z">
+<meta property="article:modified_time" content="2022-06-09T08:46:24.756Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="FuncAnno">
+<meta property="article:tag" content="KAAS">
+<meta property="article:tag" content="KEGGgeneDB">
+<meta property="article:tag" content="KOdb">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/img/2022-06-08-KAAS/method2.png">
+  
+  
+  
+  <title>【FuncAnno】【KAAS】 - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【FuncAnno】【KAAS】"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-08 09:30" pubdate>
+          June 8, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          86 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【FuncAnno】【KAAS】</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 9, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <h1 id="KEGG-Automatic-Annotation-Server"><a href="#KEGG-Automatic-Annotation-Server" class="headerlink" title="KEGG Automatic Annotation Server"></a>KEGG Automatic Annotation Server</h1><span id="more"></span>
+
+<p>KEGG Automatic Annotation Server for ortholog assignment and pathway mapping</p>
+<p><a target="_blank" rel="noopener" href="https://www.genome.jp/tools/kaas/">https://www.genome.jp/tools/kaas/</a></p>
+<p>Jianshu.com&#x2F;p&#x2F;48716fa7321b</p>
+<p><strong>KAAS</strong> (KEGG Automatic Annotation Server) provides functional annotation of genes by <strong>BLAST</strong> or <strong>GHOST</strong> comparisons against the <strong>manually curated <font color="green">KEGG GENES database</font></strong>. The result contains <font color="green"><strong>KO (KEGG Orthology) assignments</strong></font> and automatically generated <strong>KEGG pathways</strong>.</p>
+<p><strong>KAAS</strong> (KEGG Automatic Annotation Server) provides functional annotations of genes in a genome by <strong>amino acid sequence comparisons</strong> against a manually curated set of ortholog groups in <a target="_blank" rel="noopener" href="https://www.genome.jp/kegg/genes.html">KEGG GENES</a>. The result contains <a target="_blank" rel="noopener" href="https://www.genome.jp/kegg/ko.html">KO</a> (<strong>KEGG Orthology</strong>) assignments and automatically generated <strong>KEGG pathways</strong> and <strong>functional classification</strong>s. This server is used internally to annotate query genes for the <a target="_blank" rel="noopener" href="https://www.genome.jp/tools/maple/">MAPLE</a> functional evaluator.</p>
+<hr>
+<h2 id="QUery-form"><a href="#QUery-form" class="headerlink" title="QUery form"></a>QUery form</h2><h3 id="Search-program"><a href="#Search-program" class="headerlink" title="Search program"></a>Search program</h3><p>four homology search programs are available for the initial screening to obtain similar sequences from the target database.</p>
+<p>- BLAST<br>- GHOSTX<br>- GHOSTZ</p>
+<p>In general, <a target="_blank" rel="noopener" href="http://www.bi.cs.titech.ac.jp/ghostx/">GHOSTX</a> is much faster than BLAST using a suffix array indexing, but is <strong>less accurate</strong>. <a target="_blank" rel="noopener" href="http://www.bi.cs.titech.ac.jp/ghostz/">GHOSTZ</a> uses a compressed database and is further faster, but is <strong>much less accurate</strong>. We recommend to use GHOSTX when you have a large number of query sequences or use a large target data set.</p>
+<h3 id="Query-sequences"><a href="#Query-sequences" class="headerlink" title="Query sequences"></a>Query sequences</h3><p>Pro seq for all search program. DNA seq(EST) using BLAST(TBLASTN)</p>
+<p><strong>unique IDs , not include tab characters</strong>.</p>
+<h3 id="E-mail-address"><a href="#E-mail-address" class="headerlink" title="E-mail address"></a>E-mail address</h3><p>Creat; submit; cancel; result</p>
+<h3 id="GENES-data-set"><a href="#GENES-data-set" class="headerlink" title="GENES data set"></a>GENES data set</h3><p> The accuracy will be improved if closely related species of the query are included in the data set.</p>
+<p>Only close species or 40?</p>
+<h3 id="KO-assignment"><a href="#KO-assignment" class="headerlink" title="KO assignment"></a>KO assignment</h3><p>KO assignment methods may be performed based on the <strong>bi-directional best hit (BBH, default)</strong> or <strong>single-directional best hit (SBH)</strong>.</p>
+<p>The computation of the BBH-based method takes about twice as much as that of SBH-based one. However, the <strong>BBH-based</strong> method will be <strong>more accurate</strong> than SBH-based one, if the query sequences is from a <strong>complete or draft genome</strong>. If the number of query sequences is <strong>very large</strong> such as those from <strong>metagenomes</strong>, then the <strong>SBH-based</strong> method should suffice (and save time).</p>
+<h3 id="Limitations"><a href="#Limitations" class="headerlink" title="Limitations"></a>Limitations</h3><p>Number of the query sequences are limited by the following conditions depending on the query type and selected databases.</p>
+<p>For amino acid sequence queries:<br>(<strong>the number of query sequences</strong>) * (<strong>the total number of sequences in selected organisms</strong>) &lt; 135,000,000,000. <strong>Square:367,423</strong>, query decrease, target increase</p>
+<p>For nucleotide sequence queries:<br>(the number of query sequences) * (the total number of sequences in selected organisms) &lt; 135,000,000,000 &#x2F; 3</p>
+<h2 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h2><ul>
+<li>Users query list</li>
+</ul>
+<p>‘Failed’ means abnormal process termination by a server or network trouble. You can retry the computation with the same file and parameters.</p>
+<ul>
+<li>KO list</li>
+<li>BRITE hierarchies (changed from “KO hierarchy”)</li>
+</ul>
+<p>The <strong>hierarchical list of annotated genes</strong>, which is categorized according to the BRITE database.</p>
+<ul>
+<li>Pathway map</li>
+</ul>
+<p>The list of pathways with linkes to <strong>graphical pathway maps</strong>.</p>
+<p>1: downloda txt</p>
+<p>2: Html -&gt; BRITE hierarchies -&gt; KEGG Orthology -&gt; Download text</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><a target="_blank" rel="noopener" href="https://www.genome.jp/tools/kaas/help.html">https://www.genome.jp/tools/kaas/help.html</a></p>
+<p>First, the bit scores between a <strong>query</strong> sequence and the <strong>reference</strong> sequence set (taken from the KEGG GENES database) are computed by a <strong>homology search</strong> tool, and homologs are found in the reference set. Next, homologs ranked <strong>above the threshold are selected as ortholog candidates</strong> based on the <strong>bit score</strong> and the <strong>bi-directional hit rate (<em>BHR</em>)</strong> defined below. <strong>Ortholog candidates</strong> are divided into <strong>KO groups</strong> according to the annotation of the KEGG GENES database. Finally, the a<strong>ssignment score</strong> is calculated based on the <strong>likelihood and heuristics for each KO group</strong>. Then, the K number of the <strong>KO group with the highest score</strong> is <strong>assigned</strong> to the query sequence.</p>
+<h3 id="Bi-directional-hit-rate"><a href="#Bi-directional-hit-rate" class="headerlink" title="Bi-directional hit rate"></a><font color="green">Bi-directional hit rate</font></h3><p>Given a genome to be annotated, it is compared against each genome in the reference set of the KEGG GENES database by the homology searches in both forward and reverse directions, taking each gene in genome A as a query compared against all genes in genome B, and vice versa. Those hits with <strong>bit scores less than 60 are removed</strong>. </p>
+<p>Because the <strong>bit scores</strong> of a gene pair <em>a</em> and <em>b</em> from two genomes <em>A</em> and <em>B</em>, respectively, can be <strong>different in forward and reverse directions</strong>, and because the <strong>top scores do not necessarily reflect</strong> the order of the rigorous Smith-Waterman scores, we define the <em>BHR</em> as:</p>
+<p><em>BHR</em> &#x3D; <em>Rf</em> * <em>Rr</em></p>
+<p>Here, <em>R</em> &#x3D; <em>S’</em>&#x2F;<em>Sb</em> where <em>S’</em> is the bit score of <em>a</em> against <em>b</em>, and <em>Sb</em> is the score of <em>a</em> against the best-hit gene in genome <em>B</em> (which may not necessarily be <em>b</em>). <em>Rf</em> refers to the score from the forward hit (<em>A</em> against <em>B</em>), and <em>Rr</em> refers to the score from the reverse hit (<em>B</em> against <em>A</em>). We select those genes whose <strong>BHR is greater than 0.95 in BBH method,</strong> and <em>Rf</em> is greater than 0.95 in SBH method.</p>
+<h3 id="Assignment-score"><a href="#Assignment-score" class="headerlink" title=" Assignment  score"></a><font color="green"> Assignment  score</font></h3><p>We define a score for each ortholog group in order to assign the best fitting K numbers to the query gene:</p>
+<p><img src="/GeekFocus/img/2022-06-08-KAAS/method2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="formula"></p>
+<p><img src="/GeekFocus/2022-06-08-KAAS/method2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="formula"></p>
+<p> <strong>Sh</strong> is the highest score among all ortholog candidates in the ortholog group</p>
+<p><strong>m</strong> and <strong>n</strong> are the sequence lengths of the query and the target of BLAST, respectively</p>
+<p><strong>N</strong> is the number of organisms in ortholog group</p>
+<p><strong>x</strong> is the number of organisms in the original ortholog group from which this group is derived</p>
+<p> <strong>p</strong> is the ratio of the size of the original ortholog group versus the size of the entire GENES database</p>
+<p>The second term is for the normalization of the first term by sequence lengths, and the third term is a weighting factor to consider the number of ortholog candidates that are found in the original.</p>
+<h2 id="Complete-or-Draft-Genome"><a href="#Complete-or-Draft-Genome" class="headerlink" title="Complete or Draft Genome"></a>Complete or Draft Genome</h2><p>KAAS works best when a <strong>complete set of genes</strong> in a genome is known. Prepare query amino acid sequences and use the <strong>BBH (bi-directional best hit) method</strong> to assign orthologs.</p>
+<ul>
+<li>- <a target="_blank" rel="noopener" href="https://www.genome.jp/kaas-bin/kaas_main">KAAS job request (BBH method)</a></li>
+</ul>
+<h2 id="Partial-Genome"><a href="#Partial-Genome" class="headerlink" title="Partial Genome"></a>Partial Genome</h2><p>KAAS can also be used for <strong>a limited number of genes</strong>. Prepare query amino acid sequences and use the SBH (single-directional best hit) method to assign orthologs.</p>
+<ul>
+<li>- <a target="_blank" rel="noopener" href="https://www.genome.jp/kaas-bin/kaas_main?mode=partial">KAAS job request (SBH method)</a></li>
+</ul>
+<h2 id="Metagenomes"><a href="#Metagenomes" class="headerlink" title="Metagenomes"></a>Metagenomes</h2><p>When the query consisits of large numbers of sequences and &#x2F; or sequences from mixture of species such as those from metagenome sequencing project, we recommend the GHOSTX search and SBH method.</p>
+<p><font color="green"><strong>50M pro data need 8 hours in KEGG web server.</strong></font></p>
+<hr>
+<h2 id="KEGG-GENES-Database"><a href="#KEGG-GENES-Database" class="headerlink" title="KEGG GENES Database"></a>KEGG GENES Database</h2><p><a target="_blank" rel="noopener" href="https://www.genome.jp/kegg/genes.html">https://www.genome.jp/kegg/genes.html</a></p>
+<p><strong>KEGG GENES</strong> is a collection of <strong>genes and proteins</strong> in <strong>complete genomes</strong> of <strong>cellular organisms</strong> and <strong>viruses</strong> generated from publicly available resources, mostly from <strong>NCBI RefSeq and GenBank</strong>, and annotated by KEGG in the form of KO (KEGG Orthology) assignment. The collection is supplemented with a KEGG original collection of functionally characterized proteins from published literature. Protein sequences and RNA sequences of all GENES entries are subject to SSDB computation and KO assignment by <strong><font color="green">KOALA tools</font></strong></p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Content</th>
+<th>Data source</th>
+<th>Organism code</th>
+<th>Gene identifier</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://www.genome.jp/brite/br08610">KEGG organisms</a> (Complete genomes)</td>
+<td>Genes and proteins in cellular organisms</td>
+<td>RefSeq or GenBank</td>
+<td>org</td>
+<td>GeneID or Locus_tag</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.genome.jp/brite/br08620">Viruses</a></td>
+<td>Genes and proteins in viruses</td>
+<td>RefSeq</td>
+<td>vg</td>
+<td>GeneID</td>
+</tr>
+<tr>
+<td>Viruses</td>
+<td>Mature peptides in viruses</td>
+<td>RefSeq</td>
+<td>vp</td>
+<td>GeneID+no</td>
+</tr>
+<tr>
+<td>Addendum</td>
+<td>Functionally characterized proteins</td>
+<td>KEGG</td>
+<td>ag</td>
+<td>ProteinID, etc</td>
+</tr>
+</tbody></table>
+<p>org is three- or four-letter organism code for cellular organisms</p>
+<p>The Addendum category is a <strong>PubMed-based collection of protein sequences</strong> whose functions are <strong>experimentally characterized</strong>. They are used to <strong>define new KOs</strong> that are not covered by complete genomes (see <a target="_blank" rel="noopener" href="https://www.genome.jp/kegg/ko.html">KO database</a><br>The viral peptide (vp) category is a collection of mature peptides processed from genome-encoded polyproteins, which are not usually found as separate entries in the public databases such as NCBI and UniProt. Viral mature peptides appear in KEGG pathway maps and as drug targets and are given KOs. </p>
+<ul>
+<li>org:gene</li>
+</ul>
+<p>such as <a target="_blank" rel="noopener" href="https://www.genome.jp/entry/hsa:351">hsa:351</a></p>
+<h3 id="SSDB-db"><a href="#SSDB-db" class="headerlink" title="SSDB db"></a>SSDB db</h3><p><strong>KEGG SSDB</strong> (<strong>Sequence Similarity DataBase</strong>) is a computationally generated database of <strong>sequence similarity scores for all protein pairs</strong> (and for all RNA pairs as well) in the GENES database, together with the information of best hits and bidirectional best hits (best-best hits) in pairwise genome comparisons. The computation is performed using the SSEARCH program. </p>
+<p>For the purpose of gene annotation, SSDB is organized as a collection of “GFIT tables” that are useful for identifying possible orthologs and paralogs. </p>
+<p>Search: Oryholog; Paralog; Gene cluster; Pfam domain</p>
+<h3 id="Gene-Annotation-Tools"><a href="#Gene-Annotation-Tools" class="headerlink" title="Gene Annotation Tools"></a>Gene Annotation Tools</h3><p>The annotation of KEGG GENES involves assignment of KO identifiers (K numbers). Internally, this is done using the <strong>KOALA&#x2F;KoAnn</strong> and <strong>GFIT annotation tools</strong> (see: <a target="_blank" rel="noopener" href="https://www.genome.jp/kegg/ko.html">KO Database</a>). For outside users, the following automatic annotation servers are made available.</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.kegg.jp/blastkoala/">BlastKOALA</a></p>
+<p>automatic KO assignment by <strong>BLASTP</strong> sequence similarity search</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.kegg.jp/ghostkoala/">GhostKOALA</a></p>
+<p>automatic KO assignment by <strong>GHOSTX</strong> sequence similarity search</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.genome.jp/tools/kofamkoala/">KofamKOALA</a></p>
+<p>automatic KO assignment by <strong>HMM</strong> profile search</p>
+</li>
+</ul>
+<p>For a <strong>single sequence</strong>, the following standard programs may be used to find matching sequences with assigned KOs.</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.genome.jp/tools/blast/">BLAST</a></p>
+<p>sequence similarity search by BLAST</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.genome.jp/tools/fasta/">FASTA</a></p>
+<p>sequence similarity search by FASTA</p>
+</li>
+</ul>
+<h3 id="KO-db"><a href="#KO-db" class="headerlink" title="KO db"></a>KO db</h3><p><a target="_blank" rel="noopener" href="https://www.genome.jp/kegg/ko.html">https://www.genome.jp/kegg/ko.html</a></p>
+<h4 id="KO-Database-of-Molecular-Functions"><a href="#KO-Database-of-Molecular-Functions" class="headerlink" title="KO Database of Molecular Functions"></a>KO Database of Molecular Functions</h4><p>The <strong>KO (KEGG Orthology)</strong> database is a <strong>database of molecular functions</strong> represented in terms of functional orthologs. <strong>A functional ortholog</strong> is manually defined in the context of <strong>KEGG molecular networks,</strong> namely, <strong>KEGG pathway maps</strong>, <strong>BRITE hierarchies</strong> and <strong>KEGG modules</strong>. Each <strong>node</strong> of the network, such as a box in the KEGG pathway map, is given a KO identifier (called K number) as a functional ortholog defined from <strong>experimentally characterized genes and proteins in specific organisms</strong>, which are then used to assign orthologous genes in other organisms based on <strong>sequence similarity</strong>. The granularity of “function” is context-dependent, and the resulting KO grouping may correspond to a group of highly similar sequences within a limited organism group or it may be a more divergent group. </p>
+<h4 id="Genome-Annotation-in-KEGG"><a href="#Genome-Annotation-in-KEGG" class="headerlink" title="Genome Annotation in KEGG"></a>Genome Annotation in KEGG</h4><p>Genome annotation in KEGG contains two unique aspects, <strong>KO assignment</strong> and <strong>KEGG mapping</strong></p>
+<ul>
+<li><p>KO assignment</p>
+<ul>
+<li><strong>Molecular functions</strong> are stored in the KO (KEGG Orthology) db containing <strong>orthologs of experimentally characterized genes&#x2F;proteins</strong>.</li>
+<li>Genome annotation in KEGG is to <strong>assign KO identifiers</strong> (or K numbers) to <strong>individual genes</strong> in the genome, <strong>rather than giving text description</strong> of functions.</li>
+</ul>
+</li>
+<li><p>KEGG mapping</p>
+<ul>
+<li><strong>Cellular and organism-level functions</strong> are stored in the <strong>PATHWAY</strong>, <strong>BRITE</strong> and <strong>MODULE</strong> db in terms of the molecular networks, which are all created as networks of K number nodes.</li>
+<li>The KO assignment procedure <strong>converts a gene set in the genome to a K number set</strong> and leads to automatic <strong>reconstruction of KEGG pathways</strong> and other networks by the process called KEGG mapping, enabling interpretation of high-level functions.</li>
+</ul>
+</li>
+</ul>
+<h4 id="KO-Assignment-Tools"><a href="#KO-Assignment-Tools" class="headerlink" title="KO Assignment Tools"></a>KO Assignment Tools</h4><p>The KO assignment of the GENES database is performed by the previously developed <strong>KOALA (KEGG Orthology And Links Annotation) tool</strong> and the newly developed <strong>KoAnn (KO Annotation) tool</strong>, both of which process GFIT tables generated from the SSDB database of SSEARCH computation results for all pairwise genome comparisons. <strong>KOALA</strong> is now used only for the initial automatic KO assignment of <strong>new genomes</strong>. Both automatic and manual versions of KoAnn are used for <strong>all other annotations</strong>. <a target="_blank" rel="noopener" href="https://www.kegg.jp/blastkoala/">BlastKOALA</a> is a web server for <strong>automatic KO assignment</strong> using a KOALA-like algorithm for BLAST search against a reduced database. </p>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>KOALA &#x2F; KoAnn</th>
+<th>BlastKOALA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Purpose</td>
+<td>Internal GENES annotation</td>
+<td>Genome annotation service</td>
+</tr>
+<tr>
+<td>Search program</td>
+<td>SSEARCH</td>
+<td>BLASTP</td>
+</tr>
+<tr>
+<td>Scoring</td>
+<td>Weighted sum of SW scores (KOALA scoring)<br/>or identity scores (KoAnn scoring)</td>
+<td>Weighted sum of BLAST bit scores<br/>(modified KOALA scoring)</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>Entire GENES database sequences</td>
+<td><strong>Non-redundant pangenome sequences</strong></td>
+</tr>
+</tbody></table>
+<p><strong>KOALA scoring</strong> includes: SW (Smith-Waterman) score, best-best flag, overlap of alignment, ratio of query and DB sequences, taxonomic category and Pfam domains.<br><strong>KoAnn scoring</strong> includes: identify score, sequence length and best-best flag.</p>
+<h3 id="Gene-ID-Conversion"><a href="#Gene-ID-Conversion" class="headerlink" title="Gene ID Conversion"></a>Gene ID Conversion</h3><p><strong>KEGG GENES</strong> can be retrieved by giving identifiers of outside databases: <strong>NCBI-ProteinID</strong> (INSDC accession), NCBI-GeneID (<strong>Entrez Gene ID</strong>) and <strong>UniProt accession numbers</strong>.</p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/FuncAnno/">#FuncAnno</a>
+      
+        <a href="/GeekFocus/tags/KAAS/">#KAAS</a>
+      
+        <a href="/GeekFocus/tags/KEGGgeneDB/">#KEGGgeneDB</a>
+      
+        <a href="/GeekFocus/tags/KOdb/">#KOdb</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【FuncAnno】【KAAS】</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/06/08/2022-06-08-KAAS/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>June 8, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/08/29/2022-0829-Chloro-anno/" title="【CHLOROBOX】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【CHLOROBOX】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/06/07/2022-06-08-DIAMOND/" title="Diamond">
+                        <span class="hidden-mobile">Diamond</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>

@@ -1,73 +1,998 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="ATAC-seq信息分析流程主要分为以下几个部分：数据质控、序列比对、峰检测、motif分析、峰注释、富集分析. an assay for transposase-accessible chromatin using sequencing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【ATAC-seq-pipeline】">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/03/20/2022-03-20-ATAC-seq-6/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="ATAC-seq信息分析流程主要分为以下几个部分：数据质控、序列比对、峰检测、motif分析、峰注释、富集分析. an assay for transposase-accessible chromatin using sequencing">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-20-ATAC-seq-6/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-20-ATAC-seq-6/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-20-ATAC-seq-6/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-20-ATAC-seq-6/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-20-ATAC-seq-6/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-20-ATAC-seq-6/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-20-ATAC-seq-6/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-20-ATAC-seq-6/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-20-ATAC-seq-6/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-20-ATAC-seq-6/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-20-ATAC-seq-6/6.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-20-ATAC-seq-6/6.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-20-ATAC-seq-6/8.png">
+<meta property="article:published_time" content="2022-03-20T13:00:02.773Z">
+<meta property="article:modified_time" content="2022-06-08T06:06:48.465Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="atac-seq">
+<meta property="article:tag" content="pipeline">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/2022-03-20-ATAC-seq-6/1.png">
+  
+  
+  
+  <title>【ATAC-seq-pipeline】 - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【ATAC-seq-pipeline】"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-20 21:00" pubdate>
+          March 20, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          22k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          183 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【ATAC-seq-pipeline】</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 8, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>ATAC-seq信息分析流程主要分为以下几个部分：数据质控、序列比对、峰检测、motif分析、峰注释、富集分析.</p>
+<p>an <strong>a</strong>ssay for <strong>t</strong>ransposase-<strong>a</strong>ccessible <strong>c</strong>hromatin using <strong>seq</strong>uencing </p>
+<span id="more"></span>
+
+<hr>
+<p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/442707/">?</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/413626/">?</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM3455685">Data processing1:Johns Hopkins University School of Medicine</a>	2019 mar</p>
+<p>ATAC-seq data were <strong>aligned</strong> using <strong>Bowtie2</strong> (Version 2.3.2 t -X 2000 <strong>–no-mixed –no-discordant</strong>) </p>
+<p> <strong>duplicate</strong> reads were removed (<strong>picard</strong> MarkDuplicates)</p>
+<p>Peaks were called using <strong>MACS2</strong> (Version 2.1.1.20160309 callpeak <strong>–nomodel –keep-dup all –shift −100 –extsize 200</strong> –call-summits) (Zhang et al., 2008). </p>
+<p>Peaks were then <strong>filtered for fold-change &gt;2 and -log(qvalue) &gt;2</strong>. </p>
+<p><strong>deepTools</strong> was used to visualize ATAC-seq peaks on the browser (bamCoverage -bs 1 –normalizeUsing <strong>RPKM</strong>).<br>Genome_build: <strong>mm10</strong><br>Supplementary_files_format_and_content: narrowPeak and .bw</p>
+<p><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM5502736">Data processing2:University of California, San Diego</a>  2022 Jan<br>Sequenced reads were trimmed for adaptor sequence, and masked for low-complexity or low-quality sequence, then mapped to hg38 whole genome using <strong>bowtie</strong> v2.3.5.1 with parameters -q -p 4 -e 100 -y -a -m 10 –best –strata<br>For <strong>RNA-seq data</strong>: Transcripts per Million (<strong>TPM</strong>) were calculated using a protocol from <strong>Chepelev et al</strong>., Nucleic Acids Research, 2009. In short, exons from all isoforms of a gene were merged to create one meta-transcript. The number of reads falling in the exons of this meta-transcript were counted and normalized by the size of the meta-transcript and by the size of the library.<br>For <strong>ATAC-seq data</strong>: peaks were called using <strong>Genrich</strong> version 0.6.1 with the following setting: -j -y -r -e chrM -v.</p>
+<p><strong>Bigwig</strong> file generated using bamCoverage version 3.3.2 with the following setting: <strong>—binSize 20 —normalizeUsing BPM —smoothLength 60 —centerReads</strong>. Heatmap, genomic tracker and scatter map generated using EaSeq version 1.111.<br>For <strong>ChIP-seq data</strong>: peaks were called using <strong>MACS3</strong> version 3.0.0a6 with the following setting: -g hs -f BAM. Bigwig file generated using bamCoverage version 3.3.2 with the following setting: <strong>—binSize 20 —normalizeUsing BPM —smoothLength 60 —centerReads</strong>. Heatmap, genomic tracker and scatter map generated using EaSeq version 1.111.<br>For <strong>CUT&amp;Tag-seq data</strong>: peaks were called using <strong>SEACR</strong> version 1.3 with the following setting: <strong>-norm strigent</strong>. </p>
+<p>Bigwig file generated using bamCoverage version 3.3.2 with the following setting: <strong>—binSize 20 —normalizeUsing BPM —smoothLength 60 —centerReads</strong>. Heatmap, genomic tracker and scatter map generated using <strong>EaSeq</strong> version 1.111.<br>Genome_build: <strong>hg38</strong><br>Supplementary_files_format_and_content: For RNA-seq: tab-delimited text files include TPM values for each Sample<br>Supplementary_files_format_and_content: For ATAC-seq, ChIP-seq and CUT&amp;Tag-seq: bigwid files for display in hg38 genome browser track</p>
+<p><a target="_blank" rel="noopener" href="https://https.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM4432199">Data processing3:Hong Kong University of Science and Technology</a>  2020 may</p>
+<p>For ChIP-seq, Base-calling is done by bcl2-fastq<br>For sequencing alignment and duplicate removal, sequencing data were mapped to the mm10 mice genome assembly by using the <strong>BWA</strong>. Duplicates were marked and removed using the <strong>Picard</strong> tools MarkDuplicates function with the parameter, REMOVE_DUPLICATES&#x3D;TRUE.<br>For <strong>peak identification</strong>, the <strong>HOMER</strong> (Heinz et al., 2010) maketagdirectory function was used to combine sequencing data from the biological replicates, and the <strong>findPeaks</strong> function was used to identify binding&#x2F;accessible regions with the following parameters: -style factor (for PU.1 ChIP-seq), <strong>-style histone</strong> (for H3K4me3 ChIP-seq), and <strong>-style histone -minDist 200</strong> (for ATAC-seq). Regions were annotated by the <strong>annotatePeaks.pl</strong> function. deepTools bamCoverage function and visualized in igv browser (Robinson et al., 2011).<br><strong>Read count in the binding&#x2F;accessible regions</strong> was <strong>quantified</strong> by the <strong>bedtools</strong> (Quinlan and Hall, 2010) <strong>multicov</strong> function. Differential binding&#x2F;accessible regions (p &lt; 0.05) were calculated using R.<br>Genome_build: mm10<br>Supplementary_files_format_and_content: bigWig files were generated using <strong>Bamcoverage –normalizeUsing CPM –binSize 10</strong><br>For scRNA-seq,Base-calling is done by bcl2-fastq<br>The sequencing data were aligned, quantified, and clustered using Cell Ranger (version 3.0) as previously described (Zheng et al., 2017).<br>Genome_build: mm10<br>Supplementary_files_format_and_content: Matrix of read count, barcode were generated using cell ranger v3</p>
+<p><a target="_blank" rel="noopener" href="https://https.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM4160552">Data processing 4:Johns Hopkins University School of Medicine</a> 2020 Jan</p>
+<p>ATAC-seq data were <strong>aligned</strong> to the GRCm38 genome using <strong>HISAT2</strong> version 2.1.0 (hisat2 -t -X 2000 –no-mixed –no-discordant) and then duplicate reads were removed (<strong>picard</strong> MarkDuplicates). Peaks were called using <strong>MACS2</strong> version 2.1.2 (<strong>callpeak -f BAM –nomodel –keep-dup all –shift −100 –extsize 200</strong>) (Zhang et al., 2008). Peaks were then filtered for <strong>fold-change &gt;2 and -log(qvalue) &gt;2</strong>. deepTools was used to visualize ATAC-seq peaks on the browser (bamCoverage <strong>-bs 1 –extendReads –ignoreDuplicates –normalizeUsing CPM</strong>).<br>Genome_build: mm10</p>
+<p>GEO ATAC-seq?????</p>
+<p>GEO CUT&amp;Tag??????</p>
+<p><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101940">2018Arab</a></p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/dc0c49bfcd41;https://seqhealth.biomart.cn/news/2995703.htm;https://zhuanlan.zhihu.com/p/146068902;https://www.jianshu.com/p/09e05bcd6981">Ref1</a></p>
+<blockquote>
+<p><strong>一、数据过滤与质量评估</strong></p>
+</blockquote>
+<p>fastp fastqc</p>
+<blockquote>
+<p><strong>二、比对</strong></p>
+</blockquote>
+<p>Bowtie2,bwa</p>
+<p>后续分析reads需要唯一比对且去重复的，比对结果通过<strong>MAPQ</strong>值提取唯一比对reads，可以用picard、sambamba等去除dup，最终得到唯一比对且去重复的bam</p>
+<p>质体序列去除。samtools提取，将不含质体的染色体写到chrlist文件[Chr1….12]，一条染色体一行</p>
+<p><code>samtools view -b A1.bam $chrlist &gt; A1.del_MT_PT.bam</code></p>
+<blockquote>
+<p><strong>三、reads在染色体上分布的可视化</strong></p>
+</blockquote>
+<p>bam转bigWig（bw），IGV展示(no shift)。deeptools可实现bw格式转化和可视化展示</p>
+<p><code>bamCoverage -b A1.bam -o A1.bw</code></p>
+<p>deeptools展示reads在特定区域的分布，如：</p>
+<figure class="highlight ldif"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs ldif">computeMatrix reference-point   \ <span class="hljs-comment"># reference-pioint表示计算一个参照点附近的reads分布，与之相对的是scale-regions，计算一个区域附近的reads分布</span><br><span class="hljs-literal">-</span>-referencePoint TSS   \<span class="hljs-comment">#以输入的bed文件的起始位置作为参照点</span><br><span class="hljs-literal">-</span>S  A1.bw \ <span class="hljs-comment">#可以是一个或多个bw文件</span><br><span class="hljs-literal">-</span>R  gene.bed \ <span class="hljs-comment">#基因组位置文件</span><br><span class="hljs-literal">-</span>b 3000   \ <span class="hljs-comment">#计算边界为参考点上游3000bp</span><br><span class="hljs-literal">-</span>a 3000   \ <span class="hljs-comment">#计算边界为参考点下游3000bp，与-b合起来就是绘制参考点上下游3000bp以内的reads分布</span><br><span class="hljs-literal">-</span>o  A1.matrix.mat.gz \ <span class="hljs-comment">#输出作图数据名称</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-string">\#图形绘制</span><br>plotHeatmap <span class="hljs-string">\</span><br>-m  new_A1.matrix.mat.gz <span class="hljs-string">\</span> <span class="hljs-comment">#上一步生成的作图数据</span><br>-out A1.pdf <span class="hljs-string">\</span> <span class="hljs-comment"># 输出图片名称</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>四、Peak calling</strong></p>
+</blockquote>
+<p>MACS2检测DNA片断富集区域，是ATAC-seq call peak的<strong>主流软件</strong>。峰检出原理：首先将所有的reads都向3’方向延伸插入片段长度，然后将基因组进行滑窗，计算该窗口的dynamic λ，λ的计算公式为：λlocal &#x3D; λBG（λBG是指背景区域上的reads数目），然后利用泊松分布模型的公式计算该窗口的显著性P值，最后对每一个窗口的显著性P值进行FDR校正。默认校正后的P值（即qvalue）小于或者等于0.05的区域为peak区域。</p>
+<figure class="highlight ldif"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ldif">macs2 callpeak \<br><span class="hljs-literal">-</span>t A1.uni.dedup.bam \ <span class="hljs-comment">#bam文件</span><br><span class="hljs-literal">-</span>n A1 \ <span class="hljs-comment"># 输出文件前缀名</span><br><span class="hljs-literal">-</span>-shift -100 \ <span class="hljs-comment">#extsize的一半乘以-1</span><br><span class="hljs-literal">-</span>-extsize 200 \ <span class="hljs-comment">#一般是核小体大小</span><br><span class="hljs-literal">-</span>-call-summits <span class="hljs-comment">#检测峰顶信息</span><br><br><span class="hljs-comment">#注：以上参数参考文献（Jie Wang，et.al.2018.“ATAC-Seq analysis reveals a widespread decrease of chromatin accessibility in age-related macular degeneration.”Nature Communications）</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>五、motif分析</strong></p>
+</blockquote>
+<p>ATAC的peak是染色质开放区域，染色质开放区域预示着转录因子结合，对peak区进行motif分析很有意义。常见的motif分析软件有homer和MEME。以homer软件为例 motif分析：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs livescript">findMotifsGenome.pl <span class="hljs-string">\</span><br>A1_peaks.bed <span class="hljs-string">\</span> <span class="hljs-comment">#用于进行motif分析的bed文件</span><br>genome.fa  <span class="hljs-string">\</span> <span class="hljs-comment">#参考基因组fa文件</span><br>A1  <span class="hljs-string">\</span> <span class="hljs-comment">#输出文件前缀</span><br>-size  given <span class="hljs-string">\</span> <span class="hljs-comment">#使用给定的bed区域位置进行分析，如果填-size -100,50则是用给定bed中间位置的上游100bp到下游50bp的区域进行分析</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>homer分析motif的原理及结果参见：<a target="_blank" rel="noopener" href="http://homer.ucsd.edu/homer/motif/index.html">http://homer.ucsd.edu/homer/motif/index.html</a></p>
+<p>根据motif与已知转录因子的富集情况可以绘制气泡图，从而可以看到样本与已知转录因子的富集显著性。</p>
+<p><img src="/GeekFocus/2022-03-20-ATAC-seq-6/1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"><br><img src="/GeekFocus/img/2022-03-20-ATAC-seq-6/1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p><strong>六、差异分析</strong></p>
+</blockquote>
+<p>差异peak是染色质开放性差异位点，ChIP-seq和ATAC-seq都可用<strong>DiffBind</strong>差异分析。DiffBind通过bam文件和peak的bed文件计算<strong>peak区域标准化的readcount</strong>，可选择edgeR、DESeq2等模型进行差异分析。</p>
+<blockquote>
+<p><strong>七、峰注释</strong></p>
+</blockquote>
+<p>peak区域与基因联系，通过对peak注释找到peak相关基因。常见的peak注释软件有ChIPseeker、homer、PeakAnnotator等。以ChIPseeker为例，安装ChIPseeker包和GenomicFeatures包，然后分析</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">library(ChIPseeker)<br>library(GenomicFeatures)<br>txdb&lt;- make<span class="hljs-constructor">TxDbFromGFF(‘<span class="hljs-params">gene</span>.<span class="hljs-params">gtf</span>’)</span>#生成txdb对象，如果研究物种没有已知的TxDb,可以用GenomicFeatures中的函数生成<br>peakfile &lt;-read<span class="hljs-constructor">PeakFile(‘A1_peaks.<span class="hljs-params">narrowPeak</span>’)</span>#导入需要注释的peak文件<br>peakAnno &lt;- annotate<span class="hljs-constructor">Peak(<span class="hljs-params">peakfile</span>,<span class="hljs-params">tssRegion</span>=<span class="hljs-params">c</span>(-2000, 2000)</span>, TxDb=txdb)<br>\# 用peak文件和txdb进行peak注释，这里可以通过tssRegion定义TSS区域的区间<br>对peak注释的结果可视化展示：<br>p &lt;- plot<span class="hljs-constructor">AnnoPie(<span class="hljs-params">peakAnno</span>)</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>八、富集分析</strong></p>
+</blockquote>
+<p>peak相关基因使用goseq、topGO等R包GO富集分析，用kobas进行kegg富集分析，也可用DAVID在线工具富集分析。挑选感兴趣的GO term或pathway进一步<strong>筛选候选基因</strong>。</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://seqhealth.biomart.cn/news/2995703.htm">Ref2</a></p>
+<p>澳大利亚莫纳什大学的Yan F.等人于2020年2月在Genome Biology上发表综述《From reads to insight: a hitchhiker’s guide to ATAC-seq data analysis》</p>
+<p>哺乳动物DNA通过三个主要层次尺度 高度压缩：</p>
+<ul>
+<li>第一层是核小体，DNA缠绕在核小体单体上；</li>
+<li>第二层是染色质，核小体单体互相缠绕形成染色质；</li>
+<li>第三层是染色体，染色质进一步压缩为染色体。</li>
+</ul>
+<p>DNA压缩的三个尺度及其相互作用共同造就了基因表达调控。</p>
+<p>ATAC-seq使用基因工程改造的<strong>超高活性Tn5转座酶</strong>（Hyperactive Transposase Tn5），Tn5酶<strong>预载</strong>测序文库构建的Adaptor（<strong>P5和P7</strong>）。Tn5酶切割开放染色质区域，在酶切位点留下9 bp粘性末端，并将两种Adaptor连接到切口的粘性末端；随后DNA片段扩增形成文库测序。下图中<strong>NFR fragments</strong>是开放染色质中核小体间的<strong>Linker DNA片段</strong>，由Peak Calling的Peak鉴定；<strong>蓝色Footprint是转录因子足迹</strong>，对应<strong>转录因子足迹分析</strong>；核小体单体（Mononucleosome）结合DNA片段则反映核小体位置信息，对应<strong>核小体占位分析</strong>。</p>
+<p><img src="/GeekFocus/2022-03-20-ATAC-seq-6/2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"><br><img src="/GeekFocus/img/2022-03-20-ATAC-seq-6/2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p>由于ATAC-seq和ChIP-seq数据相似性较高，综述针对ATAC-seq分析现有软件全面介绍和评估。</p>
+<p><img src="/GeekFocus/2022-03-20-ATAC-seq-6/3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"><br><img src="/GeekFocus/img/2022-03-20-ATAC-seq-6/3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p> 质控</p>
+</blockquote>
+<p>FastQC。ATAC-seq文库采用<strong>Illumina Nextera建库</strong>，<strong>接头和Truseq文库不一样</strong>，cutadapt、AdapterRemoval v2、Skewer或trimmomatic(去Nextera接头)。</p>
+<blockquote>
+<p>序列比对</p>
+</blockquote>
+<p>过滤后FastQC。<strong>BWA-MEM</strong>和<strong>Bowtie2</strong>两个软件的soft-clip策略保留突出和没有比对上的碱基，可<strong>增加</strong>在参考序列唯1比对的序列数目（<strong>Unique比对率</strong>）。哺乳动物，**Unique比对率大于80%**的数据是比较成功的ATAC-seq文库。</p>
+<blockquote>
+<p>比对后处理和质控</p>
+</blockquote>
+<p>Picard和SAMtools软件统计Unique比对率、重复reads比例和片段大小分布。</p>
+<p><strong>Mapping后去除干扰reads</strong>：</p>
+<ol>
+<li>配对错误和比对质量较低的reads剔除</li>
+<li><strong>线粒体基因组没有染色质组装</strong>，处于开放状态，<strong>更容易被Tn5酶切割</strong>，线粒体序列去除</li>
+<li>ENCODE数据库黑名单区域（blacklisted regions）包含一些异常、read覆盖度很高的区域，区域reads去除</li>
+<li>由PCR建库产生、重复率过高的reads需要去除。</li>
+</ol>
+<p>此外，<strong>测序文库插入片段大小分布</strong>也可用来判断ATAC-seq实验质量。插入片段大小理论分布为：NFR fragments（&lt;100 bp）、核小体单体（<del>200 bp）、核小体二聚体（</del>400 bp）和核小体三聚体（~600 bp）</p>
+<blockquote>
+<p>核心分析 peak calling</p>
+</blockquote>
+<p>ENCODE选择MACS2作为ATAC-seq标准Peak Calling。与ChIP-seq不同，<strong>由于Tn5酶切割的随机性和成本</strong>，ATAC-seq没<strong>有Input对照</strong>。ATAC-seq数据包含<strong>NFR reads</strong>和<strong>DNA与核小体结合区域reads</strong>，而<font color="red">ATAC-seq关注<strong>NFR部分reads</strong></font>，不能直接用所有reads Peak Calling。一种方式把NFR reads单独提取分析；<font color="red">另一种方式采用<strong>shift-extend</strong>分析</font>，这种方法尝试对Tn5酶切口的末端平滑化事件进行计数（见下图）。第二种更通用，因为这种方法<strong>几乎适用所有为ChIP-seq数据开发的Peak Calling软件，且不受插入片段大小影响</strong>。</p>
+<p><img src="/GeekFocus/2022-03-20-ATAC-seq-6/4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"><br><img src="/GeekFocus/img/2022-03-20-ATAC-seq-6/4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p>ChIP-seq Peak Calling软件根据原理分两大类：<font color="red"><strong>Count-based</strong>和<strong>Shaped-based</strong></font>。Count-based的软件更易于使用和解释结果。这些软件采用<font color="red">不同统计方法比较<strong>目标区域和随机背景区域</strong>的<strong>reads分布</strong>形状</font>，常用包括：</p>
+<ul>
+<li>假设片段分布为泊松分布：<strong>MACS2、HOMER、SICER&#x2F;epic2</strong></li>
+<li>假设片段分布为零膨胀负二项分布：<strong>ZINBA</strong></li>
+<li>核密度估计来判断片段分布：<strong>F-seq、PeakDEck</strong></li>
+<li>不使用片段分布假设但通过软件打分：<strong>SPP</strong></li>
+<li>混合模型：<strong>JAMM</strong></li>
+</ul>
+<p>其中F-seq, ZINBA 不更新<br><font color="red">Shaped-based</font>直接或者间接<font color="red">利用reads<strong>密度分布信息</strong>Peak Calling</font>，包括和等软件，暂时没用于ATAC-seq。目前专门为ATAC-seq开发的Peak Calling软件只有<strong>HMMRATAC</strong>。该软件通过三状态半监督隐马尔科夫模型算法把基因组分成高信号强度的活性染色质区域、中等信号强度的核小体区域和低信号强度的背景区域。计算量偏大，耗时较长，<font color="red"><strong>结果比MACS2更好</strong></font>，同时提供核小体位置信息。</p>
+<p><img src="/GeekFocus/2022-03-20-ATAC-seq-6/5.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"><br><img src="/GeekFocus/img/2022-03-20-ATAC-seq-6/5.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p><font color="red"><strong>MACS2 pair-end 和MACS2 shift-extend哪个好?</strong></font></p>
+<p>Count-based软件差异不大，但Shaped-based结果非常不同。<font color="red"><strong>目前仍没有综合性指标评估Peak Calling软件的结果表现。</strong></font><br>以上分析Peak Calling软件结果，但是并没有针对存在生物学重复的Peak Calling结果可信度进行探讨。</p>
+<p><strong>Peak Calling可信度</strong>: <strong>IDR</strong>（Irreproducibility Discovery Rate）是指不可重现的发现率，用于测量生物学重复中的可重现性。ATAC-seq比较一对经过排序的regions&#x2F;peaks，计算反映其重复性的值。IDR分析结果的Peak是可信度更高的Peak。建议每组样品2个及以上生物学重复。</p>
+<blockquote>
+<p> ATAC-seq高级分析</p>
+</blockquote>
+<p>ATAC-seq主要功能是揭示转录调控各个方面，可4种水平对结果分析和解释：1. Peak注释和差异Peak分析；2. Motif分析；3. 核小体占位分析；4. 转录因子足迹分析。</p>
+<p><font color="green"><strong>Peak注释和差异Peak分析</strong></font></p>
+<p>Peak与其最近基因或调控元件的Peak注释，<strong>HOMER、ChIPseeker</strong>和<strong>ChIPpeakAnno</strong>三个软件都可把Peak分配到最近或重叠的基因、外显子、内含子、启动子、5’UTR、3’UTR和其它基因组功能区。随后用Gene Ontology（GO）、KEGG和Reactome等数据库做Peak关联基因功能富集分析。<strong>ChIPseeker</strong>和<strong>ChIPpeakAnno</strong>软件具有可视化功能。<br>目前没有专门为ATAC-seq开发的差异Peak分析软件。差异Peak分析首先通过<strong>寻找候选区域</strong>（共有Peak或根据bin划分的基因组），然后<strong>标准化</strong>，再对落在<strong>区域内的片段计数</strong>，最后在相同坐标内与其它处理条件的样本进行<strong>统计学比较</strong>。在以共有Peak为基础分析的软件中，<strong>HOMER、DBChIP</strong>和<strong>DiffBind</strong>依赖RNA-seq差异表达基因分析中使用的R包计算差异Peak，例如<strong>edgeR、DESeq</strong>和<strong>DESeq2</strong>等，都要求生物学重复。</p>
+<p><strong>HOMER</strong>把所有生物学重复样品数据合并到一起减少差异peak的假阳性结果。<strong>DBChIP</strong>和<strong>DiffBind</strong>通过取交集或并集的方法得到共有Peak，取交集会忽略一些样本或特殊的Peak，而取并集使假阳性增多。</p>
+<p>另外不依赖RNA-seq分析R包的软件包括<strong>PePr、DiffReps</strong>和<strong>ChIPDiff</strong>，还有一种<strong>edgeR</strong>包的扩展软件<strong>csaw</strong>，这些软件使用滑窗（Sliding window）方法进行分析，但是得到的<strong>结果假阳性率很高</strong>，需要设置严格的FDR。<br>文章推荐Peak注释与差异分析软件：<strong>HOMER&#x2F;ChIPseeker&#x2F;ChIPpeakAnno + csaw</strong><br>康科Peak注释与差异分析软件：<strong>Bedtools</strong> + <strong>edgeR</strong></p>
+<p><font color="green"><strong>Motif分析</strong></font></p>
+<p>开放染色质区域一般可结合特定转录因子进而影响转录，转录因子结合识别的DNA序列即为motif，人体大约<strong>1600种转录因子</strong>，其中一半多已有明确报道的motif。对motif的分析包括<strong>motif富集分析</strong>和<strong>转录因子Footprint（足迹）分析</strong>。</p>
+<p>Motif富集分析</p>
+<p>目前很多motif数据库，使用最普遍的是<strong>JASPAR数据库</strong>，该数据库收录多物种的motif数据，可以通过APIs或者Bioconductor的R包下载相关数据。此外，CIS-BP和TRANSFAC数据库收录<strong>真核生物</strong>转录因子的motif信息，HOCOMOCO数据库则专门收录了<strong>人和小鼠</strong>的motif，RegulonDB为大肠杆菌的motif数据库。<br><strong>HOMER、MEME-AME、MEME-CentriMo</strong> <strong>DAStk</strong></p>
+<p><font color="green"><strong>转录因子足迹分析</strong></font></p>
+<p>另一种ATAC-seq<strong>解释转录因子调控方式</strong>的是足迹分析。<font color="red">转录因子足迹指一个转录因子结合在DNA，<strong>阻止Tn5酶切割</strong>，在<strong>染色质开放区域留</strong>下一个<strong>相对缺失的位置</strong></font>。</p>
+<p>做足迹分析三个问题需要解决：</p>
+<p>1）由于建库时Tn5酶切时会产生9 bp的粘性末端切口，经过末端修复补齐后，原始reads在预处理时需要经过移位才可以准确检测到Footprint；</p>
+<p>2）Tn5酶切具有5’端偏好性；</p>
+<p>3）某些瞬时结合的转录因子足迹信号较弱。</p>
+<p>足迹分析软件根据算法分为两大类：de novo和Motif-centric。</p>
+<p>de novo类型的软件通过理论计算鉴别转录因子足迹信息，消除Tn5酶切时的5’偏好性。目前只有<strong>HINT-ATAC</strong>可以处理ATAC-seq数据特有的偏好性。</p>
+<p>Motif-centric方法主要关注已知TF的结合位点，主要软件有<strong>MILLIPEDE、DeFCoM</strong>等。</p>
+<p>联合ChIP-seq数据的Motif-centric方法在足迹分析上优于de nove的方法，但是这些ChIP-seq数据来源于特定的转录因子和特定的细胞类型，通用性不强。而de novo的方法在一些低质量和新发现的一些motif上具有优势。</p>
+<p>文章推荐转录因子足迹分析软件：<strong>HINT-ATAC</strong><br>康测科技转录因子足迹分析软件：<strong>HOMER + Bedtools自编脚本</strong></p>
+<p><font color="green"><strong>核小体占位分析</strong></font></p>
+<p>核小体单体可以结合大约147 bp的DNA，在标准ATAC-seq文库中，较长的插入片段对应DNA与核小体结合的区域。ATAC-seq数据核小体结合区域比染色质开放区域reads<strong>覆盖度更低</strong>，所以相比MNase-seq，ATAC-seq的核小体占位分析<strong>难度更高</strong>。一般情况，为MNase-seq开发的软件（比如<strong>DNAPOS2、PuFFIN、iNPS</strong>和<strong>NucTools</strong>）可用于ATAC-seq。专门为ATAC-seq开发的软件包括<strong>NuleoATAC</strong>和<strong>HMMRATAC</strong>。<strong>NuleoATAC</strong>比<strong>DANPOS2</strong>结果表现更好，而<strong>HMMRATAC</strong>可以同时完成Peak Calling和核小体占位分析。<br>文章推荐核小体占位分析软件：<strong>NuleoATAC</strong> <strong>&#x2F;HMMRATAC</strong><br>康测科技核小体占位分析软件：<strong>Samtools自编脚本</strong></p>
+<blockquote>
+<p> ATAC-seq与多组学数据联合分析</p>
+</blockquote>
+<ol>
+<li><strong>转录因子ChIP-seq</strong>：大部分转录因子结合染色质开放区域，所以ATAC-seq的Peak可能和转录因子ChIP-seq的Peak存在部分重叠，而且ATAC-seq得到的Peak长度往往更长，因此ATAC-seq数据和转录因子ChIP-seq数据可以<font color="red"><strong>相互验证</strong></font>。转录因子在<strong>ChIP-seq中独有</strong>的Peak暗示这个转录因子<strong>可能结合在异染色质区域</strong>的<strong>驱动型转录因子</strong>（Pioneer TFs），<font color="red"><strong>驱动型转录因子</strong>随后招募<strong>染色质重塑复合体</strong>以及其它转录因子开始转录</font>。联合分析报道ChIP-seq数据可更准确地分析转录因子的足迹。</li>
+<li><strong>组蛋白修饰ChIP-seq</strong>：ATAC-seq同样可以和<font color="red"><strong>组蛋白修饰ChIP-seq</strong></font>联合分析，其中<font color="red">转录<strong>激活</strong>性修饰（H3K4me3，H3K4me1和H3K27ac等）</font>与染<strong>色质开放程度呈正相关</strong>，<font color="red">转录<strong>抑制</strong>性修饰（H3K27me3）</font>与染色质开放程度呈<strong>负相关</strong>。联合已知的<strong>增强子和启动子之间的相互作用</strong>数据也可以帮助<strong>构建调控网络</strong>。</li>
+<li><strong>RNA-seq</strong>：ATAC-seq通过联合RNA-seq发现哪些<font color="red">差异表达的基因</font>是<font color="red">受染色质可及性调控的</font>，进一步推测这些差异表达基因<font color="red">哪些是受开放染色质中<strong>具有motif和footprint</strong>的转录因子调控</font>，因此ATAC-seq与RNA-seq的联合分析有助于破译<strong>基因调控网络</strong>和细胞异质性。</li>
+</ol>
+<p>通过鉴定染色质开放区域并<strong>结合motif信息和基因表达信息</strong>，建立<strong>转录因子-靶基因</strong>的互作网络。</p>
+<blockquote>
+<p>总结</p>
+</blockquote>
+<p>该review系统描述ATAC-seq生信分析主要流程，并推荐相关软件：<strong>FastQC</strong>质控；<strong>trimmomatic</strong>去除低质量碱基和接头序列；<strong>BWA-MEM</strong>比对；<strong>MACS2</strong> Peak Calling；<strong>csaw</strong>差异Peak分析；<strong>MEME-CentriMo</strong>寻找motif以及富集分析；<strong>ChIPseeker</strong> Peak注释和可视化；<strong>HMMRATAC</strong>分析核小体占位；<strong>HINT-ATAC</strong>转录因子Footprint分析。</p>
+<p>康测科技稍有不同：引入<strong>IDR</strong>判断Peak可信度；差异Peak分析使用<strong>bedtools</strong>和单独的<strong>edgeR</strong>包结合自编脚本提高差异Peak分析中参数设置自由度，得到准确度和可信度更高的分析结果。</p>
+<p><img src="/GeekFocus/2022-03-20-ATAC-seq-6/6.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"><br><img src="/GeekFocus/img/2022-03-20-ATAC-seq-6/6.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/09e05bcd6981">Ref3</a></p>
+<blockquote>
+<p>比对</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs sh">bowtie2  -p 5  --very-sensitive -X 2000 -x  <span class="hljs-variable">$bowtie2_index</span> -1 <span class="hljs-variable">$fq1</span> -2 <span class="hljs-variable">$fq2</span> |samtools <span class="hljs-built_in">sort</span>  -O bam  -@ 5 -o - &gt; <span class="hljs-variable">$&#123;sample&#125;</span>.raw.bam<br><br>samtools index <span class="hljs-variable">$&#123;sample&#125;</span>.raw.bam<br>bedtools bamtobed -i <span class="hljs-variable">$&#123;sample&#125;</span>.raw.bam  &gt; <span class="hljs-variable">$&#123;sample&#125;</span>.raw.bed<br>samtools flagstat <span class="hljs-variable">$&#123;sample&#125;</span>.raw.bam  &gt; <span class="hljs-variable">$&#123;sample&#125;</span>.raw.stat<br><span class="hljs-comment"># https://github.com/biod/sambamba/issues/177</span><br><span class="hljs-comment"># 三种不同的去重复软件</span><br><span class="hljs-comment"># 这里选用sambamba来去重复</span><br>sambamba markdup --overflow-list-size 600000  --tmpdir=<span class="hljs-string">&#x27;./&#x27;</span>  -r <span class="hljs-variable">$&#123;sample&#125;</span>.raw.bam  <span class="hljs-variable">$&#123;sample&#125;</span>.rmdup.bam<br>samtools index   <span class="hljs-variable">$&#123;sample&#125;</span>.rmdup.bam<br>samtools flagstat  <span class="hljs-variable">$&#123;sample&#125;</span>.rmdup.bam &gt; <span class="hljs-variable">$&#123;sample&#125;</span>.rmdup.stat<br><br><span class="hljs-comment">## ref:https://www.biostars.org/p/170294/ </span><br><span class="hljs-comment">## Calculate %mtDNA:</span><br>mtReads=$(samtools idxstats  <span class="hljs-variable">$&#123;sample&#125;</span>.rmdup.bam | grep <span class="hljs-string">&#x27;chrM&#x27;</span> | <span class="hljs-built_in">cut</span> -f 3)<br>totalReads=$(samtools idxstats  <span class="hljs-variable">$&#123;sample&#125;</span>.rmdup.bam | awk <span class="hljs-string">&#x27;&#123;SUM += $3&#125; END &#123;print SUM&#125;&#x27;</span>)<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;==&gt; mtDNA Content:&#x27;</span> $(bc &lt;&lt;&lt; <span class="hljs-string">&quot;scale=2;100*<span class="hljs-variable">$mtReads</span>/<span class="hljs-variable">$totalReads</span>&quot;</span>)<span class="hljs-string">&#x27;%&#x27;</span><br><br><span class="hljs-comment">## 保留两条reads比对到同一条染色体(Proper paired) ，还有高质量的比对结果(Mapping quality&gt;=30)</span><br><span class="hljs-comment">## 顺便过滤 线粒体reads</span><br>samtools view  -h  -f 2 -q 30    <span class="hljs-variable">$&#123;sample&#125;</span>.rmdup.bam   |grep -v chrM |samtools <span class="hljs-built_in">sort</span>  -O bam  -@ 5 -o - &gt; <span class="hljs-variable">$&#123;sample&#125;</span>.last.bam<br><br>samtools index   <span class="hljs-variable">$&#123;sample&#125;</span>.last.bam<br>samtools flagstat  <span class="hljs-variable">$&#123;sample&#125;</span>.last.bam &gt; <span class="hljs-variable">$&#123;sample&#125;</span>.last.stat<br><br><span class="hljs-comment"># 转bed 文件 用MACS2 shift extend model</span><br>bedtools bamtobed -i <span class="hljs-variable">$&#123;sample&#125;</span>.last.bam  &gt; <span class="hljs-variable">$&#123;sample&#125;</span>.bed<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Deeptools 可视化</p>
+</blockquote>
+<p><strong>bam转bw</strong></p>
+<p><a target="_blank" rel="noopener" href="https://deeptools.readthedocs.io/en/develop/content/tools/bamCoverage.html">bamCoverage</a></p>
+<p><font color="red"><strong>–normalizeUsing</strong></font></p>
+<p>Possible choices: RPKM, CPM, BPM, RPGC, None</p>
+<p>Use one of the entered methods to normalize the number of reads per bin. By <strong>default, no normalization</strong> is performed. <strong>RPKM</strong> &#x3D; Reads Per Kilobase per Million mapped reads; <strong>CPM</strong> &#x3D; Counts Per Million mapped reads, same as CPM in RNA-seq; <strong>BPM</strong> &#x3D; Bins Per Million mapped reads, same as <strong>TPM</strong> in RNA-seq; <strong>RPGC</strong> &#x3D; reads per genomic content (1x normalization); Mapped reads <strong>are considered after blacklist filtering?</strong> (if applied). </p>
+<p>RPKM (per bin) &#x3D; number of reads per bin &#x2F; (number of mapped reads (in millions) * bin length (kb)). </p>
+<p>CPM (per bin) &#x3D; number of reads per bin &#x2F; number of mapped reads (in millions). BPM (per bin) &#x3D; number of reads per bin &#x2F; sum of all reads per bin (in millions). </p>
+<p>RPGC (per bin) &#x3D; number of reads per bin &#x2F; scaling factor for 1x average coverage. None &#x3D; the default and equivalent to not setting this option at all. This scaling factor, in turn, is determined from the sequencing depth: (total number of mapped reads * fragment length) &#x2F; effective genome size. The scaling factor used is the inverse of the sequencing depth computed for the sample to match the 1x coverage. This option requires –effectiveGenomeSize. Each read is considered independently, if you want to only count one mate from a pair in paired-end data, then use the –samFlagInclude&#x2F;–samFlagExclude options. (Default: None)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span>  ~/project/atac/deeptools_result<br><br><span class="hljs-comment">###构建索引</span><br><span class="hljs-built_in">ls</span>  *.bam  |xargs -i samtools index &#123;&#125;<br><span class="hljs-comment">###将最终的bam转换成bigwig文件</span><br><span class="hljs-built_in">ls</span> *last.bam |<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> <span class="hljs-built_in">id</span>;<span class="hljs-keyword">do</span><br><span class="hljs-built_in">nohup</span> bamCoverage -b <span class="hljs-variable">$&#123;id&#125;</span> -p 5 --normalizeUsing RPKM  -o <span class="hljs-variable">$&#123;id%%.*&#125;</span>.last.bw &amp;<br><span class="hljs-keyword">done</span><br><span class="hljs-comment">###将去重的bam转换成bigwig文件</span><br><span class="hljs-comment"># cd dup </span><br><span class="hljs-built_in">ls</span>  *.bam  |xargs -i samtools index &#123;&#125; <br><span class="hljs-built_in">ls</span> *rmdup.bam |<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> <span class="hljs-built_in">id</span>;<span class="hljs-keyword">do</span><br><span class="hljs-built_in">nohup</span> bamCoverage --normalizeUsing CPM -b <span class="hljs-variable">$id</span> -o <span class="hljs-variable">$&#123;id%%.*&#125;</span>.rm.bw &amp; <br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>查看TSS附件信号强度（激活marker，27ac）</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">## both -R and -S can accept multiple files </span><br><span class="hljs-built_in">mkdir</span> -p  ~/project/atac/tss<br><span class="hljs-built_in">cd</span>   ~/project/atac/tss <br><span class="hljs-comment"># source activate atac # 由于我这里自己系统有就没调用了</span><br>computeMatrix reference-point  --referencePoint TSS  -p 15  \<br>-b 10000 -a 10000    \<br>-R ~/project/atac/mm10_Refgene/Refseq.bed  \<br>-S ~/project/atac/deeptools_result/*.bw  \<br>--skipZeros  -o matrix1_test_TSS.gz  \<br>--outFileSortedRegions regions1_test_genes.bed<br><br><span class="hljs-comment">##     both plotHeatmap and plotProfile will use the output from   computeMatrix</span><br>plotHeatmap -m matrix1_test_TSS.gz  -out test_Heatmap.png<br>plotHeatmap -m matrix1_test_TSS.gz  -out test_Heatmap.pdf --plotFileFormat pdf  --dpi 720  <br>plotProfile -m matrix1_test_TSS.gz  -out test_Profile.png<br>plotProfile -m matrix1_test_TSS.gz  -out test_Profile.pdf --plotFileFormat pdf --perGroup --dpi 720 <br></code></pre></td></tr></table></figure>
+
+<p><strong>查看基因body的信号强度（抑制marker，27me3）</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#source activate atac</span><br><span class="hljs-built_in">mkdir</span> Body<br><span class="hljs-built_in">cd</span> ~/project/atac/Body<br>computeMatrix scale-regions  -p 15  \<br>-R ~/project/atac/mm10_Refgene/Refseq.bed  \<br>-S ~/project/atac/deeptools_result/*.bw  \<br>-b 10000 -a 10000  \<br>--skipZeros -o matrix1_test_body.gz<br><span class="hljs-comment"># plotHeatmap -m matrix1_test_body.gz  -out ExampleHeatmap1.png</span><br>plotHeatmap -m matrix1_test_body.gz  -out test_body_Heatmap.png<br>plotProfile -m matrix1_test_body.gz  -out test_body_Profile.png<br>plotProfile -m matrix1_test_body.gz -out test_Body_Profile.pdf --plotFileFormat pdf --perGroup --dpi 720<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>–regionBodyLength #调整genebody区域</li>
+<li>–binSize</li>
+</ul>
+<blockquote>
+<p>call peak</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#macs2 callpeak -t 2-cell-1.bed  -g mm --nomodel --shift -100 --extsize 200  -n 2-cell-1 --outdir ../peaks/</span><br><span class="hljs-built_in">cd</span> ~/project/atac/peaks/<br><span class="hljs-built_in">ls</span> *.bed | <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> <span class="hljs-built_in">id</span> ;<span class="hljs-keyword">do</span> (macs2 callpeak -t <span class="hljs-variable">$id</span>  -g mm --nomodel --<span class="hljs-built_in">shift</span>  -100 --extsize 200  -n <span class="hljs-variable">$&#123;id%%.*&#125;</span> --outdir ./) ;<span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 计算插入片段长度，FRiP值，IDR计算重复情况</p>
+</blockquote>
+<ul>
+<li>非冗余非线粒体能够比对的fragment、比对率、NRF、PBC1、PBC2、peak数、无核小体区NFR、TSS富集、FRiP 、IDR重复的一致性！</li>
+</ul>
+<p><strong>统计indel插入长度的分布</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#创建提取bam文件的第九列indel插入长度信息的sh文件 indel_length.sh，内容如下：</span><br><span class="hljs-built_in">cat</span> config.last_bam |<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> <span class="hljs-built_in">id</span>;<br><span class="hljs-keyword">do</span><br>arr=(<span class="hljs-variable">$id</span>)<br>sample=<span class="hljs-variable">$&#123;arr[0]&#125;</span><br>sample_name=<span class="hljs-variable">$&#123;arr[1]&#125;</span><br>samtools view <span class="hljs-variable">$sample</span> |awk <span class="hljs-string">&#x27;&#123;print $9&#125;&#x27;</span>  &gt; <span class="hljs-variable">$&#123;sample_name&#125;</span>_length.txt<br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs R"><span class="hljs-comment">#indel_length_distribution.sh</span><br>md<span class="hljs-operator">=</span>commandArgs<span class="hljs-punctuation">(</span>trailingOnly<span class="hljs-operator">=</span><span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span>; <br>input<span class="hljs-operator">=</span>cmd<span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span>; output<span class="hljs-operator">=</span>cmd<span class="hljs-punctuation">[</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span>; <br>a<span class="hljs-operator">=</span><span class="hljs-built_in">abs</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">as.numeric</span><span class="hljs-punctuation">(</span>read.table<span class="hljs-punctuation">(</span>input<span class="hljs-punctuation">)</span><span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span>; <br>png<span class="hljs-punctuation">(</span>file<span class="hljs-operator">=</span>output<span class="hljs-punctuation">)</span>;<br>hist<span class="hljs-punctuation">(</span>a<span class="hljs-punctuation">,</span><br>main<span class="hljs-operator">=</span><span class="hljs-string">&quot;Insertion Size distribution&quot;</span><span class="hljs-punctuation">,</span><br>ylab<span class="hljs-operator">=</span><span class="hljs-string">&quot;Read Count&quot;</span><span class="hljs-punctuation">,</span>xlab<span class="hljs-operator">=</span><span class="hljs-string">&quot;Insert Size&quot;</span><span class="hljs-punctuation">,</span><br>xaxt<span class="hljs-operator">=</span><span class="hljs-string">&quot;n&quot;</span><span class="hljs-punctuation">,</span><br>breaks<span class="hljs-operator">=</span>seq<span class="hljs-punctuation">(</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">max</span><span class="hljs-punctuation">(</span>a<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span>by<span class="hljs-operator">=</span><span class="hljs-number">10</span><span class="hljs-punctuation">)</span><br><span class="hljs-punctuation">)</span>; <br><br>axis<span class="hljs-punctuation">(</span>side<span class="hljs-operator">=</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span><br>at<span class="hljs-operator">=</span>seq<span class="hljs-punctuation">(</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">max</span><span class="hljs-punctuation">(</span>a<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span>by<span class="hljs-operator">=</span><span class="hljs-number">100</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>labels<span class="hljs-operator">=</span>seq<span class="hljs-punctuation">(</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">max</span><span class="hljs-punctuation">(</span>a<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span>by<span class="hljs-operator">=</span><span class="hljs-number">100</span><span class="hljs-punctuation">)</span><br><span class="hljs-punctuation">)</span>;<br><br>dev.off<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <br></code></pre></td></tr></table></figure>
+
+<p><strong>FRiP值的计算：fraction of reads in called peak regions</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh">bedtools intersect -a 2-cell-1.bed -b 2-cell-1_peaks.narrowPeak |<span class="hljs-built_in">wc</span> -l<br>148210<br><span class="hljs-built_in">wc</span>  -l 2-cell-1.bed<br>5105850 <br><span class="hljs-comment"># 故2-cell-1的FRiP为</span><br>148210/5105850 = 0.0292<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/project/atac/peaks<br><span class="hljs-built_in">ls</span> *narrowPeak|<span class="hljs-keyword">while</span>  <span class="hljs-built_in">read</span> <span class="hljs-built_in">id</span>;<br><span class="hljs-keyword">do</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$id</span><br>bed=$(<span class="hljs-built_in">basename</span> <span class="hljs-variable">$id</span> <span class="hljs-string">&quot;_peaks.narrowPeak&quot;</span>).bed<br><span class="hljs-comment">#ls  -lh $bed </span><br>Reads=$(bedtools intersect -a <span class="hljs-variable">$bed</span> -b <span class="hljs-variable">$id</span> |<span class="hljs-built_in">wc</span> -l|awk <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span>)<br>totalReads=$(<span class="hljs-built_in">wc</span> -l <span class="hljs-variable">$bed</span>|awk <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span>)<br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$Reads</span>  <span class="hljs-variable">$totalReads</span> <br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;==&gt; FRiP value:&#x27;</span> $(bc &lt;&lt;&lt; <span class="hljs-string">&quot;scale=2;100*<span class="hljs-variable">$Reads</span>/<span class="hljs-variable">$totalReads</span>&quot;</span>)<span class="hljs-string">&#x27;%&#x27;</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<p>Fraction of reads in peaks (FRiP) - Fraction of all mapped reads that fall into the called peak regions, i.e. usable reads in significantly enriched peaks divided by all usable reads. In general, FRiP scores correlate positively with the number of regions. (Landt et al, Genome Research Sept. 2012, 22(9): 1813–1831)<br><strong>使用R包看不同peaks文件的overlap情况</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs r">options<span class="hljs-punctuation">(</span>BioC_mirror<span class="hljs-operator">=</span><span class="hljs-string">&quot;https://mirrors.ustc.edu.cn/bioc/&quot;</span><span class="hljs-punctuation">)</span> <br>options<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;repos&quot;</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span>CRAN<span class="hljs-operator">=</span><span class="hljs-string">&quot;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>source<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;http://bioconductor.org/biocLite.R&quot;</span><span class="hljs-punctuation">)</span> <br>library<span class="hljs-punctuation">(</span><span class="hljs-string">&#x27;BiocInstaller&#x27;</span><span class="hljs-punctuation">)</span><br><span class="hljs-comment"># biocLite(&quot;ChIPpeakAnno&quot;)</span><br><span class="hljs-comment"># biocLite(&quot;ChIPseeker&quot;)</span><br>library<span class="hljs-punctuation">(</span>ChIPseeker<span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>ChIPpeakAnno<span class="hljs-punctuation">)</span><br>setwd<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;E://desktop/sept/ATAC-seq_practice/find_peaks_overlaping/&quot;</span><span class="hljs-punctuation">)</span><br>list.files<span class="hljs-punctuation">(</span><span class="hljs-string">&#x27;./&#x27;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;*.narrowPeak&quot;</span><span class="hljs-punctuation">)</span><br>tmp <span class="hljs-operator">=</span> lapply<span class="hljs-punctuation">(</span>list.files<span class="hljs-punctuation">(</span><span class="hljs-string">&#x27;./&#x27;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;*.narrowPeak&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><span class="hljs-keyword">function</span><span class="hljs-punctuation">(</span>x<span class="hljs-punctuation">)</span><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-built_in">return</span><span class="hljs-punctuation">(</span>readPeakFile<span class="hljs-punctuation">(</span>file.path<span class="hljs-punctuation">(</span><span class="hljs-string">&#x27;./&#x27;</span><span class="hljs-punctuation">,</span> x<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">)</span><br>tmp<br>ol <span class="hljs-operator">&lt;-</span> findOverlapsOfPeaks<span class="hljs-punctuation">(</span>tmp<span class="hljs-punctuation">[[</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>tmp<span class="hljs-punctuation">[[</span><span class="hljs-number">2</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">)</span> <span class="hljs-comment"># 这里选取的是第一个文件和第二个文件，即cell.1_peak_1和cell.2_peak</span><br>png<span class="hljs-punctuation">(</span><span class="hljs-string">&#x27;overlapVenn.png&#x27;</span><span class="hljs-punctuation">)</span><br>makeVennDiagram<span class="hljs-punctuation">(</span>ol<span class="hljs-punctuation">)</span><br>dev.off<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>IDR 计算，同时考虑peaks间的overlap，和富集倍数的一致性</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs sh">conda  create -n py3 -y   python=3 idr<br>conda activate py3<br>idr -h <br>idr --samples  2-cell-1_peaks.narrowPeak 2-cell-2_peaks.narrowPeak  --plot<br><br><span class="hljs-comment">###############---</span><br>idr --samples SRR2927018_peaks.narrowPeak SRR3545580_peaks.narrowPeak \<br>--input-file-type narrowPeak \<br>--rank p.value \<br>--output-file group2-idr \<br>--plot \<br>--log-output-file group2.idr.log<br><br><span class="hljs-built_in">ls</span> -lh group*|<span class="hljs-built_in">cut</span> -d <span class="hljs-string">&quot; &quot;</span> -f 5-<br><span class="hljs-comment"># 740K Apr 19 22:00 group1-idr</span><br><span class="hljs-comment">#  205 Apr 19 22:00 group1.idr.log</span><br><span class="hljs-comment"># 341K Apr 19 22:00 group1-idr.png</span><br><span class="hljs-comment"># 315K Apr 19 22:00 group2-idr</span><br><span class="hljs-comment">#  202 Apr 19 22:00 group2.idr.log</span><br><span class="hljs-comment"># 218K Apr 19 22:00 group2-idr.png</span><br><span class="hljs-built_in">cat</span> group1.idr.log<br><span class="hljs-comment"># Initial parameter values: [0.10 1.00 0.20 0.50]</span><br><span class="hljs-comment"># Final parameter values: [0.59 1.05 0.62 0.79]</span><br><span class="hljs-comment"># Number of reported peaks - 5869/5869 (100.0%)</span><br><span class="hljs-comment"># Number of peaks passing IDR cutoff of 0.05 - 1571/5869 (26.8%)</span><br><br><span class="hljs-built_in">cat</span> group2.idr.log<br><span class="hljs-comment"># Initial parameter values: [0.10 1.00 0.20 0.50]</span><br><span class="hljs-comment"># Final parameter values: [0.35 1.06 0.47 0.50]</span><br><span class="hljs-comment"># Number of reported peaks - 2505/2505 (100.0%)</span><br><span class="hljs-comment"># Number of peaks passing IDR cutoff of 0.05 - 38/2505 (1.5%)</span><br><br><span class="hljs-comment">#输出标则表示：</span><br>左上： Rep1 peak ranks vs Rep2 peak ranks，没有通过特定IDR阈值的peaks显示为红色。 右上：Rep1 log10 peak scores vs Rep2 log10 peak scores，没有通过特定IDR阈值的peaks显示为红色。 下面两个图： Peak rank vs IDR scores，箱线图展示了IDR值的分布，默认情况下，IDR值的阈值为-1E-6。<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注释</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bash">options(BioC_mirror=<span class="hljs-string">&quot;https://mirrors.ustc.edu.cn/bioc/&quot;</span>) <br>options(<span class="hljs-string">&quot;repos&quot;</span> = c(CRAN=<span class="hljs-string">&quot;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&quot;</span>))<br><span class="hljs-built_in">source</span>(<span class="hljs-string">&quot;http://bioconductor.org/biocLite.R&quot;</span>) <br>library(<span class="hljs-string">&#x27;BiocInstaller&#x27;</span>)<br>biocLite(<span class="hljs-string">&quot;ChIPpeakAnno&quot;</span>)<br>library(ChIPpeakAnno)<br>setwd(<span class="hljs-string">&quot;E://desktop/sept/ATAC-seq_practice/peaks_annotaion/&quot;</span>)<br>biocLite(<span class="hljs-string">&quot;TxDb.Mmusculus.UCSC.mm10.knownGene&quot;</span>)<br>biocLite(<span class="hljs-string">&quot;org.Mm.eg.db&quot;</span>)<br>txdb &lt;- TxDb.Mmusculus.UCSC.mm10.knownGene<br>promoter &lt;- getPromoters(TxDb=txdb, <br>                         upstream=3000, downstream=3000)<br>files = list(cell_1_summits = <span class="hljs-string">&quot;2-cell-1_summits.bed&quot;</span>, cell_2_summits = <span class="hljs-string">&quot;2-cell-2_summits.bed&quot;</span>,<br>                   cell_4_summits = <span class="hljs-string">&quot;2-cell-4_summits.bed&quot;</span>, cell_5_summits = <span class="hljs-string">&quot;2-cell-5_summits.bed&quot;</span>)<br>peakAnno &lt;- annotatePeak(files[[1]], <span class="hljs-comment"># 分别改成2或者3或者4即可，分别对应四个文件</span><br>                         tssRegion=c(-3000, 3000),<br>                         TxDb=txdb, annoDb=<span class="hljs-string">&quot;org.Hs.eg.db&quot;</span>)<br>plotAnnoPie(peakAnno)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">plotAnnoBar(peakAnno)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">vennpie(peakAnno)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">upsetplot(peakAnno)<br>upsetplot(peakAnno, vennpie=TRUE)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/GeekFocus/2022-03-20-ATAC-seq-6/8.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="img"></p>
+<p>ChIPseeker注释最近基因，peak离最近基因的距离分布</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">plotDistToTSS(peakAnno,<br>              title=<span class="hljs-string">&quot;Distribution of transcription factor-binding loci\nrelative to TSS&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">peakAnnoList &lt;- lapply(files, annotatePeak, <br>                       TxDb=txdb,tssRegion=c(-3000, 3000))<br>plotAnnoBar(peakAnnoList)<br></code></pre></td></tr></table></figure>
+
+<p>ChIPseeker提供了vennplot函数，看注释的最近基因在不同样本的overlap</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">genes &lt;- lapply(peakAnnoList, <span class="hljs-keyword">function</span>(i) <br>    as.data.frame(i)<span class="hljs-variable">$geneId</span>)<br>vennplot(genes[2:4], by=<span class="hljs-string">&#x27;Vennerable&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Motif 寻找 注释</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># mkdir -p  ~/project/atac/motif</span><br><span class="hljs-built_in">cd</span>   ~/project/atac/motif<br><span class="hljs-comment"># source activate atac</span><br><span class="hljs-built_in">ls</span> ../peaks/*.narrowPeak |<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> <span class="hljs-built_in">id</span>;<br><span class="hljs-keyword">do</span><br>file=$(<span class="hljs-built_in">basename</span> <span class="hljs-variable">$id</span> )<br>sample=<span class="hljs-variable">$&#123;file%%.*&#125;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$sample</span> <br>awk <span class="hljs-string">&#x27;&#123;print $4&quot;\t&quot;$1&quot;\t&quot;$2&quot;\t&quot;$3&quot;\t+&quot;&#125;&#x27;</span> <span class="hljs-variable">$id</span> &gt; <span class="hljs-variable">$&#123;sample&#125;</span>.homer_peaks.tmp<br><span class="hljs-built_in">nohup</span> findMotifsGenome.pl <span class="hljs-variable">$&#123;sample&#125;</span>.homer_peaks.tmp  mm10 <span class="hljs-variable">$&#123;sample&#125;</span>_motifDir -len 8,10,12  &amp;<br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 差异peaks分析</p>
+</blockquote>
+<p>diffbind, DESeq2</p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/NGS/" class="category-chain-item">NGS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/atac-seq/">#atac-seq</a>
+      
+        <a href="/GeekFocus/tags/pipeline/">#pipeline</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【ATAC-seq-pipeline】</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/03/20/2022-03-20-ATAC-seq-6/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 20, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/21/2022-03-21-CUTTag/" title="【CUT&amp;Tag-pipeline】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【CUT&amp;Tag-pipeline】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/20/2022-03-20-bowtie2/" title="【bowtie2】">
+                        <span class="hidden-mobile">【bowtie2】</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2022©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>
