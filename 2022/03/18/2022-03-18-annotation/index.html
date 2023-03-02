@@ -1,73 +1,1234 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="Structural annotation and functional annotation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Assembly Gene Annotation">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/03/18/2022-03-18-annotation/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="Structural annotation and functional annotation">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/6.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/6.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/7.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/7.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/8.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/8.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/9.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/9.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/10.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/10.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/11.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2022-03-18-annotation/11.png">
+<meta property="article:published_time" content="2022-03-18T06:23:16.441Z">
+<meta property="article:modified_time" content="2022-06-08T06:24:27.154Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="annotation">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/2022-03-18-annotation/1.png">
+  
+  
+  
+  <title>Assembly Gene Annotation - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Assembly Gene Annotation"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-18 14:23" pubdate>
+          March 18, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          41k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          345 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Assembly Gene Annotation</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 8, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>Structural annotation and functional annotation</p>
+<span id="more"></span>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://phytozome-next.jgi.doe.gov/">https://phytozome-next.jgi.doe.gov</a></p>
+<hr>
+<h1 id="基因组注释简介"><a href="#基因组注释简介" class="headerlink" title="基因组注释简介"></a>基因组注释简介</h1><p>基因组注释主要包括四个研究方向：<strong>重复序列识别</strong>；<strong>非编码RNA预测</strong>；基因<strong>结构预测</strong>和基因<strong>功能注释</strong>。分别对四个领域阐述。</p>
+<h2 id="1：重复序列的识别"><a href="#1：重复序列的识别" class="headerlink" title="1：重复序列的识别"></a>1：重复序列的识别</h2><p><strong>重复序列的研究背景和意义：</strong>重复序列可分为<font color="blue">串联重复序列（Tendam repeat）</font>和<font color="blue">散在重复序列(Interpersed repeat)</font>两大类。其中<strong>串联重复序列</strong>包括<font color="blue">卫星DNA，微卫星序列，小卫星序列</font>；<strong>散在重复序列</strong>又称<font color="blue">转座子元件</font>，包括以DNA-DNA方式转座的<font color="blue">DNA转座子和反转录转座子(retrotransposon)</font>。常见的反转录转座子类别有<font color="blue">LTR,LINE和SINE</font>。</p>
+<p><strong>重复序列识别的发展现状：</strong>目前，识别<font color="blue">重复序列</font>和<font color="blue">转座子</font>的方法为<font color="red"><strong>序列比对</strong></font>和<font color="red"><strong>从头预测</strong></font>两类。<font color="blue"><strong>序列比对</strong></font>方法一般采用<font color="red"><strong>Repeatmasker</strong></font>软件，<font color="blue">识别</font>与已知重复序列<font color="blue">相似</font>的序列，并对其<font color="blue">分类</font>。常用<font color="red"><strong>Repbase</strong>重复序列数据库</font>。<font color="blue"><strong>从头预测</strong></font>方法利用重复序列或转座子<font color="blue">自身的序列或结构特征</font>构建<font color="blue"><strong>从头预测算法或软件</strong></font>对序列进行<font color="blue">识别</font>。从头预测方法的<font color="blue"><strong>优点</strong></font>在于能够根据转座子元件自身的结构特征进行预测，<font color="blue">不依赖</font>于已有转座子数据库，能够<font color="blue">发现未知</font>的转座子元件。常见的从头预测方法有<font color="red">Recon，Piler，Repeatscout,LTR-finder，ReAS</font>等。</p>
+<p><strong>重复序列识别的研究内容：</strong>获得组装好的基因组序列后，<font color="blue"><strong>首先预测</strong></font>基因组中的<font color="blue">重复序列和转座子元件</font>。一方面，采用RepeatScout、LTR-finder、Tendem Repeat Finder、Repeatmoderler、Piler等从头预测软件<font color="red"><strong>预测重复序列</strong></font>。为了获得从头预测方法得到的重复序列的类别信息，<font color="blue">把这些序列<strong>与Repbase数据库比对</strong></font>，将能够归类的重复序列<font color="red">分类</font>。另一方面，利用<font color="red">Repeatmasker<strong>识别</strong></font>与已知重复序列<font color="blue"><strong>相似</strong>的重复序列或蛋白质序列</font>。通过构建Repbase数据库在<font color="blue"><strong>DNA水平</strong>和<strong>蛋白质水平</strong></font>的重复序列，Repeatmasker分别识别在DNA水平和蛋白质水平重复的序列，提高识别率。</p>
+<p><strong>重复序列识别的关键技术难点：</strong></p>
+<p>1）：<font color="blue"><strong>二代</strong></font>测序测基因组，成本低、速度快。但读长（reads）较短。由于基因组序列采用kmer算法进行组装，<strong>高度相似</strong>的<strong>重复序列</strong>可能会<strong>被压缩到一起</strong>，影响后续重复序列识别。</p>
+<p>2）：某些<strong>高度重复序列</strong>用现有的组装方法<strong>难以组装</strong>，成为未组装reads（<strong>unassembled reads</strong>）。有必要**同时分析未组装reads?**以得到更为完整的重复序列分布图。华大开发ReAS软件，专门用于识别未组装reads中的重复序列。但该软件目前只能处理传统测序技术(如sanger测序)生成的较长片段的reads，需进一步改进方可用于分析二代reads。同时，未组装的短片段reads重复度更高，识别其重复区域具有较大难度。</p>
+<p><strong>重复序列识别的研究方向：</strong></p>
+<p>1）：整合现有的重复序列预测方法，对<font color="blue">组装好的基因组序列</font>进行分析。</p>
+<p>2）：综合考虑并结合短序列组装策略，<font color="blue">校正重复序列识别</font>的结果。</p>
+<p>3）：<font color="blue">开发识别<strong>未组装reads</strong>重复序列的算法和流程</font>并构建一致性序列。</p>
+<h2 id="2：非编码RNA序列的预测"><a href="#2：非编码RNA序列的预测" class="headerlink" title="2：非编码RNA序列的预测"></a>2：非编码RNA序列的预测</h2><p><strong>非编码RNA预测的研究背景和意义：</strong>非编码RNA，指不被翻译成蛋白质的RNA，如tRNA, rRNA等，这些RNA不被翻译成蛋白质，但具有重要生物学功能。<font color="red"><strong>miRNA</strong></font>结合其靶向基因的mRNA序列结合，将mRNA降解或抑制其翻译成蛋白质，具有<font color="blue"><strong>沉默基因</strong></font>的功能。<font color="red"><strong>tRNA</strong></font> (转运RNA)携带氨基酸进入核糖体，使之在mRNA指导下<font color="blue"><strong>合成蛋白质</strong></font>。<font color="red"><strong>rRNA</strong></font>(核糖体RNA)与蛋白质结合<font color="blue"><strong>形成核糖体</strong></font>，其功能是作为mRNA的支架，提供mRNA翻译成蛋白质的场所。<font color="red"><strong>snRNA（小核RNA）</strong></font>主要参与<font color="blue"><strong>RNA前体加工</strong></font>，是<font color="blue"><strong>RNA剪切体</strong>主要成分</font>。</p>
+<p><strong>非编码RNA预测的发展现状：</strong>由于ncRNA种类繁多，特征各异，缺少编码蛋白质的基因所具有的典型特征，现有的ncRNA<strong>预测软件</strong>一般<strong>专注于搜索单一种类</strong>的ncRNA，如<font color="blue">tRNAScan-SE 搜索tRNA、snoScan 搜索带C&#x2F;D盒的snoRNAs、SnoGps 搜索带H&#x2F;ACA 盒的snoRNAs、mirScan 搜索microRNA</font>等。Sanger实验室开发了<font color="blue">Infernal软件</font>，<font color="blue">建立1600多个RNA家族</font>，并对每个家族建立<font color="blue">一致性二级结构和协方差模型</font>，形成了<font color="red"><strong>Rfam数据库</strong></font>。采用Rfam数据库中的每个RNA的协方差模型，结合<font color="blue">Infernal</font>软件可以<font color="blue"><strong>预测</strong>已有<strong>RNA家族的新成员</strong></font>。Rfam&#x2F;Infernal方法应用广泛，可以预测各种RNA家族成员，但<strong>特异性较差</strong>。建议：如果有更好的专门预测某一类非编码RNA的软件，则采用该软件预测；否则，使用Rfam&#x2F;Infernal流程。</p>
+<p><strong>非编码RNA预测的研究内容：</strong>利用Rfam家族的协方差模型，采用Rfam自带的<font color="red"><strong>Infernal软件预测miRNA</strong>和<strong>snRNA</strong>序列</font>。由于rRNA的保守性很强，用<font color="red"><strong>序列比对</strong>已知rRNA序列识别基因组中的<strong>rRNA</strong></font>序列。<font color="red"><strong>tRNAscan-SE</strong></font>工具综合多个识别和分析程序，通过分析启动子元件的保守序列模式、tRNA二级结构的分析、转录控制元件分析和除去绝大多数假阳性的筛选过程，据称能识别99%的真tRNA基因。</p>
+<p><strong>非编码RNA预测中拟解决的关键技术难点：</strong></p>
+<p><strong>识别非编码RNA的假基因：</strong>基因组中<font color="blue">很多序列由<strong>非编码RNA基因复制</strong>而来，与非编码RNA基因序列<strong>相似</strong>，但<strong>不具有非编码RNA的功能</strong></font>。目前采用的非编码RNA序列的预测方法都是基于序列比对和结构预测，不能够很好的去除这类非编码RNA的假基因。针对这个问题，考虑结合RNA表达信息如<strong>RNA-seq</strong>数据<strong>筛选</strong>。</p>
+<p><strong>非编码RNA预测的研究方向：</strong></p>
+<p>1）：专门检测小片段RNA序列的方法现在已经得到广泛应用，利用<strong>小片段RNA序列</strong>数据进行<strong>非编码RNA的预测</strong>是重要研究方向。</p>
+<p>2）：开发<strong>miRNA靶向基因预测</strong>流程：miRNA通过调控其靶向基因的mRNA稳定性或翻译来控制生命活动的进程。预测miRNA靶向基因能够给研究miRNA功能带来提示。由于miRNA在动物和植物中对靶向基因的调控机制差别较大，建议<strong>对动物和植物分别建立靶向基因预测流程</strong>，提高预测准确度。</p>
+<h2 id="3：基因结构预测"><a href="#3：基因结构预测" class="headerlink" title="3：基因结构预测"></a>3：基因结构预测</h2><p><strong>基因结构预测的研究背景和意义：</strong>通过基因结构预测，能够获得基因组详细的<font color="blue">基因分布和结构信息</font>，也将为<font color="blue">功能注释和进化分析</font>工作提供重要的原料。基因结构预测包括预测基因组中的<font color="red"><strong>基因位点</strong>、<strong>开放性阅读框架</strong>（ORF）、<strong>翻译起始位点和终止位点</strong>、<strong>内含子</strong>和<strong>外显子</strong>、<strong>启动子</strong>、<strong>可变剪切位点</strong>以及蛋白质<strong>编码序列</strong></font>等等。</p>
+<p><strong>基因结构预测的发展现状：</strong> <font color="blue">原核生物</font>基因的各种信号位点（如<font color="blue">启动子和终止子</font>信号位点）<font color="blue">特异性较强</font>且容易识别，因此相应的基因预测方法已基本<font color="blue">成熟</font>。<font color="blue">Glimmer</font>是应用最广泛的<font color="blue">原核</font>生物基因结构预测软件，准确度高。而真核生物的基因预测难度大大增加。首先，真核生物中的<font color="blue">启动子和终止子等信号位点更为复杂</font>，难以识别。其次，真核生物<font color="blue">广泛存在可变剪切</font>，使<font color="blue">外显子和内含子定位更困难</font>。因此，预测真核生物的基因结构需要运用更为复杂的算法，常用的有<font color="red">隐马尔科夫模型</font>等。常用的软件有<font color="red"><strong>Genscan、SNAP、GeneMark、Twinscan</strong></font>等。</p>
+<p><strong>基因结构预测的研究内容：</strong>基因结构预测主要通过<font color="red"><strong>序列比对结合从头预测</strong></font>。序列比对方法采用blat和pasa等比对方法，将基因组序列与外部数据进行比对，以找到可能的基因位置信息。常用的数据包括<font color="blue"><strong>物种自身</strong>或其<strong>近缘物种</strong>的<strong>蛋白质序列</strong>、<strong>EST序列</strong>、<strong>全长cDNA序列</strong>、<strong>unigene序列</strong></font>等。此方法数据<strong>依赖性很高</strong>，并且在选择数据的同时要充分<strong>考虑到</strong>物种之间的<strong>亲缘关系和进化距离</strong>。基因<font color="blue">从头预测</font>方法则是通过搜索基因组中的重要信号位点进行的。常用的软件有<font color="red"><strong>Genscan、SNAP、Augustus、Glimmer、GlimmerHMM</strong></font>等等。同时采用<font color="blue"><strong>多种方法</strong></font>进行基因预测将产生众多结果，因此最后需要对结果进行<font color="blue"><strong>整合</strong></font>以得到基因的一致性序列。常用软件有<font color="blue"><strong>Glean，EVM</strong></font>等。</p>
+<p><strong>基因结构预测中拟解决的关键技术难点：</strong></p>
+<p>真核生物的基因结构预测方法仍有较大改进空间，主要面临以下的技术难点。</p>
+<p>1）：如何利用现有的数据和算法，<font color="blue">更好地识别基因的<strong>可变性剪切位点</strong></font>。</p>
+<p>2）：随着测序工作的进展，许多目前研究较少的物种也将提上测序日程。大多基因结构的从头预测算法需要<font color="blue">预先训练预测参数</font>。<font color="blue">现有资源和数据稀缺的物种</font>将很<font color="blue">难</font>获得预测参数。</p>
+<p>3）：克服<font color="blue">组装错误</font>对基因结果预测的影响</p>
+<p>4）：建立基因结构预测的<font color="blue">评价系统</font>。</p>
+<p>可变性剪切位点的预测较为困难。如何<strong>结合RNA-seq数据</strong>进行<strong>可变剪切预测</strong>将是重要的工作方向和难点。</p>
+<p><strong>基因结构预测的研究方向：</strong></p>
+<p>1）：利用<font color="red">RNA-seq、EST等数据<strong>校正</strong>基因结构预测</font>，识别可变剪切位点。</p>
+<p>2）：对于<font color="red">研究较少物种</font>，建议利用<font color="red">近缘物种的同源基因数据</font>以训练基因结构预测软件。</p>
+<p>3）：利用<font color="red">同源基因组之间的共线性信息，辅助基因结构预测</font>。</p>
+<h2 id="4：基因功能注释"><a href="#4：基因功能注释" class="headerlink" title="4：基因功能注释"></a>4：基因功能注释</h2><p><strong>基因功能注释的研究背景和意义：</strong>获得基因结构信息后，希望进一步获得基因功能信息。基因功能注释方向包括<font color="red">预测基因中的<strong>模序</strong>和<strong>结构域</strong>、<strong>蛋白质的功能</strong>和所在<strong>生物学通路</strong>等</font>。</p>
+<p><strong>基因功能注释的发展现状：</strong>全基因组测序将产生大量数据，而实验方法由于成本较高，不适用于全基因组测序的后续功能分析。目前普遍采用<font color="red"><strong>比对方法</strong></font>对全基因组测序的基因功能进行注释。<strong>KEGG和Gene Ontology</strong>是目前使用最为广泛的蛋白质<strong>功能数据库</strong>，分别对蛋白质的生物学通路和功能进行注释。<font color="blue"><strong>Interpro</strong></font>通过<font color="blue">整合多个记录蛋白质特征的数据库</font>，根据蛋白质<font color="blue">序列或结构中的特征</font>对<font color="blue">蛋白质分类</font>。</p>
+<p><strong>基因功能注释的研究内容：</strong>目前利用四个常用的数据库进行基因功能注释。使用的数据库有<font color="red"><strong>Uniprot蛋白质序列数据库</strong>、<strong>KEGG生物学通路数据库</strong>、<strong>Interpro蛋白质家族数据库</strong>和<strong>Gene Ontology基因功能注释数据库</strong></font>。</p>
+<p>1）：与Uniprot蛋白质序列数据库比对，获得<font color="blue">序列初步信息</font>。</p>
+<p>2）：与KEGG数据库比对，预测蛋白质可能具有的<font color="blue">生物学<strong>通路</strong>信息</font>。</p>
+<p>3）：与Interpro数据库比对将获得蛋白质的<font color="blue"><strong>保守性序列，模序和结构域</strong></font>等。</p>
+<p>4）：预测蛋白质的功能。Interpro进一步建立了与Gene Ontology的交互系统：<font color="blue">Interpro2GO</font>。该系统记录了每个蛋白质家族与Gene Ontology中的功能节点的对应关系，通过此系统便能预测蛋白质执行的生物学功能。</p>
+<p><strong>基因功能注释中拟解决的关键技术难点</strong>：</p>
+<p>目前功能注释工作是建立在比对基础上，这将会带来两个比较大的问题。首先此方法<strong>严重依赖于外部数据</strong>，对某些<strong>研究较少的物种限制很大</strong>。其次，<strong>序列相似并不表示实际生物学功能相似</strong>，考虑引入序列<strong>比对之外的方法</strong>，进一步完善基因功能注释工作。</p>
+<p>基因功能注释的研究方向：考虑引入序列比对之外的数据（如蛋白质互作网络、基因表达谱等），利用概率模型算法进行整合? 完善基因功能注释工作。</p>
+<hr>
+<h1 id="example"><a href="#example" class="headerlink" title="example"></a>example</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012110870/article/details/82500684">https://blog.csdn.net/u012110870/article/details/82500684</a></p>
+<p>基因组组装完成后，或者是完成了草图，就不可避免遇到一个问题，需要对基因组序列进行注释。<strong>注释之前</strong>首先得<strong>构建基因模型</strong>，有三种策略：</p>
+<ul>
+<li><font color="red">从头注释(de novo prediction)</font>：通过已有的概率模型来预测基因结构，在<font color="blue">预测<strong>剪切位点和UTR区准确性较低</strong></font></li>
+<li><font color="red">同源预测(homology-based prediction)</font>：有一些基因蛋白在<font color="blue">相近物种间保守性高</font>，可使用已有的<font color="blue">高质量近缘物种注释信息</font>通过<font color="blue"><strong>序列联配</strong></font>的方式确定<font color="blue"><strong>外显子边界</strong>和<strong>剪切位点</strong></font></li>
+<li><font color="red">基于转录组预测(transcriptome-based prediction)</font>：通过物种的RNA-seq数据辅助注释，能够较为准确的<font color="blue">确定<strong>剪切位点</strong>和<strong>外显子区域</strong></font>。<br>每种方法都有自己的优缺点，所以最后需要用<font color="blue"><strong>EvidenceModeler(EVM)<strong>和</strong>GLEAN</strong>工具<strong>整合</strong></font>，合并成完整的基因结构。<font color="red">基于<strong>可靠的基因结构</strong>，后续可才是<strong>功能注释</strong>，<strong>蛋白功能域注释</strong>，<strong>GO注释</strong>，<strong>通路注释</strong></font>等。</li>
+</ul>
+<p>那么基因注释重要吗？非常重要！尤其是高通量测序价格下降。花不到一万的价格对600M的物种进行100X的普通文库测序，然后拼接出草图。但是这个草图的价值还需要注释后才能显现。<br>从案例中学习套路</p>
+<p>陆地棉基因组注释</p>
+<p>文章标题为“Sequencing of allotetraploid cotton (Gossypium hirsutum L. acc. TM-1) provides a resource for fiber improvement”.</p>
+<p><font color="blue">同源注释</font>：从Phytozome上下载了7个植物的<font color="blue">基因组蛋白序列</font>(Arabidopsis thaliana, Carica papaya, Glycine max, G. raimondii, Populus trichocarpa, Theobroma cacao and Vitis vinifera), 使用<font color="blue"> <strong>TblastN</strong></font> 将<font color="blue">蛋白序列比对到组装序列</font>，E-value的阈值为<font color="blue"><strong>1e-5</strong></font>. 将不同蛋白的BLAST的<font color="blue">hits</font>用 <font color="blue"><strong>Solar</strong> 软件合并</font>。<font color="blue"><strong>GeneWise</strong></font> 根据每个BLAST hit的对应基因区域预测完整的基因结构。</p>
+<p><font color="blue">从头预测</font>：<strong>先</strong>得构建<strong>repeat-mask</strong> genome， 在这个基础上就用 <strong>August</strong>, Genescan, GlimmerHMM, Geneid 和 <strong>SNAP</strong> 预测编码区</p>
+<p><font color="blue">转录组预测</font>：用<strong>Tophat将RNA-seq数据</strong>比对到组装序列上，然后用<strong>cufflinks</strong>组装转录本形成基因模型。</p>
+<p>综上，使用 EvidenceModeler(EVM) 将上面的结果组装成非冗余的基因结构。进一步根据Cscore &gt; 0.5，peptide coverage &gt; 0.5 和CDS overlaping with TE进行筛选。还有过滤掉超过30%编码区被Pfam或Interprot TE domain的注释的基因模型。</p>
+<p>这些基因模型使用<strong>BLASTP进行功能注释</strong>，所用数据库为SWiss-Prot和TrEMBL.<font color="blue">蛋白功能</font>使用InterProScan和HMMER注释，数据库为InterPro和Pfam。<font color="blue">GO注释</font>则是直接雇佣InterPro和Pfam注释得到的对应entry。<font color="blue">通路注释</font>使用KEGG数据库。</p>
+<p>Cardamine hirsuta基因组注释</p>
+<p>文章标题为“The Cardamine hirsuta genome offers insight into the evolution of morphological diversity”。</p>
+<p>同源注释：使用 GenomeThreader 以拟南芥为剪切模型，以及PlantsGDB resourc上 Brassica rapa (v1.1), A. thaliana(TAIR10), A. lyrata (v6), tomato (v3.6), poplar (v2) 和 A. thaliana (version PUT-169), B. napus (version PUT-172) EST assemblies 的完整的代表性蛋白集。</p>
+<p>转录本预测： 将 C. hirsuta RNA-seq数据比对到基因序列，然后用cufflinks拼接</p>
+<p>从头预测：转录本预测得到的潜在蛋白编码转录本使用网页工具 ORFpredictor 进行预测， 同时用 blastx 和 A. thalina 进行比较，选择90%序列相似度和最高5%长度差异的部分从而保证保留完整的编码框(有启动子和终止子)。 这些基因模型根据相互之间的相似度和重叠度进行聚类，高度相似(&gt;95)从聚类中剔除，保证非冗余训练集。为了训练gene finder, 它们选随机选取了2000个位点，20%是单个外显子基因。从头预测工具为 August , GlimmerHMM, Geneid 和 SNAP . 此外还用了Fgenesh+, 以双子叶特异矩阵为参数进行预测。</p>
+<p>最后使用JIGSAW算法根据以上结果进行训练，随后再次用JIGSAW对每个基因模型计算统计学权重。</p>
+<p>可变剪切模型则是基于苗、叶、花和果实的RNA-seq比对组装结果。</p>
+<p>GO注释使用AHRD流程</p>
+<p>小结</p>
+<p>举的2个例子都是植物，主要是植物基因组不仅是组装，注释都是一大难题。因为植物基因组有大量的重复区，假基因，还有很多新的蛋白编码基因和非编码基因，比如说玉米基因组80%以上都是重复区域。然后当我检索这两篇文章所用工具的时候，我不经意或者说不可避免就遇到了这个网站 <a target="_blank" rel="noopener" href="http://www.plantgdb.org/">http://www.plantgdb.org/</a> , 一个整合植物基因组学工具和资源的网站，但是这个网站似乎2年没有更新了。当然这个网站也挺不错,<a target="_blank" rel="noopener" href="http://bioservices.usd.edu/gsap.html">http://bioservices.usd.edu/gsap.html</a>, 他给出了一套完整的注释流程以及每一步的输入和输出情况。</p>
+<p>此外，2017年在《Briefings in Bioinformatics》发表的”Plant genome and transcriptome annotations: from misconceptions to simple solution” 则是从五个角度对植物基因组注释做了很完整的总结</p>
+<p>植物科学的常见本体<br>功能注释的常用数据库和资源<br>已注释的植物基因组意味着什么<br>一个自动化注释流程<br>一个参考流程图，用来说明使用公用数据库注释植物基因组&#x2F;转录组的常规步骤<br><img src="/GeekFocus/2022-03-18-annotation/1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="注释流程图"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/1.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="注释流程图"></p>
+<p>基因组注释</p>
+<p>当我们谈到基因注释的时候，我们通常认为注释是指“对基因功能的描述”，比如说A基因在细胞的那个部分，通过招募B来调控C，从而引起病变。但是基因结构也是注释的一种形式，而且是先决条件，也就是在看似随机的ATCG的碱基排列中找到特殊的部分，而这些特殊的区域有着不一样的功能。<br><img src="/GeekFocus/2022-03-18-annotation/2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="gene structure"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/2.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="gene structure"></p>
+<p>在<font color="blue">正式启动基因组注释</font>项目之前，需要先检查组装是否合格，比如contig N50的长度是否大于基因的平均长度，使用BUSCO&#x2F;CEGMA检查基因的完整性，如果不满足要求，可能输出结果中大部分的contig中都不存在一个完整的基因结构。当组装得到的contig符合要求时，就可以开始基因组注释环节，这一步分为三步：<font color="blue"><strong>基因结构预测</strong>，基因<strong>功能注释</strong>，<strong>可视化</strong>和<strong>质控</strong></font>。<br>基因组结构注释</p>
+<p>基因结构注释应是功能注释的先决条件，完整的真核生物基因组注释流程需要如下步骤：</p>
+<ul>
+<li><p>必要的基因组<font color="blue">重复序列屏蔽</font></p>
+</li>
+<li><p><font color="blue">从头寻找基因</font>, 可用工具为: GeneMarkHMM, FGENESH, Augustus, SNAP, GlimmerHMM, Genscan</p>
+</li>
+<li><p><font color="blue">同源蛋白预测, 内含子分析</font>: GeneWIse, Exonerate, GenomeThreader</p>
+</li>
+<li><p>将EST序列，全长cDNA序列和Trinity&#x2F;Cufflinks&#x2F;Stringtie组装的转录组和基因组<font color="blue">联配</font></p>
+</li>
+<li><p>如果第4步用到了多个数据来源，使用<font color="blue">PASA基于重叠情况进行联配</font></p>
+</li>
+<li><p>使用<font color="blue">EvidenceModler</font>根据上述结果进行整合</p>
+</li>
+<li><p>使用PASA更新EVM的一致性预测，增加UTR注释和可变剪切注释</p>
+</li>
+<li><p>必要的人工检查</p>
+<p>基本上是套路化的分析流程，也就有一些工具通过整合几步开发了流程管理工具，比如说<font color="blue">BRAKER结合GeneMark和Augustus</font>，<font color="blue">MAKER2整合了SNAP,Exonerate</font>，虽然BRAKER说自己的效果比MAKER2好，但是用的人似乎不多，根据web of knowledge统计，两者的引用率分别是44,283, 当然BRAKER是2016，MAKER2是2011，后者在时间上有优势。</p>
+</li>
+</ul>
+<p>这里准备先按部就班的按照流程进行注释，所用的数据是 Cardamine hirsuta , 数据下载方式如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># Cardamine hirsutat【基因组数据】</span><br><span class="hljs-built_in">mkdir</span> chi_annotation &amp;&amp; <span class="hljs-built_in">cd</span> chi_annotation<br>wget http://chi.mpipz.mpg.de/download/sequences/chi_v1.fa<br><span class="hljs-built_in">cat</span> chi_v1.fa | <span class="hljs-built_in">tr</span> <span class="hljs-string">&#x27;atcg&#x27;</span> <span class="hljs-string">&#x27;ATCG&#x27;</span> &gt; chi_unmasked.fa<br><span class="hljs-comment"># 【注释结果】</span><br>wget http://chi.mpipz.mpg.de/download/annotations/carhr38.gff<br><span class="hljs-comment"># Cardamine hirsutat【转录组数据】</span><br><span class="hljs-built_in">mkdir</span> rna-seq &amp;&amp; <span class="hljs-built_in">cd</span> rna-seq<br>wget -4 -q -A <span class="hljs-string">&#x27;*.fastq.gz&#x27;</span> -np -nd -r 2 http://chi.mpipz.mpg.de/download/fruit_rnaseq/cardamine_hirsuta/ &amp;<br>wget -4 -q -A <span class="hljs-string">&#x27;*.fastq.gz&#x27;</span> -np -nd -r 2 http://chi.mpipz.mpg.de/download/leaf_rnaseq/cardamine_hirsuta/ &amp;<br><br><br></code></pre></td></tr></table></figure>
+
+<p>软件安装不在正文中出现，会放在附录中，除了某些特别复杂的软件。</p>
+<h2 id="01-重复序列屏蔽RepeatMasker"><a href="#01-重复序列屏蔽RepeatMasker" class="headerlink" title="01-重复序列屏蔽RepeatMasker"></a><strong>01-重复序列屏蔽RepeatMasker</strong></h2><p>重复屏蔽：真核生物的基因组存在大量的重复序列，植物基因组的重复序列甚至可以高达80%。尽管重复序列对维持染色体的空间结构、基因的表达调控、遗传重组等都具有重要作用，但是却会导致BLAST的结果出现大量假阳性，增加基因结构的预测的计算压力甚至影响注释正确性。基因组中的重复按照序列特征可以分为两类：<font color="blue">串联重复(tandem repeats)和散在重复(interspersed repeats)</font>.<br><img src="/GeekFocus/2022-03-18-annotation/3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="人类中的重复序列划分"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/3.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="人类中的重复序列划分"></p>
+<p>鉴定基因组重复区域的方法有两种：一种基于<font color="blue">文库(library)的同源(homology)</font>方法，该文库收集了<font color="blue">其他物种的某一种重复的一致性序列</font>，通过<font color="blue">相似性鉴定重复</font>；另一种是<font color="blue">从头预测(de novo)</font>，将序列和自己比较或者是<font color="blue">高频K-mer</font>来鉴定重复。</p>
+<p>目前重复序列注释主要软件就是<font color="red"><strong>RepeatMasker</strong>和<strong>RepeatModel</strong></font>。这里要注意分析的<strong>fasta的ID不能过长</strong>，不然会报错。如果序列ID过长可以使用bioawk进行转换，后续用到RepatModel不支持多行存放序列的fasta格式。</p>
+<p>直接使用<font color="blue">同源注释工具RepeatMasker</font>寻找重复序列：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">mkdir</span> 00-RepeatMask<br>~/opt/biosoft/RepeatMasker/RepeatMasker -e ncbi -species arabidopsis -pa 40 -gff -<span class="hljs-built_in">dir</span> 00-RepeatMask/ chi_unmasked.fa<br><span class="hljs-comment"># -e ncbi</span><br><span class="hljs-comment"># -species 选择物种 用~/opt/biosoft/RepeatMasker/util/queryRepeatDatabase.pl -tree 了解</span><br><span class="hljs-comment"># -lib 增加额外数据库,</span><br><span class="hljs-comment"># -pa 并行计算</span><br><span class="hljs-comment"># -gff 输出gff注释</span><br><span class="hljs-comment"># -dir 输出路径</span><br><span class="hljs-comment"># annotation with the library produced by RepeatModel</span><br><span class="hljs-comment">#-dir 指定的输出结果路径，必须提前建立好，否则无结果</span><br><span class="hljs-comment">#一定要通过 -species 指定物种，否则默认比对的是人类重复序列数据库</span><br><span class="hljs-comment">#如果使用本地的参考库，通过 -lib 指定，替代 -species</span><br><span class="hljs-comment">#-s、-q、-qq 等参数可控制序列比对的灵敏度，如果你的目标物种和参考物种不是很近，可能需要提升灵敏度</span><br></code></pre></td></tr></table></figure>
+
+<p>输出结果中主要关注如下三个(其中xxx表示一类文件名)</p>
+<ul>
+<li>xxx.fa.masked, 将重复序列用N代替</li>
+<li>xxx.fa.out.gff, 以gff2形式存放重复序列出现的位置</li>
+<li>xxx.fa.tbl, 该文件记录着分类信息</li>
+</ul>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-section">cat 00-RepeatMask/chi_unmasked.fa.tbl</span><br><span class="hljs-section">==================================================</span><br>file name: chi_unmasked.fa<br>sequences:           624<br>total length:  198654690 bp  (191241357 bp excl N/X-runs)<br>GC level:         35.24 %<br><span class="hljs-section">bases masked:   35410625 bp ( 17.83 %)</span><br><span class="hljs-section">==================================================</span><br><br></code></pre></td></tr></table></figure>
+
+<p>也就是说该物种198M中有将<font color="blue">近18%的重复序列</font>，作为参考，拟南芥125Mb 14%重复序列, 水稻389M，36%重复，人类基因组是3G，50%左右的重复序列。</p>
+<p>使用最后的<font color="blue">chi_unmasked.fa.masked</font>用于<font color="blue">下一步的基因结构预测</font>。</p>
+<h3 id="RepeatMasker使用注意"><a href="#RepeatMasker使用注意" class="headerlink" title="RepeatMasker使用注意"></a>RepeatMasker<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ffdbedae80fa">使用注意</a></h3><p>首先确定数据库中是否收录了目标物种<br>（一）Repbase配置好后，直接通过安装目录中的“RepeatMasker&#x2F;util&#x2F;queryRepeatDatabase.pl”，即可查看当前库中已存在的物种。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#查看物种列表</span><br><span class="hljs-built_in">cd</span> RepeatMasker<br>./util/queryRepeatDatabase.pl -tree &gt; species.txt<br>less -S species.txt<br><span class="hljs-comment">#目标物种，这里为 Fusarium tricinctum，我们可直接查看 Fusarium 属所有的</span><br>grep <span class="hljs-string">&#x27;Fusarium&#x27;</span> species.txt<br></code></pre></td></tr></table></figure>
+
+<p>（二）或者参看“RepeatMasker&#x2F;Libraries&#x2F;taxonomy.dat”中的物种信息，所有已收录物种的名称都存储在该文件中。</p>
+<p>（三）若无法在现有的Repbase库中找到合适参考集，除了<strong>使用近缘物种代替</strong>外，还可考虑基于当前的全基因组序列，执行<strong>重复序列的denovo预测</strong>，如<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://blog.sciencenet.cn/blog-3406804-1202562.html">RepeatModeler</a>等工具，训练重复序列集构建<strong>本地repeat library</strong>，运行RepeatMasker时通过“**-lib<strong>”参数</strong>指定本地repeat library**。</p>
+<p>此外，也并不是说找到参考物种就完全可行。<font color="blue">参考库中的信息可能并不全，没有将目标物种基因组覆盖完全，由此会导致基因组重复序列<strong>识别较少</strong></font>。<font color="blue"><strong>同时多找几个近缘物种</strong></font>的参考库作比对，更改RepeatMasker参数把灵敏度调高（或者将RMBlast替换为更灵敏的工具）等，<font color="blue"><strong>尽可能找到更多的重复序列</strong></font>。如果最大原因仍是<font color="blue">数据库本身不全</font>所致，其实更改参数之类的提升效果也甚微。此时可能<strong>需要考虑执行重复序列的denovo预测</strong>，如RepeatScout、<strong>RepeatModeler</strong></p>
+<h2 id="RepeatModel"><a href="#RepeatModel" class="headerlink" title="RepeatModel"></a>RepeatModel</h2><p>注：当然也可以用<font color="blue">RepeatModel进行<strong>从头预测</strong></font>，得到的预测结果后续可以整合到RepeatMasker</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># de novo predict</span><br>/programs/RepeatModeler/BuildDatabase -name pyu -engine ncbi pyu_contig.fasta /programs/RepeatModeler/RepeatModeler -pa 2 -engine ncbi -database pyu &gt;&amp; repeatmodeler.log<br></code></pre></td></tr></table></figure>
+
+<p>这一步速度<font color="blue">极其慢??</font>，由于目的只是<strong>获取屏蔽后序列降低后续从头预测的压力</strong>，所以可先<strong>不做</strong>这一步。在后续分析重复序列在基因组进化上的作用时可以做这一步。</p>
+<p>如果从头预测的结果与同源预测的结果有30%以上的overlap，并且分类不一致，会把从头预测的结果过滤掉。从头预测与同源预测结果有overlap，但是分类一致的，都会保留。但是统计的时候不会重复统计。</p>
+<h2 id="02-从头-ab-initio-预测基因"><a href="#02-从头-ab-initio-预测基因" class="headerlink" title="02-从头(ab initio)预测基因"></a><strong>02-从头(ab initio)预测基因</strong></h2><p>基于已有模型或无监督训练</p>
+<p>目前的<font color="blue">从头预测软件大多是基于HMM(隐马尔科夫链)和贝叶斯理论</font>，通过<font color="blue">已有物种注释信息对软件进行训练</font>，从训练结果中去推断一段基因序列中可能的结构，在这方面做的最好的工具是<font color="red"><strong>AUGUSTUS</strong></font> 它可以仅使用序列信息进行预测，也可以整合EST, cDNA, RNA-seq数据作为先验模型进行预测。</p>
+<h3 id="AUGUSTUS"><a href="#AUGUSTUS" class="headerlink" title="AUGUSTUS"></a>AUGUSTUS</h3><p>AUGUSTUS的无root安装比较麻烦，我折腾了好几天最后卒，不过辛亏有bioconda，<font color="blue">conda create -n annotation augustus&#x3D;3.3</font>.</p>
+<p>它的使用看起来很简单，可以尝试使用一段拟南芥已知的基因序列让其预测，比如前8k序列</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">seqkit faidx TAIR10<span class="hljs-selector-class">.fa</span> Chr1:<span class="hljs-number">1</span>-<span class="hljs-number">8000</span> &gt; test<span class="hljs-selector-class">.fa</span><br>augustus <span class="hljs-attr">--speices</span>=arabidopsis test<span class="hljs-selector-class">.fa</span> &gt; test.gff<br></code></pre></td></tr></table></figure>
+
+<p>如果仅仅看两者的CDS区，结果完全一致，相当于看过一遍参考答案去做题目，题目都做对了。<font color="blue">augustus –species&#x3D;help</font></p>
+<blockquote>
+<p>注:已经被训练的物种信息可以用<code>augustus --species=help</code>查看。</p>
+</blockquote>
+<p><img src="/GeekFocus/2022-03-18-annotation/4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="结果比较"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/4.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="结果比较"></p>
+<p>在<strong>不使用RNA-seq数据</strong>的情况下，可以基于拟南芥的训练模型进行预测，采用下面的方式<font color="blue">多条染色体并行augustus</font></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-built_in">mkdir</span> <span class="hljs-number">01</span>-augustsus &amp;&amp; <span class="hljs-keyword">cd</span> <span class="hljs-number">01</span>-augustsus<br><span class="hljs-keyword">ln</span> ../<span class="hljs-number">00</span>-RepeatMask/chi_unmasked.fa.masked genome.fa<br>seqkit <span class="hljs-keyword">split</span> genome.fa #结果文件在genome.fa.<span class="hljs-keyword">split</span><br><span class="hljs-keyword">find</span> genome.fa.<span class="hljs-keyword">split</span>/ -<span class="hljs-built_in">type</span> <span class="hljs-keyword">f</span> -name <span class="hljs-string">&quot;*.fa&quot;</span> | parallel -<span class="hljs-keyword">j</span> <span class="hljs-number">30</span> augustus --species=arabidopsis --gff3=<span class="hljs-keyword">on</span> &gt;&gt; temp.gff #并行处理<br>join_aug_pred.pl &lt; temp.gff  | <span class="hljs-keyword">grep</span> -v <span class="hljs-string">&#x27;^#&#x27;</span> &gt; temp.joined.gff<br>bedtools <span class="hljs-keyword">sort</span> -i temp.joined.gff &gt; augustsus.gff<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="GeneMark-ES-x2F-ET"><a href="#GeneMark-ES-x2F-ET" class="headerlink" title="GeneMark-ES&#x2F;ET"></a>GeneMark-ES&#x2F;ET</h3><p>AUGUSTUS依赖于已有的模型，而<strong>GeneMark-ES&#x2F;ET</strong>则是唯一一款支持<font color="blue">无监督训练模型</font>，之后再识别真核基因组蛋白编码区的工具。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">gmes_petap<span class="hljs-selector-class">.pl</span> <span class="hljs-attr">--ES</span> <span class="hljs-attr">--sequence</span> genome<span class="hljs-selector-class">.fa</span> <span class="hljs-attr">--cores</span> <span class="hljs-number">50</span><br></code></pre></td></tr></table></figure>
+
+<p>最后得到的是genemark.gtf，是标准的GTF格式，可以使用Sequence Ontology Project提供的<font color="blue">gtf2gff3.pl</font>进行转换</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">wget http:<span class="hljs-regexp">//g</span>enes.mit.edu<span class="hljs-regexp">/burgelab/mi</span>so<span class="hljs-regexp">/scripts/g</span>tf2gff3.pl<br>chmod <span class="hljs-number">755</span> gtf2gff3.pl<br>gtf2gff3.pl genemark.gtf | bedtools sort -i - &gt; genemark.gff<br><br></code></pre></td></tr></table></figure>
+
+<p>不同从头预测软件的实际效果可以通过在<font color="red">IGV中加载文章<strong>提供的gff文件</strong>和<strong>预测后的gff文件</strong>进行比较</font>，一般会存在如下几个问题：</p>
+<ul>
+<li><p>基因多了，或者少了，也就是假阳性和假阴性现象</p>
+</li>
+<li><p><font color="red">UTR区域难以预测，比较正常</font></p>
+</li>
+<li><p>未正确识别可变剪切位点，导致前后几个基因识别成一个基因</p>
+<p>考虑到转录组测序已经非常便宜，可以通过该物种的RNA-seq提供覆盖度信息进行预测。</p>
+</li>
+</ul>
+<h3 id="Maker"><a href="#Maker" class="headerlink" title="Maker"></a>Maker</h3><p>Genome annotation with Maker</p>
+<p><a target="_blank" rel="noopener" href="https://training.galaxyproject.org/training-material/topics/genome-annotation/tutorials/annotation-with-maker/tutorial.html">https://training.galaxyproject.org/training-material/topics/genome-annotation/tutorials/annotation-with-maker/tutorial.html</a></p>
+<h2 id="基于转录组数据预测"><a href="#基于转录组数据预测" class="headerlink" title="基于转录组数据预测"></a>基于转录组数据预测</h2><p>根据已有的模型或者自训练可以正确预测很大一部分的基因，但如果需要提高预测的正确性，还需要额外的信息。在过去就需要提供物种本身的cDNA, EST，而现在更多的是基于转录组序列进行训练。尽管<font color="blue">RNA-seq数据在基因组上的<strong>比对</strong>情况能够<strong>推测内含子</strong>位置，根据<strong>覆盖度</strong>可以推测出<strong>外显子和非编码区</strong>的边界</font>，但是仅<font color="blue">仅依赖于RNA-seq的覆盖<strong>不能可信地推测出蛋白编码区</strong></font>(Hoff K.J. Stanke M. 2015).</p>
+<p><font color="red">AUGUSTUS</font>可以利用转录组比对数据中的<strong>位置信息</strong>来训练模型，<font color="red">GeneMark-ET</font>可以利用RNA-seq得到的<strong>内含子位点</strong>信息自我训练HMM参数，进行基因预测。<font color="red"><strong>BRAKER2</strong></font>将两者进行整合，使用GeneMark-ET根据RNA-seq无监督训练模型寻找基因，然后用AUGUSTUS进行模型训练，最后完成基因预测<br><img src="/GeekFocus/2022-03-18-annotation/5.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="BRAKER流程"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/5.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="BRAKER流程"></p>
+<p>首先使用hisat2根据<font color="blue"><strong>屏蔽</strong>后的参考序列建立索引</font>，进行<strong>比对</strong>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 项目根目录</span><br><span class="hljs-built_in">mkdir</span> index<br>hisat2-build 01-augustus/genome.fa index/chi_masked<br><br>hisat2 -p 20 -x index/chi_masked -1 rna-seq/leaf_ox_r1_1.fastq.gz -2 rna-seq/leaf_ox_r1_2.fastq.gz | samtools <span class="hljs-built_in">sort</span> -@ 10 &gt; 02-barker/leaf_ox_r1.bam &amp;<br><br>hisat2 -p 20 -x index/chi_masked -1 rna-seq/ox_flower9_rep1_1.fastq.gz -2 rna-seq/ox_flower9_rep1_2.fastq.gz | samtools <span class="hljs-built_in">sort</span> -@ 10 &gt; 02-barker/ox_flower9.bam &amp;<br><br>hisat2 -p 20 -x index/chi_masked -1 rna-seq/ox_flower16_rep1_1.fastq.gz -2 rna-seq/ox_flower16_rep1_2.fastq.gz | samtools <span class="hljs-built_in">sort</span> -@ 10 &gt; 02-barker/ox_flower16.bam &amp;<br><br></code></pre></td></tr></table></figure>
+
+<p>然后，以<font color="blue"><strong>未屏蔽重复序列的参考序列</strong>和<strong>BAM</strong>文件作为输入</font>，让BRAKER2（安装会稍显麻烦，因为依赖许多软件）进行<strong>预测</strong>。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">braker.pl --gff3 --cores 50 <span class="hljs-attribute">--species</span>=carhr <span class="hljs-attribute">--genome</span>=chi_unmasked.fa <span class="hljs-attribute">--bam</span>=02-barker/leaf_ox_r1.bam,02-barker/ox_flower16.bam,02-barker/ox_flower9.bam<br><span class="hljs-comment"># --gff3: 输出GFF3格式</span><br><span class="hljs-comment"># --genome: 基因组序列</span><br><span class="hljs-comment"># --bam: 比对后的BAM文件，【允许多个】</span><br><span class="hljs-comment"># --cores: 处理核心数</span><br><br></code></pre></td></tr></table></figure>
+
+<p>最后会得到如下输出文件</p>
+<ul>
+<li><p>hintsfile.gff: 从RNA-seq比对结果的<strong>BAM文件中提取</strong>，其中内含子用于训练GeneMark-EX, 使用所有特征训练AUGUSTUS</p>
+</li>
+<li><p>GeneMark-ET&#x2F;genemark.gtf: <strong>GeneMark-EX</strong>根据<strong>RNA-seq</strong>数据<strong>训练后预测</strong>的基因</p>
+</li>
+<li><p>augustus.hints.gff: <strong>AUGUSTUS输出</strong>文件</p>
+<p>将augustus.hints.gff3和文章的注释文件(carhr38.gtf)比较，见下图：<br><img src="/GeekFocus/2022-03-18-annotation/6.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="结果比较"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/6.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="结果比较"></p>
+</li>
+</ul>
+<p>其实不难发现，在不考虑UTR区域情况下，两者的差别其实更多表现是基因数目上，其实也就是利用转录组数据推测结构的问题所在，没有覆盖的区域到底是真的没有基因，还是有基因结构只不过所用组织没有表达，或者说那个区域其实是假基因？此外，如果基因间隔区域很短，有时候还会错误地把两个不同的基因预测为一个基因。因此，应该注重RNA-seq数据在剪切位点识别和外显子边界确定的优势。</p>
+<h2 id="03-同源预测基因结构"><a href="#03-同源预测基因结构" class="headerlink" title="03-同源预测基因结构"></a><strong>03-同源预测基因结构</strong></h2><p>同源预测(homology prediction)利用近缘物种<strong>已知基因进</strong>行<strong>序列比对</strong>，找到同源序列。然后在同源序列的基础上，根据基因信号如<strong>剪切信号</strong>、<strong>基因起始和终止密码子</strong>对基因结构进行预测</p>
+<p>相对于从头预测的“大海捞针”，同源预测相当于先用一块磁铁在基因组大海中缩小可能区域，然后从可能区域中鉴定基因结构。<strong>10年前</strong>，当时RNA-seq还没有普及, 只有<strong>少部分物种</strong>才有<strong>EST序列和cDNA序列</strong>的情况下，这的确是一个比较好的策略，那么问题来了，现在还需要进行这一步吗，如果需要是出于那种角度考虑呢?</p>
+<p>在同源预测上，目前大部分基因组文章都是基于<strong>TBLASTN + GeneWise</strong>，因为大部分基因组文章都是国内做的，这些注释是公司的流程，国内公司大多数又和某一家公司有关系? 不过最近的3010水稻泛基因组用的是<strong>MAKER</strong>, 感谢部分提到这部分工作是由M. Roa(Philippine Genome Center Core Facilities for Bioinformatics, Department of Science)做的。<strong>Cardamine hirsuta文章</strong>，同源注释部分用的是<strong>GenomeThreader</strong>。</p>
+<p>GeneWise网站目前由Ewan Birney维护，不继续开发，因为Guy Slater开发<strong>Exonerate</strong>解决GeneWise存在的很多问题，并且速度快1000倍。考虑到目前只有GeneWise能利用HMM根据蛋白找DNA，而且ENSEMBL的注释流程也有一些核心模块用到了它，所以作者依旧在缓慢的开发这个工具(自2.4.1已经10多年没有更新了)，当然这个工具也是非常的慢。尽管这一步不会用到GeneWise作为我们的同源注释选项，但是可以尝试用<strong>GeneWise手工注释一个基因</strong>，主要步骤如下</p>
+<ul>
+<li>第一步：使用BLASTX，根据DNA序列搜索蛋白质序列，只需第一个最佳比对结果</li>
+<li>第二步：先择最佳比对的氨基酸序列</li>
+<li>第三步：将DNA序列前后延长2kb，与氨基酸序列一并传入genewise进行同源预测</li>
+</ul>
+<p><strong>(1)</strong> 提取前5K序列，然后选择在TAIR上用<strong>BLASTX</strong>进行比对</p>
+<blockquote>
+<p>seqkit faidx chi_unmasked.fa Chr1:1-5000 &gt; chr1_5k.fa</p>
+</blockquote>
+<p><font color="green"><strong>提取序列 30，0000～40，0000 ：seqkit faidx chi_unmasked.fa Chr1:300000-400000</strong></font></p>
+<p><img src="/GeekFocus/2022-03-18-annotation/7.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="BLASTX"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/7.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="BLASTX"></p>
+<p><strong>(2)</strong> 选择第一个比对结果中的氨基酸序列，和前5k的DNA序列一并作为GeneWise的输入</p>
+<p><img src="/GeekFocus/2022-03-18-annotation/8.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="GeneWise2"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/8.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="GeneWise2"></p>
+<p>最后的结果出乎了我的意料</p>
+<p><img src="/GeekFocus/2022-03-18-annotation/9.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="预测结果"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/9.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="预测结果"></p>
+<p>让我们跳过这个尴尬的环节，毕竟很可能是我不太熟练使用工作所致。这里说点我的看法，除非你真的没有转录组数据，必须要用到同源物种的蛋白进行预测，或者你手动处理几个基因，否则不建议使用这个工具，因为你可能连安装都搞不定。</p>
+<p>用<strong>GenomeThreader</strong>基于上面的<strong>DNA序列</strong>和氨基酸序列<strong>进行同源基因结构预测</strong></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">gth</span> -genomic chr1_5k.fa -protein cer.fa -intermediate -gff3out<br><span class="hljs-comment"># 其中cer.fa就是AT1G02205.2的氨基酸序列</span><br></code></pre></td></tr></table></figure>
+
+<p>结果一致，并且从RNA-seq的覆盖情况也符合预期</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">1027</span>	<span class="hljs-number">1197</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">1027</span>    <span class="hljs-number">1197</span><br><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">1275</span>	<span class="hljs-number">1448</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">1275</span>    <span class="hljs-number">1448</span><br><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">1541</span>	<span class="hljs-number">1662</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">1555</span>    <span class="hljs-number">1662</span><br><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">1807</span>	<span class="hljs-number">2007</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">1807</span>    <span class="hljs-number">2007</span><br><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">2085</span>	<span class="hljs-number">2192</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">2085</span>    <span class="hljs-number">2192</span><br><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">2294</span>	<span class="hljs-number">2669</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">2294</span>    <span class="hljs-number">2669</span><br><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">3636</span>	<span class="hljs-number">3855</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">3636</span>    <span class="hljs-number">3855</span><br><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">3971</span>	<span class="hljs-number">4203</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">3971</span>    <span class="hljs-number">4203</span><br><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">4325</span>	<span class="hljs-number">4548</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">4325</span>    <span class="hljs-number">4548</span><br><span class="hljs-attribute">Chr1</span>	gth	exon	<span class="hljs-number">4676</span>	<span class="hljs-number">4735</span>	Parent=gene1	Chr1    MIPS_CARH_v3.<span class="hljs-number">8</span>  exon    <span class="hljs-number">4676</span>    <span class="hljs-number">4735</span><br><br><br></code></pre></td></tr></table></figure>
+
+<p>全基因组范围预测流程如下：</p>
+<p><strong>准备cDNA和或protein序列</strong>：在<a target="_blank" rel="noopener" href="https://phytozome.jgi.doe.gov/p%E4%B8%8B%E8%BD%BD**%E9%9D%A0%E8%B0%B1%E7%9A%84%E7%89%A9%E7%A7%8D%E7%9A%84%E8%9B%8B%E7%99%BD%E8%B4%A8%E5%BA%8F%E5%88%97**%EF%BC%8C%E5%A6%82">https://phytozome.jgi.doe.gov/p下载**靠谱的物种的蛋白质序列**，如</a> Arabidopsis thaliana, Oryza sativa, Brassica rapa, 查找文献寻找目前该物种的<strong>已有EST&#x2F;cDNA序列</strong>，或者RNA-seq从头组装转录组。这里仅考虑用同源物种的蛋白序列进行比对分析，转录组从头组装数据用于PASA整体比对到参考基因组和更新已有的基因结构。</p>
+<p>分别测试下不同物种的同源注释结果</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-selector-id">#run</span> seperately<br>gth -species arabidopsis -translationtable <span class="hljs-number">1</span> -gff3 -intermediate -protein ~/db/protein_db/Athaliana_167_TAIR10<span class="hljs-selector-class">.protein</span><span class="hljs-selector-class">.fa</span><span class="hljs-selector-class">.gz</span> -genomic chi_unmasked<span class="hljs-selector-class">.fa</span> -o <span class="hljs-number">03</span>-genomethreader/Athaliana<span class="hljs-selector-class">.gff3</span> &amp;<br>gth -species arabidopsis -translationtable <span class="hljs-number">1</span> -gff3 -intermediate -protein ~/db/protein_db/BrapaFPsc_277_v1.<span class="hljs-number">3</span><span class="hljs-selector-class">.protein</span><span class="hljs-selector-class">.fa</span><span class="hljs-selector-class">.gz</span> -genomic chi_unmasked<span class="hljs-selector-class">.fa</span> -o <span class="hljs-number">03</span>-genomethreader/Brapa<span class="hljs-selector-class">.gff3</span> &amp;<br>gth -species arabidopsis -translationtable <span class="hljs-number">1</span> -gff3 -intermediate -protein ~/db/protein_db/Osativa_323_v7.<span class="hljs-number">0</span><span class="hljs-selector-class">.protein</span><span class="hljs-selector-class">.fa</span><span class="hljs-selector-class">.gz</span> -genomic chi_unmasked<span class="hljs-selector-class">.fa</span> -o <span class="hljs-number">03</span>-genomethreader/Osativa<span class="hljs-selector-class">.gff3</span> &amp;<br><br></code></pre></td></tr></table></figure>
+
+<p>在定性角度上来看，同源注释的结果和从头预测的没啥差别, 其中B. rapa和A. thaliana和C. hirsuta都属于十字花科，而O. sativa是禾本科, 所以前两者预测的效果好。</p>
+<p><img src="/GeekFocus/2022-03-18-annotation/10.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="IGV展示"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/10.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="IGV展示"></p>
+<p>当然实际的同源注释流程中不能是单个物种分别预测，应该是将<strong>所有蛋白序列进行合并</strong>，然后用BLASTX找到最优的联配，之后用<strong>GenomeThreader</strong>进行预测。PASA流程提到的UniRef90作为同源注释的搜索数据库可能是更好的选择，由于UniRef优先选择哪些人工审查、注释质量高、来源于模式动植物的蛋白，所以可靠性相对于直接使用同源物中可能更高。</p>
+<blockquote>
+<p>BLASTX + GenomeThreader的代码探索中</p>
+</blockquote>
+<h2 id="04-RNA-seq的两种使用策略"><a href="#04-RNA-seq的两种使用策略" class="headerlink" title="04-RNA-seq的两种使用策略"></a><strong>04-RNA-seq的两种使用策略</strong></h2><p>对于RNA-seq数据，有两种使用策略，一种是使用HISAT2 + StringTie先比对再组装, 一种是从头组装，然后使用PASA将转录本比对到基因组上。</p>
+<h3 id="基于HISAT2-StringTie"><a href="#基于HISAT2-StringTie" class="headerlink" title="基于HISAT2 + StringTie"></a>基于HISAT2 + StringTie</h3><p>首先，使用HISAT2将RNA-seq数据比对到参考基因组, 这一步和之前相似，但是要增加一个参数–dta，使得StingTie能更好的利用双端信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">hisat2-build 01-augustus/genome.fa index/chi_masked<br>hisat2 --dta -p 20 -x index/chi_masked -1 rna-seq/leaf_ox_r1_1.fastq.gz -2 rna-seq/leaf_ox_r1_2.fastq.gz | samtools <span class="hljs-built_in">sort</span> -@ 10 &gt; rna-seq/leaf_ox_r1.bam &amp;<br>hisat2 --dta -p 20 -x index/chi_masked -1 rna-seq/ox_flower9_rep1_1.fastq.gz -2 rna-seq/ox_flower9_rep1_2.fastq.gz | samtools <span class="hljs-built_in">sort</span> -@ 10 &gt; rna-seq/ox_flower9.bam &amp;<br>hisat2 --dta -p 20 -x index/chi_masked -1 rna-seq/ox_flower16_rep1_1.fastq.gz -2 rna-seq/ox_flower16_rep1_2.fastq.gz | samtools <span class="hljs-built_in">sort</span> -@ 10 &gt; rna-seq/ox_flower16.bam &amp;<br>samtools merge -@ 10 rna-seq/merged.bam rna-seq/leaf_ox_r1.bam rna-seq/ox_flower9.bam rna-seq/ox_flower16.bam<br><br></code></pre></td></tr></table></figure>
+
+<p>然后用StringTie进行转录本预测</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">stringtie -p <span class="hljs-number">10</span> -o rna-seq<span class="hljs-regexp">/merged.gtf rna-seq/m</span>erged.bam<br></code></pre></td></tr></table></figure>
+
+<p>对于后续的<strong>EvidenceModeler</strong>而言，它<strong>不需要UTR</strong>信息，<strong>只需要编码区CDS</strong>，需要用<strong>TransDecoder</strong>进行编码区预测</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs stylus">util/cufflinks_gtf_genome_to_cdna_fasta<span class="hljs-selector-class">.pl</span> merged<span class="hljs-selector-class">.gtf</span> input/chi_masked<span class="hljs-selector-class">.fa</span> &gt; transcripts<span class="hljs-selector-class">.fasta</span><br>util/cufflinks_gtf_to_alignment_gff3<span class="hljs-selector-class">.pl</span> merged<span class="hljs-selector-class">.gtf</span> &gt; transcripts<span class="hljs-selector-class">.gff3</span><br>TransDecoder<span class="hljs-selector-class">.LongOrfs</span> -t transcripts<span class="hljs-selector-class">.fasta</span><br>TransDecoder<span class="hljs-selector-class">.Predict</span> -t transcripts<span class="hljs-selector-class">.fasta</span><br>util/cdna_alignment_orf_to_genome_orf<span class="hljs-selector-class">.pl</span> \<br>     transcripts<span class="hljs-selector-class">.fasta</span><span class="hljs-selector-class">.transdecoder</span><span class="hljs-selector-class">.gff3</span> \<br>     transcripts<span class="hljs-selector-class">.gff3</span> \<br>     transcripts<span class="hljs-selector-class">.fasta</span> &gt; transcripts<span class="hljs-selector-class">.fasta</span><span class="hljs-selector-class">.transdecoder</span><span class="hljs-selector-class">.genome</span><span class="hljs-selector-class">.gff3</span><br><br></code></pre></td></tr></table></figure>
+
+<p>最后结果<code>transcripts.fasta.transdecoder.gff3</code>用于提供给EvidenceModeler</p>
+<h3 id="基于PASA"><a href="#基于PASA" class="headerlink" title="基于PASA"></a><strong>基于PASA</strong></h3><p>在多年以前，那个基因组组装还没有白菜价，只有几个模式物种基因组的时代，对于一个未测序的基因组，研究者如果要研究某一个基因的功能，大多会通过同源物种相似基因设计PCR引物，然后去扩增cDNA. 如果是一个已知基因组的物种，如果要大规模识别基因, 研究者通常会使用EST(expressed sequence tags)序列。</p>
+<p>相对于基于算法的从头预测，cDNA和EST序列更能够真实的反应出一个基因的真实结构，如可变剪切、UTR和Poly-A位点。PASA(Progam to Assemble Spliced Alignments)流程最早用于拟南芥基因组注释，最初的设计是通过将全长(full-length)cDNA和EST比对到参考基因组上，去发现和更新基因组注释。其中FL-cDNA和EST序列对最后结果的权重不同。</p>
+<p>这是以前的故事，现在的故事是二代转录组以及一些三代转录组数据，那么如何处理这些数据呢？我认为三代转录组相对于过去的FL-cDNA，而二代转录组数据经过拼接后可以看作是更长的EST序列。由于目前最普及的还是普通的mRNA-seq, 也就只介绍这部分流程。</p>
+<blockquote>
+<p>考虑到我还没有研究过三代的全长转录组，分析过数据，这里的思考极有可能出错，后续可能会修改这一部分思考。</p>
+</blockquote>
+<p>转录组组装使用Trinity(conda安装)</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">cd rna-seq<br>Trinity <span class="hljs-attr">--seqType</span> fq <span class="hljs-attr">--CPU</span> <span class="hljs-number">50</span> <span class="hljs-attr">--max_memory</span> <span class="hljs-number">64</span>G <span class="hljs-attr">--left</span> leaf_ox_r1_1<span class="hljs-selector-class">.fastq</span><span class="hljs-selector-class">.gz</span>,ox_flower16_rep1_1<span class="hljs-selector-class">.fastq</span><span class="hljs-selector-class">.gz</span>,ox_flower9_rep1_1<span class="hljs-selector-class">.fastq</span><span class="hljs-selector-class">.gz</span> <span class="hljs-attr">--right</span> leaf_ox_r1_2<span class="hljs-selector-class">.fastq</span><span class="hljs-selector-class">.gz</span>,ox_flower16_rep1_2<span class="hljs-selector-class">.fastq</span><span class="hljs-selector-class">.gz</span>,ox_flower9_rep1_2<span class="hljs-selector-class">.fastq</span><span class="hljs-selector-class">.gz</span> &amp;<br><br></code></pre></td></tr></table></figure>
+
+<p>PASA是由30多个命令组成的流程，相关命令位于<code>PASApipeline/scripts</code>，为了适应不同的分析，有些参数需要通过修改配置文件更改,</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">cp ~/opt/biosoft/PASApipeline/pasa_conf/pasa.alignAssembly.Template.txt alignAssembly.config<br><span class="hljs-comment"># 修改如下内容</span><br><span class="hljs-attribute">DATABASE</span>=database.sqlite<br>validate_alignments_in_db.dbi:<span class="hljs-attribute">--MIN_PERCENT_ALIGNED</span>=80<br>validate_alignments_in_db.dbi:<span class="hljs-attribute">--MIN_AVG_PER_ID</span>=80<br><br></code></pre></td></tr></table></figure>
+
+<p>上述几行配置文件表明SQLite3数据库的名字，设置了<code>scripts/validate_alignments_in_db.dbi</code>的几个参数, 表示联配程度和相似程度。后续以Trinity组装结果和参考基因组作为输入，运行程序：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">~<span class="hljs-regexp">/opt/</span>biosoft<span class="hljs-regexp">/PASApipeline/</span>scripts<span class="hljs-regexp">/Launch_PASA_pipeline.pl -c alignAssembly.config -C -R -g ../</span>chi_unmasked.fa -t ..<span class="hljs-regexp">/rna-seq/</span>trinity_out_dir/Trinity.fasta --ALIGNERS blat,gmap<br><br></code></pre></td></tr></table></figure>
+
+<p>最后结果如下：</p>
+<ul>
+<li>database.sqlite.pasa_assemblies_described.txt</li>
+<li>database.sqlite.pasa_assemblies.gff3</li>
+<li>database.sqlite.pasa_assemblies.gtf</li>
+<li>database.sqlite.pasa_assemblies.bed<br>其中gff3格式用于后续的分析</li>
+</ul>
+<blockquote>
+<p>目前的一些想法， 将从头组装的转录本比对到参考基因组上很大依赖组装结果，所以和EST序列和cDNA相比，质量上还有一点差距。</p>
+</blockquote>
+<h2 id="05-整合预测结果"><a href="#05-整合预测结果" class="headerlink" title="05-整合预测结果"></a><strong>05-整合预测结果</strong></h2><p>从头预测，同源注释和转录组整合都会得到一个预测结果，相当于收集了大量证据，下一步就是通过这些证据定义出更加可靠的基因结构，这一步可以通过人工排查，也可以使用EVidenceModeler(EVM). EVM只接受三类输入文件：</p>
+<ul>
+<li><p>gene_prediction.gff3: 标准的GFF3格式，必须要有gene, mRNA, exon, CDS这些特征，用EVidenceModeler-1.1.1&#x2F;EvmUtils&#x2F;gff3_gene_prediction_file_validator.pl验证</p>
+</li>
+<li><p>protein_alignments.gff3: 标准的GFF3格式，第9列要有ID信和和target信息, 标明是比对结果</p>
+</li>
+<li><p>transcript_alignments.gff3:标准的GFF3格式，第9列要有ID信和和target信息，标明是比对结果</p>
+<p>EVM对gene_prediction.gff3有特殊的要求，就是GFF文件需要反映出一个基因的结构，gene-&gt;(mRNA -&gt; (exon-&gt;cds(?))(+))(+), 表示一个基因可以有多个mRNA，即基因的可变剪接, 一个mRNA都可以由一个或者多个exon(外显子), 外显子可以是非翻译区(UTR),也可以是编码区(CDS). 而GlimmerHMM, SNAP等</p>
+</li>
+</ul>
+<p>这三类根据人为经验来确定其可信度，从直觉上就是用PASA根据mRNA得到的结果高于从头预测。<br>第一步：创建权重文件,第一列是来源类型(ABINITIO_PREDICTION, PROTEIN, TRANSCRIPT), 第二列对应着GFF3文件的第二列，第三列则是权重.我这里用了<strong>三</strong>个来源的数据。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mkdir</span> <span class="hljs-number">05</span>-EVM &amp;&amp; cd <span class="hljs-number">05</span>-EVM<br><span class="hljs-comment">#vim weights.txt</span><br><span class="hljs-attribute">ABINITIO_PREDICTION</span>      augustus       <span class="hljs-number">4</span><br><span class="hljs-attribute">TRANSCRIPT</span>      assembler-database.sqlite      <span class="hljs-number">7</span><br><span class="hljs-attribute">OTHER_PREDICTION</span>  transdecoder  <span class="hljs-number">8</span><br><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我觉得根据基因组引导组装的ORF的可信度高于组装后比对，所以得分和PASA差不多一样高。从头预测权重一般都是1，但是BRAKER可信度稍微高一点，可以在2~5之间。</p>
+</blockquote>
+<p>第二步：分割原始数据, 用于后续并行. 为了降低内存消耗，–segmentsSize设置的大小需要少于1Mb(这里是100k)， –overlapSize的不能太小，如果数学好，可用设置成基因平均长度加上2个标准差，数学不好，就设置成10K吧</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">cat transcripts<span class="hljs-selector-class">.fasta</span><span class="hljs-selector-class">.transdecoder</span><span class="hljs-selector-class">.genome</span><span class="hljs-selector-class">.gff3</span> ../braker/carhr/augustus<span class="hljs-selector-class">.hints</span><span class="hljs-selector-class">.gff3</span> &gt; gene_predictions<span class="hljs-selector-class">.gff3</span><br>ln ../<span class="hljs-number">04</span>-align-transcript/database<span class="hljs-selector-class">.sqlite</span><span class="hljs-selector-class">.pasa_assemblies</span><span class="hljs-selector-class">.gff3</span> transcript_alignments<span class="hljs-selector-class">.gff3</span><br>~/opt/biosoft/EVidenceModeler-<span class="hljs-number">1.1</span>.<span class="hljs-number">1</span>/EvmUtils/partition_EVM_inputs<span class="hljs-selector-class">.pl</span> <span class="hljs-attr">--genome</span> ../chi_unmasked<span class="hljs-selector-class">.fa</span> <span class="hljs-attr">--gene_predictions</span> gene_predictions<span class="hljs-selector-class">.gff3</span> <span class="hljs-attr">--transcript_alignments</span> transcript_alignments<span class="hljs-selector-class">.gff3</span> <span class="hljs-attr">--segmentSize</span> <span class="hljs-number">100000</span> <span class="hljs-attr">--overlapSize</span> <span class="hljs-number">10000</span> <span class="hljs-attr">--partition_listing</span> partitions_list<span class="hljs-selector-class">.out</span><br><br></code></pre></td></tr></table></figure>
+
+<p>第三步：创建并行运算命令并且执行</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs stylus">~/opt/biosoft/EVidenceModeler-<span class="hljs-number">1.1</span>.<span class="hljs-number">1</span>/EvmUtils/write_EVM_commands<span class="hljs-selector-class">.pl</span> <span class="hljs-attr">--genome</span> ../chi_unmasked<span class="hljs-selector-class">.fa</span> <span class="hljs-attr">--weights</span> `pwd`/weights<span class="hljs-selector-class">.txt</span> \<br>      <span class="hljs-attr">--gene_predictions</span> gene_predictions<span class="hljs-selector-class">.gff3</span> \<br>      <span class="hljs-attr">--transcript_alignments</span> transcript_alignments<span class="hljs-selector-class">.gff3</span> \<br>      <span class="hljs-attr">--output_file_name</span> evm<span class="hljs-selector-class">.out</span>  <span class="hljs-attr">--partitions</span> partitions_list<span class="hljs-selector-class">.out</span> &gt;  commands<span class="hljs-selector-class">.list</span><br>parallel <span class="hljs-attr">--jobs</span> <span class="hljs-number">10</span> &lt; commands<span class="hljs-selector-class">.list</span><br><br></code></pre></td></tr></table></figure>
+
+<p>第四步：合并并行结果</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">~<span class="hljs-regexp">/opt/</span>biosoft<span class="hljs-regexp">/EVidenceModeler-1.1.1/</span>EvmUtils/recombine_EVM_partial_outputs.pl --partitions partitions_list.out --output_file_name evm.out<br></code></pre></td></tr></table></figure>
+
+<p>第五步：结果转换成GFF3</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gradle">~<span class="hljs-regexp">/opt/</span>biosoft<span class="hljs-regexp">/EVidenceModeler-1.1.1/</span>EvmUtils<span class="hljs-regexp">/convert_EVM_outputs_to_GFF3.pl  --partitions partitions_list.out --output evm.out  --genome ../</span>chi_unmasked.fa<br><span class="hljs-keyword">find</span> . -regex <span class="hljs-string">&quot;.*evm.out.gff3&quot;</span> -exec cat &#123;&#125; \; | bedtools <span class="hljs-keyword">sort</span> -i - &gt; EVM.all.gff<br><br></code></pre></td></tr></table></figure>
+
+<p>当前权重设置下，EVM的结果更加严格，需要按照实际情况调整，增加其他证据。</p>
+<h2 id="06-可选步骤"><a href="#06-可选步骤" class="headerlink" title="06-可选步骤"></a><strong>06-可选步骤</strong></h2><p>注释过滤：对于初步预测得到的基因，还可以稍微优化一下，例如剔除编码少于50个AA的预测结果，将转座子单独放到一个文件中(软件有TransposonPSI)。</p>
+<p>这里基于gffread先根据注释信息提取所有的CDS序列，过滤出长度不足50AA的序列，基于这些序列过滤原来的的注释</p>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs nsis">gffread EVM.<span class="hljs-literal">all</span>.gff -g input/genome.fa -y tr_cds.fa<br>bioawk -c fastx <span class="hljs-string">&#x27;length(<span class="hljs-variable">$seq</span>) &lt; 50 &#123;print <span class="hljs-variable">$comment</span>&#125;&#x27;</span> tr_cds.fa | cut -d <span class="hljs-string">&#x27;=&#x27;</span> -f <span class="hljs-number">2</span> &gt; short_aa_gene_list.txt<br>grep -v -w -f short_aa_gene_list.txt EvM.<span class="hljs-literal">all</span>.gff &gt; filter.gff<br><span class="hljs-comment"># 长度计算错误，原文写的是$seq&lt;50 订正为 length($seq)&lt;50</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>使用PASA更新EVM结果</strong>：EVM结果不包括UTR区域和可变剪切的注释信息，可以使用PASA进行更新。然而这部分已经无法逃避MySQL, 服务器上并没有MySQL的权限，我需要学习Perl脚本进行修改。因此基因结构注释到此先放一放。</p>
+<p><strong>07-基因编号</strong></p>
+<p>对每个基因实现编号，形如ABCD000010的效果，方便后续分析。如下代码是基于EVM.all.gff，使用方法为<code>python gffrename.py EVM_output.gff prefix &gt; renamed.gff</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(sys.argv) &lt; <span class="hljs-number">3</span>:<br>    sys.exit()<br><br>gff = <span class="hljs-built_in">open</span>(sys.argv[<span class="hljs-number">1</span>])<br>prf = sys.argv[<span class="hljs-number">2</span>]<br><br>count = <span class="hljs-number">0</span><br>mRNA  = <span class="hljs-number">0</span><br>cds   = <span class="hljs-number">0</span><br>exon  = <span class="hljs-number">0</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;##gff-version 3.2.1&quot;</span>)<br><span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> gff:<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> line.startswith(<span class="hljs-string">&quot;\n&quot;</span>):<br>        records = line.split(<span class="hljs-string">&quot;\t&quot;</span>)<br>        records[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;.&quot;</span><br>    <span class="hljs-keyword">if</span> re.search(<span class="hljs-string">r&quot;\tgene\t&quot;</span>, line):<br>        count = count + <span class="hljs-number">10</span><br>        mRNA  = <span class="hljs-number">0</span><br>        gene_id = prf + <span class="hljs-built_in">str</span>(count).zfill(<span class="hljs-number">6</span>)<br>        records[<span class="hljs-number">8</span>] = <span class="hljs-string">&quot;ID=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(gene_id)<br>    <span class="hljs-keyword">elif</span> re.search(<span class="hljs-string">r&quot;\tmRNA\t&quot;</span>, line):<br>        cds   = <span class="hljs-number">0</span><br>        exon  = <span class="hljs-number">0</span><br>        mRNA  = mRNA + <span class="hljs-number">1</span><br>        mRNA_id    = gene_id + <span class="hljs-string">&quot;.&quot;</span> + <span class="hljs-built_in">str</span>(mRNA)<br>        records[<span class="hljs-number">8</span>] = <span class="hljs-string">&quot;ID=&#123;&#125;;Parent=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(mRNA_id, gene_id)<br>    <span class="hljs-keyword">elif</span> re.search(<span class="hljs-string">r&quot;\texon\t&quot;</span>, line):<br>        exon     = exon + <span class="hljs-number">1</span><br>        exon_id  = mRNA_id + <span class="hljs-string">&quot;_exon_&quot;</span> + <span class="hljs-built_in">str</span>(exon)<br>        records[<span class="hljs-number">8</span>] = <span class="hljs-string">&quot;ID=&#123;&#125;;Parent=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(exon_id, mRNA_id)<br>    <span class="hljs-keyword">elif</span> re.search(<span class="hljs-string">r&quot;\tCDS\t&quot;</span>, line):<br>        cds     = cds + <span class="hljs-number">1</span><br>        cds_id  = mRNA_id + <span class="hljs-string">&quot;_cds_&quot;</span> + <span class="hljs-built_in">str</span>(cds)<br>        records[<span class="hljs-number">8</span>] = <span class="hljs-string">&quot;ID=&#123;&#125;;Parent=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(cds_id, mRNA_id)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">continue</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\t&quot;</span>.join(records))<br><br>gff.close()<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>一些经验</strong></p>
+<p>如果有转录组数据，没必须要使用太多的从头预测工具，braker2 加 GlimmerHMM可能就够用了, 更多是使用PASA和StringTie利用好转录组数据进行注释。</p>
+<p>基因功能注释</p>
+<p>基因功能的注释依赖于上一步的基因结构预测，根据预测结果从基因组上提取翻译后的 蛋白序列 和主流的数据库进行比对，完成功能注释。常用数据库一共有以几种：</p>
+<ul>
+<li>Nr：NCBI官方非冗余蛋白数据库，包括PDB, Swiss-Prot, PIR, PRF; 如果要用DNA序列，就是nt库</li>
+<li>Pfam: 蛋白结构域注释的分类系统</li>
+<li>Swiss-Prot: 高质量的蛋白数据库，蛋白序列得到实验的验证</li>
+<li>KEGG: 代谢通路注释数据库.</li>
+<li>GO: 基因本体论注释数据库</li>
+</ul>
+<p>除了以上几个比较通用的数据库外，其实还有很多小众数据库，应该根据课题研究和背景进行选择。注意，数据库本身并不能进行注释，你只是通过序列相似性进行搜索，而返回的结果你称之为注释。因此数据库和搜索工具要进行区分，所以你需要单独下载数据库和搜索工具，或者是同时下载包含数据库和搜索工具的安装包。</p>
+<blockquote>
+<p>注意，后续分析中一定要保证你的蛋白序列中不能有代表氨基酸字符以外的字符，比如说有些软件会把最后一个终止密码子翻译成”.“或者”*”</p>
+</blockquote>
+<p><strong>BLASTP</strong></p>
+<p>这一部分用到的数据库都是用BLASTP进行检索，基本都是四步发：下载数据库，构建BLASTP索引，数据库检索，结果整理。其中结果整理需要根据BLASTP的输出格式调整。</p>
+<p>Nr的NCBI收集的最全的蛋白序列数据库，但是无论是用NCBI的BLAST还是用速度比较快DIAMOND对nr进行搜索，其实都没有利用好物种本身的信息。因此在RefSeq上下载对应物种的蛋白序列, 用BLASTP进行注释即可。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># download</span><br>wget -<span class="hljs-number">4</span>  -nd -np -r <span class="hljs-number">1</span> -A *.faa.gz ftp:<span class="hljs-regexp">//</span>ftp.ncbi.nlm.nih.gov<span class="hljs-regexp">/refseq/</span>release<span class="hljs-regexp">/plant/</span><br>mkdir -p ~<span class="hljs-regexp">/db/</span>RefSeq<br>zcat *.gz &gt; ~<span class="hljs-regexp">/db/</span>RefSeq/plant.protein.faa<br><span class="hljs-comment"># build index</span><br>~<span class="hljs-regexp">/opt/</span>biosoft<span class="hljs-regexp">/ncbi-blast-2.7.1+/</span>bin/makeblastdb -<span class="hljs-keyword">in</span> plant.protein.faa -dbtype prot -parse_seqids -title RefSeq_plant -out plant<br><span class="hljs-comment"># search</span><br>~<span class="hljs-regexp">/opt/</span>biosoft<span class="hljs-regexp">/ncbi-blast-2.7.1+/</span>bin<span class="hljs-regexp">/blastp -query protein.fa -out RefSeq_plant_blastp.xml -db ~/</span>db<span class="hljs-regexp">/RefSeq/u</span>niprot_sprot.fasta -evalue <span class="hljs-number">1</span>e-<span class="hljs-number">5</span> -outfmt <span class="hljs-number">5</span> -num_threads <span class="hljs-number">50</span> &amp;<br><br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://www.uniprot.org/downloads">Swiss-Prot</a>里收集了目前可信度最高的蛋白序列，一共有55w条记录，数据量比较小，</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># download</span><br>wget -<span class="hljs-number">4</span> -q ftp:<span class="hljs-regexp">//</span>ftp.uniprot.org<span class="hljs-regexp">/pub/</span>databases<span class="hljs-regexp">/uniprot/</span>current_release<span class="hljs-regexp">/knowledgebase/</span>complete/uniprot_sprot.fasta.gz<br>gzip -d uniprot_sprot.fasta.gz<br><span class="hljs-comment"># builid index</span><br>~<span class="hljs-regexp">/opt/</span>biosoft<span class="hljs-regexp">/ncbi-blast-2.7.1+/</span>bin/makeblastdb -<span class="hljs-keyword">in</span> uniprot_sprot.fasta -dbtype prot -title swiss_prot -parse_seqids<br><span class="hljs-comment"># search</span><br>~<span class="hljs-regexp">/opt/</span>biosoft<span class="hljs-regexp">/ncbi-blast-2.7.1+/</span>bin<span class="hljs-regexp">/blastp -query protein.fa -out swiss_prot.xml -db ~/</span>db<span class="hljs-regexp">/swiss_prot/u</span>niprot_sprot.fasta -evalue <span class="hljs-number">1</span>e-<span class="hljs-number">5</span> -outfmt <span class="hljs-number">5</span> -num_threads <span class="hljs-number">50</span> &amp;<br><br></code></pre></td></tr></table></figure>
+
+<p>关于结果整理，已经有很多人写了脚本，比如说我搜索BLAST XML CSV，就找到了<a target="_blank" rel="noopener" href="https://github.com/Sunhh/NGS_data_processing/blob/master/annot_tools/blast_xml_parse.py">https://github.com/Sunhh/NGS_data_processing/blob/master/annot_tools/blast_xml_parse.py</a>, 所以就不过多介绍。</p>
+<p><strong>InterProScan</strong></p>
+<p>下面介绍的工具是InterProScan, 从它的9G的体量就可以感受它的强大之处，一次运行同时实现多个信息注释。</p>
+<ul>
+<li>InterPro注释</li>
+<li>Pfam数据库注释(可以通过hmmscan搜索pfam数据库完成)</li>
+<li>GO注释(可以基于NR和Pfam等数据库，然后BLAST2GO完成,)</li>
+<li>Reactome通路注释，不同于KEGG</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">./interproscan-<span class="hljs-number">5.29</span>-<span class="hljs-number">68.0</span>/interproscan<span class="hljs-selector-class">.sh</span> -appl Pfam  -f TSV -<span class="hljs-selector-tag">i</span> sample<span class="hljs-selector-class">.fa</span> -cpu <span class="hljs-number">50</span> -<span class="hljs-selector-tag">b</span> sample -goterms -iprlookup -pa<br></code></pre></td></tr></table></figure>
+
+<p><code>-appl</code>告诉软件要执行哪些数据分析，勾选的越多，分析速度越慢，Pfam就行。</p>
+<p>KEGG</p>
+<p>KEGG数据库目前本地版收费，在线版收费，所以只能将蛋白序列在KEGG服务器上运行。因此你需要在<a target="_blank" rel="noopener" href="http://www.genome.jp/tools/kaas/%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%B7%A5%E5%85%B7%E8%BF%9B%E8%A1%8C%E5%90%8E%E7%BB%AD%E7%9A%84%E5%88%86%E6%9E%90%E3%80%82%E6%88%91%E4%B8%8A%E4%BC%A0%E7%9A%8450M%E5%A4%A7%E5%B0%8F%E8%9B%8B%E7%99%BD%E5%BA%8F%E5%88%97%EF%BC%8C%E5%9C%A8KEGG%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%8F%AA%E9%9C%80%E8%A6%81%E8%BF%90%E8%A1%8C8%E4%B8%AA%E5%B0%8F%E6%97%B6%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%E6%99%9A%E4%B8%8A%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1%EF%BC%8C%E7%99%BD%E5%A4%A9%E5%9B%9E%E6%9D%A5%E5%B9%B2%E6%B4%BB%E3%80%82">http://www.genome.jp/tools/kaas/选择合适的工具进行后续的分析。我上传的50M大小蛋白序列，在KEGG服务器上只需要运行8个小时，也就是晚上提交任务，白天回来干活。</a><br><img src="/GeekFocus/2022-03-18-annotation/11.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="运行时间"></p>
+<p><img src="/GeekFocus/img/2022-03-18-annotation/11.png" srcset="/GeekFocus/img/loading.gif" lazyload alt="运行时间"></p>
+<p><strong>附录</strong></p>
+<p>基因组注释的常用软件：</p>
+<ul>
+<li><p>重复区域</p>
+<ul>
+<li><p>RepeatMasker：识别基因组中的可能重复</p>
+</li>
+<li><p>RepeatModeler: 识别新的重复序列</p>
+</li>
+<li><p>LTR-FINDER: <a target="_blank" rel="noopener" href="http://tlife.fudan.edu.cn/ltr_finder/">http://tlife.fudan.edu.cn/ltr_finder/</a></p>
+</li>
+</ul>
+</li>
+<li><p>从头预测</p>
+<ul>
+<li><strong>Augustus</strong></li>
+<li>Fgenesh</li>
+</ul>
+</li>
+<li><p>同源预测</p>
+<ul>
+<li>GeneWise</li>
+<li><strong>Exonerate</strong></li>
+<li>Trinity</li>
+<li>GenomeThreader? failed</li>
+</ul>
+</li>
+<li><p>注释合并</p>
+<ul>
+<li>GLEAN：已经落伍于时代了</li>
+<li><strong>EvidenceModeler</strong>： 与时俱进</li>
+</ul>
+</li>
+<li><p>流程</p>
+<ul>
+<li>PASA：真核生物基因的<strong>转录本可变剪切自动化注释项目</strong>，需要提供物种的EST或RNA-seq数据</li>
+<li><strong>MAKER</strong></li>
+<li><strong>BRAKER1</strong>: 使用GeneMark-ET和AUGUSTUS基于RNA-Seq注释基因结构</li>
+<li>EuGene</li>
+</ul>
+</li>
+<li><p>可视化</p>
+<ul>
+<li>IGV</li>
+<li>JBrowse&#x2F;GBrowse</li>
+</ul>
+</li>
+</ul>
+<p><strong>参考文献和推荐阅读：</strong></p>
+<ul>
+<li>NCBI真核生物基因组注释流程<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/genome/annotation_euk/process/">https://www.ncbi.nlm.nih.gov/genome/annotation_euk/process/</a></li>
+<li>真核基因组注释入门: “A beginner’s guide to eukaryotic genome annotation”</li>
+<li>二代测序注释流程:Comparative Gene Finding: “Annotation Pipelines for Next-Generation Sequencing Projects”</li>
+<li>基因组转录组注释策略: “Plant genome and transcriptome annotations: from misconceptions to simple solution”</li>
+<li>重复序列综述: “Repetitive DNA and next-generation sequencing: computational challenges and solutions”</li>
+<li>JGS流程: <a target="_blank" rel="noopener" href="https://genome.jgi.doe.gov/programs/fungi/FungalGenomeAnnotationSOP.pdf">https://genome.jgi.doe.gov/programs/fungi/FungalGenomeAnnotationSOP.pdf</a></li>
+</ul>
+<p>环境准备</p>
+<p>数据下载</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># Cardamine hirsutat基因组数据</span><br>mkdir chi_annotation &amp;&amp; cd chi_annotation<br>wget http:<span class="hljs-regexp">//</span>chi.mpipz.mpg.de<span class="hljs-regexp">/download/</span>sequences/chi_v1.fa<br>cat chi_v1.fa | tr <span class="hljs-string">&#x27;atcg&#x27;</span> <span class="hljs-string">&#x27;ATCG&#x27;</span> &gt; chi_unmasked.fa<br><span class="hljs-comment"># Cardamine hirsutat转录组数据</span><br>wget -<span class="hljs-number">4</span> -q -A <span class="hljs-string">&#x27;*.fastq.gz&#x27;</span> -np -nd -r <span class="hljs-number">2</span> http:<span class="hljs-regexp">//</span>chi.mpipz.mpg.de<span class="hljs-regexp">/download/</span>fruit_rnaseq<span class="hljs-regexp">/cardamine_hirsuta/</span> &amp;<br>wget -<span class="hljs-number">4</span> -q -A <span class="hljs-string">&#x27;*.fastq.gz&#x27;</span> -np -nd -r <span class="hljs-number">2</span> http:<span class="hljs-regexp">//</span>chi.mpipz.mpg.de<span class="hljs-regexp">/download/</span>leaf_rnaseq<span class="hljs-regexp">/cardamine_hirsuta/</span> &amp;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a><strong>软件安装</strong></h2><h3 id="RepeatMasker√"><a href="#RepeatMasker√" class="headerlink" title="RepeatMasker√?"></a><strong>RepeatMasker</strong>√?</h3><p>用于注释基因组的重复区，需要安装RMBlast, TRF，以及在<a target="_blank" rel="noopener" href="http://www.girinst.org/">http://www.girinst.org</a>注册以下载Repbase</p>
+<p>安装RepeatMasker</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#useful</span><br><span class="hljs-comment">#cd ~/src</span><br><span class="hljs-built_in">cd</span> RepeatMasker<br>wget http://tandem.bu.edu/trf/downloads/trf409.linux64<br><span class="hljs-comment">#mv trf409.linux64 ~/opt/bin/trf</span><br><span class="hljs-built_in">mv</span> trf409.linux64 opt/bin/trf<br><span class="hljs-comment">#chmod a+x ~/opt/bin/trf</span><br><span class="hljs-built_in">chmod</span> a+x opt/bin/trf<br><br><span class="hljs-comment"># RMBlast -failed</span><br><span class="hljs-comment">#cd ~/src</span><br>wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.6.0/ncbi-blast-2.6.0+-src.tar.gz<br>wget http://www.repeatmasker.org/isb-2.6.0+-changes-vers2.patch.gz<br>tar xf ncbi-blast-2.6.0+-src<br>gunzip isb-2.6.0+-changes-vers2.patch.gz<br><span class="hljs-built_in">cd</span> ncbi-blast-2.6.0+-src<br>patch -p1 &lt; ../isb-2.6.0+-changes-vers2.patch<br><span class="hljs-built_in">cd</span> c++<br><span class="hljs-comment">#./configure --with-mt --prefix=~/opt/biosoft/rmblast --without-debug &amp;&amp; make &amp;&amp; make install</span><br><br>!!failed<br><span class="hljs-comment"># RepeatMasker</span><br><span class="hljs-built_in">cd</span> ~/src<br>wget http://repeatmasker.org/RepeatMasker-open-4-0-7.tar.gz<br>tar xf RepeatMasker-open-4-0-7.tar.gz<br><span class="hljs-built_in">mv</span> RepeatMasker ~/opt/biosoft/<br><span class="hljs-built_in">cd</span> ~/opt/biosoft/RepeatMasker<br><span class="hljs-comment">## 解压repbase数据到Libraries下</span><br><span class="hljs-comment">## 配置RepatMasker</span><br>perl ./configure<br><br>--my 【follow official web】<br>http://repeatmasker.org/RepeatMasker/<br>Latest Released Version: 04/1/21: RepeatMasker-4.1.2-p1.tar.gz<br>未更新Dfam【the complete dfam mey be download? 补充15G？后编译，与之前的结果比较】，RepBase RepeatMasker Edition用的老版本2017<br>【更新2018】https://www.jianshu.com/p/ffdbedae80fa<br>---RMBlast  上面的configure error<br>https://blog.csdn.net/woodcorpse/article/details/73148464<br>在RepeatMasker的页面上有最近ncbi-blast-2.6.0+-src源代码和补定，按要求安装，即本文中的操作，make编辑成功，但make install有错误，不过关键程序rmblastn已经成功，可正常使用；<br>如果新版安装失败，可尝试安装2.2.28的预译版<br><span class="hljs-built_in">cd</span> /usr/local<br>wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.28/ncbi-blast-2.2.28+-x64-linux.tar.gz<br>wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/rmblast/2.2.28/ncbi-rmblastn-2.2.28-x64-linux.tar.gz<br>tar zxvf ncbi-blast-2.2.28+-x64-linux.tar.gz<br>tar zxvf ncbi-rmblastn-2.2.28-x64-linux.tar.gz<br><span class="hljs-built_in">cp</span> -R ncbi-rmblastn-2.2.28/* ncbi-blast-2.2.28+/<br><span class="hljs-built_in">rm</span> -rf ncbi-rmblastn-2.2.28<br><span class="hljs-built_in">mv</span> ncbi-blast-2.2.28+ rmblast-2.2.28<br>/usr/local/rmblast-2.2.28/bin/rmblastn -h<br>---error Repeatmasker <span class="hljs-string">&quot;Can&#x27;t locate Text/Soundex.pm in @INC</span><br><span class="hljs-string">https://github.com/rmhubley/RepeatMasker/issues/81</span><br><span class="hljs-string">2.12版本好了</span><br><span class="hljs-string">https://anaconda.org/conda-forge/perl-text-soundex 安装也未解决</span><br><span class="hljs-string">---error ModuleNotFoundError: No module named &#x27;h5py&#x27;</span><br><span class="hljs-string">https://github.com/keras-team/keras/issues/3426；https://docs.h5py.org/en/latest/build.html</span><br><span class="hljs-string">【conda install -c anaconda h5py】</span><br><span class="hljs-string">---error Can&#x27;t locate strict.pm</span><br><span class="hljs-string">【perl的问题，loginal有问题，换自己的perl没问题】</span><br><span class="hljs-string">---</span><br><span class="hljs-string">如果反复提示以下关于“Text::Soundex module”模块的错误（即便你这个perl模块确实安装好了），建议将perl环境更改为/usr/bin下的perl（对，不建议使用conda中的perl），并sudo cpan重新安装该模块后，再重新安装RepeatMasker（安装时指定系统/usr/bin下的perl），就解决了。【4.12没问题】</span><br><span class="hljs-string"></span><br><span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Repeatmodeler√？"><a href="#Repeatmodeler√？" class="headerlink" title="Repeatmodeler√？"></a>Repeatmodeler√？</h3><p>在上面的基础上安装<strong>RepeatModel</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7cd5d8ab7290">https://www.jianshu.com/p/7cd5d8ab7290</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs sh">【！！！！！！！！！必须fat no conda】【<span class="hljs-built_in">local</span> no conda error】<br>1-3、RepeatMasker、TRF、序列搜索引擎<br><span class="hljs-comment"># RECON</span><br><span class="hljs-built_in">cd</span> ~/src<br>wget -4 http://repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz<br>tar xf RECON-1.08.tar.gz<br><span class="hljs-built_in">cd</span> RECON-1.08/src<br>make &amp;&amp; make install<br><span class="hljs-built_in">cd</span> ~/src<br><span class="hljs-built_in">mv</span> RECON-1.08 ~/opt/biosoft<br><span class="hljs-comment"># nesg</span><br><span class="hljs-built_in">cd</span> ~/src<br><span class="hljs-built_in">mkdir</span> nesg &amp;&amp; <span class="hljs-built_in">cd</span> nesg<br>wget -4 ftp://ftp.ncbi.nih.gov/pub/seg/nseg/*<br>make<br><span class="hljs-built_in">mv</span> nmerge nseg ~/opt/bin/<br><span class="hljs-comment"># RepeatScout</span><br>http://www.repeatmasker.org/RepeatScout-1.0.5.tar.gz<br><span class="hljs-comment">#github：https://github.com/mmcco/RepeatScout</span><br>git <span class="hljs-built_in">clone</span> https://github.com/mmcco/RepeatScout.git<br><span class="hljs-built_in">cd</span> RepeatScout<br><span class="hljs-built_in">chmod</span> 755 *<br>make <br><span class="hljs-comment">#添加环境变量，例如RepeatScout安装在“/home/my/software/RepeatScout”</span><br><span class="hljs-built_in">export</span> PATH=/home/my/software/RepeatScout:<span class="hljs-variable">$PATH</span><br><br><span class="hljs-comment"># RepeatModel</span><br>wget  http://repeatmasker.org/RepeatModeler/RepeatModeler-open-1.0.11.tar.gz<br>tar xf RepeatModeler-open-1.0.11.tar.gz<br><span class="hljs-built_in">mv</span> RepeatModeler-open-1.0.11 ~/opt/biosoft/<br><span class="hljs-built_in">cd</span> ~/opt/biosoft/RepeatModeler-open-1.0.11<br><span class="hljs-comment"># 配置</span><br>perl ./configure<br>---<br>conda perl error<br><br>“./configure”执行后，根据提示信息一步步来。<br><br>首先是perl环境，推荐使用/usr/bin环境下的perl，即系统perl，【【使用conda中的perl后面总出问题】】回车继续。<br>RepeatModeler安装路径，默认自动指定安装路径，回车继续。<br><br>指定RepeatMasker的安装路径，回车继续。<br>/software/biosoft/software/RepeatMasker/ 识别了也fail，不完整library<br>？？？？？自己路径识别不出来<br>MASKER checks xxx/RepeatMasker/Libraries/RepeatMaskerLib.embl <span class="hljs-keyword">for</span> Repbase.<br>If you have older versions of Repbase like RMRBSeqs.embl, create symlink <span class="hljs-keyword">in</span> xxx/RepeatMasker/Libraries/. For example, <span class="hljs-built_in">ln</span> -s RMRBSeqs.embl RepeatMaskerLib.embl. But <span class="hljs-keyword">in</span> that <span class="hljs-keyword">case</span>, model_org= should be <span class="hljs-built_in">set</span> to the org that exists <span class="hljs-keyword">in</span> the database, instead of all. CAUTION: I don<span class="hljs-string">&#x27;t know whether the result is reliable enough in this way.</span><br><span class="hljs-string"></span><br><span class="hljs-string"></span><br><span class="hljs-string">指定RECON的安装路径，回车继续。</span><br><span class="hljs-string">指定RepeatScout的安装路径，回车继续。</span><br><span class="hljs-string">指定NSEG的安装路径，回车继续。</span><br><span class="hljs-string">指定TRF的安装路径（这个同时也是RepeatMasker安装必需的），回车继续。</span><br><span class="hljs-string">最后是序列搜索引擎（这个同时也是RepeatMasker安装必需的），例如我们这里选择2，指定RMBlast主程序所在路径，回车返回主界面后，再选择3，就完成了。</span><br><span class="hljs-string">你也可以指定多种序列搜索引擎后，再选择3，不过实际运行时，一次只能选择一种序列比对方式。</span><br><span class="hljs-string">终于把一些列的环境添加完了，最后配置环境变量。</span><br><span class="hljs-string">Enter Selection: 3</span><br><span class="hljs-string"> -- Setting perl interpreter and version...</span><br><span class="hljs-string"></span><br><span class="hljs-string">Congratulations!  RepeatModeler is now ready to use.</span><br><span class="hljs-string">Simply place:</span><br><span class="hljs-string">   ~/software/opt/biosoft/RepeatModeler-open-1.0.11</span><br><span class="hljs-string">in your user&#x27;</span>s path and review the RepeatModeler documentation here:<br>   ~/software/opt/biosoft/RepeatModeler-open-1.0.11/README<br><br><span class="hljs-built_in">export</span> PATH=/home/my/software/RepeatModeler-open-1.0.11:<span class="hljs-variable">$PATH</span><br> <br><span class="hljs-comment">#这时候没啥问题的话应该可以看到帮助界面了</span><br>RepeatModeler -h<br><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#建立基因组索引</span><br><span class="hljs-attribute">BuildDatabase</span> -name Silkworm -engine ncbi genomic.fna<br><br><span class="hljs-comment">#构建 library，这步非常耗时，好像提升线程也没啥用，#获得两个主要文件，*-families.fa、*-families.stk</span><br><span class="hljs-attribute">RepeatModeler</span> -pa <span class="hljs-number">4</span> -database Silkworm -engine ncbi<br><br><span class="hljs-comment">#下方作为测试，只使用了主要的参数，其中通过 -lib 参数指定本地库</span><br><span class="hljs-attribute">RepeatMasker</span> -pa <span class="hljs-number">4</span> -gff -lib Silkworm-families.fa -dir repeat2 genomic.fna<br></code></pre></td></tr></table></figure>
+
+<p>fasta文件“-families.fa”为训练得到的共识重复序列，序列id后会标注它属于哪种重复序列家族，若无法归类则用标注为“Unkown”。<br>“-families.stk”为种子联配（Seed alignments）文件，是Dfam兼容的Stockholm格式，可以使用RepeatModeler 安装路径中自带的工具“RepeatModeler&#x2F;util&#x2F;dfamConsensusTool.pl”上传到Dfam_consensus数据库中。<br>详见：<a target="_blank" rel="noopener" href="http://www.repeatmasker.org/RepeatModeler/dfamConsensusTool">http://www.repeatmasker.org/RepeatModeler/dfamConsensusTool</a>. 查看输出结果“*.tbl”。</p>
+<p>RepeatModeler 预测基因组重复序列，为下一步的RepeatMasker建立重复序列数据库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#建库，利用rice 一个实例fasta文件</span><br>BuildDatablase –name ricedb –engine ncbi  rice.sample.2.fa<br><br><span class="hljs-comment">#参数说明</span><br>-name &lt;database name&gt;<br>        The name of the database to create.<br>-engine &lt;engine name&gt;<br>        The name of the search engine we are using. I.e abblast/wublast or rmblast.<br>-<span class="hljs-built_in">dir</span> &lt;directory&gt;<br>        The name of a directory containing fasta files to be processed. The<br>        files are recognized by their suffix. Only *.fa and *.fasta files<br>        are processed.<br>-batch &lt;file&gt;<br>        The name of a file <span class="hljs-built_in">which</span> contains the names of fasta files to<br>        process. The files names are listed one per line and should be fully<br>        qualified.<br><br>RepeatModeler -database ricedb  -pa 5<br><br><span class="hljs-comment">#参数说明</span><br>-database<br>        The name of the sequence database to run an analysis on. This is the<br>        name that was provided to the BuildDatabase script using the <span class="hljs-string">&quot;-name&quot;</span><br>        option.<br>-pa <span class="hljs-comment">#</span><br>        Specify the number of parallel search <span class="hljs-built_in">jobs</span> to run. RMBlast <span class="hljs-built_in">jobs</span> will<br>        use 4 cores each and ABBlast <span class="hljs-built_in">jobs</span> will use a single core each. i.e.<br>        on a machine with 12 cores and running with RMBlast you would use<br>        -pa 3 to fully utilize the machine.<br>-recoverDir &lt;Previous Output Directory&gt;<br>        If a run fails <span class="hljs-keyword">in</span> the middle of processing, it may be possible<br>        recover some results and <span class="hljs-built_in">continue</span> <span class="hljs-built_in">where</span> the previous run left off.<br>        Simply supply the output directory <span class="hljs-built_in">where</span> the results of the failed<br>        run were saved and the program will attempt to recover and <span class="hljs-built_in">continue</span><br>        the run.<br></code></pre></td></tr></table></figure>
+
+<p>（1.1）RepeatModeler结果文件</p>
+<p>consensi.fa：自身比对找到的一致性序列<br>consensi.fa.classified：重复序列分类结果，“#”后面的字符串是分类结果<br>consensi.fa.masked：屏蔽后的序列，不太使用<br>（2）RepeatMasker；屏蔽DNA序列中转座子或者低复杂度重复序列，输出的序列把已知的重复序列都屏蔽成N或X，并给出相应的位置和统计信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#将上一步的结果文件（自动生成，以“RM”开头）里面的consensi.fa.classified为libirary，对参考序列进行序列屏蔽</span><br><span class="hljs-comment">#运行</span><br>RepeatMasker -nolow  -e ncbi -pa 5 -norna -<span class="hljs-built_in">dir</span> ./  -lib consensi.fa.classified rice.sample.fa<br><br><span class="hljs-comment">#重要参数</span><br>-nolow. (不屏蔽低复杂序列，担心屏蔽后使得基因结构受到影响)<br>        Does not mask low_complexity DNA or simple repeats<br>-lib [filename] 自己制定的重复序列库<br>        Allows use of a custom library (e.g. from another species)<br> -e(ngine) [crossmatch|wublast|abblast|ncbi|rmblast|hmmer]<br>        Use an alternate search engine to the default.<br>-pa(rallel) [number]<br>        The number of sequence batch <span class="hljs-built_in">jobs</span> [50kb minimum] to run <span class="hljs-keyword">in</span> parallel.<br>-norna<br>        Does not mask small RNA (pseudo) genes<br>-<span class="hljs-built_in">dir</span> [directory name] 输出文件位置<br>        Writes output to this directory (default is query file directory,<br>        <span class="hljs-string">&quot;-dir .&quot;</span> will write to current directory).<br>-gff<br>        Creates an additional Gene Feature Finding format output<br></code></pre></td></tr></table></figure>
+
+<p>（2.1）RepeatMasker输出结果</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-comment">*.out：重复序列详细比对结果</span><br><span class="hljs-comment">*.masked：屏蔽后的序列</span><br><span class="hljs-comment">*.tbl：重复序列统计文件</span><br><span class="hljs-comment">*.cat：和out差不多</span><br></code></pre></td></tr></table></figure>
+
+<p>（2.2）*.out 每一列含义</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs erlang">第一列：比对分值，SW score<br>第二列：替代率 perc <span class="hljs-keyword">div</span>.<br>第三列：碱基缺失百分率<br>第四列：在重复序列中碱基缺失百分率<br>第五列：<span class="hljs-keyword">query</span> sequence<br>第六列：查询序列起始位置<br>第七列：查询序列终止位置<br>第八列：查询区域中超出比对区域碱基的数目，也就是没有比对上的碱基数<br>第九列：+/-(C)<br>第十列：比上的重复序列名称，类型命名<br>第十一列：比上重复序列的分类，和repeatmolder 中*.classed 是一样的<br>第十二列：比上的在数据库中的起始位置<br>第十三列：比上的在数据库中的终止位置<br>第十四列：在第十列上超出比对区域碱基的数目，也就是没有比对上的碱基数<br>第十五列：比对区域的ID，随机给的<br></code></pre></td></tr></table></figure>
+
+<p>（2.3）最后将out文件可转为GFF文件，即完成基因组重复序列的鉴定</p>
+<p>BLAST**，BLAST有两个版本可供选择, WuBLAST或者NCBI-BLAST，我个人倾向于NCBI-BLAST，并且推荐使用编译后二进制版本，因为编译实在是太花时间了</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd ~/src<br>wget ftp:<span class="hljs-regexp">//</span>ftp.ncbi.nlm.nih.gov<span class="hljs-regexp">/blast/</span>executables<span class="hljs-regexp">/blast+/</span>LATEST/ncbi-blast-<span class="hljs-number">2.7</span>.<span class="hljs-number">1</span>+-x64-linux.tar.gz<br>tar xf ncbi-blast-<span class="hljs-number">2.7</span>.<span class="hljs-number">1</span>+-x64-linux.tar.gz -C ~<span class="hljs-regexp">/opt/</span>biosoft<br><span class="hljs-comment"># 环境变量</span><br>export PATH=~<span class="hljs-regexp">/opt/</span>biosoft<span class="hljs-regexp">/ncbi-blast-2.7.1+/</span>bin:<span class="hljs-variable">$PATH</span><br><span class="hljs-comment"># 用于后续的BRAKER2</span><br>conda create -n annotation blast=<span class="hljs-number">2.2</span>.<span class="hljs-number">31</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="AUGUSTUS-√"><a href="#AUGUSTUS-√" class="headerlink" title="AUGUSTUS √?"></a><strong>AUGUSTUS</strong> √?</h3><p> 可以说是最好的预测软件，使用conda安装</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Gaius-Augustus/Augustus">https://github.com/Gaius-Augustus/Augustus</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">UnsatisfiableError: The following specifications were found to be incompatible with your system:?????<br><br>  - feature:/linux-64::__glibc==2.17=0<br>  - augustus=3.4.0 -&gt; libgcc-ng[version=<span class="hljs-string">&#x27;&gt;=9.3.0&#x27;</span>] -&gt; __glibc[version=<span class="hljs-string">&#x27;&gt;=2.17&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">source</span> activate annotation<br><span class="hljs-comment">#conda install augustus=3.3 failed</span><br>conda search -c bioconda augustus	<br>conda install -c bioconda augustus=3.2.2 failed ： libboost_iostream.so.1.60.0<br>conda install -c bioconda augustus=3.1<br></code></pre></td></tr></table></figure>
+
+<h3 id="GeneMark-ES-x2F-ET√"><a href="#GeneMark-ES-x2F-ET√" class="headerlink" title="GeneMark-ES&#x2F;ET√?"></a><strong>GeneMark-ES&#x2F;ET</strong>√?</h3><p>是唯一一款支持无监督训练模型, 软件下载需要登记</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd ~/src<br>wget http:<span class="hljs-regexp">//</span>topaz.gatech.edu<span class="hljs-regexp">/GeneMark/</span>tmp<span class="hljs-regexp">/GMtool_Qg87n/gm</span>_et_linux_64.tar.gz<br>tar xf gm_et_linux_64.tar.gz<br>mv gm_et_linux_64<span class="hljs-regexp">/gmes_petap/</span> ~<span class="hljs-regexp">/opt/</span>biosoft<br>wget http:<span class="hljs-regexp">//</span>topaz.gatech.edu<span class="hljs-regexp">/GeneMark/</span>tmp<span class="hljs-regexp">/GMtool_Qg87n/gm</span>_key_64.gz<br>gzip -dc gm_key_64.gz &gt; ~/.gm_key<br>cpan YAML Hash::Merge Logger::Simple Parallel::ForkManager<br>echo <span class="hljs-string">&quot;export PATH=$PATH:~/opt/biosoft/gmes_petap/&quot;</span> &gt;&gt; ~/.bashrc<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="GlimmerHMM"><a href="#GlimmerHMM" class="headerlink" title="GlimmerHMM:"></a><strong>GlimmerHMM</strong>:</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd ~/src<br>wget -<span class="hljs-number">4</span> ftp:<span class="hljs-regexp">//</span>ccb.jhu.edu<span class="hljs-regexp">/pub/</span>software<span class="hljs-regexp">/glimmerhmm/</span>GlimmerHMM-<span class="hljs-number">3.0</span>.<span class="hljs-number">4</span>.tar.gz<br>tar xf GlimmerHMM-<span class="hljs-number">3.0</span>.<span class="hljs-number">4</span>.tar.gz -C ~<span class="hljs-regexp">/opt/</span>biosoft<br></code></pre></td></tr></table></figure>
+
+<h3 id="SNAP-√"><a href="#SNAP-√" class="headerlink" title="SNAP: √?"></a><strong>SNAP</strong>: √?</h3><p>基因从头预测工具，在处理含有长内含子上的基因组上表现欠佳</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 安装</span><br>cd ~/src<br>git clone https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/KorfLab/</span>SNAP.git<br>cd SNP<br>make<br>cd ..<br>mv SNAP ~<span class="hljs-regexp">/opt/</span>biosoft<br><span class="hljs-comment"># 环境变量</span><br>export Zoe=~<span class="hljs-regexp">/opt/</span>biosoft<span class="hljs-regexp">/SNAP/</span>Zoe<br>export PATH=~<span class="hljs-regexp">/opt/</span>biosoft/SNAP:<span class="hljs-variable">$PATH</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="Exonerate-2-2-√-cluster"><a href="#Exonerate-2-2-√-cluster" class="headerlink" title="Exonerate 2.2: √? cluster"></a><strong>Exonerate 2.2</strong>: √? cluster</h3><p>配对序列比对工具，提供二进制版本, 功能类似于GeneWise，能够<font color="blue">将cDNA或蛋白以gao align的方式和基因组序列联配</font>。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> ~/src<br>wget http://ftp.ebi.ac.uk/pub/software/vertebrategenomics/exonerate/exonerate-2.2.0-x86_64.tar.gz<br>tar xf exonerate-2.2.0-x86_64.tar.gz<br><span class="hljs-built_in">mv</span> exonerate-2.2.0-x86_64 ~/opt/biosoft/exonerate-2.2.0<br><span class="hljs-comment"># .bashrc添加环境变量</span><br><span class="hljs-built_in">export</span> PATH=~/opt/biosoft/exonerate-2.2.0:<span class="hljs-variable">$PATH</span><br><span class="hljs-comment"># 或</span><br>conda install -c bioconda exonerate<br>---下载最新版本2.4.0<br>sudo?<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="GenomeThreader-1-703-failed-√"><a href="#GenomeThreader-1-703-failed-√" class="headerlink" title="GenomeThreader 1.703 failed: √?"></a>GenomeThreader 1.703 failed: √?</h3><p>同源预测软件，1.7.0版本更新于2018年2月</p>
+<p><a target="_blank" rel="noopener" href="https://genomethreader.org/download.html">https://genomethreader.org/download.html</a> 1.7.3-2020-01</p>
+<p>error:gth: &#x2F;lib64&#x2F;libc.so.6: version &#96;GLIBC_2.27’ not found (required by gth)</p>
+<p>1.7.1</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#wget -4 http://genomethreader.org/distributions/gth-1.7.0-Linux_x86_64-64bit.tar.gz</span><br><span class="hljs-comment">#tar xf gth-1.7.0-Linux_x86_64-64bit.tar.gz -C ~/opt/biosoft</span><br>tar xf gth-1.7.3-Linux_x86_64-64bit.tar.gz -C ./<br><span class="hljs-comment"># 修改.bashrc增加如下行</span><br><span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$HOME</span>/opt/biosoft/gth-1.7.0-Linux_x86_64-64bit/bin<br><span class="hljs-built_in">export</span> BSSMDIR=<span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/opt/biosoft/gth-1.7.0-Linux_x86_64-64bit/bin/bssm&quot;</span><br><span class="hljs-built_in">export</span> GTHATADIR=<span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/opt/biosoft/gth-1.7.0-Linux_x86_64-64bit/bin/gthdata&quot;</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="BRAKER2"><a href="#BRAKER2" class="headerlink" title="BRAKER2:"></a><strong>BRAKER2</strong>:</h3><p>依赖AUGUSTUS 3.3, GeneMark-EX 4.33, BAMTOOLS 2.5.1, NCBI BLAST+ 2.2.31+(可选 SAMTOOLS 1.74+, GenomeThreader 1.70)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh">cpan File::Spec::Functions Module::Load::Conditional POSIX Scalar::Util::Numeric YAML File::Which Logger::Simple Parallel::ForkManager<br><span class="hljs-built_in">cd</span> ~/src<br>wget -4 http://exon.biology.gatech.edu/GeneMark/Braker/BRAKER2.tar.gz<br>tar xf BRAKER2.tar.gz -C ~/opt/biosoft<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;export PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$HOME</span>/opt/biosoft/BRAKER_v2.1.0/&quot;</span> &gt;&gt; ~/.bashrc<br><span class="hljs-comment"># 在~/.bashrc设置如下软件所在环境变量</span><br><span class="hljs-built_in">export</span> AUGUSTUS_CONFIG_PATH=<span class="hljs-variable">$HOME</span>/miniconda3/envs/annotation/config/<br><span class="hljs-built_in">export</span> AUGUSTUS_SCRIPTS_PATH=<span class="hljs-variable">$HOME</span>/miniconda3/envs/annotation/bin/<br><span class="hljs-built_in">export</span> BAMTOOLS_PATH=<span class="hljs-variable">$HOME</span>/miniconda3/envs/annotation/bin/<br><span class="hljs-built_in">export</span> GENEMARK_PATH=<span class="hljs-variable">$HOME</span>/opt/biosoft/gmes_petap/<br><span class="hljs-built_in">export</span> SAMTOOLS_PATH=<span class="hljs-variable">$HOME</span>/miniconda3/envs/annotation/bin/<br><span class="hljs-built_in">export</span> ALIGNMENT_TOOL_PATH=<span class="hljs-variable">$HOME</span>/opt/biosoft/gth-1.7.0-Linux_x86_64-64bit/bin/<br><br></code></pre></td></tr></table></figure>
+
+<p>参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/jessepeng/p/14806266.html">https://www.cnblogs.com/jessepeng/p/14806266.html</a></p>
+<h3 id="TransDecoder"><a href="#TransDecoder" class="headerlink" title="TransDecoder"></a>TransDecoder</h3><p>编码区域预测工具，需要预先安装NCBI-BLAST</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">cpan</span> URI::Escape<br><span class="hljs-attribute">cd</span> ~/src<br><span class="hljs-attribute">wget</span> -<span class="hljs-number">4</span> https://github.com/TransDecoder/TransDecoder/archive/TransDecoder-v5.<span class="hljs-number">3</span>.<span class="hljs-number">0</span>.zip<br><span class="hljs-attribute">unzip</span> TransDecoder-v5.<span class="hljs-number">3</span>.<span class="hljs-number">0</span>.zip<br><span class="hljs-attribute">cd</span> TransDecoder-v5.<span class="hljs-number">3</span>.<span class="hljs-number">0</span><br><span class="hljs-attribute">make</span> test<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="MAKER"><a href="#MAKER" class="headerlink" title="MAKER:"></a><strong>MAKER</strong>:</h3><p>Conda failed</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh">conda create -n maker<br>conda activate<br>conda search -c bioconda maker<br>conda install -c bioconda maker=3.01.03<br>UnsatisfiableError: The following specifications were found to be incompatible with your system:<br><br>  - feature:/linux-64::__glibc==2.17=0<br>  - maker=3.01.03 -&gt; libgcc-ng[version=<span class="hljs-string">&#x27;&gt;=9.3.0&#x27;</span>] -&gt; __glibc[version=<span class="hljs-string">&#x27;&gt;=2.17&#x27;</span>]<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="PASA"><a href="#PASA" class="headerlink" title="PASA:"></a>PASA:</h3><p> 依赖于一个数据库(MySQL或SQLite), Perl模块(DBD::mysql或DBD::SQLite), GMAP, BLAT, Fasta3。由于MySQL在HPC集群中的表现不如SQLite，以及安装MySQL还需要各种管理员权限，于是就有人进行了修改，增加了feature&#x2F;sqlite分支, 见Add support for SQLite</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs awk">cpan DB_File URI::Escape DBI DBD::SQLite<br><span class="hljs-comment"># GMAP</span><br>wget http:<span class="hljs-regexp">//</span>research-pub.gene.com<span class="hljs-regexp">/gmap/</span>src/gmap-gsnap-<span class="hljs-number">2017</span>-<span class="hljs-number">11</span>-<span class="hljs-number">15</span>.tar.gz<br>tar xf gmap-gsnap-<span class="hljs-number">2017</span>-<span class="hljs-number">11</span>-<span class="hljs-number">15</span>.tar.gz<br>cd gmap-<span class="hljs-number">2017</span>-<span class="hljs-number">11</span>-<span class="hljs-number">15</span><br>.<span class="hljs-regexp">/configure --prefix=$HOME/</span>opt/gmap<br>make &amp;&amp; make install<br><span class="hljs-comment"># BLAT</span><br>cd ~<span class="hljs-regexp">/opt/</span>bin<br>wget http:<span class="hljs-regexp">//</span>hgdownload.soe.ucsc.edu<span class="hljs-regexp">/admin/</span>exe<span class="hljs-regexp">/linux.x86_64/</span>blat<span class="hljs-regexp">/blat &amp;&amp; chmod 755 ./</span>blat<br><span class="hljs-comment"># Fasta3</span><br>wget -<span class="hljs-number">4</span> http:<span class="hljs-regexp">//</span>faculty.virginia.edu<span class="hljs-regexp">/wrpearson/</span>fasta<span class="hljs-regexp">/fasta36/</span>fasta-<span class="hljs-number">36.3</span>.<span class="hljs-number">8</span>g.tar.gz &amp;&amp; \<br>        tar zxvf fasta-<span class="hljs-number">36.3</span>.<span class="hljs-number">8</span>g.tar.gz &amp;&amp; \<br>        cd .<span class="hljs-regexp">/fasta-36.3.8g/</span>src &amp;&amp; \<br>        make -f ..<span class="hljs-regexp">/make/</span>Makefile.linux_sse2 all &amp;&amp; \<br>        cp ..<span class="hljs-regexp">/bin/</span>fasta36 ~<span class="hljs-regexp">/opt/</span>bin<br><span class="hljs-comment"># 以上程序需添加到环境变量中</span><br><span class="hljs-comment"># PASApipeline</span><br>cd ~<span class="hljs-regexp">/opt/</span>biosoft<br>git clone https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/PASApipeline/</span>PASApipeline.git<br>cd PASApipeline &amp;&amp; \<br>git checkout feature/sqlite &amp;&amp; \<br>git submodule init &amp;&amp; git submodule update &amp;&amp; \<br>make<br><br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://weatherby.genetics.utah.edu/MAKER/wiki/index.php/The_MAKER_control_files_explained">http://weatherby.genetics.utah.edu/MAKER/wiki/index.php/The_MAKER_control_files_explained</a></p>
+<h3 id="EVidenceModeler-√"><a href="#EVidenceModeler-√" class="headerlink" title="EVidenceModeler: √?"></a><strong>EVidenceModeler</strong>: √?</h3><p> 整合不同来源的注释结果，找到可靠的基因结构</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">cd</span> ~/src<br><span class="hljs-attribute">wget</span> -<span class="hljs-number">4</span> https://github.com/EVidenceModeler/EVidenceModeler/archive/v1.<span class="hljs-number">1</span>.<span class="hljs-number">1</span>.tar.gz<br><span class="hljs-attribute">tar</span> xf v1.<span class="hljs-number">1</span>.<span class="hljs-number">1</span>.tar.gz<br><span class="hljs-attribute">mv</span> EVidenceModeler-<span class="hljs-number">1</span>.<span class="hljs-number">1</span>.<span class="hljs-number">1</span> ~/opt/biosoft/<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<hr>
+<h1 id="The-NCBI-Eukaryotic-Genome-Annotation-Pipeline"><a href="#The-NCBI-Eukaryotic-Genome-Annotation-Pipeline" class="headerlink" title="The NCBI Eukaryotic Genome Annotation Pipeline"></a><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/genome/annotation_euk/process/">The NCBI Eukaryotic Genome Annotation Pipeline</a></h1><hr>
+<p><a target="_blank" rel="noopener" href="https://github.com/meiyang12/Genome-annotation-pipeline">https://github.com/meiyang12/Genome-annotation-pipeline</a></p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://github.com/fohebert/GenomeAnnotation">https://github.com/fohebert/GenomeAnnotation</a></p>
+<hr>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/annotation/">#annotation</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Assembly Gene Annotation</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/03/18/2022-03-18-annotation/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 18, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/18/2022-03-19-CUT-Tag/" title="【CUT-Tag】【ATAC-seq】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【CUT-Tag】【ATAC-seq】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/18/2022-03-18-mito-chro/" title="Organelle assembly">
+                        <span class="hidden-mobile">Organelle assembly</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2023©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>

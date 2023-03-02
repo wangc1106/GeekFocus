@@ -1,73 +1,862 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="监督学习 无监督学习：数据无标注甚至非结构化。KMeans…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KMeans">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2021/11/15/2021-11-15-kmeans/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="监督学习 无监督学习：数据无标注甚至非结构化。KMeans…">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2021-11-15-kmeans/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2021-11-15-kmeans/1.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2021-11-15-kmeans/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2021-11-15-kmeans/4.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2021-11-15-kmeans/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2021-11-15-kmeans/2.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2021-11-15-kmeans/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2021-11-15-kmeans/3.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2021-11-15-kmeans/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2021-11-15-kmeans/5.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/2021-11-15-kmeans/6.png">
+<meta property="og:image" content="https://wangc1106.github.io/GeekFocus/img/2021-11-15-kmeans/6.png">
+<meta property="article:published_time" content="2021-11-15T12:21:47.691Z">
+<meta property="article:modified_time" content="2022-06-08T07:20:47.487Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="algorithm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangc1106.github.io/GeekFocus/2021-11-15-kmeans/1.png">
+  
+  
+  
+  <title>KMeans - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="KMeans"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-11-15 20:21" pubdate>
+          November 15, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">KMeans</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 8, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>监督学习</p>
+<p>无监督学习：数据无标注甚至非结构化。KMeans…</p>
+<span id="more"></span>
+
+
+
+<h1 id="KMeans"><a href="#KMeans" class="headerlink" title="KMeans"></a>KMeans</h1><h2 id="简介-聚类与KMeans"><a href="#简介-聚类与KMeans" class="headerlink" title="简介-聚类与KMeans"></a>简介-聚类与KMeans</h2><blockquote>
+<ul>
+<li><strong>聚类（Clustering）</strong>：将数据对象分为多个类或者簇 (Cluster)，使同一簇对象间较高相似度，不同簇对象差别较大。</li>
+<li><strong>划分（Partitioning）</strong>：聚类可基于划分，也可基于分层。划分即将对象划分成不同簇，而分层将对象分等级。</li>
+<li><strong>排他（Exclusive）</strong>：一个数据对象，只能被划分到一个簇。如果一个数据对象可被划分到多个簇，则称为可重叠（Overlapping）。</li>
+<li><strong>距离（Distance）</strong>：基于距离的聚类将距离近的相似对象聚在一起。基于<font color="red">概率分布模型的聚类？</font>在一组对象中，找到符合特定分布模型的对象的集合，不一定是距离最近的或者最相似的，而是能完美的呈现出概率分布模型所描述的模型。</li>
+<li>欧氏距离：欧几里得度量二维和三维空间中的欧氏距离就是两点之间的实际距离</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>与分类、序列标注不同，聚类事先并不知道任何样本标签，通过数据之间内在关系把样本划分为若干类别，使得同类别样本之间的相似度高，不同类别相似度低（增大类内聚，减少类间距）。</p>
+</li>
+<li><p>聚类属于非监督学习，K均值聚类最基础常用。基本思想，<font color='green'>通过迭代寻找K个簇（Cluster），使聚类结果对应的损失函数最小</font>。终止条件是没有（或最小数目）对象被重新分配给不同的聚类，没有（或最小数目）聚类中心再发生变化，误差平方和局部最小。<font color='red'>损失函数定义为各个样本距离所属簇中心点的误差平方和</font>：</p>
+</li>
+</ul>
+<p><img src="/GeekFocus/2021-11-15-kmeans/1.png" srcset="/GeekFocus/img/loading.gif" lazyload><br><img src="/GeekFocus/img/2021-11-15-kmeans/1.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p>xi代表第i个样本，ci是xi所属的簇，uci代表簇对应中心点，M是样本总数。</p>
+<ul>
+<li><p>？损失函数本质是衡量模型的拟合效果，有求解参数需求的算法，才会有损失函数。Kmeans 不求解什么参数，它的模型本质也没有在拟合数据，而是在对数据进行一 种探索。在决策树中有衡量分类效果的指标准确度<code>accuracy</code>，准确度所对应的损失叫做泛化误差，但不能通过最小化泛化误差来求解某个模型中需要的信息，只是希望模型的效果上表现出来的泛化误差 很小。因此决策树，KNN 等算法，是绝对没有损失函数的。</p>
+</li>
+<li><table>
+<thead>
+<tr>
+<th>距离度量对比</th>
+<th>质心</th>
+<th>Inertia</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>欧几里得距离</td>
+<td>均值</td>
+<td>最小化每个样本点到质心的欧式距离之和</td>
+</tr>
+<tr>
+<td>曼哈顿距离</td>
+<td>中位数</td>
+<td>最小化每个样本点到质心的曼哈顿距离之和</td>
+</tr>
+<tr>
+<td>余弦距离</td>
+<td>均值</td>
+<td>最小化每个样本点到质心的余弦距离之和</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>上述问题是<font color='green'>NP-Hard</font>问题。一般是采用坐标下降（Coordinate Decendet）方法求解。坐标下降法属于非梯度优化方法，每一步迭代中沿着一个坐标轴方向探索，通过循环使用不同的坐标达到求解目标函数的局部最小值。</p>
+</li>
+</ul>
+<p><img src="/GeekFocus/2021-11-15-kmeans/4.png" srcset="/GeekFocus/img/loading.gif" lazyload><br><img src="/GeekFocus/img/2021-11-15-kmeans/4.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p>如上图，假设两维度x，y：</p>
+<ol>
+<li>首先选择初始位置(x,y)，假设x未知将y的值代入目标函数中，令目标函数导数0，求得此时最佳x值。</li>
+<li>又假设y未知将刚求得x的值代入目标函数，令目标函数导数0，求得此时最佳y。</li>
+<li>重复执行第1步第2步，目标函数逐渐接近极小值点，直到达到了极小值点停止。</li>
+</ol>
+<p>收敛的过程如红色箭头所示。更多维度时，同理，一次只对一个维度最优化。</p>
+<p>坐标下降法一般要求目标函数是可微的凸函数(局部最小值即全局最小值?)，此时求得的极小值才能是全局最小值。</p>
+<p>使用K-Means前，可先用PCA使各个变量间尽可能独立。否则如两变量间有较强关联性，函数收敛速度会非常慢。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>KMeans的核心目标是将给定的数据集划分成K个簇（K是超参），并给出每个样本数据对应的中心点。具体步骤非常简单，可以分为4步：</p>
+<p><img src="/GeekFocus/2021-11-15-kmeans/2.png" srcset="/GeekFocus/img/loading.gif" lazyload><br><img src="/GeekFocus/img/2021-11-15-kmeans/2.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p><strong>KMeans最核心的部分就是先固定中心点，调整每个样本所属的类别来减少J；再固定每个样本的类别，调整中心点继续减小J 。两个过程交替循环， J 单调递减直到最（极）小值，中心点和样本划分的类别同时收敛。</strong></p>
+<p><img src="/GeekFocus/2021-11-15-kmeans/3.png" srcset="/GeekFocus/img/loading.gif" lazyload><br><img src="/GeekFocus/img/2021-11-15-kmeans/3.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<p><img src="/GeekFocus/2021-11-15-kmeans/5.png" srcset="/GeekFocus/img/loading.gif" lazyload><br><img src="/GeekFocus/img/2021-11-15-kmeans/5.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<h1 id="优缺点优化策略"><a href="#优缺点优化策略" class="headerlink" title="优缺点优化策略"></a>优缺点优化策略</h1><p>KMenas优点：</p>
+<ul>
+<li>高效可伸缩，计算复杂度 为<font color='green'>O(NKt)</font>接近于线性（N是数据量，K是聚类总数，t是迭代轮数）。</li>
+<li><font color='green'>收敛速度快</font>，原理通俗易懂，可解释性强。</li>
+</ul>
+<p>KMeans明显缺点：</p>
+<ul>
+<li>受<font color='green'>初始值</font>和<font color='green'>异常</font>影响，聚类结果可能不是全局最优而是<font color='green'>局部最优</font>。</li>
+<li><font color='green'>K</font>是超参数，按<font color='green'>经验选择</font></li>
+<li><font color='green'>样本点只能划分到单一的类中</font></li>
+<li>只能发现球状的簇。</li>
+<li>初始值对结果影响较大，可能每次聚类结果都不一样。</li>
+</ul>
+<p>根据以上特点，我们可以从下面几个角度对算法做调优</p>
+<ol>
+<li><strong>数据预处理：归一化和异常点过滤</strong></li>
+</ol>
+<p><strong>KMeans本质是基于欧式距离度量的数据划分方法，均值和方差大的维度将对数据聚类结果产生决定性影响。</strong>聚类前对数据（<strong>具体的说是每一个维度的特征</strong>）做<font color='green'>归一化</font>和<font color='green'>单位统一</font>至关重要。<font color='green'>异常值</font>会对均值计算产生较大影响，导致<strong>中心偏移</strong>，<font color='green'>噪声点最好能提前过滤</font>。</p>
+<p><strong>2.合理选择K值</strong></p>
+<p>K值的选择一般基于实验和多次实验结果。例如采用<strong>手肘法</strong>，尝试不同K值并将对应的损失函数画成折线。手肘法认为图上的<strong>拐点就是K的最佳值</strong>（上图对应K&#x3D;3）。</p>
+<p><strong>Gap Statistic方法</strong>。只需要找到最大的Gap Statistic对应的K(自动)。</p>
+<p>沿用第一节中<font color='green'>损失函数</font>记为 Dk，当分为K类时，Gap Statistic定义为： Gap(k)&#x3D;E(logDk)-logDk 。 E(logDk)是logDk的期望，一般由<font color='green'>蒙特卡洛模拟</font>产生。在<font color='green'>样本所在的区域内按照均匀分布随机地产生和原始样本数一样多的随机样本</font>，对这个<font color='green'>随机样本做KMeans</font>，得到一个<font color='green'>Dk</font>，<font color='green'>重复多次</font>计算出 E(logDk)的近似值。</p>
+<p><strong>Gap(K) 的物理含义是<font color='green'>随机样本的损失与实际样本的损失之差</font>。Gap越<font color='green'>大</font>说明聚类的效果越好</strong>。随着K的变化Gap(K)几乎维持一条直线保持不变。说明这些样本间没有明显的类别关系，<font color='green'>数据分布几乎和均匀分布一致</font>，近似随机。此时聚类没有意义。</p>
+<p><strong>3.改进初始值的选择</strong></p>
+<p>采取随机选择K个中心，<font color='green'>可能导致不同中心点距离很近</font>，需<font color='green'>更多的迭代次数才能收敛</font>。如在选择初始中心点时<strong>不同的中心尽可能远离</strong>，效果更好。这类算法中，以K-Means++算法最具影响力。</p>
+<p><strong>4.采用核函数?</strong></p>
+<p>主要思想是通过一个非线性映射，将输入空间中的数据点映射到高位的特征空间中，并在新的空间进行聚类。非线性映射增加了数据点线性可分的概率（与SVM中使用核函数思想类似）对于非凸的数据分布可以达到更为准确的聚类结果。</p>
+<ol start="5">
+<li>从EM算法解释KMeans</li>
+</ol>
+<p>EM（Expectation-Maximum）算法即期望最大化算法，是最常见的隐变量估计方法。EM算法是一种迭代优化策略，每一次迭代都分为两步：期望步（E）、极大步（M）。<strong>EM算法的提出最初是为了解决数据缺失情况下的参数估计问题</strong>，基本思想是首先根据已有的观测数据，通过极大似然估计估计出模型的参数；再根据上一步估计出的参数值估计缺失数据的值；最后根据估计出的缺失数据和原有的观测数据重新对参数值进行估计，反复迭代直到收敛。</p>
+<hr>
+<p>K均值聚类是使用<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%9C%80%E5%A4%A7%E6%9C%9F%E6%9C%9B%E7%AE%97%E6%B3%95/10180861">最大期望算法</a>（Expectation-Maximization algorithm）求解的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B/8878468">高斯混合模型</a>（Gaussian Mixture Model, GMM）在<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83/829892">正态分布</a>的协方差为单位矩阵，且隐变量的后验分布为一组<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%8B%84%E6%8B%89%E5%85%8B%CE%B4%E5%87%BD%E6%95%B0/5760582">狄拉克δ函数</a>时所得到的特例?</p>
+<p>Python</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">KMeansClusterer</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,ndarray,cluster_num</span>):<br>        self.ndarray = ndarray<br>        self.cluster_num = cluster_num<br>        self.points=self.__pick_start_point(ndarray,cluster_num)<br>         <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">cluster</span>(<span class="hljs-params">self</span>):<br>        result = []<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(self.cluster_num):<br>            result.append([])<br>        <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> self.ndarray:<br>            distance_min = sys.maxsize<br>            index=-<span class="hljs-number">1</span><br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(self.points)):                <br>                distance = self.__distance(item,self.points[i])<br>                <span class="hljs-keyword">if</span> distance &lt; distance_min:<br>                    distance_min = distance<br>                    index = i<br>            result[index] = result[index] + [item.tolist()]<br>        new_center=[]<br>        <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> result:<br>            new_center.append(self.__center(item).tolist())<br>        <span class="hljs-comment"># 中心点未改变，说明达到稳态，结束递归</span><br>        <span class="hljs-keyword">if</span> (self.points==new_center).<span class="hljs-built_in">all</span>():<br>            <span class="hljs-keyword">return</span> result<br>         <br>        self.points=np.array(new_center)<br>        <span class="hljs-keyword">return</span> self.cluster()<br>             <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__center</span>(<span class="hljs-params">self,<span class="hljs-built_in">list</span></span>):<br>        <span class="hljs-string">&#x27;&#x27;&#x27;计算一组坐标的中心点</span><br><span class="hljs-string">        &#x27;&#x27;&#x27;</span><br>        <span class="hljs-comment"># 计算每一列的平均值</span><br>        <span class="hljs-keyword">return</span> np.array(<span class="hljs-built_in">list</span>).mean(axis=<span class="hljs-number">0</span>)<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__distance</span>(<span class="hljs-params">self,p1,p2</span>):<br>        <span class="hljs-string">&#x27;&#x27;&#x27;计算两点间距</span><br><span class="hljs-string">        &#x27;&#x27;&#x27;</span><br>        tmp=<span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(p1)):<br>            tmp += <span class="hljs-built_in">pow</span>(p1[i]-p2[i],<span class="hljs-number">2</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">pow</span>(tmp,<span class="hljs-number">0.5</span>)<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__pick_start_point</span>(<span class="hljs-params">self,ndarray,cluster_num</span>):<br>        <br>        <span class="hljs-keyword">if</span> cluster_num &lt;<span class="hljs-number">0</span> <span class="hljs-keyword">or</span> cluster_num &gt; ndarray.shape[<span class="hljs-number">0</span>]:<br>            <span class="hljs-keyword">raise</span> Exception(<span class="hljs-string">&quot;簇数设置有误&quot;</span>)<br>      <br>        <span class="hljs-comment"># 随机点的下标</span><br>        indexes=random.sample(np.arange(<span class="hljs-number">0</span>,ndarray.shape[<span class="hljs-number">0</span>],step=<span class="hljs-number">1</span>).tolist(),cluster_num)<br>        points=[]<br>        <span class="hljs-keyword">for</span> index <span class="hljs-keyword">in</span> indexes:<br>            points.append(ndarray[index].tolist())<br>        <span class="hljs-keyword">return</span> np.array(points)<br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="KMeans-and-gaussian-mixture-model"><a href="#KMeans-and-gaussian-mixture-model" class="headerlink" title="KMeans and gaussian mixture model"></a>KMeans and gaussian mixture model</h2><p>数据表示：kmeans单个点对cluster建模（假设各clus数据是圆形或高位球形）。GMM，使用高斯分布表示</p>
+<p>数据先验：kmeans，假设各clus先验概率一样，实际clus数据量可能不均匀。clusA10000，B100，新样本不考虑与AB相似度，属于A概率大。GMM对数据先验进行建模。</p>
+<p>相似度衡量：Kmeans的欧式距离假设各个维度对相似度衡量作用一样。GMM相似度衡量使用后验概率通过引入协方差矩阵，对各个维度数据的不同重要性建模。</p>
+<p>数据分配：kmeans各样本只属于相似度最高clus（hard clusting），GMM使用后验概率对各个clus按比例分配（fuzzy clustering？）。</p>
+<hr>
+<h2 id="k-means-聚类算法"><a href="#k-means-聚类算法" class="headerlink" title="k-means++聚类算法"></a>k-means++聚类算法</h2><p><code>KMeans</code>算法，<code>KMeans</code>在聚类之前首先需初始化k个簇中心，因此 <code>KMeans</code> 算法对初值敏感，对于不同的初始值，会导致不同聚类结果。若初始化随机，很有可能 k簇中心都在同一个簇，这种情况 <code>KMeans</code> 很大程度上都不会收敛到全局最小。</p>
+<p>为优化选择初始质心的方法，2007 年 Arthur,等 三人发表了论文“k-means++: <code>The advantages of careful seeding</code>，<code>sklearn.cluster.KMeans</code> 中默认参数为 <code>init=&#39;k-means++&#39;</code> ，其算法原理为在初始化簇中心时，逐个选取 k个簇中心，且离其他簇中心越远的样本越有可能被选为下个簇中心。</p>
+<p>算法步骤：</p>
+<p><img src="/GeekFocus/2021-11-15-kmeans/6.png" srcset="/GeekFocus/img/loading.gif" lazyload><br><img src="/GeekFocus/img/2021-11-15-kmeans/6.png" srcset="/GeekFocus/img/loading.gif" lazyload></p>
+<hr>
+<p>ref：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/184686598">https://zhuanlan.zhihu.com/p/184686598</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/gaochundong/p/kmeans_clustering.html">https://www.cnblogs.com/gaochundong/p/kmeans_clustering.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/31296149">https://www.zhihu.com/question/31296149</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342052190#:~:text=KMeans%20">https://zhuanlan.zhihu.com/p/342052190#:~:text=KMeans%20</a></p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/algorithm/" class="category-chain-item">algorithm</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/algorithm/">#algorithm</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>KMeans</div>
+      <div>https://wangc1106.github.io/GeekFocus/2021/11/15/2021-11-15-kmeans/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>November 15, 2021</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2021/12/16/2021-12-16-osa_GO_KEGG/" title="Oryza Sativa 【Gene ID】【GO】【KEGG】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Oryza Sativa 【Gene ID】【GO】【KEGG】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2021/10/29/2021-10-30-ATAC-seq-4-macs3-install/" title="ATAC-seq-4【Macs2/3 Installation】">
+                        <span class="hidden-mobile">ATAC-seq-4【Macs2/3 Installation】</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2023©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>

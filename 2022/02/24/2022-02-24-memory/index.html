@@ -1,73 +1,786 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta property="og:type" content="article">
+<meta property="og:title" content="Linux 内存 存储">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/02/24/2022-02-24-memory/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-02-24T02:15:06.438Z">
+<meta property="article:modified_time" content="2022-06-05T12:07:07.938Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Linux 内存 存储 - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux 内存 存储"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-24 10:15" pubdate>
+          February 24, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux 内存 存储</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <h1 id=""><a href="#" class="headerlink" title=""></a></h1><span id="more"></span>
+
+<h1 id="内存是什么"><a href="#内存是什么" class="headerlink" title="内存是什么"></a>内存是什么</h1><ul>
+<li><p>内存又称主存，是 CPU 能直接寻址的存储空间，由半导体器件制成</p>
+</li>
+<li><p>内存的特点是存取速率快</p>
+</li>
+<li><p>CPU、IO、磁盘、内存可以说是影响计算机性能关键因素</p>
+</li>
+<li><p>内存为进程的运行提供物理空间，同时作为快速CPU和慢速磁盘之间的适配器，</p>
+</li>
+</ul>
+<h1 id="内存的作用"><a href="#内存的作用" class="headerlink" title="内存的作用"></a>内存的作用</h1><ul>
+<li><p>暂时存放 cpu 的运算数据</p>
+</li>
+<li><p>硬盘等外部存储器交换的数据</p>
+</li>
+<li><p>保障 cpu 计算的稳定性和高性能</p>
+</li>
+</ul>
+<h1 id="查看内存情况"><a href="#查看内存情况" class="headerlink" title="查看内存情况"></a>查看内存情况</h1><p>free命令是一个快速查看内存使用情况的方法，它是对 &#x2F;proc&#x2F;meminfo 收集到的信息的一个概述。</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">free -h</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh">zds@ubuntu ~ $ free -m   <span class="hljs-comment"># 以 Mb 为单位显示</span><br>              total        used        free      shared  buff/cache   available<br><span class="hljs-comment"># 物理内存</span><br>Mem:           2990        1528         383          49        1078        1217<br><span class="hljs-comment"># 虚拟内存</span><br>Swap:          2044           0        2044<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs sh">zds@ubuntu ~ $ top<br><br><br>top - 23:43:07 up 32 min,  1 user,  load average: 0.17, 0.36, 0.34<br>Tasks: 230 total,   1 running, 229 sleeping,   0 stopped,   0 zombie<br>%Cpu(s): 12.9 us,  5.6 sy,  0.0 ni, 81.5 <span class="hljs-built_in">id</span>,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st<br>KiB Mem :  2029876 total,   148224 free,   998788 used,   882864 buff/cache<br>KiB Swap:  2094076 total,  2087304 free,     6772 used.   819128 avail Mem <br><br>   PID 进程号    PR 优先级  VIRT 进程占用的虚拟内存值<br>       USER 进程所有者              RES 进程占用的物理内存值<br>                     NI 优先级相对值       SHR 进程使用的共享内存值<br><br>   PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND<br>   978 root      20   0  356740  84104  37752 S  8.9  4.1   0:19.39 Xorg    <br>  1909 zds       20   0 1023828 118576  80360 S  4.6  5.8   0:18.36 compiz       <br>  2439 zds       20   0  630364  52556  42052 S  4.3  2.6   0:08.29 gnome-terminal-   <br>  1945 zds       20   0  633568  35384  28860 S  0.7  1.7   0:10.46 sogou-qimpanel- <br>     7 root      20   0       0      0      0 S  0.3  0.0   0:01.94 rcu_sched   <br>   845 root      20   0  187344   9684   8508 S  0.3  0.5   0:03.35 vmtoolsd  <br>  1631 zds       20   0   43736   4216   2924 S  0.3  0.2   0:01.82 dbus-daemon <br>  1795 zds       20   0  564648  29760  24496 S  0.3  1.5   0:01.08 unity-panel-ser<br>  1958 zds       20   0 1026996  95708  27980 S  0.3  4.7   0:07.03 gnome-software<br>  1966 zds       20   0  496776  28904  25224 S  0.3  1.4   0:03.52 vmtoolsd   <br>  7336 zds       20   0   43652   3948   3340 R  0.3  0.2   0:01.25 top  <br>     1 root      20   0  119836   5652   4024 S  0.0  0.3   0:03.27 systemd <br>     2 root      20   0       0      0      0 S  0.0  0.0   0:00.00 kthreadd <br>     3 root      20   0       0      0      0 S  0.0  0.0   0:00.52 ksoftirqd/0<br>     5 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 kworker/0:0H <br>     8 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcu_bh<br>     9 root      rt   0       0      0      0 S  0.0  0.0   0:00.00 migration/0<br>    10 root      rt   0       0      0      0 S  0.0  0.0   0:00.01 watchdog/0<br>    11 root      20   0       0      0      0 S  0.0  0.0   0:00.00 kdevtmpfs <br>    12 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 netns <br>    13 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 perf <br>    14 root      20   0       0      0      0 S  0.0  0.0   0:00.00 khungtaskd  <br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>htop</strong>命令显示了每个进程的内存实时使用率。它提供了所有进程的常驻内存大小、程序总内存大小、共享库大小等的报告。列表可以水平及垂直滚动。</p>
+<p><strong>top</strong>命令提供了实时的运行中的程序的资源使用统计。你可以根据内存的使用和大小来进行排序。</p>
+<h1 id="Core-Dump"><a href="#Core-Dump" class="headerlink" title="Core Dump"></a>Core Dump</h1><ul>
+<li>Core意思是内存, Dump的意思是扔出来, 堆出来。在开发（或使用）一个程序时，有时程序莫名其妙的down了, 却没有任何提示(有时提示core dumped)。虽然系统没事，但下次仍可能遇到相同问题。这时可查看有无形如core.PID的core文件生成，这个文件便是操作系统把程序down掉时的内存内容扔出来生成的，让debugger 做参考。这个动作叫 core dump。<ul>
+<li>core dump又叫<strong>核心转储</strong>, 当程序运行过程中发生异常, 程序异常退出时, 由操作系统把程序当前的内存状况存储在一个core文件中, 叫core dump。简而言之，<font color="red">进程异常终止，进程用户空间的数据就会被写到磁盘core文件</font>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="为何有时程序Down了，却没生成-Core文件"><a href="#为何有时程序Down了，却没生成-Core文件" class="headerlink" title="为何有时程序Down了，却没生成 Core文件"></a>为何有时程序Down了，却没生成 Core文件</h2><ul>
+<li><font color="red">有时候程序down了, 不像编译错误会提示到文件某一行，而是没有任何信息</font>。一种办法是用gdb的step（linux下调试工具gdb是很强大的调试器）, 一步一步寻找，但要step一个上万行的代码让人难以想象。 更好的办法就是core file。</li>
+<li><font color="red">如果core文件没有生成</font>，是因为core.PID的core文件的生成跟当前系统的环境设置有关系，<font color="red">系统默认core文件的大小为0</font>（注意core file size (blocks, -c) 0 这行，表示分配给core文件的长度（单位为字节，一个块的大小要分系统而定了），为0肯定无core文件，可修改之）</li>
+<li>用ulimit命令查看和修改core文件的大小，使用<code>ulimit -a</code>查看大小，使用 <code>ulimit -c unlimited</code>表示对core文件不做限制 或 使用<code>ulimit -c 1024</code> 对core文件分配1024个字节</li>
+<li><font color="red">程序运行过程出现aborted(core dumped)，ulimit -a，结果确实 core file size (blocks, -c) 0，无法生成中断文件</font></li>
+<li>若修改后再运行程序便生成<code>core.PID</code>的core文件（<strong>core文件生成的位置一般和运行程序的路径相同, 文件名一般为core.进程号</strong>）。</li>
+</ul>
+<h2 id="如何使用core文件"><a href="#如何使用core文件" class="headerlink" title="如何使用core文件?"></a>如何使用core文件?</h2><ul>
+<li>发生core dump后，使用gdb查看core文件内容, 以定位文件中引发core dump的行，在Linux下，查看core文件中的出错堆栈信息有二种方式，使用：<font color="red">gdb -c core.pid program_name</font>或gdb [program_name] [core.pid]可以进入gdb模式</li>
+<li>在进入gdb后输入<font color="red">where并回车</font>，就可以指出是在哪一行被Down掉，在哪个函数内，由谁调用等等。</li>
+<li>在进入gdb后输入<font color="red"> bt</font>，用bt命令查看backtrace以检查发生程序运行到哪里，来定位core dump的文件-&gt;行。</li>
+</ul>
+<h2 id="core-dump-原因"><a href="#core-dump-原因" class="headerlink" title="core dump 原因"></a>core dump 原因</h2><ul>
+<li><p><font color="red">batch_size过大导致的。Aborted(core dumped)</font></p>
+</li>
+<li><p>线程被谋杀， 被谋杀者所在线程会抛出一个异常。Cancellation &amp; C++ Exception</p>
+</li>
+<li><p>pure virtual method called terminate called without an active exception 解决方案</p>
+</li>
+</ul>
+<p>对于多线程的程序，这个错误的主要原因是当前对象已经被销毁或者正在被销毁，但是其又在被调用，导致了冲突。</p>
+<ul>
+<li>pure virtual method called</li>
+</ul>
+<hr>
+<h1 id="查看存储空间："><a href="#查看存储空间：" class="headerlink" title="查看存储空间："></a>查看存储空间：</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh">zds@ubuntu ~ $ <span class="hljs-built_in">df</span> -hl<br>文件系统         容量   已用  可用 已用% 挂载点<br>udev            972M     0  972M    0% /dev<br>tmpfs           199M  6.3M  192M    4% /run<br>/dev/sda1        23G  5.3G   17G   25% /<br>tmpfs           992M  212K  991M    1% /dev/shm<br>tmpfs           5.0M  4.0K  5.0M    1% /run/lock<br>tmpfs           992M     0  992M    0% /sys/fs/cgroup<br>tmpfs           199M   60K  199M    1% /run/user/1000 <br></code></pre></td></tr></table></figure>
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/note/">#note</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux 内存 存储</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/02/24/2022-02-24-memory/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 24, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/02/24/2022-02-24-Seqkit/" title="seqkit">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">seqkit</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/02/23/2022-02-21-Survey/" title="Genome Survey">
+                        <span class="hidden-mobile">Genome Survey</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2023©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>

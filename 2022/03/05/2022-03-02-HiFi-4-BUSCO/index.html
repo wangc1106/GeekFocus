@@ -1,73 +1,923 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="BUSCO - Benchmarking Universal Single-Copy Orthologs 普遍通用的单拷贝直系同源测试?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HiFi-4-QC-BUSCO">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/03/05/2022-03-02-HiFi-4-BUSCO/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="BUSCO - Benchmarking Universal Single-Copy Orthologs 普遍通用的单拷贝直系同源测试?">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-05T12:45:15.750Z">
+<meta property="article:modified_time" content="2022-06-05T12:10:03.029Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="busco">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>HiFi-4-QC-BUSCO - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="HiFi-4-QC-BUSCO"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-05 20:45" pubdate>
+          March 5, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          100 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">HiFi-4-QC-BUSCO</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <p>BUSCO - <strong>B</strong>enchmarking <strong>U</strong>niversal <strong>S</strong>ingle-<strong>C</strong>opy <strong>O</strong>rthologs</p>
+<p>普遍通用的单拷贝直系同源测试?</p>
+<span id="more"></span>
+
+<p>official：<a target="_blank" rel="noopener" href="https://busco.ezlab.org/busco_userguide.html">https://busco.ezlab.org/busco_userguide.html</a></p>
+<p>Ref:<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5041460f7a5d">https://www.jianshu.com/p/5041460f7a5d</a></p>
+<p>BUSCO是使用python语言编写的<font color="blue">对<strong>转录组</strong>和<strong>基因组组装质量</strong>进行<strong>评估</strong></font>的软件。相近物种间总有一些保守序列，BUSCO<font color="blue">使用这些<strong>保守序列</strong>与<strong>组装结果</strong>进行<strong>比对</strong></font>，鉴定组装结果是否包含这些序列，包含单条、多条还是部分或者不包含等情况给出结果</p>
+<blockquote>
+<p>BUSCO 软件根据<strong>OrthoDB 数据库</strong>，构建了<strong>几个大的进化分支</strong>的<strong>单拷贝基因集</strong>。将转录本拼接结果<strong>与该基因集比较</strong>，根据比对上的比例、完整性，来评价拼接结果的<strong>准确性和完整性</strong></p>
+</blockquote>
+<p>基于大量物种的<font color="blue">单拷贝基因构建数据集</font>，用于评估<font color="blue"><strong>基因组组装，转录组组装，基因注释，蛋白集的完整性</strong></font>。core-genes 构建方式，90%物种共享的基因即为核心基因。使用的是直系同源基因家族的概念，基于100个物种基因组，某一个基因家族存在于&gt;90个基因组中，即将该基因家族认定为核心基因</p>
+<p>BUSCO使用其他工具搭建流程</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xl"><span class="hljs-function"><span class="hljs-title">genoem</span> assemble : tBLASTn --&gt;</span> A<span class="hljs-function"><span class="hljs-title">ugustus</span> --&gt;</span> HMMER3 √<br>T<span class="hljs-function"><span class="hljs-title">ranscriptome</span>   :             Find ORF --&gt;</span> HMMER3<br>Gene set        :                          HMMER3<br></code></pre></td></tr></table></figure>
+
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="conda"><a href="#conda" class="headerlink" title="conda"></a>conda</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 没有镜像的话，添加镜像</span><br>conda<span class="hljs-built_in"> config </span>--show <br>conda<span class="hljs-built_in"> config </span>--<span class="hljs-built_in">add</span> channels conda-forge<br><br><span class="hljs-comment"># 构建conda的python3环境</span><br>【conda create --name python36 <span class="hljs-attribute">python</span>=3.6】<br><span class="hljs-comment">#  然后激活</span><br>【conda activate python36】<br><span class="hljs-comment"># 执行安装</span><br>【conda install -c conda-forge -c bioconda <span class="hljs-attribute">busco</span>=5.3.0】<br><span class="hljs-comment"># 在使用完busco之后可以退出python36环境</span><br>【conda deactivate】<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="独立安装？"><a href="#独立安装？" class="headerlink" title="独立安装？"></a>独立安装？</h2><p>busco，依赖Augustus，HMMER，Blast+</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#  ============ 下载BUSCO  ============ </span><br><span class="hljs-built_in">cd</span> ~/Applications/download<br>wget -c https://gitlab.com/ezlab/busco/-/archive/master/busco-master.zip -O busco.zip<br><br><span class="hljs-comment"># ============ 下载依赖的工具 ============</span><br><span class="hljs-comment"># 下载Augustus</span><br>wget -c http://bioinf.uni-greifswald.de/augustus/binaries/augustus.current.tar.gz<br><span class="hljs-comment"># 下载HMMER</span><br>wget -c http://eddylab.org/software/hmmer/hmmer.tar.gz -O hmmer.tar.gz<br><span class="hljs-comment"># 下载Blast+</span><br>wget -c ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/ncbi-blast-2.7.1+-x64-linux.tar.gz<br><span class="hljs-comment">#-------------------------------------------------------------------------------------</span><br><span class="hljs-built_in">cd</span> ~/Applications/download<br><br><span class="hljs-comment"># === 安装busco ===</span><br>unzip busco.zip<br><span class="hljs-comment"># 改名</span><br><span class="hljs-built_in">mv</span> busco-master busco <br><span class="hljs-comment"># 移动到外部</span><br><span class="hljs-built_in">mv</span> busco ../<br><span class="hljs-built_in">cd</span> ../busco<br><span class="hljs-comment"># 安装</span><br>python setup.py install<br><br><span class="hljs-built_in">cd</span> ~/Applications/download<br><span class="hljs-comment"># === 安装Augustus ===</span><br>tar -xzvf augustus.current.tar.gz<br><span class="hljs-built_in">cd</span> augustus-3.3.1<br><span class="hljs-built_in">cd</span> ../<br><span class="hljs-built_in">mv</span> augustus-3.3.1 ../<br><span class="hljs-built_in">cd</span> ../augustus-3.3.1<br><span class="hljs-comment"># 打开common.mk文件，将ZIPINPUT = true注释掉（即在最前面加一#号）</span><br>vim common.mk<br><span class="hljs-comment"># 安装</span><br>make<br><br><span class="hljs-built_in">cd</span> ~/Applications/download<br><span class="hljs-comment"># === 安装HMMER ===</span><br>tar -xzvf hmmer.tar.gz<br><span class="hljs-built_in">cd</span> hmmer-3.2.1<br>./configure<br>make<br><br><span class="hljs-comment"># === 安装blast+ ===</span><br>tar -xzvf ncbi-blast-2.7.1+-x64-linux.tar.gz<br><span class="hljs-comment"># 改名</span><br><span class="hljs-built_in">mv</span> ncbi-blast-2.7.1+ ../blast+-2.7.1-linux<br><br><span class="hljs-comment"># 删除安装包</span><br><span class="hljs-built_in">cd</span> ~/Applications/download<br><span class="hljs-built_in">rm</span> busco.zip<br><span class="hljs-built_in">rm</span> augustus.current.tar.gz<br><span class="hljs-built_in">rm</span> hmmer.tar.gz<br><span class="hljs-built_in">rm</span> ncbi-blast-2.7.1+-x64-linux.tar.gz<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="下载数据库文件"><a href="#下载数据库文件" class="headerlink" title="下载数据库文件"></a>下载数据库文件</h2><p><a target="_blank" rel="noopener" href="https://busco-data.ezlab.org/v5/data/lineages/">https://busco-data.ezlab.org/v5/data/lineages/</a></p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">大类五类<br><span class="hljs-bullet">- </span>Bacteria 细菌<br><span class="hljs-bullet">- </span>Protists 原生生物<br><span class="hljs-bullet">- </span>Metazoa 后生动物<br><span class="hljs-bullet">- </span>Fungi 真菌<br><span class="hljs-bullet">- </span>Plant 植物<br>下载的是植物相关 embryophyta<span class="hljs-emphasis">_odb10.2020-09-10.tar.gz</span><br><span class="hljs-emphasis"># 解压文件</span><br><span class="hljs-emphasis">tar -xzvf embryophyta_</span>odb9.tar.gz<br></code></pre></td></tr></table></figure>
+
+<p>执行时需要对应的数据库文件路径 &#x2F;&#x2F;&#x2F;embryophyta_odb9</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>配置是必须的，<strong>这一步需要仔细一些，路径出错的话是无法通过busco的检测的</strong>，在安装好软件之后 <code>~/Applications/busco/config/</code>之中并没有<code>config.ini</code>文件，只有一个<code>config.ini_default</code>文件，可以把里面的内容复制下来，</p>
+<ul>
+<li>方法1</li>
+</ul>
+<p>新建<code>config.ini</code>文件或者直接复制</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cp</span> config.ini_default config.ini<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>方法2</li>
+</ul>
+<p>也可新建</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 增加配置文件</span><br>vim ~/Applications/busco/config/config.ini<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># BUSCO specific configuration</span><br><span class="hljs-comment">#It 【overrides default values】 in code and dataset cfg, and is 【overridden by arguments in command line】</span><br><span class="hljs-comment"># Uncomment lines when appropriate</span><br>[busco]<br><span class="hljs-comment"># Input file</span><br>;<span class="hljs-keyword">in</span> = ./sample_data/target.fa<br><span class="hljs-comment"># Run name, used in output files and folder</span><br>;out = SAMPLE<br><span class="hljs-comment"># Where to store the output directory</span><br><span class="hljs-comment">#【？】 out_path = /workdir</span><br><span class="hljs-comment"># Path to the BUSCO dataset</span><br>;lineage_path = ./sample_data/example<br><span class="hljs-comment"># Which mode to run (【genome / protein / transcriptome】)</span><br>;mode = genome<br><span class="hljs-comment"># How many threads to use for 【multithreaded】 steps</span><br>;cpu = 1<br><span class="hljs-comment"># Domain for augustus retraining, eukaryota or prokaryota</span><br><span class="hljs-comment"># 【Do not change】 this unless you know exactly why !!!</span><br>;domain = eukaryota<br><span class="hljs-comment"># Force rewrite if files already exist (True/False)</span><br>;force = False<br><span class="hljs-comment"># Restart mode (True/False)</span><br>;restart = False<br><span class="hljs-comment"># Blast e-value</span><br>;evalue = 1e-3<br><span class="hljs-comment"># Species to use with augustus, for old datasets only</span><br>;species = fly<br><span class="hljs-comment"># Augustus extra parameters</span><br><span class="hljs-comment"># Use single quotes, like this: &#x27;--param1=1 --param2=2&#x27;</span><br>;augustus_parameters = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-comment"># Tmp folder</span><br>;tmp_path = ./tmp/<br><span class="hljs-comment"># How many candidate regions (contigs, scaffolds) to consider for each BUSCO</span><br>;<span class="hljs-built_in">limit</span> = 3<br><span class="hljs-comment"># Augustus long mode for retraining (True/False)</span><br>;long = False<br><span class="hljs-comment"># Quiet mode (True/False)</span><br>;quiet = False<br><span class="hljs-comment"># Debug logs (True/False), it needs Quiet to be False</span><br>debug = True<br><span class="hljs-comment"># tar gzip output files (True/False)</span><br>;gzip = False<br><span class="hljs-comment"># Force single core for the tblastn step</span><br>;blast_single_core = True<br><br>【[tblastn]】<br><span class="hljs-comment"># path to tblastn</span><br>path = ~/Applications/blast+-2.7.1-linux/bin<br><br>【[makeblastdb]】<br><span class="hljs-comment"># path to makeblastdb</span><br>path = ~/Applications/blast+-2.7.1-linux/bin<br><br>【[augustus]】<br><span class="hljs-comment"># path to augustus</span><br>path = ~/Applications/augustus-3.3.1/bin<br><br>【[etraining]】<br><span class="hljs-comment"># path to augustus etraining</span><br>path = ~/Applications/augustus-3.3.1/bin<br><br><span class="hljs-comment"># path to augustus perl scripts, redeclare it for each new script        </span><br>【[gff2gbSmallDNA.pl]】                                                      <br>path = ~/Applications/augustus-3.3.1/scripts                         <br>【[new_species.pl]】                                                         <br>path = ~/Applications/augustus-3.3.1/scripts                         <br>【[optimize_augustus.pl]】                                                   <br>path = ~/Applications/augustus-3.3.1/scripts                         <br>                                                                         <br>【[hmmsearch]】                                                              <br><span class="hljs-comment"># path to HMMsearch executable                                           </span><br>path = ~/Applications/hmmer-3.2.1/src                                <br>                                                                         <br>【[Rscript]】                                                                <br><span class="hljs-comment"># path to Rscript, if you wish to use the plot tool                      </span><br>path = /usr/bin/<br></code></pre></td></tr></table></figure>
+
+<p>新建config.ini&#96;文件之后，</p>
+<ol>
+<li>将<code>config.ini</code>文件中的<code>out_path = /workdir</code>前面加上<code>#</code><br>因为输出路径有时候会出错，所以注释掉，之后运行busco，<font color="blue">输出的路径就是cd的路径</font></li>
+<li>之后需要改这几项对应的路径（<strong>里面的路径需要更改为自己的工具的路径</strong>）</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>相关</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[tblastn]</td>
+<td>blast+</td>
+</tr>
+<tr>
+<td>[makeblastdb]</td>
+<td>blast+</td>
+</tr>
+<tr>
+<td>[augustus]</td>
+<td>Augustus</td>
+</tr>
+<tr>
+<td>[hmmsearch]</td>
+<td>HMMER</td>
+</tr>
+<tr>
+<td>[gff2gbSmallDNA.pl]</td>
+<td>Augustus</td>
+</tr>
+<tr>
+<td>[new_species.pl]</td>
+<td>Augustus</td>
+</tr>
+<tr>
+<td>[optimize_augustus.pl]</td>
+<td>Augustus</td>
+</tr>
+<tr>
+<td>[hmmsearch]</td>
+<td>HMMER</td>
+</tr>
+</tbody></table>
+<h1 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># augustus工具的执行文件所在文件夹</span><br><span class="hljs-built_in">export</span> PATH=<span class="hljs-string">&quot;/home/ssd/Applications/augustus-3.3.1/bin:<span class="hljs-variable">$PATH</span>&quot;</span><br><span class="hljs-comment"># augustus工具附加脚本所在文件夹</span><br><span class="hljs-built_in">export</span> PATH=<span class="hljs-string">&quot;/home/ssd/Applications/augustus-3.3.1/scripts:<span class="hljs-variable">$PATH</span>&quot;</span><br><span class="hljs-comment"># augustus工具配置文件的所在位置 。AUGUSTUS_CONFIG_PATH 需要使用绝对路径</span><br><span class="hljs-built_in">export</span> AUGUSTUS_CONFIG_PATH=<span class="hljs-string">&quot;/home/ssd/Applications/augustus-3.3.1/config&quot;</span><br><span class="hljs-comment"># hmmer工具的执行文件所在文件夹</span><br><span class="hljs-built_in">export</span> PATH=<span class="hljs-string">&quot;/home/ssd/Applications/hmmer-3.2.1/src:<span class="hljs-variable">$PATH</span>&quot;</span><br><span class="hljs-comment"># blast+工具的执行文件所在文件夹</span><br><span class="hljs-built_in">export</span> PATH=<span class="hljs-string">&quot;/home/ssd/Applications/blast+-2.7.1-linux/bin:<span class="hljs-variable">$PATH</span>&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">run_BUSCO.py -i [组装的文件.fasta]  -l  [数据库文件夹] -o [输出文件名] -m [评估模式] [其他一些选项]<br></code></pre></td></tr></table></figure>
+
+<p>实例，如果用<code>conda</code>安装BUSCO。执行只需写<code>busco</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 首先cd到对应的组装文件的文件夹</span><br><span class="hljs-comment"># 确保canu全路径，conda安装，which busco</span><br><span class="hljs-comment"># -i 输入文件</span><br><span class="hljs-comment"># -l BUSCO的数据库文件</span><br><span class="hljs-comment"># -o 输出的文件名的后缀以及文件夹的名称</span><br><span class="hljs-comment"># -m 分析类型（genome、transcriptome、proteins）</span><br><span class="hljs-comment"># --cpu 线程数</span><br>busco \<br>    -i contigs.fasta \<br>    -l ~/database/BUSCO/embryophyta_odb9 \<br>    -o suffix\<br>    -m genome \<br>    --cpu 8<br></code></pre></td></tr></table></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a><font color="red">参数</font></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs sh">usage: busco -i [SEQUENCE_FILE] -l [LINEAGE] -o [OUTPUT_NAME] -m [MODE] [OTHER OPTIONS]<br><br>Welcome to BUSCO 5.3.0: the Benchmarking Universal Single-Copy Ortholog assessment tool.<br>For more detailed usage information, please review the README file provided with this distribution and the BUSCO user guide. Visit this page https://gitlab.com/ezlab/busco<span class="hljs-comment">#how-to-cite-busco to see how to cite BUSCO</span><br><br>optional arguments:<br>  <span class="hljs-string">&#x27;-i&#x27;</span> SEQUENCE_FILE, --<span class="hljs-keyword">in</span> SEQUENCE_FILE<br>                        Input sequence file <span class="hljs-keyword">in</span> <span class="hljs-string">&#x27;FASTA format&#x27;</span>. Can be an assembled genome or transcriptome (DNA), or protein sequences from an annotated gene <span class="hljs-built_in">set</span>. Also possible to use a path to a directory containing multiple input files.<br>  <span class="hljs-string">&#x27;-o&#x27;</span> OUTPUT, --out OUTPUT<br>                        Give your analysis run a recognisable short name. <span class="hljs-string">&#x27;Output folders and files will be labelled with this name&#x27;</span>. The path to the output folder is <span class="hljs-built_in">set</span> with --out_path.<br>  <span class="hljs-string">&#x27;-m&#x27;</span> MODE, --mode MODE  Specify <span class="hljs-built_in">which</span> BUSCO analysis mode to run.<br>                        There are three valid modes:<br>                        - geno or <span class="hljs-string">&#x27;genome&#x27;</span>, <span class="hljs-keyword">for</span> genome assemblies (DNA)<br>                        - tran or transcriptome, <span class="hljs-keyword">for</span> transcriptome assemblies (DNA)<br>                        - prot or proteins, <span class="hljs-keyword">for</span> annotated gene sets (protein)<br>  <span class="hljs-string">&#x27;-l&#x27;</span> LINEAGE, --lineage_dataset LINEAGE<br>                        Specify the name of the BUSCO lineage to be used<span class="hljs-string">&#x27;database?&#x27;</span><br>  --augustus            Use augustus gene predictor <span class="hljs-keyword">for</span> eukaryote runs<br>  --augustus_parameters --PARAM1=VALUE1,--PARAM2=VALUE2<br>                        Pass additional arguments to Augustus. All arguments should be contained within a single string with no white space, with each argument separated by a comma.<br>  --augustus_species AUGUSTUS_SPECIES<br>                        Specify a species <span class="hljs-keyword">for</span> Augustus training.<br>  --auto-lineage        Run auto-lineage to find optimum lineage path<br>  --auto-lineage-euk    Run auto-placement just on eukaryote tree to find optimum lineage path<br>  --auto-lineage-prok   Run auto-lineage just on non-eukaryote trees to find optimum lineage path<br>  <span class="hljs-string">&#x27;-c&#x27;</span> N, --cpu N         Specify the number (N=<span class="hljs-built_in">integer</span>) of threads/cores to use.<br>  <span class="hljs-string">&#x27;--config&#x27;</span> CONFIG_FILE  Provide a config file<br>  --datasets_version DATASETS_VERSION<br>                        Specify the version of BUSCO datasets, e.g. odb10<br>  <span class="hljs-string">&#x27;--download&#x27;</span> [dataset [dataset ...]]<br>                        Download dataset. Possible values are a specific dataset name, <span class="hljs-string">&quot;all&quot;</span>, <span class="hljs-string">&quot;prokaryota&quot;</span>, <span class="hljs-string">&quot;eukaryota&quot;</span>, or <span class="hljs-string">&quot;virus&quot;</span>. If used together with other <span class="hljs-built_in">command</span> line arguments, make sure to place this last.<br>  --download_base_url DOWNLOAD_BASE_URL<br>                        Set the url to the remote BUSCO dataset location<br>  --download_path DOWNLOAD_PATH<br>                        Specify <span class="hljs-built_in">local</span> filepath <span class="hljs-keyword">for</span> storing BUSCO dataset downloads<br>  <span class="hljs-string">&#x27;-e&#x27;</span> N, --evalue N      <span class="hljs-string">&#x27;E-value cutoff for BLAST searches&#x27;</span>. Allowed formats, 0.001 or 1e-03 (Default: 1e-03)<br>  -f, --force           Force rewriting of existing files. Must be used when output files with the provided name already exist.<br>  -h, --<span class="hljs-built_in">help</span>            Show this <span class="hljs-built_in">help</span> message and <span class="hljs-built_in">exit</span><br>  --<span class="hljs-built_in">limit</span> N             How many candidate regions (contig or transcript) to consider per BUSCO (default: 3)<br>  --list-datasets       Print the list of available BUSCO datasets<br>  --long                Optimization Augustus self-training mode (Default: Off); adds considerably to the run time, but can improve results <span class="hljs-keyword">for</span> some non-model organisms<br>  --metaeuk_parameters <span class="hljs-string">&quot;--PARAM1=VALUE1,--PARAM2=VALUE2&quot;</span><br>                        Pass additional arguments to Metaeuk <span class="hljs-keyword">for</span> the first run. All arguments should be contained within a single string with no white space, with each argument separated by a comma.<br>  --metaeuk_rerun_parameters <span class="hljs-string">&quot;--PARAM1=VALUE1,--PARAM2=VALUE2&quot;</span><br>                        Pass additional arguments to Metaeuk <span class="hljs-keyword">for</span> the second run. All arguments should be contained within a single string with no white space, with each argument separated by a comma.<br>  <span class="hljs-string">&#x27;--offline&#x27;</span>            <span class="hljs-string">&#x27;To indicate that BUSCO cannot attempt to download files&#x27;</span><br>  --out_path OUTPUT_PATH<br>                        Optional location <span class="hljs-keyword">for</span> results folder, excluding results folder name. <span class="hljs-string">&#x27;Default is current working directory&#x27;</span>.<br>  -q, --quiet           Disable the info logs, <span class="hljs-string">&#x27;displays only errors&#x27;</span><br>  -r, --restart         <span class="hljs-string">&#x27;Continue a run that had already partially completed&#x27;</span>.<br>  --tar                 <span class="hljs-string">&#x27;Compress some subdirectories with many files to save space&#x27;</span><br>  --update-data         Download and replace with last versions all lineages datasets and files necessary to their automated selection<br>  -v, --version         Show this version and <span class="hljs-built_in">exit</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>fasta文件中，一些组装工具生成的<code>contig</code>的名字是形如<code>&gt;contig/1/12345</code>之类的，这种fasta文件运行时BUSCO会报错，解决办法是改名，perl单行。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> contig.fasta | perl -p -e <span class="hljs-string">&#x27;s&#123;/&#125;&#123;&#125;g&#x27;</span> &gt; contig.new.fasta<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="结果解读"><a href="#结果解读" class="headerlink" title="结果解读"></a>结果解读</h1><p>在运行文件夹下会有</p>
+<ul>
+<li><code>run_suffix</code> 文件夹：因为上面<code>-o</code>选项设置了<code>suffix</code>，所以文件夹名称加了后缀。文件夹里，有一个文件最为重要。是<code>short_summary_suffix.txt</code></li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs text"># Summarized benchmarking in BUSCO notation for file assembly/spades/contigs.fasta<br># BUSCO was run in mode: genome<br>    C:98.6%[S:98.6%,D:0.0%],F:0.0%,M:1.4%,n:148<br><br>    146 Complete BUSCOs (C)<br>    146 Complete and single-copy BUSCOs (S)<br>    0   Complete and duplicated BUSCOs (D)<br>    0   Fragmented BUSCOs (F)<br>    2   Missing BUSCOs (M)<br>    148 Total BUSCO groups searched<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">缩写</th>
+<th>全称</th>
+<th>说明</th>
+<th>关系</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">C</td>
+<td>Complete</td>
+<td>多少个BUSCO测试基因被覆盖。</td>
+<td>C &#x3D; S + D</td>
+</tr>
+<tr>
+<td align="left">S</td>
+<td>single-copy</td>
+<td>多少个基因经过比对发现是单拷贝。</td>
+<td>-</td>
+</tr>
+<tr>
+<td align="left">D</td>
+<td>duplicated</td>
+<td>多少个基因经过比对发现包含多拷贝。</td>
+<td>-</td>
+</tr>
+<tr>
+<td align="left">F</td>
+<td>Fragment</td>
+<td>多少个基因经过比对覆盖不完全，只是部分比对上。</td>
+<td>-</td>
+</tr>
+<tr>
+<td align="left">M</td>
+<td>Miss</td>
+<td>没有得到比对结果的基因数</td>
+<td>-</td>
+</tr>
+<tr>
+<td align="left">Total</td>
+<td>Total</td>
+<td>总共测试的基因条目数</td>
+<td>Total &#x3D; C + F + M</td>
+</tr>
+</tbody></table>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css">一般情况下对于完整度较好的基因组组装结果来讲，Complete and single-copy越多越好，而Complete and duplicated和Missing越少越好，对于Fragmented也尽可能地少一些。<br>真实项目中，Complete BUSCOs (C) 的比例通常都能达到 <span class="hljs-number">80%</span> 以上。<br>C值表示和BUSCO集相比的完整度，M值表示可能缺少的基因数，D则是重复数。<br></code></pre></td></tr></table></figure>
+
+
+
+<p>三种比对</p>
+<ul>
+<li>情况1 - 完全覆盖</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh">说明: +表示组装得到基因序列 -表示用于测试的基因序列<br><br>组装 : ================+++++++==============<br>测试                   -------<br>                       或者<br>组装 : ==============+++++++++++============<br>测试                   -------               <br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>情况2 - 部分覆盖</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">组装 : ================+++++++==============<br>测试                   -----<br>                     /      \<br>                       或者<br>组装 : ================+++++++==============<br>测试                   -------<br>                     /        \<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>情况3 - 没有比对</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">组装 : ================+++++++==============<br>测试 <br></code></pre></td></tr></table></figure>
+
+<p>一般<code>S</code> + <code>D</code>的数值也就是<code>C</code>的值越大越好，但是在文献中作者说如果<code>D</code>的数值太多的话可能意味着组装错误的可能性较大。因为一个基因（BUSCO数据库中该基因一般为单拷贝）被覆盖多次，那么可能就是说该基因所在的片段组装可能出现问题。<br>因为理论上</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">理论上：--------------------------------------------<br>实际上：--------   ----------    ----------    -----<br>错误的：--------                 -------------<br>           \\\\                    ///<br>          -----------     --------------<br></code></pre></td></tr></table></figure>
+
+<p>理论上组装之后各个片段之间应该前后有序，之间除了重复区域或者其他特殊片段之外不应该有可以重叠的地方。<br>例如</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">sequence1 : ..TAGTCGTGA                         GTGCATGCTGTAGC..<br>                       \                       /<br>                        AAAATTGG......CGATGAAAA<br>                       /                       \<br>sequence2 : ..GGGTAGCGG                         TTGACTAGCTAGCT..<br></code></pre></td></tr></table></figure>
+
+<p>也就是说中间一段序列是两个序列的共同部分，除非这个序列存在多个拷贝，否则就很可能是拼接错误。通常一般这种拼接错误的序列的两端会出现重复序列。另外如果是多倍体组装的话，<code>D</code>值也可能大。</p>
+<p>一般来看，<code>S</code>似乎越大越好，<code>M</code>越小越好，说明组装的越完整，因为检测的单拷贝同源基因出现得多。但是<code>D</code>与<code>F</code>这两个数值越大不见得就是好的，因为组装的错误可能会带来这两个值的增大。不能仅仅只是通过这一个软件来判定。比如还可以借助<code>QUAST</code>和常规指标<code>N50</code>、<code>总的核酸量</code>、<code>点阵图</code>等等多个辅助标准来进行综合的评估。</p>
+<h1 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h1><p>执行完毕后，可使用<code>generate_plot.py</code>画图，条形图。</p>
+<ul>
+<li>首先把所有经过BUSCO检测的结果聚集到一个文件夹之内</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> my_summaries<br><span class="hljs-built_in">cp</span> run_SPEC1/short_summary_SPEC1.txt my_summaries/.<br><span class="hljs-built_in">cp</span> run_SPEC2/short_summary_SPEC2.txt my_summaries/.<br><span class="hljs-built_in">cp</span> run_SPEC3/short_summary_SPEC3.txt my_summaries/.<br><span class="hljs-built_in">cp</span> run_SPEC4/short_summary_SPEC4.txt my_summaries/.<br><span class="hljs-built_in">cp</span> run_SPEC5/short_summary_SPEC5.txt my_summaries/.<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>运行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">python scripts/generate_plot.py –wd my_summaries<br></code></pre></td></tr></table></figure>
+
+<p>五个数值变成条形图显示，对比更加明显.</p>
+
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/busco/">#busco</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>HiFi-4-QC-BUSCO</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/03/05/2022-03-02-HiFi-4-BUSCO/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 5, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/06/2022-03-06-Linux-grid/" title="【Linux集群任务调度系统】【LSF/SGE/Slurm/PBS】【grid】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【Linux集群任务调度系统】【LSF/SGE/Slurm/PBS】【grid】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/03/02/2022-03-02-paper-Petunia/" title="【paper】Insight into the evolution of the Solanaceae from the parental genomes of Petunia hybrida">
+                        <span class="hidden-mobile">【paper】Insight into the evolution of the Solanaceae from the parental genomes of Petunia hybrida</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2023©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>

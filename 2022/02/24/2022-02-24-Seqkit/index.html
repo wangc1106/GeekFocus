@@ -1,73 +1,912 @@
-<%
-var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
-var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
-%>
+
 
 <!DOCTYPE html>
-<html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
+<html lang="en" data-default-color-scheme=auto>
 
-<%- partial('_partials/head.ejs') %>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/GeekFocus/img/fluid.png">
+  <link rel="icon" href="/GeekFocus/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="banner">
+  <meta name="keywords" content="Bioinformatics">
+  
+    <meta name="description" content="SeqKit - a cross-platform and ultrafast toolkit for FASTA&#x2F;Q file manipulation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="seqkit">
+<meta property="og:url" content="https://wangc1106.github.io/GeekFocus/2022/02/24/2022-02-24-Seqkit/index.html">
+<meta property="og:site_name" content="DrBanner">
+<meta property="og:description" content="SeqKit - a cross-platform and ultrafast toolkit for FASTA&#x2F;Q file manipulation">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-02-24T08:21:15.010Z">
+<meta property="article:modified_time" content="2022-06-05T12:07:43.326Z">
+<meta property="article:author" content="banner">
+<meta property="article:tag" content="fastq-tool">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>seqkit - DrBanner</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/GeekFocus/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/GeekFocus/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/GeekFocus/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangc1106.github.io","root":"/GeekFocus/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UqIYufmNk2sE8MiBKKWc4Kja-gzGzoHsz","app_key":"iYpeWQcmNqpHwr2uVlnJYVji","server_url":"https://wangc1106.github.io/GeekFocus","path":"window.location.pathname","ignore_local":false}},"search_path":"/GeekFocus/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/GeekFocus/js/utils.js" ></script>
+  <script  src="/GeekFocus/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
 
 <body>
-  <%- inject_point('bodyBegin') %>
+  
 
   <header>
-    <%- inject_point('header') %>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/GeekFocus/">
+      <strong>DrBanner</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/GeekFocus/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/GeekFocus/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="seqkit"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        banner
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-24 16:21" pubdate>
+          February 24, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          16k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          131 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
-    <% if(is_post() || page.layout === '404') { %>
-      <%- body %>
-    <% } else { %>
-      <div class="container nopadding-x-md">
-        <div id="board"
-          <%- banner_img_height >= 100 && theme.banner && theme.banner.parallax ? 'style="margin-top: 0"' : '' %>>
-          <% if(page.layout === 'about') { %>
-            <div class="about-avatar">
-              <img src="<%= url_for(theme.about.avatar) %>" srcset="/GeekFocus/img/loading.gif" lazyload class="img-fluid" alt="avatar">
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">seqkit</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on June 5, 2022 pm
+                  
+                
+              </p>
+            
+            <div class="markdown-body">
+              
+              <h1 id="SeqKit-a-cross-platform-and-ultrafast-toolkit-for-FASTA-x2F-Q-file-manipulation"><a href="#SeqKit-a-cross-platform-and-ultrafast-toolkit-for-FASTA-x2F-Q-file-manipulation" class="headerlink" title="SeqKit - a cross-platform and ultrafast toolkit for FASTA&#x2F;Q file manipulation"></a>SeqKit - a cross-platform and ultrafast toolkit for FASTA&#x2F;Q file manipulation</h1><span id="more"></span>
+
+<p><a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#fx2tab-tab2fx">Official doc</a></p>
+<h1 id="Quick-Guide"><a href="#Quick-Guide" class="headerlink" title="Quick Guide"></a>Quick Guide</h1><ul>
+<li>Basic: <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#seq">seq</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#stats">stats</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#subseq">subseq</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#sliding">sliding</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#faidx">faidx</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#watch">watch</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#sana">sana</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#scat">scat</a></li>
+<li>Format conversion: <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#fq2fa">fq2fa</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#fx2tab-tab2fx">fx2tab</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#fx2tab-tab2fx">tab2fx</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#convert">convert</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#translate">translate</a></li>
+<li>Searching: <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#grep">grep</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#locate">locate</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#amplicon">amplicon</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#fish">fish</a></li>
+<li>Set operation: <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#sample">sample</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#rmdup">rmdup</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#common">common</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#duplicate">duplicate</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#split">split</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#split2">split2</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#head">head</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#head-genome">head-genome</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#range">range</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#pair">pair</a></li>
+<li>Edit: <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#concat">concat</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#replace">replace</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#restart">restart</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#mutate">mutate</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#rename">rename</a></li>
+<li>Ordering: <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#sort">sort</a>, <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#shuffle">shuffle</a></li>
+<li>BAM processing: <a target="_blank" rel="noopener" href="https://bioinf.shenwei.me/seqkit/usage/#bam">bam</a></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">conda install -c bioconda seqkit<br></code></pre></td></tr></table></figure>
+
+<h1 id="command"><a href="#command" class="headerlink" title="command"></a>command</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs sh">amplicon        通过引物检索扩增子(或其周围的特定区域)<br>bam             检查和在线绘制BAM记录文件的直方图<br>common          通过<span class="hljs-built_in">id</span>/名称/序列查找多个文件的公共序列<br>concat          连接多个文件中具有相同ID的序列<br>convert         转换FASTQ质量编码格式：支持格式包括：桑格，Solexa和Illumina<br>duplicate       重复序列N次<br>faidx           创建FASTA索引文件并提取子序列<br>fish            使用局部比对在较大的序列中寻找短序列<br>fq2fa           转换FASTQ到FASTA<br>fx2tab          将FASTA/Q转换为表格格式(包含长度/GC含量/GC偏好)<br>genautocomplete 生成shell自动完成脚本<br>grep            通过ID/name/sequence/sequence motif搜索序列，允许错配<br><span class="hljs-built_in">head</span>            打印第一条序列<br><span class="hljs-built_in">help</span>            打印帮助信息<br>locate          定位序列，或者motifs，允许错配<br>mutate          编辑序列(点突变、插入、删除)<br>pair            匹配双端序列文件<br>range           打印一个范围内的序列<br>rename          重命名重复序列ID<br>replace         使用正则表达式修改名称或者序列<br>restart         重置环状基因组的起始位置<br>rmdup           通过<span class="hljs-built_in">id</span>/名称/序列删除重复的序列<br>sample          按数量或比例对序列进行抽样<br>sana            清理损坏的单行fastq文件<br>scat            real time recursive concatenation and streaming of fastx files<br><span class="hljs-built_in">seq</span>             转换序列(反向，补充，提取ID…)<br>shuffle         随机序列<br>sliding         序列滑窗提取，支持环形基因组<br><span class="hljs-built_in">sort</span>            按<span class="hljs-built_in">id</span>/名称/序列/长度排序序列<br><span class="hljs-built_in">split</span>           按<span class="hljs-built_in">id</span>/seq区域/大小/部件将序列拆分为文件(主要用于FASTA)<br>split2          按序列数量/文件数将序列拆分为多个文件(FASTA, PE/SE FASTQ)<br>stats           FASTA/Q文件的简单统计<br>subseq          通过region/gtf/bed得到子序列，包括侧翼序列<br>tab2fx          转换表格格式为FASTA/Q格式<br>translate       翻译DNA/RNA到蛋白质序列(支持歧义碱基)<br>version         打印版本信息并检查是否更新<br>watch           序列特征的监测和在线直方图<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="Parameter"><a href="#Parameter" class="headerlink" title="Parameter:"></a>Parameter:</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh">Flags:<br>      --alphabet-guess-seq-length int   seqkit根据第一个FASTA记录猜测序列类型的序列前缀的长度(0表示整个序列)(默认10000)<br>  -h, --<span class="hljs-built_in">help</span>                            显示帮助<br>      --id-ncbi                         FASTA头是ncbi风格的，例如&gt;gi|110645304|ref|NC_002516.2 <br>      --id-regexp string                用于解析ID的正则表达式(default <span class="hljs-string">&quot;^(\\S+)\\s?&quot;</span>)，匹配空格前的部分为序列名<br>      --infile-list string              输入文件列表中的文件 (one file per line), <span class="hljs-keyword">if</span> given, they are appended to files from cli arguments<br>  -w, --line-width int                  输出FASTA格式时的行宽 (0 <span class="hljs-keyword">for</span> no wrap) (default 60)<br>  -o, --out-file string                 输出 (<span class="hljs-string">&quot;-&quot;</span> <span class="hljs-keyword">for</span> stdout, suffix .gz <span class="hljs-keyword">for</span> gzipped out) (default <span class="hljs-string">&quot;-&quot;</span>) -代表标准输出，加.gz可输出压缩文件<br>      --quiet                           保持安静，不要显示额外的信息<br>  -t, --seq-type string                 序列类型 (dna|rna|protein|<span class="hljs-built_in">unlimit</span>|auto) (auto, 按第一个序列自动检测) (default <span class="hljs-string">&quot;auto&quot;</span>)<br>  -j, --threads int                     CPU数量 (默认单核为1，多核为2) (default 2)<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="stats-FASTA-x2F-Q文件的简单统计"><a href="#stats-FASTA-x2F-Q文件的简单统计" class="headerlink" title="stats FASTA&#x2F;Q文件的简单统计"></a>stats FASTA&#x2F;Q文件的简单统计</h1><p>统计序列格式fa&#x2F;fq、内容类型DNA&#x2F;RNA&#x2F;Protein，<font color="red">序列数量、总长度，最小、平均和最大长度</font></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># FASTA DNA</span><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nacgtryswkmbdhvACGTRYSWKMBDHV&quot;</span> | seqkit stats<br>file  format  <span class="hljs-built_in">type</span>  num_seqs  sum_len  min_len  avg_len  max_len<br>-     FASTA   DNA          1       28       28       28       28<br><br><span class="hljs-comment"># RNA </span><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nACGUN\nACGUN&quot;</span> | seqkit stats<br>file  format  <span class="hljs-built_in">type</span>  num_seqs  sum_len  min_len  avg_len  max_len<br>-     FASTA   RNA          1       10       10       10       10<br><br><span class="hljs-comment"># Protein</span><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nabcdefghijklmnpqrstvwyz&quot;</span> | seqkit stats<br>file  format  <span class="hljs-built_in">type</span>     num_seqs  sum_len  min_len  avg_len  max_len<br>-     FASTA   Protein         1       23       23       23       23<br><br><span class="hljs-comment"># FASTQ DNA</span><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;@read\nACTGCN\n+\n@IICCG&quot;</span> | seqkit stats<br>file  format  <span class="hljs-built_in">type</span>  num_seqs  sum_len  min_len  avg_len  max_len<br>-     FASTQ   DNA          1        6        6        6        6<br><br>file                             format  <span class="hljs-built_in">type</span>     num_seqs         sum_len  min_len  avg_len  max_len<br>R1.fastq.gz  FASTQ   DNA   254,677,261  34,439,769,981       50    135.2      138<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs r"><span class="hljs-comment"># 一般模式</span><br>seqkit stats C1_1.fq.gz<br><span class="hljs-comment">#--输出结果tab分隔</span><br>seqkit stats C1_1.fq.gz <span class="hljs-operator">-</span><span class="hljs-built_in">T</span><br><span class="hljs-comment">#--输出文件转化其他格式</span><br>seqkit stats C1_1.fq.gz <span class="hljs-operator">-</span><span class="hljs-built_in">T</span><span class="hljs-operator">|</span> csvtk pretty <span class="hljs-operator">-</span>t<br>seqkit stats C1_1.fq.gz <span class="hljs-operator">-</span><span class="hljs-built_in">T</span><span class="hljs-operator">|</span> csvtk csv2md <span class="hljs-operator">-</span>t<br><span class="hljs-comment"># 统计更多信息 -a</span><br>seqkit stats C1_1.fq.gz <span class="hljs-operator">-</span>a<br><span class="hljs-comment"># j多线程加速，尤其是对于具有多个序列文件会加速</span><br><span class="hljs-comment"># seqkit stats -j 2 *.fq.gz</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="seq-转换序列-（反向、互补-x2F-提取ID）"><a href="#seq-转换序列-（反向、互补-x2F-提取ID）" class="headerlink" title="seq 转换序列 （反向、互补&#x2F;提取ID）"></a>seq 转换序列 （反向、互补&#x2F;提取ID）</h1><p>“-n”: 提取序列ID，包括“&gt;”后面的全部内容</p>
+<p>“-n -i”: 仅提取第一个空格前的ID</p>
+<h1 id="按长度过滤-常用"><a href="#按长度过滤-常用" class="headerlink" title="按长度过滤(常用)"></a>按长度过滤(常用)</h1><p>扩增子分析时要筛选扩增长度相近的片段，过长或过短一般都要删除。宏基因组中比如组装的结果，经常要过滤&lt;200&#x2F;300bp的短片段，分箱时要筛选&gt;1000&#x2F;2000的长片段使用。本条命令非常多的应用场景。筛选后结果可用 &gt; 写入文件</p>
+<p>-m 按照序列长度过滤，表示保留的最小长度，-M 此为保留的最大长度</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#--提取序列长度大于60的并统计长度信息</span><br>zcat hairpin.fa.gz | seqkit <span class="hljs-built_in">seq</span> -m 60 | seqkit stats<br><span class="hljs-comment"># 设置最小序列长度和最大序列长度，用于过滤序列，并统计</span><br>zcat hairpin.fa.gz | seqkit <span class="hljs-built_in">seq</span> -m 100 -M 1000 | seqkit stats<br><span class="hljs-comment"># 保存&gt;100且&lt;1000长度的序列</span><br>seqkit <span class="hljs-built_in">seq</span> -m 100 -M 1000 hairpin.fa.gz &gt; hairpin100-1000.fa<br>seqkit <span class="hljs-built_in">stat</span> hairpin100-1000.fa<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="提取ID"><a href="#提取ID" class="headerlink" title="提取ID"></a>提取ID</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">head</span> gene.fa<br><span class="hljs-comment">## 名称全行</span><br>seqkit <span class="hljs-built_in">seq</span> gene.fa -n | <span class="hljs-built_in">head</span><br><span class="hljs-comment"># 仅仅打印ID</span><br>seqkit <span class="hljs-built_in">seq</span> gene.fa -n -i | <span class="hljs-built_in">head</span><br> <br><span class="hljs-comment"># 使用正则表达式提取名字中的信息</span><br>zcat hairpin.fa.gz | <span class="hljs-built_in">head</span><br><span class="hljs-comment"># 提取ID中第二个字段作为ID</span><br>seqkit <span class="hljs-built_in">seq</span> hairpin.fa.gz -n -i --id-regexp <span class="hljs-string">&quot;^[^\s]+\s([^\s]+)\s&quot;</span> | <span class="hljs-built_in">head</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="单行-x2F-多行转换"><a href="#单行-x2F-多行转换" class="headerlink" title="单行&#x2F;多行转换"></a>单行&#x2F;多行转换</h1><ul>
+<li>-s提取并展示序列</li>
+<li>-w 代表每行的碱基数量，0代表不换行</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#仅仅提取序列 -s</span><br>seqkit <span class="hljs-built_in">seq</span> gene.fa -s -w 0|<span class="hljs-built_in">head</span><br><span class="hljs-comment">#--将多行序列转化为标准4行FASTQ</span><br>seqkit <span class="hljs-built_in">seq</span> C1_1.fq.gz -w 0|<span class="hljs-built_in">head</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="反向-x2F-互补"><a href="#反向-x2F-互补" class="headerlink" title="反向&#x2F;互补"></a>反向&#x2F;互补</h1><ul>
+<li>-r 序列反向</li>
+<li>-p序列互补</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 序列反向互补,-r反向，-p互补</span><br>seqkit <span class="hljs-built_in">seq</span> hairpin.fa.gz -r -p|<span class="hljs-built_in">head</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="删除gap-x2F-大小写转换"><a href="#删除gap-x2F-大小写转换" class="headerlink" title="删除gap&#x2F;大小写转换"></a>删除gap&#x2F;大小写转换</h1><ul>
+<li>-g 去除序列中的间隔,将中间的横杠去掉</li>
+<li>-u转化序列为大写字母展示</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nACGT-ACTGC-acc&quot;</span> | seqkit <span class="hljs-built_in">seq</span> -g -u<br></code></pre></td></tr></table></figure>
+
+<h1 id="RNA转为DNA"><a href="#RNA转为DNA" class="headerlink" title="RNA转为DNA"></a>RNA转为DNA</h1><ul>
+<li>—rna2dna 将RNA序列转化为DNA序列</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nUCAUAUGCUUGUCUCAAAGAUUA&quot;</span> | seqkit <span class="hljs-built_in">seq</span> --rna2dna<br></code></pre></td></tr></table></figure>
+
+<h1 id="subseq通过指定区域"><a href="#subseq通过指定区域" class="headerlink" title="subseq通过指定区域"></a>subseq通过指定区域</h1><ul>
+<li>-r 通过区域来截取序列</li>
+</ul>
+<p>如1:12提取前12个碱基，-12:-1提取序列结尾12个碱基；<br>for last 12 bases, 13:-1 for cutting first 12 bases. type “seqkit subseq -h” for more examples</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#-提取序列前1：12个碱基</span><br><span class="hljs-attribute">zcat</span> C1_1.fq.gz | seqkit subseq -r <span class="hljs-number">1</span>:<span class="hljs-number">12</span> |head<br><span class="hljs-comment">#-提取序列最后1：12个碱基</span><br><span class="hljs-attribute">zcat</span> C1_1.fq.gz | seqkit subseq -r -<span class="hljs-number">12</span>:-<span class="hljs-number">1</span> |head<br> <br><span class="hljs-comment">#取第12至倒数第12个碱基，即前11和后11个碱基去掉</span><br><span class="hljs-attribute">zcat</span> C1_1.fq.gz | seqkit subseq -r <span class="hljs-number">12</span>:-<span class="hljs-number">12</span>| head<br></code></pre></td></tr></table></figure>
+
+<p>基于gtf&#x2F;bed信息挑选子序列。</p>
+<p>—gtf  根据gtf文件挑选基因，这部分功能用于根据基因注释快速提取基因序列，在宏基因组、转录组、重测序中常用。—chr 选择染色体，—feature cds选择序列类型</p>
+<p>以拟南芥基因组的序列和注释数据演示：提取第一条染色体上的CDS基因信息，并统计基本信息</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">seqkit subseq <span class="hljs-attr">--gtf</span> Arabidopsis_thaliana<span class="hljs-selector-class">.TAIR10</span>.<span class="hljs-number">49</span><span class="hljs-selector-class">.gtf</span><span class="hljs-selector-class">.gz</span> <span class="hljs-attr">--chr</span> <span class="hljs-number">1</span> <span class="hljs-attr">--feature</span> cds  Arabidopsis_thaliana<span class="hljs-selector-class">.TAIR10</span><span class="hljs-selector-class">.dna</span><span class="hljs-selector-class">.toplevel</span><span class="hljs-selector-class">.fa</span><span class="hljs-selector-class">.gz</span>  &gt; chr1<span class="hljs-selector-class">.gtf</span><span class="hljs-selector-class">.cds</span><span class="hljs-selector-class">.fa</span><br>seqkit stats chr1<span class="hljs-selector-class">.gtf</span><span class="hljs-selector-class">.cds</span><span class="hljs-selector-class">.fa</span><br><br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>-u 可以提取目标基因上游的序列</li>
+<li>-f 目标区域不展示</li>
+</ul>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#--挑选序列并多加上上游的3个碱基</span><br><span class="hljs-attribute">seqkit</span> subseq --gtf Arabidopsis_thaliana.TAIR10.<span class="hljs-number">49</span>.gtf.gz Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz -u <span class="hljs-number">3</span> |head<br> <br><span class="hljs-comment"># 仅提取上游序列，如提取启动子区2k：-f仅定位不输出位置序列，-u输出上游序列，此处示例3bp</span><br><span class="hljs-attribute">seqkit</span> subseq --gtf Arabidopsis_thaliana.TAIR10.<span class="hljs-number">49</span>.gtf.gz Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz -u <span class="hljs-number">3</span> -f |head<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="sliding-滑窗提取序列，支持环状基因组"><a href="#sliding-滑窗提取序列，支持环状基因组" class="headerlink" title="sliding 滑窗提取序列，支持环状基因组"></a>sliding 滑窗提取序列，支持环状基因组</h1><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#-s 步长为3，-W 序列长度为6个碱基</span><br><span class="hljs-attribute">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nACGTacgtNN&quot;</span> | seqkit sliding -s <span class="hljs-number">3</span> -W <span class="hljs-number">6</span><br><span class="hljs-comment"># -g 贪婪模式，后面不足6个那也取</span><br><span class="hljs-attribute">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nACGTacgtNN&quot;</span> | seqkit sliding -s <span class="hljs-number">3</span> -W <span class="hljs-number">6</span> -g<br><span class="hljs-comment"># 环状DNA模式-C，首尾不算中断，环状</span><br><span class="hljs-attribute">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nACGTacgtNN&quot;</span> | seqkit sliding -s <span class="hljs-number">3</span> -W <span class="hljs-number">6</span> -C<br><br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>步长为5，取30个碱基序列，然后统计GC含量</li>
+</ul>
+<ul>
+<li>fx2tab：统计fasta&#x2F;fastq序列的信息为表格</li>
+<li>-n仅输出ID，不输出序列</li>
+<li>-g为GC含量</li>
+</ul>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs coq">zcat hairpin.fa.gz | <span class="hljs-type">seqkit</span> sliding -s <span class="hljs-number">5</span> -W <span class="hljs-number">30</span> | <span class="hljs-type">seqkit</span> fx2tab -n -g |<span class="hljs-type">head</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="faidx-创建FASTA索引文件并提取子序列"><a href="#faidx-创建FASTA索引文件并提取子序列" class="headerlink" title="faidx 创建FASTA索引文件并提取子序列"></a>faidx 创建FASTA索引文件并提取子序列</h1><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># 解压</span><br><span class="hljs-attribute">zcat</span> hairpin.fa.gz &gt; hairpin.fa<br> <br><span class="hljs-comment"># 建索引*.fai文件</span><br><span class="hljs-attribute">seqkit</span> faidx hairpin.fa<br> <br><span class="hljs-comment"># ID信息：hsa-let-7a-1 hsa-let-7a-2</span><br><span class="hljs-attribute">seqkit</span> faidx hairpin.fa hsa-let-<span class="hljs-number">7</span>a-<span class="hljs-number">1</span> hsa-let-<span class="hljs-number">7</span>a-<span class="hljs-number">2</span><br><span class="hljs-comment"># -f 标题行全部显示</span><br><span class="hljs-attribute">seqkit</span> faidx hairpin.fa hsa-let-<span class="hljs-number">7</span>a-<span class="hljs-number">1</span> hsa-let-<span class="hljs-number">7</span>a-<span class="hljs-number">2</span> -f<br><span class="hljs-comment"># 提取序列并选择区域显示</span><br><span class="hljs-attribute">seqkit</span> faidx hairpin.fa hsa-let-<span class="hljs-number">7</span>a-<span class="hljs-number">1</span>:<span class="hljs-number">1</span>-<span class="hljs-number">10</span><br><span class="hljs-attribute">seqkit</span> faidx hairpin.fa hsa-let-<span class="hljs-number">7</span>a-<span class="hljs-number">1</span>:-<span class="hljs-number">10</span>--<span class="hljs-number">1</span><br><span class="hljs-attribute">seqkit</span> faidx hairpin.fa hsa-let-<span class="hljs-number">7</span>a-<span class="hljs-number">1</span>:<span class="hljs-number">1</span><br><span class="hljs-comment"># 检查hsa开头的序列并统计</span><br><span class="hljs-attribute">seqkit</span> faidx hairpin.fa hsa -r | seqkit stats<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="watch-序列质量的监测和在线直方图"><a href="#watch-序列质量的监测和在线直方图" class="headerlink" title="watch 序列质量的监测和在线直方图"></a>watch 序列质量的监测和在线直方图</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment">#-取对数展示直方图</span><br>seqkit watch <span class="hljs-literal">-L</span> <span class="hljs-operator">-f</span> ReadLen hairpin.fa<br> <br><span class="hljs-comment"># 每五千个做一个图保存在pdf文件中</span><br>seqkit watch <span class="hljs-literal">-p</span> <span class="hljs-number">500000</span> <span class="hljs-literal">-O</span> qhist.pdf <span class="hljs-operator">-f</span> MeanQual C1_1.fq.gz<br></code></pre></td></tr></table></figure>
+
+<p>从有错误记录的fastq文件中挽救可用的读取</p>
+<h1 id="sana：清理损坏fastq文件"><a href="#sana：清理损坏fastq文件" class="headerlink" title="sana：清理损坏fastq文件"></a>sana：清理损坏fastq文件</h1><p>这里我专门将C1_1.fq的第一个序列进行了错位，进行测试。这个操作往往在进行数据整合的时候可以有很大作用。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">zcat</span> C1_1.fq.gz|sed <span class="hljs-string">&#x27;2 s/^/A/&#x27;</span> &gt; C1_1_bad.fq<br>seqkit sana C1_1_bad.fq -o rescued.fq.gz<br></code></pre></td></tr></table></figure>
+
+<h1 id="fq2fa-将fq转为fa格式"><a href="#fq2fa-将fq转为fa格式" class="headerlink" title="fq2fa 将fq转为fa格式"></a>fq2fa 将fq转为fa格式</h1><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">seqkit fq2fa <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">C1_1</span>.</span></span>fq.gz -o <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">C1_1</span>.</span></span>fa<br></code></pre></td></tr></table></figure>
+
+<h1 id="fx2tab-amp-tab2fx-序列转化表格格式"><a href="#fx2tab-amp-tab2fx-序列转化表格格式" class="headerlink" title="fx2tab &amp; tab2fx 序列转化表格格式"></a>fx2tab &amp; tab2fx 序列转化表格格式</h1><figure class="highlight ldif"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs ldif">这一转化很有用，往往用于表格/矩阵处理的时候。<br>seqkit fx2tab hairpin.fa.gz | head -n 2<br>通过矩阵格式的序列文件统计序列长度和质量值<br><br><span class="hljs-literal">-</span>l 统计序列长度<br><br><span class="hljs-literal">-</span>g 统计平均GC含量<br><br><span class="hljs-literal">-</span>i 只打印名称(不打印序列)<br><br><span class="hljs-literal">-</span>H 打印标题行<br><span class="hljs-comment"># 打印序列长度、GC含量</span><br>seqkit fx2tab hairpin.fa.gz -l -g -n -i -H | head<br><br><br></code></pre></td></tr></table></figure>
+
+<p>tab2fx 和表格格式转化为序列格式</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-meta"># seqkit tab2fx 表格形式转化为序列形式</span><br>zcat hairpin.fa.gz <span class="hljs-string">| seqkit fx2tab | seqkit tab2fx | head</span><br> <br><span class="hljs-meta"># 转化为表格，然后排序，然后转化回去</span><br>zcat hairpin.fa.gz \<br>    <span class="hljs-string">| seqkit fx2tab -l \</span><br>    <span class="hljs-string">| sort -t &quot;</span>`echo -e &#x27;\t&#x27;`<span class="hljs-string">&quot; -n -k4,4 \</span><br>    <span class="hljs-string">| seqkit tab2fx | head</span><br><span class="hljs-meta"># 等同于下面的命令</span><br>seqkit sort -l hairpin.fa.gz <span class="hljs-string">| head</span><br> <br><span class="hljs-meta"># 通过这个转化可以将很多在表格中实现的数据处理方法用于序列</span><br>例如下面的提取<span class="hljs-number">1000</span>个序列：seqkit fx2tab hairpin.fa.gz <span class="hljs-string">| head -n 1000 | seqkit tab2fx | head</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="translate-翻译DNA-x2F-RNA为蛋白质序列"><a href="#translate-翻译DNA-x2F-RNA为蛋白质序列" class="headerlink" title="translate 翻译DNA&#x2F;RNA为蛋白质序列"></a>translate 翻译DNA&#x2F;RNA为蛋白质序列</h1><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs processing">#--转化为蛋白序列<br>seqkit <span class="hljs-built_in">translate</span> gene.<span class="hljs-property">fa</span>|head<br> <br># 去除<span class="hljs-string">&#x27;X&#x27;</span> 和 <span class="hljs-string">&#x27;*&#x27;</span><br>seqkit <span class="hljs-built_in">translate</span> hairpin.<span class="hljs-property">fa</span> <br>seqkit <span class="hljs-built_in">translate</span> hairpin.<span class="hljs-property">fa</span> --<span class="hljs-built_in">trim</span> | head<br></code></pre></td></tr></table></figure>
+
+<h1 id="grep-序列匹配"><a href="#grep-序列匹配" class="headerlink" title="grep  序列匹配"></a>grep  序列匹配</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 生成一个ID列表</span><br>grep <span class="hljs-string">&#x27;&gt;&#x27;</span> C1_1.fa|<span class="hljs-built_in">cut</span> -c2-|<span class="hljs-built_in">head</span> -n 10 &gt; id.txt<br> <br><span class="hljs-comment"># 使用序列id列表进行搜索(不包含空格)</span><br>seqkit grep -f id.txt C1_1.fq.gz -o result.fq.gz<br><span class="hljs-comment"># 使用序列名称列表进行搜索(它们可能包含空格)</span><br>seqkit grep -n -f id.txt C1_1.fq.gz -o result.fa.gz<br>zcat  result.fa.gz<br><span class="hljs-comment"># 提取hsa开头的序列</span><br>zcat hairpin.fa.gz | seqkit grep -r -p ^hsa |<span class="hljs-built_in">head</span><br> <br><span class="hljs-comment"># -v参数v用于移除序列</span><br>zcat hairpin.fa.gz | seqkit grep -r -p ^hsa -p ^mmu -v | <span class="hljs-built_in">head</span><br> <br><span class="hljs-comment"># 提取ID</span><br>zcat miRNA.diff.gz | grep ^<span class="hljs-comment"># -v | grep NEW | cut -f 2 &gt; list</span><br><span class="hljs-built_in">head</span> list<br><span class="hljs-comment"># 根据ID提取文件</span><br>zcat hairpin.fa.gz | seqkit grep -f list &gt; new.fa<br><span class="hljs-built_in">head</span> new.fa<br> <br><span class="hljs-comment"># 提取包含特定碱基组合的序列</span><br><span class="hljs-built_in">cat</span> hairpin.fa.gz | seqkit grep -s -i -p aggcg |<span class="hljs-built_in">head</span><br><span class="hljs-comment"># 统计</span><br><span class="hljs-built_in">cat</span> hairpin.fa.gz | seqkit grep -s -i -p aggcg | seqkit stats<br> <br><span class="hljs-comment">#  去除 包含特定组合碱基的序列</span><br>zcat hairpin.fa.gz | seqkit grep -s -r -i -p ^aggcg |<span class="hljs-built_in">head</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="locate-输出匹配位置"><a href="#locate-输出匹配位置" class="headerlink" title="locate 输出匹配位置"></a>locate 输出匹配位置</h1><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs 1c">＃　其他两种输出格式<br>zcat hairpin.fa.gz <span class="hljs-string">| seqkit locate -i -d -p AUGGACUN --bed</span><br>zcat hairpin.fa.gz <span class="hljs-string">| seqkit locate -i -d -p AUGGACUN --gtf</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="fish-使用局部比对在较大的序列中寻找短序列"><a href="#fish-使用局部比对在较大的序列中寻找短序列" class="headerlink" title="fish 使用局部比对在较大的序列中寻找短序列"></a>fish 使用局部比对在较大的序列中寻找短序列</h1><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs 1c">echo -e &#x27;&gt;seq\nACGACGACGA&#x27; \<br>    <span class="hljs-string">| seqkit locate -p ACGA -G | csvtk -t pretty</span><br> <br>echo -e &#x27;&gt;seq\nACGACGACGA&#x27; \<br>    <span class="hljs-string">| seqkit fish -F ACGA -a 2&gt;&amp;1 | csvtk -t pretty</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="amplicon-通过引物检索扩增子-或其周围的特定区域"><a href="#amplicon-通过引物检索扩增子-或其周围的特定区域" class="headerlink" title="amplicon 通过引物检索扩增子(或其周围的特定区域)"></a>amplicon 通过引物检索扩增子(或其周围的特定区域)</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">echo</span> <span class="hljs-operator">-ne</span> <span class="hljs-string">&quot;&gt;seq\nacgcccactgaaatga\n&quot;</span> \<br>    | seqkit amplicon <span class="hljs-operator">-F</span> ccc <span class="hljs-literal">-R</span> ttt<br> <br><span class="hljs-comment"># 设置输出格式为bed，匹配的位点等信息</span><br><span class="hljs-built_in">echo</span> <span class="hljs-operator">-ne</span> <span class="hljs-string">&quot;&gt;seq\nacgcccactgaaatga\n&quot;</span> \<br>    | seqkit amplicon <span class="hljs-operator">-F</span> ccc <span class="hljs-literal">-R</span> ttt <span class="hljs-literal">--bed</span><br> <br><span class="hljs-comment">#- 使用引物文件，这用于刘老师组的高通量分菌的序列拆分速度应该很客观</span><br><span class="hljs-comment"># cat seqs4amplicon.fa | seqkit amplicon -p primers.tsv --bed</span><br><br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 输出除去引物之外的部分，-r输出几个碱基</span><br><span class="hljs-built_in">echo</span> <span class="hljs-operator">-ne</span> <span class="hljs-string">&quot;&gt;seq\nacgcccactgaaatga\n&quot;</span> \<br>    | seqkit amplicon <span class="hljs-operator">-F</span> ccc <span class="hljs-literal">-R</span> ttt <span class="hljs-literal">-r</span> <span class="hljs-number">4</span>:<span class="hljs-number">7</span><br><span class="hljs-comment"># 输出格式为bed</span><br><span class="hljs-built_in">echo</span> <span class="hljs-operator">-ne</span> <span class="hljs-string">&quot;&gt;seq\nacgcccactgaaatga\n&quot;</span> \<br>    | seqkit amplicon <span class="hljs-operator">-F</span> ccc <span class="hljs-literal">-R</span> ttt <span class="hljs-literal">-r</span> <span class="hljs-number">4</span>:<span class="hljs-number">7</span> <span class="hljs-literal">--bed</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="duplicate-对序列重复N次"><a href="#duplicate-对序列重复N次" class="headerlink" title="duplicate 对序列重复N次"></a>duplicate 对序列重复N次</h1><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-meta"># 重复序列1次，但是名字没有修改</span><br>cat hairpin.fa <span class="hljs-string">| seqkit head -n 1 \</span><br>    <span class="hljs-string">| seqkit duplicate -n 2</span><br><span class="hljs-meta"># 对重复序列改名，使其独一无二</span><br>cat hairpin.fa <span class="hljs-string">| seqkit head -n 1 \</span><br>    <span class="hljs-string">| seqkit duplicate -n 2 | seqkit rename</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="rmdup-通过id-x2F-名称-x2F-序列删除重复的序列"><a href="#rmdup-通过id-x2F-名称-x2F-序列删除重复的序列" class="headerlink" title="rmdup 通过id&#x2F;名称&#x2F;序列删除重复的序列"></a>rmdup 通过id&#x2F;名称&#x2F;序列删除重复的序列</h1><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-meta"># 去除重复的序列</span><br>zcat hairpin.fa.gz <span class="hljs-string">| seqkit rmdup -s -o clean.fa.gz</span><br> <br><span class="hljs-meta"># 保存重复序列得到文件 -D duplicated.detail.txt</span><br>zcat hairpin.fa.gz \<br>    <span class="hljs-string">| seqkit rmdup -s -i -o clean.fa.gz -d duplicated.fa.gz -D duplicated.detail.txt</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="common-：通过id-x2F-名称-x2F-序列查找多个文件的公共序列"><a href="#common-：通过id-x2F-名称-x2F-序列查找多个文件的公共序列" class="headerlink" title="common ：通过id&#x2F;名称&#x2F;序列查找多个文件的公共序列"></a>common ：通过id&#x2F;名称&#x2F;序列查找多个文件的公共序列</h1><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-meta"># 通过ID匹配，文件夹下全部的fa序列公共部分输出来</span><br>seqkit <span class="hljs-keyword">common</span> *.fq.gz<br> <br><span class="hljs-meta"># 通过-n实现全部名字匹配，-o输出结果</span><br>seqkit <span class="hljs-keyword">common</span> *.fq.gz -n -o <span class="hljs-keyword">common</span>.fq <br><span class="hljs-meta"># 通过-s序列匹配</span><br>seqkit <span class="hljs-keyword">common</span> *.fq.gz -s -i -o <span class="hljs-keyword">common</span>.fq<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="split-拆分序列为子文件"><a href="#split-拆分序列为子文件" class="headerlink" title="split 拆分序列为子文件"></a>split 拆分序列为子文件</h1><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs tcl">按名称ID、给定区域的子序列、文件大小或序列数量将序列拆分为文件<br><br>可用于将大文件拆分后，并行处理，加速分析。如从contig中预测基因。<br><span class="hljs-comment">#按照10000个序列为一个文件拆分，结果为hairpin.fa.gz.split/目录 ，文件名为hairpin.part_00x.fasta，-s</span><br>seqkit <span class="hljs-keyword">split</span> hairpin.fa.gz -s <span class="hljs-number">10000</span> <span class="hljs-number">-2</span><br> <br><span class="hljs-comment"># 将序列拆分为四个部分(常用，等分然后并行)</span><br>seqkit <span class="hljs-keyword">split</span> hairpin.fa.gz -p <span class="hljs-number">5</span> <span class="hljs-number">-2</span><br> <br><span class="hljs-comment"># 复杂一点的就是按照ID区分</span><br>seqkit <span class="hljs-keyword">split</span> hairpin.fa.gz -i --id-<span class="hljs-keyword">regexp</span> <span class="hljs-string">&quot;^([\w]+)\-&quot;</span> <span class="hljs-number">-2</span><br> <br><span class="hljs-comment"># 按照前三个序列碱基来区分</span><br>seqkit <span class="hljs-keyword">split</span> hairpin.fa.gz -r <span class="hljs-number">1</span>:<span class="hljs-number">3</span> <span class="hljs-number">-2</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="split2-拆分文件-升级版本"><a href="#split2-拆分文件-升级版本" class="headerlink" title="split2 拆分文件 升级版本"></a>split2 拆分文件 升级版本</h1><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Flags:<br>  -l, --<span class="hljs-keyword">by</span>-length <span class="hljs-built_in">string</span>   split sequences <span class="hljs-keyword">into</span> chunks of &gt;=N bases, supports K/M/G suffix<br>  -p, --<span class="hljs-keyword">by</span>-part <span class="hljs-built_in">int</span>        按照拆分出来的数量，比如：拆分成两个子文件<span class="hljs-number">2</span>。-s, --<span class="hljs-keyword">by</span>-size <span class="hljs-built_in">int</span>        按照序列数量拆分<br>  -f, --force              强制覆盖文件<br>  -h, --help               查看帮助文件<br>  -O, --<span class="hljs-keyword">out</span>-dir <span class="hljs-built_in">string</span>     输出文件夹 (<span class="hljs-literal">default</span> <span class="hljs-keyword">value</span> <span class="hljs-keyword">is</span> $infile.split)<br>  <span class="hljs-number">-1</span>, --<span class="hljs-function">read1 <span class="hljs-title">string</span>       (<span class="hljs-params">gzipped</span>) 双端序列第一个</span><br><span class="hljs-function">  -2, --read2 <span class="hljs-title">string</span>       (<span class="hljs-params">gzipped</span>) 双端序列第二个</span><br><span class="hljs-function"></span><br><span class="hljs-function"></span><br></code></pre></td></tr></table></figure>
+
+<p>同时支持fa和fq文件。单端和双端序列拆分实例</p>
+<p>-f强制覆盖结果，适合重复计算时使用</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">seqkit</span> split2 hairpin.fa.gz -s <span class="hljs-number">10000</span> -f<br> <br><span class="hljs-comment"># 双端序列拆分(重点)，p指定拆分数量，-O指定输出目录，-f覆盖结果，默认为压缩</span><br><span class="hljs-attribute">seqkit</span> split2 -<span class="hljs-number">1</span> C1_1.fq.gz -<span class="hljs-number">2</span> C1_2.fq.gz -p <span class="hljs-number">2</span> -O out -f<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="pair-拼接两个fastq文件"><a href="#pair-拼接两个fastq文件" class="headerlink" title="pair 拼接两个fastq文件"></a>pair 拼接两个fastq文件</h1><p>留下匹配的，去除不匹配的，这里我们使用扩增子的双端序列做一个演示：</p>
+<p>注意：双端序列在两个文件中的顺序最好是一样的，否则会消耗大量内存去匹配。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">seqkit</span> pair -<span class="hljs-number">1</span> C1_1.fq.gz -<span class="hljs-number">2</span> C1_2.fq.gz -O result<br><span class="hljs-comment"># -u 输出未匹配上的文件</span><br><span class="hljs-attribute">seqkit</span> pair -<span class="hljs-number">1</span> C1_1.fq.gz -<span class="hljs-number">2</span> C1_2.fq.gz -O result -u -f<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="sample-按数量或比例对序列进行抽样。"><a href="#sample-按数量或比例对序列进行抽样。" class="headerlink" title="sample 按数量或比例对序列进行抽样。"></a>sample 按数量或比例对序列进行抽样。</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk">按照百分比例和序列数量进行抽样<br><span class="hljs-comment"># 抽样百分之十</span><br>zcat C1_1.fq.gz | seqkit sample -p <span class="hljs-number">0.1</span> -o sample.fq.gz<br><span class="hljs-comment"># 抽样1000条</span><br>zcat C1_1.fq.gz | seqkit sample -n <span class="hljs-number">1000</span> -o sample.fq.gz<br><br>注意：<span class="hljs-number">1000</span>条并不是很准确，可能是<span class="hljs-number">900</span>多条，为什么呢？看这里了解问题。https:<span class="hljs-regexp">//</span>bioinf.shenwei.me<span class="hljs-regexp">/seqkit/</span>note/<span class="hljs-comment">#effect-of-random-seed-on-results-of-seqkit-sample</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>这里为大家展示一下减少内存的序列抽样方法</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-meta"># 抽样 seqkit sample </span><br>zcat hairpin.fa.gz \<br>    <span class="hljs-string">| seqkit sample -p 0.1 \</span><br>    <span class="hljs-string">| seqkit head -n 1000 -o sample.fa.gz</span><br> <br><span class="hljs-meta"># 设置随机种子，方便重复结果: -s 11</span><br>zcat hairpin.fa.gz \<br>    <span class="hljs-string">| seqkit sample -p 0.1 -s 11 |head</span><br> <br><span class="hljs-meta"># 抽样后打乱序列 :seqkit shuffle</span><br>zcat hairpin.fa.gz \<br>    <span class="hljs-string">| seqkit sample -p 0.1 \</span><br>    <span class="hljs-string">| seqkit shuffle -o sample.fa.gz</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="range-打印序列-按照一个范围"><a href="#range-打印序列-按照一个范围" class="headerlink" title="range 打印序列 按照一个范围"></a>range 打印序列 按照一个范围</h1><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># 打印一个范围内的序列</span><br><span class="hljs-attribute">cat</span> hairpin.fa | seqkit range -r <span class="hljs-number">1</span>:<span class="hljs-number">10</span><br><span class="hljs-comment"># 打印最后几行的序列</span><br><span class="hljs-attribute">cat</span> hairpin.fa | seqkit range -r -<span class="hljs-number">100</span>:-<span class="hljs-number">1</span> | seqkit stats<br><span class="hljs-comment"># 打印中间范围的序列</span><br><span class="hljs-attribute">cat</span> hairpin.fa | seqkit range -r <span class="hljs-number">101</span>:<span class="hljs-number">150</span> | seqkit stats<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="repeat-使用正则表达式替换名称-x2F-序列。"><a href="#repeat-使用正则表达式替换名称-x2F-序列。" class="headerlink" title="repeat 使用正则表达式替换名称&#x2F;序列。"></a>repeat 使用正则表达式替换名称&#x2F;序列。</h1><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver"><span class="hljs-comment"># 修改序列名称：删除空格后内存</span><br>echo -e <span class="hljs-string">&quot;&gt;seq1 abc-123\nACGT-ACGT&quot;</span> \<br>    | seqkit <span class="hljs-built_in">replace</span> -p <span class="hljs-string">&quot;\s.+&quot;</span><br> <br><span class="hljs-comment"># 修改序列名：替换</span><br>echo -e <span class="hljs-string">&quot;&gt;seq1 abc-123\nACGT-ACGT&quot;</span> \<br>    | seqkit <span class="hljs-built_in">replace</span> -p <span class="hljs-string">&quot;\-&quot;</span> -r <span class="hljs-string">&#x27;=&#x27;</span><br> <br><span class="hljs-comment"># 修改序列：去除序列间隔</span><br>echo -e <span class="hljs-string">&quot;&gt;seq1 abc-123\nACGT-ACGT&quot;</span> \<br>    | seqkit <span class="hljs-built_in">replace</span> -p <span class="hljs-string">&quot; |-&quot;</span> -s<br> <br><span class="hljs-comment"># 修改序列：给每一个碱基加上空格</span><br>echo -e <span class="hljs-string">&quot;&gt;seq1 abc-123\nACGT-ACGT&quot;</span> \<br>    | seqkit <span class="hljs-built_in">replace</span> -p <span class="hljs-string">&quot;(.)&quot;</span> -r <span class="hljs-string">&#x27;$1 &#x27;</span> -s<br> <br><span class="hljs-comment"># 使用字符加数据重命名序列-用于扩增子代表序列改名非常优秀</span><br>echo -e <span class="hljs-string">&quot;&gt;abc\nACTG\n&gt;123\nATTT&quot;</span> \<br>    |  seqkit <span class="hljs-built_in">replace</span> -p .+ -r <span class="hljs-string">&quot;ASV_&#123;nr&#125;&quot;</span><br> <br>echo -e <span class="hljs-string">&quot;&gt;abc\nACTG\n&gt;123\nATTT&quot;</span> \<br>    |  seqkit <span class="hljs-built_in">replace</span> -p .+ -r <span class="hljs-string">&quot;SAV_&#123;nr&#125;&quot;</span> <span class="hljs-comment">--nr-width 5</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="rename-重命名重复的ID"><a href="#rename-重命名重复的ID" class="headerlink" title="rename 重命名重复的ID"></a>rename 重命名重复的ID</h1><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs lsl"># 重命名：相同序列会在后面加上_2 来处理<br>echo -e <span class="hljs-string">&quot;&gt;a comment<span class="hljs-subst">\n</span>acgt<span class="hljs-subst">\n</span>&gt;b comment of b<span class="hljs-subst">\n</span>ACTG<span class="hljs-subst">\n</span>&gt;a comment<span class="hljs-subst">\n</span>aaaa&quot;</span> \<br>    | seqkit rename<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="concat-连接多个文件中具有相同ID的序列"><a href="#concat-连接多个文件中具有相同ID的序列" class="headerlink" title="concat 连接多个文件中具有相同ID的序列"></a>concat 连接多个文件中具有相同ID的序列</h1><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#这里演示组合前面两个碱基和最后两个碱基的用法</span><br><span class="hljs-attribute">seqkit</span> concat &lt;(seqkit subseq -r <span class="hljs-number">1</span>:<span class="hljs-number">2</span> C1_1.fq.gz) &lt;(seqkit subseq -r -<span class="hljs-number">2</span>:-<span class="hljs-number">1</span> C1_2.fq.gz)|head<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="shuffle-随机打乱序列-默认全部读入内存"><a href="#shuffle-随机打乱序列-默认全部读入内存" class="headerlink" title="shuffle 随机打乱序列 默认全部读入内存"></a>shuffle 随机打乱序列 默认全部读入内存</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">seqkit shuffle hairpin<span class="hljs-selector-class">.fa</span><span class="hljs-selector-class">.gz</span> -<span class="hljs-number">2</span>  &gt; shuffled.fa<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="sort-按id-x2F-名称-x2F-序列-x2F-长度排序序列"><a href="#sort-按id-x2F-名称-x2F-序列-x2F-长度排序序列" class="headerlink" title="sort 按id&#x2F;名称&#x2F;序列&#x2F;长度排序序列"></a>sort 按id&#x2F;名称&#x2F;序列&#x2F;长度排序序列</h1><p>—quiet 屏幕不输出过程</p>
+<p>-i 排序忽略大小写</p>
+<p>-l 按照序列长度排序</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs lsl"># ID排序<br>echo -e <span class="hljs-string">&quot;&gt;seq1<span class="hljs-subst">\n</span>ACGTNcccc<span class="hljs-subst">\n</span>&gt;SEQ2<span class="hljs-subst">\n</span>acgtnAAAA&quot;</span> \<br>    | seqkit sort --quiet<br> <br># 按照ID排序，忽略大小写<br>echo -e <span class="hljs-string">&quot;&gt;seq1<span class="hljs-subst">\n</span>ACGTNcccc<span class="hljs-subst">\n</span>&gt;SEQ2<span class="hljs-subst">\n</span>acgtnAAAA&quot;</span> \<br>    | seqkit sort --quiet -i<br> <br># 按照序列长度排序，由小到大<br>echo -e <span class="hljs-string">&quot;&gt;seq1<span class="hljs-subst">\n</span>ACGTNcccc<span class="hljs-subst">\n</span>&gt;SEQ2<span class="hljs-subst">\n</span>acgtnAAAAnnn<span class="hljs-subst">\n</span>&gt;seq3<span class="hljs-subst">\n</span>acgt&quot;</span> \<br>    | seqkit sort --quiet -l<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="mutate-编辑序列-点突变、插入、删除"><a href="#mutate-编辑序列-点突变、插入、删除" class="headerlink" title="mutate 编辑序列(点突变、插入、删除)"></a>mutate 编辑序列(点突变、插入、删除)</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs swift">echo <span class="hljs-operator">-</span>ne <span class="hljs-string">&quot;&gt;1<span class="hljs-subst">\n</span>ACTGNactgn<span class="hljs-subst">\n</span>&gt;2<span class="hljs-subst">\n</span>actgnACTGN<span class="hljs-subst">\n</span>&quot;</span><br> <br># 修改第一个碱基<br>echo <span class="hljs-operator">-</span>ne <span class="hljs-string">&quot;&gt;1<span class="hljs-subst">\n</span>ACTGNactgn<span class="hljs-subst">\n</span>&gt;2<span class="hljs-subst">\n</span>actgnACTGN<span class="hljs-subst">\n</span>&quot;</span> \<br>    <span class="hljs-operator">|</span> seqkit mutate <span class="hljs-operator">-</span>p <span class="hljs-number">1</span>:x<br> <br># 修改第五个位置的碱基，输出信息隐藏    <br>echo <span class="hljs-operator">-</span>ne <span class="hljs-string">&quot;&gt;1<span class="hljs-subst">\n</span>ACTGNactgn<span class="hljs-subst">\n</span>&gt;2<span class="hljs-subst">\n</span>actgnACTGN<span class="hljs-subst">\n</span>&quot;</span> \<br>    <span class="hljs-operator">|</span> seqkit mutate <span class="hljs-operator">-</span>p <span class="hljs-number">5</span>:x <span class="hljs-operator">--</span>quiet<br> <br># 可以同时修改多个碱基<br>echo <span class="hljs-operator">-</span>ne <span class="hljs-string">&quot;&gt;1<span class="hljs-subst">\n</span>ACTGNactgn<span class="hljs-subst">\n</span>&gt;2<span class="hljs-subst">\n</span>actgnACTGN<span class="hljs-subst">\n</span>&quot;</span> \<br>    <span class="hljs-operator">|</span> seqkit mutate <span class="hljs-operator">-</span>p <span class="hljs-number">1</span>:x <span class="hljs-operator">-</span>p <span class="hljs-operator">-</span><span class="hljs-number">1</span>:x <span class="hljs-operator">--</span>quiet<br> <br># 删除碱基<br>echo <span class="hljs-operator">-</span>ne <span class="hljs-string">&quot;&gt;1<span class="hljs-subst">\n</span>ACTGNactgn<span class="hljs-subst">\n</span>&gt;2<span class="hljs-subst">\n</span>actgnACTGN<span class="hljs-subst">\n</span>&quot;</span> \<br>    <span class="hljs-operator">|</span> seqkit mutate <span class="hljs-operator">-</span>d <span class="hljs-number">1</span>:<span class="hljs-number">1</span> <span class="hljs-operator">--</span>quiet<br> <br># 删除倒数三个碱基<br>echo <span class="hljs-operator">-</span>ne <span class="hljs-string">&quot;&gt;1<span class="hljs-subst">\n</span>ACTGNactgn<span class="hljs-subst">\n</span>&gt;2<span class="hljs-subst">\n</span>actgnACTGN<span class="hljs-subst">\n</span>&quot;</span> \<br>    <span class="hljs-operator">|</span> seqkit mutate <span class="hljs-operator">-</span>d <span class="hljs-operator">-</span><span class="hljs-number">3</span>:<span class="hljs-operator">-</span><span class="hljs-number">1</span> <span class="hljs-operator">--</span>quiet<br> <br># 插入碱基<br>echo <span class="hljs-operator">-</span>ne <span class="hljs-string">&quot;&gt;1<span class="hljs-subst">\n</span>ACTGNactgn<span class="hljs-subst">\n</span>&gt;2<span class="hljs-subst">\n</span>actgnACTGN<span class="hljs-subst">\n</span>&quot;</span> \<br>    <span class="hljs-operator">|</span> seqkit mutate <span class="hljs-operator">-</span>i <span class="hljs-number">0</span>:xx <span class="hljs-operator">--</span>quiet<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="head-展示开头N行的序列"><a href="#head-展示开头N行的序列" class="headerlink" title="head 展示开头N行的序列"></a>head 展示开头N行的序列</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">seqkit head -n <span class="hljs-number">1</span> hairpin<span class="hljs-selector-class">.fa</span><span class="hljs-selector-class">.gz</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="locate-定位子序列或者保守序列位置"><a href="#locate-定位子序列或者保守序列位置" class="headerlink" title="locate 定位子序列或者保守序列位置"></a>locate 定位子序列或者保守序列位置</h1><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs 1c">cat gene.fa <span class="hljs-string">| seqkit locate -p ACT | csvtk pretty -t</span><br><span class="hljs-meta"># 调整错配 最大错配为1</span><br>cat gene.fa \<br>  <span class="hljs-string">| seqkit locate -p ACTG -m 1 \</span><br>  <span class="hljs-string">| csvtk pretty -t</span><br> <br><span class="hljs-meta"># 简并碱基</span><br>zcat hairpin.fa.gz \<br>    <span class="hljs-string">| seqkit locate -i -d -p AUGGACUN \</span><br>    <span class="hljs-string">| head -n 4</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="restart-重置循环基因组的起始位置"><a href="#restart-重置循环基因组的起始位置" class="headerlink" title="restart 重置循环基因组的起始位置"></a>restart 重置循环基因组的起始位置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nacgtnACGTN&quot;</span><br> <br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nacgtnACGTN&quot;</span> | seqkit restart -i 2<br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;&gt;seq\nacgtnACGTN&quot;</span> | seqkit restart -i -2<br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="convet-二代测序质量值的转化为-Sanger"><a href="#convet-二代测序质量值的转化为-Sanger" class="headerlink" title="convet 二代测序质量值的转化为 Sanger"></a>convet 二代测序质量值的转化为 Sanger</h1><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs clean"># Illumina<span class="hljs-number">-1.8</span>+ -&gt; Sanger<br># seqkit convert tests/Illimina1<span class="hljs-number">.8</span>.fq.gz  | seqkit head -n <span class="hljs-number">1</span><br># <span class="hljs-number">40</span>分以上的都认为<span class="hljs-number">40</span> Illumina<span class="hljs-number">-1.8</span>+ -&gt; Sanger<br># seqkit convert tests/Illimina1<span class="hljs-number">.8</span>.fq.gz -f | seqkit head -n <span class="hljs-number">1</span><br> <br>#Illumina<span class="hljs-number">-1.8</span>+ -&gt; Illumina<span class="hljs-number">-1.5</span>+<br># seqkit convert tests/Illimina1<span class="hljs-number">.8</span>.fq.gz --to Illumina<span class="hljs-number">-1.5</span>+ | seqkit head -n <span class="hljs-number">1</span><br> <br># Illumina<span class="hljs-number">-1.8</span>+ -&gt; Illumina<span class="hljs-number">-1.5</span>+ -&gt;  Sanger.<br># seqkit convert tests/Illimina1<span class="hljs-number">.8</span>.fq.gz --to Illumina<span class="hljs-number">-1.5</span>+ | seqkit convert | seqkit head -n <span class="hljs-number">1</span><br> <br># Solexa -&gt; Sanger<br># seqkit convert tests/Illimina1<span class="hljs-number">.8</span>.fq.gz --<span class="hljs-keyword">from</span> Solexa<br> <br># Illumina<span class="hljs-number">-1.5</span>+ -&gt; Sanger<br># seqkit convert tests/Illimina1<span class="hljs-number">.5</span>.fq | seqkit head -n <span class="hljs-number">1</span><br><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="技术细节和使用"><a href="#技术细节和使用" class="headerlink" title="技术细节和使用"></a>技术细节和使用</h1><p>seqkit处理压缩文件</p>
+<p>pigz 或者 gzip 在部分操作中不能加速，所以在v.0.8.1版本以便关注了，然而还是可以使用命令：</p>
+<p>pigz -d -c seqs.fq.gz | seqkit xxx<br>因为seqkit使用了pgzip去写gzip。这比gzip和pigz更快。（10X of gzip, 4X of pigz），而且gzip压缩文件比较大。</p>
+<p>从数据处理格式来讲</p>
+<p>seqkit无缝支持fa和fq格式数据，并且可以自动识别。除了 faidx之外，全部命令都可以处理这两种格式的数据。</p>
+<p>只有fa格式支持命令(subseq, split, sort和shuffle)利用FASTA索引(by flag -two-pass)下提高大文件的性能。</p>
+<p>序列类型的检测DNA&#x2F;RNA&#x2F;Protein，会使用子序列进行，默认检测第一条子序列，通过—alphabet-guess-seq-length参数默认为10000，如果长度小于10000，则检查整条序列。</p>
+<p>序列名字</p>
+<p>所有的软件，包括seqkit，使用第一个空格之前的字符作为序列的名字：<br>需要注意的NCBI等一些序列的格式并不是如此，例如：</p>
+<blockquote>
+<p>gi|110645304|ref|NC_002516.2| Pseudomona<br>想要在seqkit中识别出来的序列ID为：NC_002516.2。</p>
+</blockquote>
+<p>此时使用参数–id-regexp “|([^|]+)| “，或者添加参数–id-ncbi，但如果是只要前面的gi数字作为ID的话，添加参数：–id-regexp “^gi|([^|]+)|“。</p>
+<p>注意：.seqkit.fai不同于samtools产生的.fai格式文件，seqkit使用整个序列开头而不是ID作为索引。</p>
+<p>并行运算</p>
+<p>单核CPU默认线程：—threads 1，多个CPU，线程默认2.</p>
+<p>内存占用</p>
+<p>seqkit许多的命令都不需要将整个序列读入到内存中。包括：stat, fq2fa, fx2tab, tab2fx, grep, locate, replace, seq, sliding, subseq。</p>
+<p>注意：如果使用subseq —gtf | —bed时，如果GTF或者BED文件太大，内存使用量会暴增，可以通过指定染色体：—chr，或者—feature去限制特征。</p>
+<p>有一些命令需要将文件读入内存，但是可以用过rmdup 和 common减少内存使用。</p>
+<p>随机—抽样</p>
+<p>抽样命令sample和shuffle使用了随机功能，为了保证重现性，可以使用-s设置随机种子。这可以保证在不同的环境中可以有相同的抽样结果。</p>
+<h1 id="序列长度分布"><a href="#序列长度分布" class="headerlink" title="序列长度分布"></a>序列长度分布</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># -j 是线程数</span><br>seqkit fx2tab -j 30 -l  -n -i -H file.fastq.gz | <span class="hljs-built_in">cut</span> -f 4 &gt; Length.txt<br><span class="hljs-comment"># 查看Length.txt</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs r">library<span class="hljs-punctuation">(</span>tidyverse<span class="hljs-punctuation">)</span><br><br><span class="hljs-built_in">length</span> <span class="hljs-operator">&lt;-</span> read_tsv<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Length.txt&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> group_by<span class="hljs-punctuation">(</span><span class="hljs-built_in">length</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span><br>  summarise<span class="hljs-punctuation">(</span>Count <span class="hljs-operator">=</span> n<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br><span class="hljs-built_in">length</span><span class="hljs-operator">$</span><span class="hljs-built_in">length</span> <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">as.character</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">length</span><span class="hljs-operator">$</span><span class="hljs-built_in">length</span><span class="hljs-punctuation">)</span><br><span class="hljs-built_in">sum</span> <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">sum</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">length</span><span class="hljs-operator">$</span>Count<span class="hljs-punctuation">)</span><br>ggplot<span class="hljs-punctuation">(</span><span class="hljs-built_in">length</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> geom_col<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span><span class="hljs-built_in">length</span><span class="hljs-punctuation">,</span> Count<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> width <span class="hljs-operator">=</span> <span class="hljs-number">0.8</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> <br>  geom_line<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span><span class="hljs-built_in">length</span><span class="hljs-punctuation">,</span> Count<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> group <span class="hljs-operator">=</span> <span class="hljs-number">1</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> geom_point<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span><span class="hljs-built_in">length</span><span class="hljs-punctuation">,</span> Count<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> <br>  scale_y_continuous<span class="hljs-punctuation">(</span>sec.axis <span class="hljs-operator">=</span> sec_axis<span class="hljs-punctuation">(</span><span class="hljs-operator">~</span>.<span class="hljs-operator">*</span><span class="hljs-number">100</span><span class="hljs-operator">/</span><span class="hljs-built_in">sum</span><span class="hljs-punctuation">,</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&quot;% Relative Abundance&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> xlab<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Length&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span><br>  theme_bw<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> theme<span class="hljs-punctuation">(</span>panel.grid <span class="hljs-operator">=</span> element_blank<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> <br>                     axis.title <span class="hljs-operator">=</span> element_text<span class="hljs-punctuation">(</span>size <span class="hljs-operator">=</span> <span class="hljs-number">15</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br><br>ggsave<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Length.png&quot;</span><span class="hljs-punctuation">,</span> height <span class="hljs-operator">=</span> <span class="hljs-number">5</span><span class="hljs-punctuation">,</span> width <span class="hljs-operator">=</span> <span class="hljs-number">8</span><span class="hljs-punctuation">)</span><br>ggsave<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Length.pdf&quot;</span><span class="hljs-punctuation">,</span> height <span class="hljs-operator">=</span> <span class="hljs-number">5</span><span class="hljs-punctuation">,</span> width <span class="hljs-operator">=</span> <span class="hljs-number">8</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+              
             </div>
-          <% } %>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                <%- body %>
-              </div>
-            </div>
-          </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/GeekFocus/categories/Software/" class="category-chain-item">Software</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/GeekFocus/tags/fastq-tool/">#fastq-tool</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>seqkit</div>
+      <div>https://wangc1106.github.io/GeekFocus/2022/02/24/2022-02-24-Seqkit/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>banner</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 24, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
-    <% } %>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
 
-    <% if (theme.scroll_top_arrow.enable) { %>
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/02/24/2022-02-25-soapdenovo2/" title="Soapdenovo2">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Soapdenovo2</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/GeekFocus/2022/02/24/2022-02-24-memory/" title="Linux 内存 存储">
+                        <span class="hidden-mobile">Linux 内存 存储</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
       <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-    <% } %>
+    
 
-    <% if (theme.search.enable) { %>
-      <%- partial('_partials/search.ejs') %>
-    <% } %>
-
-    <% if (theme.custom_html) { %>
-      <div class="col-lg-7 mx-auto nopadding-x-md">
-        <div class="container custom mx-auto">
-          <%- theme.custom_html %>
-        </div>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } %>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
   </main>
 
   <footer>
-    <%- inject_point('footer') %>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>banner</span> <i class="iconfont icon-love"></i> <span>2021-2023©</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+    <div style="height: 200px">
+      <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5knf34gs07t&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    </div>
   </footer>
 
   <!-- Scripts -->
-  <%- partial('_partials/scripts.ejs') %>
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <%- inject_point('bodyEnd') %>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/GeekFocus/js/events.js" ></script>
+<script  src="/GeekFocus/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/GeekFocus/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/GeekFocus/js/local-search.js" ></script>
+
+  <script defer src="/GeekFocus/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/GeekFocus/js/boot.js" ></script>
+
+
+  
 
   <noscript>
-    <div class="noscript-warning"><%- __('noscript_warning') %></div>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
   </noscript>
 </body>
 </html>
